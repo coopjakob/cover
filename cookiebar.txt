@@ -1,0 +1,290 @@
+
+
+TODO:
+DONE Event i orginaler
+
+DONE Skript som kollar om url är /handla/* och kollar cookie 
+cookie-notification == "NOT_ACCEPTED"
+return true
+Annars kolla AcceptedDisclaimer != true
+return true
+Annars
+return false
+
+function() {
+    var cookies = document.cookie.split('; ')
+
+    var acceptedHybris = cookies.includes('cookie-notification=ACCEPTED');
+    var acceptedEpi = cookies.includes('AcceptedDisclaimer=true');
+
+    if (window.location.pathname.startsWith('/handla/')) {
+        if (!acceptedHybris) {
+            return true;
+        }
+        return false;
+    } else if (!acceptedEpi) {
+        return true;
+    }
+    return false;
+}
+
+
+DONE Variant för top
+ta bort: position:fixed; bottom: 0; z-index, border-bottom...?
+
+Epi:
+
+.Notice.Notice--info {
+    background: #005537;
+    border-bottom: none;
+    color: white;
+}
+
+Hybris:
+
+.m-notification.is-cookie {
+    color: white;
+    background: #005537;
+    padding: 2em 1em;
+}
+
+
+
+DONE Hotjar:
+
+hj('trigger', 'experiment-cookiebar-events');
+hj('trigger', 'experiment-cookiebar-top');
+hj('trigger', 'experiment-cookiebar-bottom');
+
+
+>> Code review
+
+
+Testlänk och instruktioner
+
+
+Epi bottom
+https://www.googleoptimize.com/opt_set_cookie?uiv2&id=GTM-5L8XJ5D&gtm_auth=sqB1kx4ziwDVLfHK6Kz9XQ&gtm_debug&gtm_experiment=OPT-5L8XJ5D_OPT-WKSFG%241&gtm_preview=opt_preview-slim&redirect=https%3A%2F%2Fwww.google-analytics.com%2Fgtm%2Fset_cookie%3Fuiv2%26id%3DGTM-5L8XJ5D%26gtm_auth%3DsqB1kx4ziwDVLfHK6Kz9XQ%26gtm_debug%26gtm_experiment%3DOPT-5L8XJ5D_OPT-WKSFG%25241%26gtm_preview%3Dopt_preview-slim%26redirect%3Dhttps%253A%252F%252Foptimize.google.com%252Foptimize%252Fsharepreview%253Fid%253DGTM-5L8XJ5D%2526gtm_experiment%253DOPT-5L8XJ5D_OPT-WKSFG%2525241%2526url%253Dhttps%25253A%25252F%25252Fwww.coop.se%25252F%2526opt_experiment_name%253Dcookiebar-events%25252Ftop%25252Fbottom%2526opt_variation_name%253Dbottom%2526slim%253Dtrue%2526container_name%253Dwww.coop.se%26optimize_editor&optimize_editor
+https://www.googleoptimize.com/opt_set_cookie?uiv2&id=GTM-5L8XJ5D&gtm_auth=sqB1kx4ziwDVLfHK6Kz9XQ&gtm_debug&gtm_experiment=OPT-5L8XJ5D_OPT-WKSFG%241&gtm_preview=opt_preview-slim&redirect=https%3A%2F%2Fwww.google-analytics.com%2Fgtm%2Fset_cookie%3Fuiv2%26id%3DGTM-5L8XJ5D%26gtm_auth%3DsqB1kx4ziwDVLfHK6Kz9XQ%26gtm_debug%26gtm_experiment%3DOPT-5L8XJ5D_OPT-WKSFG%25241%26gtm_preview%3Dopt_preview-slim%26redirect%3Dhttps%253A%252F%252Foptimize.google.com%252Foptimize%252Fsharepreview%253Fid%253DGTM-5L8XJ5D%2526gtm_experiment%253DOPT-5L8XJ5D_OPT-WKSFG%2525241%2526url%253Dhttps%25253A%25252F%25252Fwww.coop.se%25252F%2526opt_experiment_name%253Dcookiebar-events%25252Ftop%25252Fbottom%2526opt_variation_name%253Dbottom%2526slim%253Dtrue%2526container_name%253Dwww.coop.se%26optimize_editor&optimize_editor
+Epi top
+https://www.googleoptimize.com/opt_set_cookie?uiv2&id=GTM-5L8XJ5D&gtm_auth=sqB1kx4ziwDVLfHK6Kz9XQ&gtm_debug&gtm_experiment=OPT-5L8XJ5D_OPT-WKSFG%242&gtm_preview=opt_preview-slim&redirect=https%3A%2F%2Fwww.google-analytics.com%2Fgtm%2Fset_cookie%3Fuiv2%26id%3DGTM-5L8XJ5D%26gtm_auth%3DsqB1kx4ziwDVLfHK6Kz9XQ%26gtm_debug%26gtm_experiment%3DOPT-5L8XJ5D_OPT-WKSFG%25242%26gtm_preview%3Dopt_preview-slim%26redirect%3Dhttps%253A%252F%252Foptimize.google.com%252Foptimize%252Fsharepreview%253Fid%253DGTM-5L8XJ5D%2526gtm_experiment%253DOPT-5L8XJ5D_OPT-WKSFG%2525242%2526url%253Dhttps%25253A%25252F%25252Fwww.coop.se%25252F%2526opt_experiment_name%253Dcookiebar-events%25252Ftop%25252Fbottom%2526opt_variation_name%253Dtop%2526slim%253Dtrue%2526container_name%253Dwww.coop.se%26optimize_editor&optimize_editor
+
+Epi endast mätning
+https://www.googleoptimize.com/opt_set_cookie?uiv2&id=GTM-5L8XJ5D&gtm_auth=sqB1kx4ziwDVLfHK6Kz9XQ&gtm_debug&gtm_experiment=OPT-5L8XJ5D_OPT-WKSFG%243&gtm_preview=opt_preview-slim&redirect=https%3A%2F%2Fwww.google-analytics.com%2Fgtm%2Fset_cookie%3Fuiv2%26id%3DGTM-5L8XJ5D%26gtm_auth%3DsqB1kx4ziwDVLfHK6Kz9XQ%26gtm_debug%26gtm_experiment%3DOPT-5L8XJ5D_OPT-WKSFG%25243%26gtm_preview%3Dopt_preview-slim%26redirect%3Dhttps%253A%252F%252Foptimize.google.com%252Foptimize%252Fsharepreview%253Fid%253DGTM-5L8XJ5D%2526gtm_experiment%253DOPT-5L8XJ5D_OPT-WKSFG%2525243%2526url%253Dhttps%25253A%25252F%25252Fwww.coop.se%25252F%2526opt_experiment_name%253Dcookiebar-events%25252Ftop%25252Fbottom%2526opt_variation_name%253Devents%2526slim%253Dtrue%2526container_name%253Dwww.coop.se%26optimize_editor&optimize_editor
+
+Hybris bottom
+https://www.googleoptimize.com/opt_set_cookie?uiv2&id=GTM-5L8XJ5D&gtm_auth=sqB1kx4ziwDVLfHK6Kz9XQ&gtm_debug&gtm_experiment=OPT-5L8XJ5D_OPT-WKSFG%241&gtm_preview=opt_preview-slim&redirect=https%3A%2F%2Fwww.google-analytics.com%2Fgtm%2Fset_cookie%3Fuiv2%26id%3DGTM-5L8XJ5D%26gtm_auth%3DsqB1kx4ziwDVLfHK6Kz9XQ%26gtm_debug%26gtm_experiment%3DOPT-5L8XJ5D_OPT-WKSFG%25241%26gtm_preview%3Dopt_preview-slim%26redirect%3Dhttps%253A%252F%252Foptimize.google.com%252Foptimize%252Fsharepreview%253Fid%253DGTM-5L8XJ5D%2526gtm_experiment%253DOPT-5L8XJ5D_OPT-WKSFG%2525241%2526url%253Dhttps%25253A%25252F%25252Fwww.coop.se%25252Fhandla%25252F%2526opt_experiment_name%253Dcookiebar-events%25252Ftop%25252Fbottom%2526opt_variation_name%253Dbottom%2526slim%253Dtrue%2526container_name%253Dwww.coop.se%26optimize_editor&optimize_editor
+
+Hybris top
+https://www.googleoptimize.com/opt_set_cookie?uiv2&id=GTM-5L8XJ5D&gtm_auth=sqB1kx4ziwDVLfHK6Kz9XQ&gtm_debug&gtm_experiment=OPT-5L8XJ5D_OPT-WKSFG%242&gtm_preview=opt_preview-slim&redirect=https%3A%2F%2Fwww.google-analytics.com%2Fgtm%2Fset_cookie%3Fuiv2%26id%3DGTM-5L8XJ5D%26gtm_auth%3DsqB1kx4ziwDVLfHK6Kz9XQ%26gtm_debug%26gtm_experiment%3DOPT-5L8XJ5D_OPT-WKSFG%25242%26gtm_preview%3Dopt_preview-slim%26redirect%3Dhttps%253A%252F%252Foptimize.google.com%252Foptimize%252Fsharepreview%253Fid%253DGTM-5L8XJ5D%2526gtm_experiment%253DOPT-5L8XJ5D_OPT-WKSFG%2525242%2526url%253Dhttps%25253A%25252F%25252Fwww.coop.se%25252Fhandla%25252F%2526opt_experiment_name%253Dcookiebar-events%25252Ftop%25252Fbottom%2526opt_variation_name%253Dtop%2526slim%253Dtrue%2526container_name%253Dwww.coop.se%26optimize_editor&optimize_editor
+
+Hybris endast mätning
+https://www.googleoptimize.com/opt_set_cookie?uiv2&id=GTM-5L8XJ5D&gtm_auth=sqB1kx4ziwDVLfHK6Kz9XQ&gtm_debug&gtm_experiment=OPT-5L8XJ5D_OPT-WKSFG%243&gtm_preview=opt_preview-slim&redirect=https%3A%2F%2Fwww.google-analytics.com%2Fgtm%2Fset_cookie%3Fuiv2%26id%3DGTM-5L8XJ5D%26gtm_auth%3DsqB1kx4ziwDVLfHK6Kz9XQ%26gtm_debug%26gtm_experiment%3DOPT-5L8XJ5D_OPT-WKSFG%25243%26gtm_preview%3Dopt_preview-slim%26redirect%3Dhttps%253A%252F%252Foptimize.google.com%252Foptimize%252Fsharepreview%253Fid%253DGTM-5L8XJ5D%2526gtm_experiment%253DOPT-5L8XJ5D_OPT-WKSFG%2525243%2526url%253Dhttps%25253A%25252F%25252Fwww.coop.se%25252Fhandla%25252F%2526opt_experiment_name%253Dcookiebar-events%25252Ftop%25252Fbottom%2526opt_variation_name%253Devents%2526slim%253Dtrue%2526container_name%253Dwww.coop.se%26optimize_editor&optimize_editor
+
+
+
+<style>
+.Notice.Notice--info {
+    background: #005537;
+    border-bottom: none;
+    position: fixed;
+    bottom: 0;
+    z-index: 9999999999;
+    color: white;
+    text-align: center;
+}
+
+.Notice.Notice--info a {
+    color: white;
+    text-decoration: underline;
+}
+
+.Notice.Notice--info a:hover {
+    color: white;
+}
+
+.Notice-content {
+    padding: 2rem 0;
+}
+
+Notice-cookieText {
+    padding-right: 0;
+}
+
+.Notice-cookieClose {
+    position: unset;
+    padding: 9px 20px;
+    width: auto;
+    height: auto;
+    top: auto;
+    right: auto;
+    margin: 0 auto;
+    margin-top: 1rem;
+    display: block;
+}
+
+.Notice--info .Button--green:focus,
+.Notice--info .Button--green:hover {
+    background: #00aa46;
+    border-color: #00aa46;
+}
+</style>
+
+===
+
+HTML:
+
+Redigera HTML:
+
+.Notice-cookieClose
+<button type="button" class="Notice-cookieClose js-close Button Button--green Button--radius">Jag förstår</button>
+
+Ersätt
+
+===
+HTML:
+
+Flytta / Ändrad ordning:
+.Notice-cookieClose
+
+Mål:
+.Notice--info .Notice-cookieText p
+
+Efter
+====
+
+
+
+GLOBALT JAVASCRIPT
+
+
+<script>
+function experimentEvent(action, label) {
+  if (typeof ga !== 'undefined') {
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Experiment',
+      eventAction: action,
+      eventLabel: label,
+      transport: 'beacon'
+    })
+  } else {
+     console.warning("ga undefined", action);
+  }
+}
+
+document.querySelector(".Notice-cookieClose").addEventListener("click", function(){experimentEvent('click-close')});
+document.querySelector(".Notice-cookieText a").addEventListener("click", function(){experimentEvent('click-more')});
+
+hj('trigger', 'experiment-cookiebar-bottom');
+</script>
+
+
+
+
+
+HYBRIS:
+
+<style>
+.m-notification.is-cookie {
+    position: fixed;
+    bottom: 0;
+    z-index: 9999999999;
+    color: white;
+    background: #005537;
+    text-align: center;
+    padding: 2em 1em;
+}
+
+.m-notification.is-cookie .a-link,
+.m-notification.is-cookie .a-link:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.m-notification .a-button {
+    padding: 9px 20px;
+    width: auto;
+}
+
+.m-notification.is-cookie .is-close {
+    position: unset;
+    padding: 9px 20px;
+    width: fit-content;
+    height: auto;
+    top: auto;
+    right: auto;
+    margin: 0 auto;
+    margin-top: 1rem;
+    display: block;
+    font-size: unset;
+}
+
+.m-notification.is-cookie .is-close:hover {
+    background: #00aa46;
+    text-decoration: none;
+}
+</style>
+
+
+** Ändra attribut för stäng-knappen
+
+Element: .m-notification.is-cookie .is-close
+class
+js-cookie-notification-accept is-close a-button rounded-corners is-green
+(lägga till: a-button rounded-corners is-green)
+
+** Ändra innehåll
+
+.m-notification.is-cookie .is-close span
+<span>Jag förstår</span>
+
+
+
+GLOBALT JAVASCRIPT
+
+
+<script>
+
+function experimentEvent(action, label) {
+  if (typeof ga !== 'undefined') {
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Experiment',
+      eventAction: action,
+      eventLabel: label,
+      transport: 'beacon'
+    })
+  } else {
+     console.warning("ga undefined", action);
+  }
+}
+
+document.querySelector(".m-notification.is-cookie .is-close").addEventListener("click", function(){experimentEvent('click-close')});
+document.querySelector(".m-notification.is-cookie .a-link").addEventListener("click", function(){experimentEvent('click-more')});
+
+window.dispatchEvent(new Event('resize'));
+
+hj('trigger', 'experiment-cookiebar-bottom');
+</script>
+
+
+
+
+
+EVENTS//
+
+document.querySelector(".Notice-cookieClose").addEventListener("click", function(){experimentEvent('click-close')});
+document.querySelector(".Notice-cookieText a").addEventListener("click", function(){experimentEvent('click-more')});
+
+hj('trigger', 'experiment-cookiebar-events');
+
+====
+
+document.querySelector(".m-notification.is-cookie .is-close").addEventListener("click", function(){experimentEvent('click-close')});
+document.querySelector(".m-notification.is-cookie .a-link").addEventListener("click", function(){experimentEvent('click-more')});
+
+hj('trigger', 'experiment-cookiebar-events');
+
+
+
