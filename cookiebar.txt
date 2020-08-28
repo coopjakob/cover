@@ -145,7 +145,7 @@ HYBRIS:
     text-decoration: underline;
 }
 
-.m-notification .a-button {
+.m-notification.is-cookie .a-button {
     padding: 9px 20px;
     width: auto;
 }
