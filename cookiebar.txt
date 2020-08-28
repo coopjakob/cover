@@ -43,12 +43,12 @@ function() {
     padding: 2rem 0;
 }
 
-Notice-cookieText {
+.Notice-cookieText {
     padding-right: 0;
 }
 
 .Notice-cookieClose {
-    position: unset;
+    position: initial;
     padding: 9px 20px;
     width: auto;
     height: auto;
@@ -151,16 +151,16 @@ HYBRIS:
 }
 
 .m-notification.is-cookie .is-close {
-    position: unset;
+    position: initial;
     padding: 9px 20px;
-    width: fit-content;
+    width: 8em;
     height: auto;
     top: auto;
     right: auto;
     margin: 0 auto;
     margin-top: 1rem;
     display: block;
-    font-size: unset;
+    font-size: initial;
 }
 
 .m-notification.is-cookie .is-close:hover {
