@@ -145,26 +145,21 @@
 
     function style() {
       css([
-        ' .popup{width:250px;height:140px;background:#156547;position:absolute;right:9px;top:35px;border-radius:11px;color:#fff;font-size:15px;text-align:left;padding:14px 22px;z-index:10;}',
+        ' .popup{width:295px;height:140px;background:#156547;position:absolute;right:9px;top:35px;border-radius:11px;color:#fff;font-size:15px;text-align:left;padding:14px 22px;z-index:10;}',
         ' .popup:before{content:"";width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:12px solid #156648;display:block;position:relative;top:-24px;left:190px}',
         ' .popup a{display:inline-block;margin-right:10px;margin-top:11px}',
         ' .popup p{margin:0}',
         ' a#log{background:#1aaa45;padding:3px 13px;border-radius:14px;color: #fff!important}',
-        ' .popup a#close{color:#669986}',
+        ' .popup a#close{color:rgba(255, 255, 255, 0.72)}',
         ' .popup.h-popup span{color:#fff!important;}',
         ' .h-popup.popup{top:55px}',
-
-        '@media (max-width: 769px) {',
-        ' .popup {text-align: center}',
-        ' .popup a#close {display: none}',
-        ' .popup {width: 310px;right: -37px;padding: 20px 19px;height: 130px}',
         ' div#mobx{height:32px;width:32px;position:absolute;padding:5px;right:5px;top:5px;cursor:pointer;text-align:right}',
-        ' .popup:before{border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:12px solid #156648;top:-32px;left:201px}',
-        ' .h-popup.popup:before{left:226px}',
         ' #mobx svg{height:12px;width:12px;fill:none;stroke:#fff;vertical-align:top}',
 
-        '}',
-        '@media (max-width: 360px) {',
+        '@media (max-width: 769px) {',
+        ' .popup {right: -37px;padding: 20px 19px;height: 130px}',
+        ' .popup:before{border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:12px solid #156648;top:-32px;left:201px}',
+        ' .h-popup.popup:before{left:226px}',
 
         '}',
         '',
@@ -180,29 +175,52 @@
         }, 500);
       }
     }
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+      var expires = 'expires=' + d.toUTCString();
+      document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
+    }
+    function getCookie(cname) {
+      var name = cname + '=';
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return '';
+    }
     function events() {}
     function variant() {
-      var yetVisited = localStorage['visited'];
+      var yetVisited = getCookie('experiment-loginreminder-close');
       if (!yetVisited) {
+        console.log('experiment-loginreminder view');
+        popupContent =
+          '<p><strong>Hej! </strong><span>Glöm inte att logga in för att se erbjudanden i ditt område.</span></p><a id="log" class="experiment-login" href="https://login.coop.se/account/login">Logga in</a><a id="close" class="experiment-register" href="https://login.coop.se/account/login#register">Skapa inloggning</a>';
         if ($('.user-account-link').length) {
           $('.user-account-link').append(
-            '<div class="popup h-popup"><p><strong>Psst! </strong><span>Logga in eller skapa en inloggning för en personligare upplevelse.</span></p><a id="log" href="https://login.coop.se/account/login">Ok</a><a id="close" href="javascript:void(0)">Stäng</a></div>'
+            '<div class="popup h-popup">' + popupContent + '</div>'
           );
         } else {
           $('.Navigation-item--avatar').append(
-            '<div class="popup"><p><strong>Psst! </strong><span>Logga in eller skapa en inloggning för en personligare upplevelse.</span></p><a id="log" href="https://login.coop.se/account/login">Ok</a><a id="close" href="javascript:void(0)">Stäng</a></div>'
+            '<div class="popup">' + popupContent + '</div>'
           );
         }
-        if (isMobile.matches) {
-          $('#log').text('Logga in');
-          $('.popup').prepend(
-            '<div id="mobx"><svg id="m-close" role="img" alt="Stäng"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?=4.5781.0.0#close"><title>Stäng</title></use></svg></div>'
-          );
-        }
+        $('.popup').prepend(
+          '<div id="mobx"><svg id="experiment-close" class="experiment-close" role="img" alt="Stäng"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?=4.5781.0.0#close"><title>Stäng</title></use></svg></div>'
+        );
+      } else {
+        console.log('experiment-loginreminder hide');
       }
-      $('#close,#mobx').click(function () {
+      $('#mobx').click(function () {
         $('.popup').slideUp();
-        localStorage['visited'] = 'yes';
+        setCookie('experiment-loginreminder-close', 'true', 28);
       });
     }
 
@@ -304,4 +322,9 @@
   i('html')[0].classList.add(c);
   h.croco = i;
   l(h, k, i, j, e, f, d);
+
+  if (window.location.pathname == '/') {
+    console.log('experiment-heatmap');
+    hj('trigger', 'experiment-loginreminder-variant1');
+  }
 });
