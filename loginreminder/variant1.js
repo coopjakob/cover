@@ -201,8 +201,8 @@
       var yetVisited = getCookie('experiment-loginreminder-close');
       if (!yetVisited) {
         console.log('experiment-loginreminder view');
-        popupContent =
-          '<p><strong>Hej! </strong><span>Glöm inte att logga in för att se erbjudanden i ditt område.</span></p><a id="log" class="experiment-login" href="https://login.coop.se/account/login">Logga in</a><a id="close" class="experiment-register" href="https://login.coop.se/account/login#register">Skapa inloggning</a>';
+        var popupContent =
+          '<p><strong>Hej! </strong><span>Glöm inte att logga in för att se erbjudanden i ditt område.</span></p><a id="log" class="experiment-login" href="https://www.coop.se/logga-in/">Logga in</a><a id="close" class="experiment-register" href="https://login.coop.se/account/login#register">Skapa inloggning</a>';
         if ($('.user-account-link').length) {
           $('.user-account-link').append(
             '<div class="popup h-popup">' + popupContent + '</div>'
@@ -212,11 +212,13 @@
             '<div class="popup">' + popupContent + '</div>'
           );
         }
+        var loginLink =
+          $('.js-loginLink').attr('href') ||
+          $('.user-account-link a').attr('href');
+        $('#log').attr('href', loginLink);
         $('.popup').prepend(
           '<div id="mobx"><svg id="experiment-close" class="experiment-close" role="img" alt="Stäng"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?=4.5781.0.0#close"><title>Stäng</title></use></svg></div>'
         );
-      } else {
-        console.log('experiment-loginreminder hide');
       }
       $('#mobx').click(function () {
         $('.popup').slideUp();
