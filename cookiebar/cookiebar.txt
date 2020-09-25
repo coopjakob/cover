@@ -1,3 +1,7 @@
+TODO: "transition: none" på Hybris ".m-notification.is-cookie .is-close"
+
+==
+
 AUDIENCE:
 
 function() {
@@ -227,6 +231,8 @@ hj('trigger', 'experiment-cookiebar-bottom');
 
 =====================
 EVENTS
+
+function experimentEvent(action, label) {...
 
 document.querySelector(".Notice-cookieClose").addEventListener("click", function(){experimentEvent('click-close')});
 document.querySelector(".Notice-cookieText a").addEventListener("click", function(){experimentEvent('click-more')});

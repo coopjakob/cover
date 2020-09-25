@@ -1,0 +1,42 @@
+.Notice.Notice--info {
+  border-bottom: 0;
+  background: #005537;
+  color: white;
+
+  a {
+    color: white;
+    text-decoration: underline;
+  }
+
+  &:hover {
+    color: white;
+  }
+
+  .Notice-content {
+    padding: 2rem 0;
+  }
+
+  .Notice-cookieText {
+    padding-right: 0;
+  }
+
+  .Notice-cookieClose {
+    position: initial;
+    top: auto;
+    right: auto;
+    display: block;
+    width: auto;
+    height: auto;
+    padding: 9px 20px;
+    margin: 0 auto;
+    margin-top: 1rem;
+  }
+
+  .Button--green {
+    &:focus,
+    &:hover {
+      border-color: #00aa46;
+      background: #00aa46;
+    }
+  }
+}

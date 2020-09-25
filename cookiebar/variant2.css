@@ -1,0 +1,43 @@
+.Notice.Notice--info {
+  position: fixed;
+  z-index: 9999999999;
+  bottom: 0;
+  border-bottom: 0;
+  background: #005537;
+  color: white;
+  text-align: center;
+}
+
+.Notice.Notice--info a {
+  color: white;
+  text-decoration: underline;
+}
+
+.Notice.Notice--info:hover {
+  color: white;
+}
+
+.Notice.Notice--info .Notice-content {
+  padding: 2rem 0;
+}
+
+.Notice.Notice--info .Notice-cookieText {
+  padding-right: 0;
+}
+
+.Notice.Notice--info .Notice-cookieClose {
+  position: initial;
+  top: auto;
+  right: auto;
+  display: block;
+  width: auto;
+  height: auto;
+  padding: 9px 20px;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+
+.Notice.Notice--info .Button--green:focus, .Notice.Notice--info .Button--green:hover {
+  border-color: #00aa46;
+  background: #00aa46;
+}
