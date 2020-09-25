@@ -1,0 +1,35 @@
+{
+  "name": "cover",
+  "version": "1.0.0",
+  "description": "ab-testing",
+  "main": "index.js",
+  "dependencies": {
+    "node-sass": "^4.14.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.5",
+    "@babel/core": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-typescript": "^7.10.4",
+    "prettier": "2.1.1",
+    "stylelint": "^13.7.0",
+    "stylelint-config-idiomatic-order": "^8.1.0",
+    "stylelint-config-sass-guidelines": "^7.1.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.1.0"
+  },
+  "scripts": {
+    "babel": "babel . --ignore 'node_modules' --extensions '.ts' --watch --out-dir ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coopjakob/cover.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coopjakob/cover/issues"
+  },
+  "homepage": "https://github.com/coopjakob/cover#readme",
+  "browserslist": "ie 11"
+}
