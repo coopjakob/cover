@@ -10,7 +10,7 @@
 // ==/UserScript==
 
 (function (croco) {
-  var time = 3000; // thatd the time in milliseconds
+  var time = 1500; // thatd the time in milliseconds
   var config = {
     va: 'b',
     id: '1044', // Ticket number
