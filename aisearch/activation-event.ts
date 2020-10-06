@@ -1,4 +1,4 @@
-document.querySelectorAll('.js-ecommerceSearchInput').forEach((e) => {
+document.getElementsByClassName('js-ecommerceSearchInput').forEach((e) => {
   e.addEventListener(
     'focus',
     () => {
