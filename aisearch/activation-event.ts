@@ -1,6 +1,6 @@
 document.getElementsByClassName('js-ecommerceSearchInput').forEach((e) => {
   e.addEventListener(
-    'focus',
+    'keydown',
     () => {
       dataLayer.push({ event: 'optimize.activate' });
     },
