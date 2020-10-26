@@ -18,8 +18,8 @@ document.querySelectorAll('.quicklinks .item a').forEach((e) => {
 });
 
 document.querySelectorAll('.quicklinks .item').forEach((element) => {
-  element.addEventListener('touchstart', (event) => {
-    console.debug('<experiment> touchstart');
+  element.addEventListener('click', (event) => {
+    console.debug('<experiment> click');
     element.style.backgroundColor = '#e8f2d2';
   });
 });

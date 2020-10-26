@@ -17,8 +17,8 @@ document.querySelectorAll('.quicklinks .item a').forEach(function (e) {
   });
 });
 document.querySelectorAll('.quicklinks .item').forEach(function (element) {
-  element.addEventListener('touchstart', function (event) {
-    console.debug('<experiment> touchstart');
+  element.addEventListener('click', function (event) {
+    console.debug('<experiment> click');
     element.style.backgroundColor = '#e8f2d2';
   });
 });
