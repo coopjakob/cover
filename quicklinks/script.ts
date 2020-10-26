@@ -16,3 +16,9 @@ document.querySelectorAll('.quicklinks .item a').forEach((e) => {
     experimentClick(e.getAttribute('href'));
   });
 });
+
+document.querySelectorAll('.quicklinks .item').forEach((element) => {
+  element.addEventListener('touchstart', (event) => {
+    element.style.backgroundColor = '#e8f2d2';
+  });
+});
