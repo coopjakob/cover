@@ -1,5 +1,5 @@
 function experimentClick(label) {
-  console.log('send:', label);
+  console.debug('<experiment> click', label);
   ga('send', {
     hitType: 'event',
     eventCategory: 'Experiment',
@@ -10,15 +10,16 @@ function experimentClick(label) {
 }
 
 document.querySelectorAll('.quicklinks .item a').forEach((e) => {
-  console.log('listen: ', e.getAttribute('href'));
+  console.debug('<experiment> listen for', e.getAttribute('href'));
   e.addEventListener('click', () => {
-    console.log('click: ', e.getAttribute('href'));
+    console.debug('<experiment> click', e.getAttribute('href'));
     experimentClick(e.getAttribute('href'));
   });
 });
 
 document.querySelectorAll('.quicklinks .item').forEach((element) => {
   element.addEventListener('touchstart', (event) => {
+    console.debug('<experiment> touchstart');
     element.style.backgroundColor = '#e8f2d2';
   });
 });
