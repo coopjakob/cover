@@ -19,6 +19,11 @@ document.querySelectorAll('.quicklinks .item a').forEach(function (e) {
 document.querySelectorAll('.quicklinks .item').forEach(function (element) {
   element.addEventListener('click', function (event) {
     console.debug('<experiment> click');
+    var originalColor = element.style.backgroundColor;
     element.style.backgroundColor = '#e8f2d2';
+    setTimeout(function () {
+      console.debug('<experiment> original background color');
+      element.style.backgroundColor = originalColor;
+    }, 300);
   });
 });
