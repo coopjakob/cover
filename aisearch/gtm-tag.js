@@ -31,6 +31,18 @@ var observer = new MutationObserver(function () {
     eventAction: 'search-dropdown',
     transport: 'beacon'
   });
+
+  if (document.getElementsByClassName('ProductSearch-footer')[0].textContent.trim() == 'Inga resultat funna') {
+    console.debug('<experiment> no results event');
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Experiment',
+      eventAction: 'no-results',
+      eventLabel: 'dropdown',
+      transport: 'beacon',
+      nonInteraction: true
+    });
+  }
 });
 
 for (var i = 0; i < searchResults.length; i++) {
