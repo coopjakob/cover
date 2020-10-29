@@ -12,7 +12,7 @@ for (var i = 0; i < searchInput.length; i++) {
   });
   searchInput[i].addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
-      console.debug('<experiment> send submt event');
+      console.debug('<experiment> send submit event');
       ga('send', {
         hitType: 'event',
         eventCategory: 'Experiment',
