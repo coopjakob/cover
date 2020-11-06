@@ -1,0 +1,28 @@
+h2
+
+Ange postnummer
+Välj butik
+
+
+eventCategory: "Ecommerce"
+action: 'Varukorg - Överblick'
+label: 'Hemleverans - Ändra postnummer'
+
+(används även för byta butik)
+
+
+
+eventAction: 'Varukorg - Överblick',
+eventLabel: 'Välj leveranssätt - Hämta i butik'
+
+eventAction: "Varukorg - Överblick"
+eventLabel: "Välj leveranssätt - Hemleverans"
+
+
+
+
+
+MÅL:
+eventCategory: "Ecommerce"
+eventAction: "Varukorg - Överblick"
+eventLabel: "Reservera tid"
