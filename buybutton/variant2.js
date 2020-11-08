@@ -5,6 +5,8 @@ function labelButtons() {
       element.querySelectorAll('.js-kop').forEach(function (element) {
         element.classList.remove('u-hidden');
         element.style.textOverflow = 'unset';
+        element.style.paddingLeft = 0;
+        element.style.paddingRight = 0;
         element.textContent = 'Lägg till';
       });
       element.querySelectorAll('.js-buttonContainer').forEach(function (element) {
