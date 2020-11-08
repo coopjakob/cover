@@ -29,3 +29,5 @@ document.querySelectorAll('.js-subtract').forEach((element) => {
 window.addEventListener('resize', () => {
   window.setTimeout(labelButtons, 1000);
 });
+
+window.addEventListener('ga:productImpression', labelButtons);
