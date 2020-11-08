@@ -20,7 +20,9 @@ function labelButtons() {
 
 labelButtons();
 
-window.addEventListener('ga:modifyCart', labelButtons);
+window.addEventListener('ga:modifyCart', () => {
+  window.setTimeout(labelButtons, 1000);
+});
 
 window.addEventListener('resize', labelButtons);
 
