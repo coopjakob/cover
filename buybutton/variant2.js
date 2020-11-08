@@ -17,8 +17,6 @@ function labelButtons() {
 }
 
 labelButtons();
-window.addEventListener('resize', function () {
-  window.setTimeout(labelButtons, 1000);
-});
 window.addEventListener('ga:modifyCart', labelButtons);
+window.addEventListener('resize', labelButtons);
 window.addEventListener('ga:productImpression', labelButtons);
