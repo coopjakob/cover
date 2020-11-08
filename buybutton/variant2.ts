@@ -20,11 +20,7 @@ function labelButtons() {
 
 labelButtons();
 
-document.querySelectorAll('.js-subtract').forEach((element) => {
-  element.addEventListener('click', () => {
-    window.setTimeout(labelButtons, 1000);
-  });
-});
+window.addEventListener('ga:modifyCart', labelButtons);
 
 window.addEventListener('resize', () => {
   window.setTimeout(labelButtons, 1000);

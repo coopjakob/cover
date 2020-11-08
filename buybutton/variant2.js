@@ -17,12 +17,8 @@ function labelButtons() {
 }
 
 labelButtons();
-document.querySelectorAll('.js-subtract').forEach(function (element) {
-  element.addEventListener('click', function () {
-    window.setTimeout(labelButtons, 1000);
-  });
-});
 window.addEventListener('resize', function () {
   window.setTimeout(labelButtons, 1000);
 });
+window.addEventListener('ga:modifyCart', labelButtons);
 window.addEventListener('ga:productImpression', labelButtons);
