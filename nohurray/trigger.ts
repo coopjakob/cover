@@ -1,4 +1,8 @@
-const miniCartManagerObserver = new MutationObserver((mutationsList) => {
+const modalRightElement = document.querySelector(
+  '.Modal.Modal--right:not(.js-flyInProfile)'
+);
+
+const modalRightObserver = new MutationObserver((mutationsList) => {
   for (const mutation of mutationsList) {
     if (
       mutation.addedNodes.length > 0 &&
@@ -14,7 +18,7 @@ const miniCartManagerObserver = new MutationObserver((mutationsList) => {
           '.MiniCartManager .Cart.Cart--mini:not(.u-hidden) .Cart-header.Cart-headerInfo h2'
         ).textContent == 'Välj butik'
       ) {
-        miniCartManagerObserver.disconnect();
+        modalRightObserver.disconnect();
         console.debug('<experiment> activate nohurray');
         dataLayer.push({ event: 'optimize.activate.nohurray' });
         ga('send', {
@@ -32,8 +36,8 @@ const miniCartManagerObserver = new MutationObserver((mutationsList) => {
   }
 });
 
-miniCartManagerObserver.observe(document.querySelector('.MiniCartManager'), {
+modalRightObserver.observe(modalRightElement, {
   attributes: false,
   childList: true,
-  subtree: false,
+  subtree: true,
 });

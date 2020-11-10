@@ -4,7 +4,8 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var miniCartManagerObserver = new MutationObserver(function (mutationsList) {
+var modalRightElement = document.querySelector('.Modal.Modal--right:not(.js-flyInProfile)');
+var modalRightObserver = new MutationObserver(function (mutationsList) {
   var _iterator = _createForOfIteratorHelper(mutationsList),
       _step;
 
@@ -14,7 +15,7 @@ var miniCartManagerObserver = new MutationObserver(function (mutationsList) {
 
       if (mutation.addedNodes.length > 0 && document.querySelector('.MiniCartManager .Cart.Cart--mini:not(.u-hidden):not(.js-miniCart)')) {
         if (document.querySelector('.MiniCartManager .Cart.Cart--mini:not(.u-hidden) .Cart-header.Cart-headerInfo h2').textContent == 'Ange postnummer' || document.querySelector('.MiniCartManager .Cart.Cart--mini:not(.u-hidden) .Cart-header.Cart-headerInfo h2').textContent == 'Välj butik') {
-          miniCartManagerObserver.disconnect();
+          modalRightObserver.disconnect();
           console.debug('<experiment> activate nohurray');
           dataLayer.push({
             event: 'optimize.activate.nohurray'
@@ -38,8 +39,8 @@ var miniCartManagerObserver = new MutationObserver(function (mutationsList) {
     _iterator.f();
   }
 });
-miniCartManagerObserver.observe(document.querySelector('.MiniCartManager'), {
+modalRightObserver.observe(modalRightElement, {
   attributes: false,
   childList: true,
-  subtree: false
+  subtree: true
 });
