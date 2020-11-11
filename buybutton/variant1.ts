@@ -1,19 +1,25 @@
 function labelButtons() {
-  console.debug('<experiment> Label buttons');
+  document.querySelectorAll('.js-kop:not(.experiment)').forEach((element) => {
+    element.classList.add('experiment');
+    element.style.textOverflow = 'unset';
+    element.style.paddingLeft = 0;
+    element.style.paddingRight = 0;
+    element.textContent = 'Lägg till';
+  });
+
   document
-    .querySelectorAll('.js-buttonView:not(.ProductSearch-itemCta)')
+    .querySelectorAll(
+      '.js-buttonView:not(.ProductSearch-itemCta) .js-kop.u-hidden'
+    )
     .forEach((element) => {
-      if (!element.querySelector('.js-input').classList.contains('has-value')) {
-        element.querySelectorAll('.js-kop').forEach((element) => {
-          element.classList.remove('u-hidden');
-          element.style.textOverflow = 'unset';
-          element.style.paddingLeft = 0;
-          element.style.paddingRight = 0;
-          element.textContent = 'Lägg till';
-        });
-        element.querySelectorAll('.js-buttonContainer').forEach((element) => {
-          element.classList.add('u-hidden');
-        });
+      if (
+        element.parentElement.getElementsByClassName('js-input')[0].value == 0
+      ) {
+        element.classList.remove('u-hidden');
+
+        element.parentElement
+          .getElementsByClassName('js-buttonContainer')[0]
+          .classList.add('u-hidden');
       }
     });
 }
@@ -21,9 +27,11 @@ function labelButtons() {
 labelButtons();
 
 window.addEventListener('ga:modifyCart', () => {
-  window.setTimeout(labelButtons, 1000);
+  window.setTimeout(labelButtons, 500);
 });
 
-window.addEventListener('resize', labelButtons);
+window.addEventListener('resize', () => {
+  window.setTimeout(labelButtons, 500);
+});
 
 window.addEventListener('ga:productImpression', labelButtons);
