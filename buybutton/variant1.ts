@@ -1,4 +1,40 @@
 function labelButtons() {
+  document
+    .querySelectorAll(
+      '.ProductSearch-itemAmountSelector .ProductSearch-itemCell:not(.experiment)'
+    )
+    .forEach((element) => {
+      element.classList.add('experiment');
+
+      const buttonView = document.createElement('div');
+      buttonView.classList.add('js-buttonView');
+
+      const buttonContainer = element.getElementsByClassName(
+        'js-buttonContainer'
+      )[0];
+      buttonContainer.classList.add('js-changeButtonsContainer');
+      buttonContainer.classList.remove('AddToCart--mediumToSmall');
+
+      const buyButton = document.createElement('button');
+      buyButton.setAttribute('type', 'button');
+      buyButton.classList.add(
+        'Button',
+        'Button--green',
+        'Button--medium',
+        'Button--full',
+        'Button--radius',
+        'js-kop',
+        'experiement',
+        'u-hidden'
+      );
+      buyButton.style.width = '125px';
+
+      buttonView.appendChild(buttonContainer);
+      buttonView.appendChild(buyButton);
+
+      element.appendChild(buttonView);
+    });
+
   document.querySelectorAll('.js-kop:not(.experiment)').forEach((element) => {
     element.classList.add('experiment');
     element.style.textOverflow = 'unset';

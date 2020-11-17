@@ -1,4 +1,19 @@
 function labelButtons() {
+  document.querySelectorAll('.ProductSearch-itemAmountSelector .ProductSearch-itemCell:not(.experiment)').forEach(function (element) {
+    element.classList.add('experiment');
+    var buttonView = document.createElement('div');
+    buttonView.classList.add('js-buttonView');
+    var buttonContainer = element.getElementsByClassName('js-buttonContainer')[0];
+    buttonContainer.classList.add('js-changeButtonsContainer');
+    buttonContainer.classList.remove('AddToCart--mediumToSmall');
+    var buyButton = document.createElement('button');
+    buyButton.setAttribute('type', 'button');
+    buyButton.classList.add('Button', 'Button--green', 'Button--medium', 'Button--full', 'Button--radius', 'js-kop', 'experiement', 'u-hidden');
+    buyButton.style.width = '125px';
+    buttonView.appendChild(buttonContainer);
+    buttonView.appendChild(buyButton);
+    element.appendChild(buttonView);
+  });
   document.querySelectorAll('.js-kop:not(.experiment)').forEach(function (element) {
     element.classList.add('experiment');
     element.style.textOverflow = 'unset';
