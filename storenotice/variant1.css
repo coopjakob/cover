@@ -1,0 +1,27 @@
+.experiment.Storenotice {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e8f2d2;
+  padding: 13px 16px;
+  width: 100%;
+  margin: 1em 0;
+}
+
+.experiment.Storenotice .Storenotice--data {
+  font-weight: bold;
+}
+
+.experiment.Storenotice button {
+  margin-left: 8px;
+}
+
+@media (min-width: 480px) {
+  .experiment.Storenotice {
+    justify-content: flex-start;
+  }
+  .experiment.Storenotice div {
+    display: inline;
+  }
+}
