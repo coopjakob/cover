@@ -24,7 +24,7 @@ function setCookie(cname, cvalue, exhours) {
   const label = document.querySelector("._hj-f5b2a1eb-9b07_feedback_minimized_label");
   const labelText = document.querySelector("._hj-f5b2a1eb-9b07_feedback_minimized_label_text");
   
-  const loggedin = true; //coopUserSettings.isAuthenticated;
+  const loggedin = coopUserSettings.isAuthenticated;
   const cookie = getCookie('HideFeedback');
   
   const labelIcon = document.createElement('div');
