@@ -1,0 +1,54 @@
+#_hj-f5b2a1eb-9b07_feedback ._hj-f5b2a1eb-9b07_feedback_minimized_label {
+  position: absolute;
+  width: 318px;
+  transition: right 400ms;
+  top: 40%;
+  color: white;
+  background: #005537;
+  box-shadow: 0 0 35px 2px rgba(0, 0, 0, 0.24);
+  display: flex;
+  align-items: center;
+  transform: unset;
+  padding: unset;
+}
+#_hj-f5b2a1eb-9b07_feedback[data-minimized-position='middle_right']
+  ._hj-f5b2a1eb-9b07_feedback_minimized_label {
+  border-radius: 8px 0px 0px 8px;
+  right: -300px;
+}
+#_hj-f5b2a1eb-9b07_feedback[data-minimized-position='middle_right']
+  ._hj-f5b2a1eb-9b07_feedback_minimized_label:hover {
+  right: -300px;
+}
+._hj-f5b2a1eb-9b07_feedback_minimized_label.label--show {
+  right: 0 !important;
+}
+
+#_hj-f5b2a1eb-9b07_feedback
+  ._hj-f5b2a1eb-9b07_feedback_minimized_label
+  ._hj-f5b2a1eb-9b07_feedback_minimized_label_text {
+  font-family: Akkurat !important;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 10px;
+  text-decoration: underline;
+  flex-grow: 1;
+  transform: unset;
+  writing-mode: unset;
+}
+.label_icon {
+  align-self: stretch;
+  width: 18px;
+  border-radius: 8px 0px 0px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.label_close {
+  padding: 14px !important;
+  cursor: pointer;
+}
+.label_close svg {
+  display: block;
+}
