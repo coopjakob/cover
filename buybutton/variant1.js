@@ -8,7 +8,7 @@ function labelButtons() {
     buttonContainer.classList.remove('AddToCart--mediumToSmall');
     var buyButton = document.createElement('button');
     buyButton.setAttribute('type', 'button');
-    buyButton.classList.add('Button', 'Button--green', 'Button--medium', 'Button--full', 'Button--radius', 'js-kop', 'experiement', 'u-hidden');
+    buyButton.classList.add('Button', 'Button--green', 'Button--medium', 'Button--full', 'Button--radius', 'js-kop', 'experiment', 'u-hidden');
     buyButton.style.width = '125px';
     buttonView.appendChild(buttonContainer);
     buttonView.appendChild(buyButton);

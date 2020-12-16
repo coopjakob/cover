@@ -24,7 +24,7 @@ function labelButtons() {
         'Button--full',
         'Button--radius',
         'js-kop',
-        'experiement',
+        'experiment',
         'u-hidden'
       );
       buyButton.style.width = '125px';
