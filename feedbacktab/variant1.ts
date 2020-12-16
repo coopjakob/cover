@@ -49,7 +49,7 @@
   </svg>`;
   label.appendChild(labelClose);
 
-  labelText.innerText = 'Ge oss din feedback';
+  labelText.innerText = 'Tyck till';
 
   if (!loggedin && !cookie) {
     label.classList.add('label--show');
