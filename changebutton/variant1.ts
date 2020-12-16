@@ -1,15 +1,13 @@
 const drawerObserver = new MutationObserver((mutationsList) => {
   for (const mutation of mutationsList) {
-    // console.debug('mutation', mutation);
     for (const addedNode of mutation.addedNodes) {
-      //   console.log('addedNode', addedNode);
       try {
-        if (addedNode.querySelector('h2').innerText == 'Varukorg') {
+        if (addedNode.querySelector('h2').innerText === 'Varukorg') {
           let header = document.querySelector('.Cart-header.Cart-headerInfo');
           header.style.paddingBottom = 0;
 
           let clickLink = header.querySelector('.Link');
-          if (clickLink.innerText == 'Hemleverans') {
+          if (clickLink.innerText === 'Hemleverans') {
             clickLink = header.querySelectorAll('.Link')[1];
           }
 
@@ -26,7 +24,6 @@ const drawerObserver = new MutationObserver((mutationsList) => {
           buyButton.innerText = 'Ändra leveranssätt';
           buyButton.addEventListener('click', () => {
             clickLink.click();
-            console.log('click()', clickLink);
           });
           header.appendChild(buyButton);
         }

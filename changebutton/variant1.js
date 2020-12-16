@@ -12,7 +12,6 @@ var drawerObserver = new MutationObserver(function (mutationsList) {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var mutation = _step.value;
 
-      // console.debug('mutation', mutation);
       var _iterator2 = _createForOfIteratorHelper(mutation.addedNodes),
           _step2;
 
@@ -20,15 +19,14 @@ var drawerObserver = new MutationObserver(function (mutationsList) {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var addedNode = _step2.value;
 
-          //   console.log('addedNode', addedNode);
           try {
-            if (addedNode.querySelector('h2').innerText == 'Varukorg') {
+            if (addedNode.querySelector('h2').innerText === 'Varukorg') {
               (function () {
                 var header = document.querySelector('.Cart-header.Cart-headerInfo');
                 header.style.paddingBottom = 0;
                 var clickLink = header.querySelector('.Link');
 
-                if (clickLink.innerText == 'Hemleverans') {
+                if (clickLink.innerText === 'Hemleverans') {
                   clickLink = header.querySelectorAll('.Link')[1];
                 }
 
@@ -40,7 +38,6 @@ var drawerObserver = new MutationObserver(function (mutationsList) {
                 buyButton.innerText = 'Ändra leveranssätt';
                 buyButton.addEventListener('click', function () {
                   clickLink.click();
-                  console.log('click()', clickLink);
                 });
                 header.appendChild(buyButton);
               })();
