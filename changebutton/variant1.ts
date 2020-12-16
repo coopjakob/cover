@@ -1,39 +1,24 @@
-const drawerObserver = new MutationObserver((mutationsList) => {
-  for (const mutation of mutationsList) {
-    for (const addedNode of mutation.addedNodes) {
-      try {
-        if (addedNode.querySelector('h2').innerText === 'Varukorg') {
-          let header = document.querySelector('.Cart-header.Cart-headerInfo');
-          header.style.paddingBottom = 0;
+let header = document.querySelector('.Cart-header.Cart-headerInfo');
+header.style.paddingBottom = 0;
+header.style.height = 'auto';
 
-          let clickLink = header.querySelector('.Link');
-          if (clickLink.innerText === 'Hemleverans') {
-            clickLink = header.querySelectorAll('.Link')[1];
-          }
+let clickLink = header.querySelector('.Link');
+if (clickLink.innerText === 'Hemleverans') {
+  clickLink = header.querySelectorAll('.Link')[1];
+}
 
-          let buyButton = document.createElement('button');
-          buyButton.setAttribute('type', 'button');
-          buyButton.classList.add(
-            'Button',
-            'Button--green',
-            'Button--small',
-            'Button--radius'
-          );
-          buyButton.style.marginTop = '8px';
-          buyButton.style.marginBottom = '12px';
-          buyButton.innerText = 'Ändra leveranssätt';
-          buyButton.addEventListener('click', () => {
-            clickLink.click();
-          });
-          header.appendChild(buyButton);
-        }
-      } catch (error) {}
-    }
-  }
+let buyButton = document.createElement('button');
+buyButton.setAttribute('type', 'button');
+buyButton.classList.add(
+  'Button',
+  'Button--green',
+  'Button--small',
+  'Button--radius'
+);
+buyButton.style.marginTop = '8px';
+buyButton.style.marginBottom = '12px';
+buyButton.innerText = 'Ändra leveranssätt';
+buyButton.addEventListener('click', () => {
+  clickLink.click();
 });
-
-drawerObserver.observe(document.querySelector('#portal'), {
-  attributes: false,
-  childList: true,
-  subtree: true,
-});
+header.appendChild(buyButton);
