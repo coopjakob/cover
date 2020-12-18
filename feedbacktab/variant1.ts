@@ -110,7 +110,7 @@
   writing-mode: unset;
 }
 
-.label_icon {
+._hj-f5b2a1eb-9b07_feedback_minimized_label .label_icon {
   display: flex;
   width: 18px;
   align-items: center;
@@ -120,12 +120,12 @@
   cursor: pointer;
 }
 
-.label_close {
+._hj-f5b2a1eb-9b07_feedback_minimized_label .label_close {
   padding: 14px !important;
   cursor: pointer;
 }
 
-.label_close svg {
+._hj-f5b2a1eb-9b07_feedback_minimized_label .label_close svg {
   display: block;
 }
 
