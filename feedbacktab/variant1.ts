@@ -51,9 +51,11 @@
 
   labelText.innerText = 'Tyck till';
 
-  if (!loggedin && !cookie) {
-    label.classList.add('label--show');
-  }
+  setTimeout(() => {
+    if (!loggedin && !cookie) {
+      label.classList.add('label--show');
+    }
+  }, 5000);
 
   labelIcon.addEventListener('click', (event) => {
     event.stopPropagation();
@@ -132,7 +134,7 @@
 `;
   label.appendChild(feedbackStyle);
 
-  setTimeout(function () {
+  setTimeout(() => {
     label.style.transition = 'right 400ms';
   }, 1);
 })();
