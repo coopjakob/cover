@@ -1,6 +1,15 @@
+const experimentStyle = document.createElement('style');
+experimentStyle.innerHTML = `
+.Cart--mini .Cart-headerInfo--thin {
+  height: auto 
+}
+.Cart--mini .Cart-headerInfo--thin .Cart-title {
+  display: block;
+}
+`;
+document.body.appendChild(experimentStyle);
+
 let header = document.querySelector('.Cart-header.Cart-headerInfo');
-header.style.paddingBottom = 0;
-header.style.height = 'auto';
 
 let clickLink = header.querySelector('.Link');
 if (clickLink.innerText === 'Hemleverans') {
@@ -10,13 +19,13 @@ if (clickLink.innerText === 'Hemleverans') {
 let buyButton = document.createElement('button');
 buyButton.setAttribute('type', 'button');
 buyButton.classList.add(
+  'experiment',
   'Button',
   'Button--green',
   'Button--small',
   'Button--radius'
 );
 buyButton.style.marginTop = '8px';
-buyButton.style.marginBottom = '12px';
 buyButton.innerText = 'Ändra leveranssätt';
 buyButton.addEventListener('click', () => {
   clickLink.click();
