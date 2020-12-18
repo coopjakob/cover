@@ -3,8 +3,8 @@ experimentStyle.innerHTML = `
 .Cart--mini .Cart-headerInfo--thin {
   height: auto 
 }
-.Cart--mini .Cart-headerInfo--thin .Cart-title {
-  display: block;
+.Cart--mini .Cart-headerInfo--thin .experiment {
+  display: none;
 }
 `;
 document.body.appendChild(experimentStyle);

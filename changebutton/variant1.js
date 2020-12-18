@@ -1,5 +1,5 @@
 var experimentStyle = document.createElement('style');
-experimentStyle.innerHTML = "\n.Cart--mini .Cart-headerInfo--thin {\n  height: auto \n}\n.Cart--mini .Cart-headerInfo--thin .Cart-title {\n  display: block;\n}\n";
+experimentStyle.innerHTML = "\n.Cart--mini .Cart-headerInfo--thin {\n  height: auto \n}\n.Cart--mini .Cart-headerInfo--thin .experiment {\n  display: none;\n}\n";
 document.body.appendChild(experimentStyle);
 var header = document.querySelector('.Cart-header.Cart-headerInfo');
 var clickLink = header.querySelector('.Link');
