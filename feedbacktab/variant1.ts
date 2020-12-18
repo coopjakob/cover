@@ -73,7 +73,7 @@
   position: absolute;
   top: 40%;
   display: flex;
-  width: 318px;
+  width: 200px;
   align-items: center;
   padding: unset;
   background: #005537;
@@ -84,13 +84,13 @@
 
 #_hj-f5b2a1eb-9b07_feedback[data-minimized-position='middle_right']
   ._hj-f5b2a1eb-9b07_feedback_minimized_label {
-  right: -300px;
+  right: -182px;
   border-radius: 8px 0 0 8px;
 }
 
 #_hj-f5b2a1eb-9b07_feedback[data-minimized-position='middle_right']
   ._hj-f5b2a1eb-9b07_feedback_minimized_label:hover {
-  right: -300px;
+  right: -182px;
 }
 
 ._hj-f5b2a1eb-9b07_feedback_minimized_label.label--show {
