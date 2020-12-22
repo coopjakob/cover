@@ -8,12 +8,12 @@ if (clickLink.innerText === 'Hemleverans') {
   clickLink = header.querySelectorAll('.Link')[1];
 }
 
-var buyButton = document.createElement('button');
-buyButton.setAttribute('type', 'button');
-buyButton.classList.add('experiment', 'Button', 'Button--green', 'Button--small', 'Button--radius');
-buyButton.style.marginTop = '8px';
-buyButton.innerText = 'Ändra leveranssätt';
-buyButton.addEventListener('click', function () {
+var changeButton = document.createElement('button');
+changeButton.setAttribute('type', 'button');
+changeButton.classList.add('experiment', 'Button', 'Button--green', 'Button--small', 'Button--radius');
+changeButton.style.marginTop = '8px';
+changeButton.innerText = 'Ändra leveranssätt';
+changeButton.addEventListener('click', function () {
   clickLink.click();
 });
-header.appendChild(buyButton);
+header.appendChild(changeButton);

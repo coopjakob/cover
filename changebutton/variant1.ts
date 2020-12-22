@@ -16,18 +16,18 @@ if (clickLink.innerText === 'Hemleverans') {
   clickLink = header.querySelectorAll('.Link')[1];
 }
 
-let buyButton = document.createElement('button');
-buyButton.setAttribute('type', 'button');
-buyButton.classList.add(
+let changeButton = document.createElement('button');
+changeButton.setAttribute('type', 'button');
+changeButton.classList.add(
   'experiment',
   'Button',
   'Button--green',
   'Button--small',
   'Button--radius'
 );
-buyButton.style.marginTop = '8px';
-buyButton.innerText = 'Ändra leveranssätt';
-buyButton.addEventListener('click', () => {
+changeButton.style.marginTop = '8px';
+changeButton.innerText = 'Ändra leveranssätt';
+changeButton.addEventListener('click', () => {
   clickLink.click();
 });
-header.appendChild(buyButton);
+header.appendChild(changeButton);
