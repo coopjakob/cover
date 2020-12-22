@@ -28,6 +28,14 @@ changeButton.classList.add(
 changeButton.style.marginTop = '8px';
 changeButton.innerText = 'Ändra leveranssätt';
 changeButton.addEventListener('click', () => {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Experiment',
+    eventAction: 'change-button-click',
+    eventLabel: '',
+    transport: 'beacon',
+    nonInteraction: true,
+  });
   clickLink.click();
 });
 header.appendChild(changeButton);
