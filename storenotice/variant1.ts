@@ -2,6 +2,8 @@ function showStorenotice() {
   let productList = document.querySelector('.js-productList');
 
   if (productList) {
+    let productListParent = productList.parentElement;
+
     const storenoticeStyle = document.createElement('style');
     storenoticeStyle.innerHTML = `
       .experiment.Storenotice {
@@ -32,7 +34,9 @@ function showStorenotice() {
         }
       }
     `;
-    productList.appendChild(storenoticeStyle);
+    productListParent.appendChild(storenoticeStyle);
+
+    productListParent.style.flexWrap = 'wrap';
 
     const storenotice = document.createElement('div');
     storenotice.classList.add('Grid-cell', 'u-sizeFull');
@@ -45,7 +49,7 @@ function showStorenotice() {
         <button type="button" class="Button Button--greenDark Button--small Button--radius js-cartClick" onclick="document.querySelector('.js-cncTrigger .CartButton').click();">Ändra</button>
       </div>
     `;
-    productList.insertBefore(storenotice, productList.firstChild);
+    productListParent.insertBefore(storenotice, productListParent.firstChild);
   }
 }
 
