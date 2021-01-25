@@ -1,0 +1,23 @@
+.ItemTeaser-price {
+  display: flex;
+  align-items: baseline;
+}
+
+.ItemTeaser-priceValue {
+  order: 1;
+  margin-right: 3px;
+}
+
+.ItemTeaser-price > span:nth-child(1) {
+  order: 2;
+}
+
+.ItemInfo-priceWrapper > span:nth-child(2) {
+  order: 1;
+  margin-right: 0.93750234rem;
+}
+
+.ItemInfo-priceWrapper > span:nth-child(1) {
+  order: 2;
+  margin-right: 0;
+}
