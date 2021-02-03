@@ -19,16 +19,11 @@ if (storeModulesSection) {
   const onlineoffers = document.createElement('div');
   onlineoffers.classList.add('experiment', 'onlineoffers');
   onlineoffers.innerHTML = `
-    <div>Denna sida visar erbjudanden i butik. Det finns andra erbjudanden när du beställer från coop.se</div>`;
+    <div>Denna sida visar erbjudanden i butik. Det finns andra <a href="/handla/aktuella-erbjudanden/">erbjudanden</a> när du beställer från coop.se</div>`;
 
-  const onlineoffersLink = document.createElement('a');
-  onlineoffersLink.classList.add(
-    'Button',
-    'Button--green',
-    'Button--small',
-    'Button--radius'
-  );
-  onlineoffersLink.innerText = 'Visa';
+  const onlineoffersLink = onlineoffers.querySelector('a');
+  onlineoffersLink.classList.add('Link', 'Link--green');
+  onlineoffersLink.style.marginTop = '0px';
   onlineoffersLink.addEventListener('click', (event) => {
     ga('send', {
       hitType: 'event',
@@ -38,10 +33,7 @@ if (storeModulesSection) {
       transport: 'beacon',
       nonInteraction: false,
     });
-    document.location.href = '/handla/aktuella-erbjudanden/';
   });
-
-  onlineoffers.appendChild(onlineoffersLink);
 
   storeModulesSection.appendChild(onlineoffers);
 }

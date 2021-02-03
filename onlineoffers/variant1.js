@@ -6,10 +6,10 @@ if (storeModulesSection) {
   storeModulesSection.appendChild(onlineoffersStyle);
   var onlineoffers = document.createElement('div');
   onlineoffers.classList.add('experiment', 'onlineoffers');
-  onlineoffers.innerHTML = "\n    <div>Denna sida visar erbjudanden i butik. Det finns andra erbjudanden n\xE4r du best\xE4ller fr\xE5n coop.se</div>";
-  var onlineoffersLink = document.createElement('a');
-  onlineoffersLink.classList.add('Button', 'Button--green', 'Button--small', 'Button--radius');
-  onlineoffersLink.innerText = 'Visa';
+  onlineoffers.innerHTML = "\n    <div>Denna sida visar erbjudanden i butik. Det finns andra <a href=\"/handla/aktuella-erbjudanden/\">erbjudanden</a> n\xE4r du best\xE4ller fr\xE5n coop.se</div>";
+  var onlineoffersLink = onlineoffers.querySelector('a');
+  onlineoffersLink.classList.add('Link', 'Link--green');
+  onlineoffersLink.style.marginTop = '0px';
   onlineoffersLink.addEventListener('click', function (event) {
     ga('send', {
       hitType: 'event',
@@ -19,8 +19,6 @@ if (storeModulesSection) {
       transport: 'beacon',
       nonInteraction: false
     });
-    document.location.href = '/handla/aktuella-erbjudanden/';
   });
-  onlineoffers.appendChild(onlineoffersLink);
   storeModulesSection.appendChild(onlineoffers);
 }
