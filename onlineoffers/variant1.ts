@@ -19,7 +19,7 @@ if (storeModulesSection) {
   const onlineoffers = document.createElement('div');
   onlineoffers.classList.add('experiment', 'onlineoffers');
   onlineoffers.innerHTML = `
-    <div>Denna sida visar erbjudanden i butik. Det finns andra <a href="/handla/aktuella-erbjudanden/">erbjudanden</a> när du beställer från coop.se</div>`;
+    <div>Sidan visar erbjudanden i butik. Det finns andra <a href="/handla/aktuella-erbjudanden/">erbjudanden</a> om du beställer från coop.se</div>`;
 
   const onlineoffersLink = onlineoffers.querySelector('a');
   onlineoffersLink.classList.add('Link', 'Link--green');

@@ -6,7 +6,7 @@ if (storeModulesSection) {
   storeModulesSection.appendChild(onlineoffersStyle);
   var onlineoffers = document.createElement('div');
   onlineoffers.classList.add('experiment', 'onlineoffers');
-  onlineoffers.innerHTML = "\n    <div>Denna sida visar erbjudanden i butik. Det finns andra <a href=\"/handla/aktuella-erbjudanden/\">erbjudanden</a> n\xE4r du best\xE4ller fr\xE5n coop.se</div>";
+  onlineoffers.innerHTML = "\n    <div>Sidan visar erbjudanden i butik. Det finns andra <a href=\"/handla/aktuella-erbjudanden/\">erbjudanden</a> om du best\xE4ller fr\xE5n coop.se</div>";
   var onlineoffersLink = onlineoffers.querySelector('a');
   onlineoffersLink.classList.add('Link', 'Link--green');
   onlineoffersLink.style.marginTop = '0px';
