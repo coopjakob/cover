@@ -1,7 +1,7 @@
 let storeModulesSection = document.querySelector('.js-storeModulesSection');
 
 if (storeModulesSection) {
-  const onlineoffers = document.createElement('div');
+  const onlineoffers = document.createElement('p');
   onlineoffers.classList.add('u-textCenter', 'u-paddingAmd', 'u-bgGreenLight2');
   onlineoffers.innerHTML = `
     Sidan visar erbjudanden i butik. Det finns andra <a href="/handla/aktuella-erbjudanden/">erbjudanden</a> om du beställer från coop.se`;
