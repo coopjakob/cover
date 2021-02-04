@@ -1,4 +1,4 @@
-let storeModulesSection = document.querySelector('.js-storeModulesSection');
+const storeModulesSection = document.querySelector('.js-storeModulesSection');
 
 if (storeModulesSection) {
   const onlineoffers = document.createElement('p');
