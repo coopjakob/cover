@@ -23,7 +23,7 @@ if (sidebarNavItemExpanded.length <= 2) {
         hitType: 'event',
         eventCategory: 'Experiment',
         eventAction: 'subcategories-click',
-        eventLabel: 'level ' + (sidebarNavItemExpanded.length + 1),
+        eventLabel: 'level ' + sidebarNavItemExpanded.length,
         transport: 'beacon'
       });
     });
