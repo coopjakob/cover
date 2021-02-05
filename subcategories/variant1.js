@@ -21,7 +21,7 @@ headingTitle.forEach(function (title) {
       hitType: 'event',
       eventCategory: 'Experiment',
       eventAction: 'subcategories-click',
-      eventLabel: 'level ' + sidebarNavItemExpanded.length + 1,
+      eventLabel: 'level ' + (sidebarNavItemExpanded.length + 1),
       transport: 'beacon'
     });
   });
