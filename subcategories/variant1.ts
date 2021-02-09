@@ -1,5 +1,5 @@
 let experimentArea = document.createElement('div');
-experimentArea.classList.add('experiment', 'u-marginBmd');
+experimentArea.classList.add('experiment', 'u-marginBsm');
 
 let sidebarNavItemExpanded = document.querySelectorAll(
   '.js-sidebarNavItem.is-expanded'
@@ -27,8 +27,8 @@ if (sidebarNavItemExpanded.length <= 2) {
       'Link',
       'Link--green',
       'u-paddingAxsm',
-      'u-marginRsm',
-      'u-marginVxxsm',
+      'u-marginRxxsm',
+      'u-marginBxxsm',
       'u-bgWhite'
     );
     link.style.display = 'inline-block';

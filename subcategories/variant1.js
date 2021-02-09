@@ -1,5 +1,5 @@
 var experimentArea = document.createElement('div');
-experimentArea.classList.add('experiment', 'u-marginBmd');
+experimentArea.classList.add('experiment', 'u-marginBsm');
 var sidebarNavItemExpanded = document.querySelectorAll('.js-sidebarNavItem.is-expanded');
 
 if (sidebarNavItemExpanded.length <= 2) {
@@ -14,7 +14,7 @@ if (sidebarNavItemExpanded.length <= 2) {
 
   headingTitle.forEach(function (title) {
     var link = document.createElement('a');
-    link.classList.add('js-asyncLink', 'js-link', 'Link', 'Link--green', 'u-paddingAxsm', 'u-marginRsm', 'u-marginVxxsm', 'u-bgWhite');
+    link.classList.add('js-asyncLink', 'js-link', 'Link', 'Link--green', 'u-paddingAxsm', 'u-marginRxxsm', 'u-marginBxxsm', 'u-bgWhite');
     link.style.display = 'inline-block';
     link.setAttribute('href', title.parentElement.getAttribute('href'));
     link.textContent = title.textContent;
