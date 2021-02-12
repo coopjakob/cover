@@ -7,11 +7,10 @@ if (storeModulesSection) {
   var onlineoffersLink = onlineoffers.querySelector('a');
   onlineoffersLink.classList.add('Link', 'Link--green');
   onlineoffersLink.addEventListener('click', function (event) {
-    ga('send', {
-      hitType: 'event',
+    dataLayer.push({
+      event: 'interaction',
       eventCategory: 'Experiment',
-      eventAction: 'online-offers-click',
-      transport: 'beacon'
+      eventAction: 'online-offers-click'
     });
   });
   storeModulesSection.appendChild(onlineoffers);
