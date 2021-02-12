@@ -19,12 +19,11 @@ if (sidebarNavItemExpanded.length <= 2) {
     link.setAttribute('href', title.parentElement.getAttribute('href'));
     link.textContent = title.textContent;
     link.addEventListener('click', function (event) {
-      ga('send', {
-        hitType: 'event',
+      dataLayer.push({
+        event: 'interaction',
         eventCategory: 'Experiment',
         eventAction: 'subcategories-click',
-        eventLabel: 'level ' + sidebarNavItemExpanded.length,
-        transport: 'beacon'
+        eventLabel: 'level ' + sidebarNavItemExpanded.length
       });
     });
     experimentArea.append(link);
