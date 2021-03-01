@@ -1,5 +1,15 @@
-document
-  .querySelectorAll('.js-accordionFilter .Dropdown .Dropdown-header')
-  .forEach((element) => {
-    element.style.border = '1px solid #777777';
-  });
+let wrapper = document.querySelector(
+  '.js-accordionFilter > .u-flex > .Dropdown'
+);
+
+if (window.location.pathname.startsWith('/handla/varor/')) {
+  wrapper = document.querySelector(
+    '.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown'
+  );
+}
+
+let label = document.createElement('p');
+label.classList.add('experiment', 'u-pullLeft', 'u-marginAxsm');
+label.innerText = 'Sortera:';
+
+wrapper.prepend(label);
