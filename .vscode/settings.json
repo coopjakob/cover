@@ -1,3 +1,5 @@
 {
-  "explorer.sortOrder": "modified"
+  "explorer.sortOrder": "modified",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false
 }
