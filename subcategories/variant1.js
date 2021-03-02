@@ -9,9 +9,9 @@ function showSubcategories() {
     var headingTitle;
 
     if (inTopLevel) {
-      headingTitle = sidebarNavItemExpanded[0].querySelectorAll('.js-sectionSubLevel .SidebarNav-headingTitle');
+      headingTitle = sidebarNavItemExpanded[0].querySelectorAll('.js-sidebarNavList .js-sectionSubLevel > .js-sidebarNavItem.has-children > .js-sectionHeader > a > .SidebarNav-headingTitle');
     } else {
-      headingTitle = sidebarNavItemExpanded[1].querySelectorAll('.SidebarNav-subPanel .SidebarNav-headingTitle');
+      headingTitle = sidebarNavItemExpanded[1].querySelectorAll('.SidebarNav-subPanel > .js-sectionSubLevel > .js-sidebarNavItem > .js-sectionHeader > a > .SidebarNav-headingTitle');
     }
 
     headingTitle.forEach(function (title) {

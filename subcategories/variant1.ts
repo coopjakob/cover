@@ -13,11 +13,11 @@ function showSubcategories() {
     let headingTitle;
     if (inTopLevel) {
       headingTitle = sidebarNavItemExpanded[0].querySelectorAll(
-        '.js-sectionSubLevel .SidebarNav-headingTitle'
+        '.js-sidebarNavList .js-sectionSubLevel > .js-sidebarNavItem.has-children > .js-sectionHeader > a > .SidebarNav-headingTitle'
       );
     } else {
       headingTitle = sidebarNavItemExpanded[1].querySelectorAll(
-        '.SidebarNav-subPanel .SidebarNav-headingTitle'
+        '.SidebarNav-subPanel > .js-sectionSubLevel > .js-sidebarNavItem > .js-sectionHeader > a > .SidebarNav-headingTitle'
       );
     }
 
