@@ -24,7 +24,6 @@ function showSubcategories() {
     headingTitle.forEach((title) => {
       let link = document.createElement('a');
       link.classList.add(
-        'js-asyncLink',
         'js-link',
         'Link',
         'Link--green',
@@ -37,6 +36,8 @@ function showSubcategories() {
       link.setAttribute('href', title.parentElement.getAttribute('href'));
       link.textContent = title.textContent;
       link.addEventListener('click', (event) => {
+        event.preventDefault();
+        title.parentElement.click();
         dataLayer.push({
           event: 'interaction',
           eventCategory: 'Experiment',

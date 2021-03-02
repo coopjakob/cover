@@ -16,11 +16,13 @@ function showSubcategories() {
 
     headingTitle.forEach(function (title) {
       var link = document.createElement('a');
-      link.classList.add('js-asyncLink', 'js-link', 'Link', 'Link--green', 'u-paddingAxsm', 'u-marginRxxsm', 'u-marginBxxsm', 'u-bgWhite');
+      link.classList.add('js-link', 'Link', 'Link--green', 'u-paddingAxsm', 'u-marginRxxsm', 'u-marginBxxsm', 'u-bgWhite');
       link.style.display = 'inline-block';
       link.setAttribute('href', title.parentElement.getAttribute('href'));
       link.textContent = title.textContent;
       link.addEventListener('click', function (event) {
+        event.preventDefault();
+        title.parentElement.click();
         dataLayer.push({
           event: 'interaction',
           eventCategory: 'Experiment',
