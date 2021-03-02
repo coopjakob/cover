@@ -54,7 +54,9 @@ function showSubcategories() {
   }
 }
 
-isMenuUpdated();
+window.addEventListener('ga:productImpression', isMenuUpdated, {
+  once: true,
+});
 
 function isMenuUpdated() {
   console.debug('<experiment> check if menu is updated');
@@ -67,25 +69,9 @@ function isMenuUpdated() {
 
   if (sectionPath == window.location.pathname) {
     console.debug('<experiment> menu updated, check if page is updated');
-    isPageUpdated(lastExpandedId);
+    showSubcategories();
   } else {
     console.debug('<experiment> old menu, try again');
     setTimeout(isMenuUpdated, 100);
-  }
-}
-
-function isPageUpdated(to) {
-  console.debug('<experiment> check if page is updated');
-  let page = document.querySelector('.js-page');
-  let pageSectionId = page.dataset.sectionId;
-
-  if (pageSectionId == to) {
-    console.debug('<experiment> page updated, show subcategories');
-    showSubcategories();
-  } else {
-    console.debug('<experiment> old page, try again');
-    setTimeout(() => {
-      isPageUpdated(to);
-    }, 100);
   }
 }
