@@ -5,7 +5,7 @@ function showSubcategories() {
   console.debug('sidebarNavItemExpanded:', sidebarNavItemExpanded);
 
   let experimentArea = document.createElement('div');
-  experimentArea.classList.add('experiment', 'u-marginBsm');
+  experimentArea.classList.add('experiment', 't40', 'u-marginBsm');
 
   if (sidebarNavItemExpanded.length <= 2) {
     let inTopLevel = sidebarNavItemExpanded.length == 1;

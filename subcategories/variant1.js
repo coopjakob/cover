@@ -2,7 +2,7 @@ function showSubcategories() {
   var sidebarNavItemExpanded = document.querySelectorAll('.js-sidebarNavItem.is-expanded');
   console.debug('sidebarNavItemExpanded:', sidebarNavItemExpanded);
   var experimentArea = document.createElement('div');
-  experimentArea.classList.add('experiment', 'u-marginBsm');
+  experimentArea.classList.add('experiment', 't40', 'u-marginBsm');
 
   if (sidebarNavItemExpanded.length <= 2) {
     var inTopLevel = sidebarNavItemExpanded.length == 1;
