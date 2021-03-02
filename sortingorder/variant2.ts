@@ -1,15 +1,23 @@
-let wrapper = document.querySelector(
-  '.js-accordionFilter > .u-flex > .Dropdown'
+window.addEventListener(
+  'ga:productImpression',
+  () => {
+    let wrapper = document.querySelector(
+      '.js-accordionFilter > .u-flex > .Dropdown'
+    );
+
+    if (window.location.pathname.startsWith('/handla/varor/')) {
+      wrapper = document.querySelector(
+        '.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown'
+      );
+    }
+
+    let label = document.createElement('p');
+    label.classList.add('experiment', 'u-pullLeft', 'u-marginAxsm');
+    label.innerText = 'Sortera:';
+
+    wrapper.prepend(label);
+  },
+  {
+    once: true,
+  }
 );
-
-if (window.location.pathname.startsWith('/handla/varor/')) {
-  wrapper = document.querySelector(
-    '.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown'
-  );
-}
-
-let label = document.createElement('p');
-label.classList.add('experiment', 'u-pullLeft', 'u-marginAxsm');
-label.innerText = 'Sortera:';
-
-wrapper.prepend(label);
