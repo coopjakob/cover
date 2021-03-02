@@ -35,20 +35,37 @@ function showSubcategories() {
   }
 }
 
+isMenuUpdated();
+
 function isMenuUpdated() {
   console.debug('<experiment> check if menu is updated');
   var allExpanded = document.querySelectorAll('.js-sidebarNavItem.is-expanded');
   var lastExpanded = allExpanded[allExpanded.length - 1];
+  var lastExpandedId = lastExpanded.dataset.id;
   var sectionHeader = lastExpanded.firstElementChild;
   var sectionPath = sectionHeader.firstElementChild.getAttribute('href');
 
   if (sectionPath == window.location.pathname) {
-    console.debug('<experiment> menu updated, show subcategories');
-    showSubcategories();
+    console.debug('<experiment> menu updated, check if page is updated');
+    isPageUpdated(lastExpandedId);
   } else {
     console.debug('<experiment> old menu, try again');
     setTimeout(isMenuUpdated, 100);
   }
 }
 
-isMenuUpdated();
+function isPageUpdated(to) {
+  console.debug('<experiment> check if page is updated');
+  var page = document.querySelector('.js-page');
+  var pageSectionId = page.dataset.sectionId;
+
+  if (pageSectionId == to) {
+    console.debug('<experiment> page updated, show subcategories');
+    showSubcategories();
+  } else {
+    console.debug('<experiment> old page, try again');
+    setTimeout(function () {
+      isPageUpdated(to);
+    }, 100);
+  }
+}

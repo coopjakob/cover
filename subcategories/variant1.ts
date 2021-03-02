@@ -53,20 +53,38 @@ function showSubcategories() {
   }
 }
 
+isMenuUpdated();
+
 function isMenuUpdated() {
   console.debug('<experiment> check if menu is updated');
 
   let allExpanded = document.querySelectorAll('.js-sidebarNavItem.is-expanded');
   let lastExpanded = allExpanded[allExpanded.length - 1];
+  let lastExpandedId = lastExpanded.dataset.id;
   let sectionHeader = lastExpanded.firstElementChild;
   let sectionPath = sectionHeader.firstElementChild.getAttribute('href');
 
   if (sectionPath == window.location.pathname) {
-    console.debug('<experiment> menu updated, show subcategories');
-    showSubcategories();
+    console.debug('<experiment> menu updated, check if page is updated');
+    isPageUpdated(lastExpandedId);
   } else {
     console.debug('<experiment> old menu, try again');
     setTimeout(isMenuUpdated, 100);
   }
 }
-isMenuUpdated();
+
+function isPageUpdated(to) {
+  console.debug('<experiment> check if page is updated');
+  let page = document.querySelector('.js-page');
+  let pageSectionId = page.dataset.sectionId;
+
+  if (pageSectionId == to) {
+    console.debug('<experiment> page updated, show subcategories');
+    showSubcategories();
+  } else {
+    console.debug('<experiment> old page, try again');
+    setTimeout(() => {
+      isPageUpdated(to);
+    }, 100);
+  }
+}
