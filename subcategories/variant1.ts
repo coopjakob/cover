@@ -54,9 +54,26 @@ function showSubcategories() {
   }
 }
 
-window.addEventListener('ga:productImpression', isMenuUpdated, {
-  once: true,
-});
+let steps = dataLayer.length;
+let step;
+
+while (steps > 0) {
+  step = steps - 1;
+
+  if (dataLayer[step].event === 'gtm.historyChange') {
+    window.addEventListener('ga:productImpression', isMenuUpdated, {
+      once: true,
+    });
+    break;
+  }
+
+  if (dataLayer[step].event === 'impression') {
+    isMenuUpdated();
+    break;
+  }
+
+  steps = steps - 1;
+}
 
 function isMenuUpdated() {
   console.debug('<experiment> check if menu is updated');

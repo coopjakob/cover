@@ -1,4 +1,25 @@
-window.addEventListener('ga:productImpression', function () {
+var steps = dataLayer.length;
+var step;
+
+while (steps > 0) {
+  step = steps - 1;
+
+  if (dataLayer[step].event === 'gtm.historyChange') {
+    window.addEventListener('ga:productImpression', run, {
+      once: true
+    });
+    break;
+  }
+
+  if (dataLayer[step].event === 'impression') {
+    run();
+    break;
+  }
+
+  steps = steps - 1;
+}
+
+function run() {
   var queries = new URLSearchParams(location.search);
 
   if (queries.get('variant') == '2') {
@@ -27,6 +48,4 @@ window.addEventListener('ga:productImpression', function () {
     experimentStyle.innerHTML = "\n    .js-accordionFilter .Dropdown .Dropdown-header {\n      border: 1px solid #777777;\n    }\n  ";
     document.body.appendChild(experimentStyle);
   }
-}, {
-  once: true
-});
+}
