@@ -11,7 +11,7 @@ while (steps > 0) {
     break;
   }
 
-  if (dataLayer[step].event === 'impression') {
+  if (step === 0 || dataLayer[step].event === 'impression') {
     run();
     break;
   }
