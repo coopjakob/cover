@@ -20,13 +20,15 @@ while (steps > 0) {
 }
 
 function run() {
-  let element = document.querySelector(
-    '.js-accordionFilter > .u-flex > .Dropdown > .Dropdown-header'
-  );
+  let element;
 
   if (window.location.pathname.startsWith('/handla/varor/')) {
     element = document.querySelector(
       '.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown-header'
+    );
+  } else {
+    element = document.querySelector(
+      '.js-accordionFilter > .u-flex > .Dropdown > .Dropdown-header'
     );
   }
 

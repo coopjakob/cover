@@ -20,10 +20,12 @@ while (steps > 0) {
 }
 
 function run() {
-  var element = document.querySelector('.js-accordionFilter > .u-flex > .Dropdown > .Dropdown-header');
+  var element;
 
   if (window.location.pathname.startsWith('/handla/varor/')) {
     element = document.querySelector('.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown-header');
+  } else {
+    element = document.querySelector('.js-accordionFilter > .u-flex > .Dropdown > .Dropdown-header');
   }
 
   element.style.backgroundRepeat = 'no-repeat';
