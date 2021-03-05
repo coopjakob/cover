@@ -7,15 +7,8 @@ container.classList.add(
   'u-paddingRz'
 );
 
-let button = document.createElement('div');
-button.classList.add(
-  'Button',
-  'Button--green',
-  'Button--radius',
-  'u-paddingHsm'
-);
-
 let link = document.createElement('a');
+link.classList.add('Button', 'Button--green', 'Button--radius', 'u-paddingHsm');
 link.style.color = 'white';
 link.textContent = 'Till kassan';
 link.addEventListener('click', (event) => {
@@ -31,8 +24,7 @@ let wrapper = document.querySelector(
   '.Navigation--secondaryGreen .Navigation-list'
 );
 
-button.append(link);
-container.append(button);
+container.append(link);
 wrapper.append(container);
 
 let style = document.createElement('style');
