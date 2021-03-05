@@ -38,9 +38,9 @@ function run() {
 
   let experimentStyle = document.createElement('style');
   experimentStyle.innerHTML = `
-      .js-accordionFilter .Dropdown .Dropdown-header {
-        border: 1px solid #777777;
-      }
-    `;
+    .js-accordionFilter .Dropdown .Dropdown-header {
+      border: 1px solid #777777;
+    }
+  `;
   document.body.appendChild(experimentStyle);
 }
