@@ -1,50 +1,78 @@
-let steps = dataLayer.length;
-let step;
+var queries = new URLSearchParams(location.search);
 
-while (steps > 0) {
-  step = steps - 1;
+if (queries.get('variant') == '2') {
+  let steps = dataLayer.length;
+  let step;
 
-  if (dataLayer[step].event === 'gtm.historyChange') {
-    window.addEventListener('ga:productImpression', run, {
-      once: true,
-    });
-    break;
+  while (steps > 0) {
+    step = steps - 1;
+
+    if (dataLayer[step].event === 'gtm.historyChange') {
+      window.addEventListener('ga:productImpression', run, {
+        once: true,
+      });
+      break;
+    }
+
+    if (step === 0 || dataLayer[step].event === 'impression') {
+      run();
+      break;
+    }
+
+    steps = steps - 1;
   }
 
-  if (step === 0 || dataLayer[step].event === 'impression') {
-    run();
-    break;
-  }
-
-  steps = steps - 1;
-}
-
-function run() {
-  var queries = new URLSearchParams(location.search);
-
-  if (queries.get('variant') == '2') {
-    var wrapper = document.querySelector(
-      '.js-accordionFilter > .u-flex > .Dropdown'
-    );
+  function run() {
+    let wrapper;
 
     if (window.location.pathname.startsWith('/handla/varor/')) {
       wrapper = document.querySelector(
         '.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown'
       );
+    } else {
+      wrapper = document.querySelector(
+        '.js-accordionFilter > .u-flex > .Dropdown'
+      );
     }
 
-    var label = document.createElement('p');
+    let label = document.createElement('p');
     label.classList.add('experiment', 'u-pullLeft', 'u-marginAxsm');
     label.innerText = 'Sortera:';
+
     wrapper.prepend(label);
-  } else {
-    let element = document.querySelector(
-      '.js-accordionFilter > .u-flex > .Dropdown > .Dropdown-header'
-    );
+  }
+} else {
+  let steps = dataLayer.length;
+  let step;
+
+  while (steps > 0) {
+    step = steps - 1;
+
+    if (dataLayer[step].event === 'gtm.historyChange') {
+      window.addEventListener('ga:productImpression', run, {
+        once: true,
+      });
+      break;
+    }
+
+    if (step === 0 || dataLayer[step].event === 'impression') {
+      run();
+      break;
+    }
+
+    steps = steps - 1;
+  }
+
+  function run() {
+    let element;
 
     if (window.location.pathname.startsWith('/handla/varor/')) {
       element = document.querySelector(
         '.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown-header'
+      );
+    } else {
+      element = document.querySelector(
+        '.js-accordionFilter > .u-flex > .Dropdown > .Dropdown-header'
       );
     }
 
