@@ -24,7 +24,7 @@ link.addEventListener('click', (event) => {
     eventCategory: 'Experiment',
     eventAction: 'headercheckout-click',
   });
-  location.href = 'https://www.coop.se/handla/betala/';
+  location.href = '/handla/betala/';
 });
 
 let wrapper = document.querySelector(
