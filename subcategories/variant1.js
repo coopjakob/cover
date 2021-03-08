@@ -44,33 +44,16 @@ while (steps > 0) {
   step = steps - 1;
 
   if (dataLayer[step].event === 'gtm.historyChange') {
-    window.addEventListener('ga:productImpression', isMenuUpdated, {
+    window.addEventListener('ga:productImpression', showSubcategories, {
       once: true
     });
     break;
   }
 
   if (step === 0 || dataLayer[step].event === 'impression') {
-    isMenuUpdated();
+    showSubcategories();
     break;
   }
 
   steps = steps - 1;
-}
-
-function isMenuUpdated() {
-  console.debug('<experiment> check if menu is updated');
-  var allExpanded = document.querySelectorAll('.js-sidebarNavItem.is-expanded');
-  var lastExpanded = allExpanded[allExpanded.length - 1];
-  var lastExpandedId = lastExpanded.dataset.id;
-  var sectionHeader = lastExpanded.firstElementChild;
-  var sectionPath = sectionHeader.firstElementChild.getAttribute('href');
-
-  if (sectionPath == window.location.pathname) {
-    console.debug('<experiment> menu updated, check if page is updated');
-    showSubcategories();
-  } else {
-    console.debug('<experiment> old menu, try again');
-    setTimeout(isMenuUpdated, 100);
-  }
 }
