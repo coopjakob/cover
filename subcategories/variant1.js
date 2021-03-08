@@ -1,6 +1,5 @@
 function showSubcategories() {
   var sidebarNavItemExpanded = document.querySelectorAll('.js-sidebarNavItem.is-expanded');
-  console.debug('sidebarNavItemExpanded:', sidebarNavItemExpanded);
   var experimentArea = document.createElement('div');
   experimentArea.classList.add('experiment', 't40', 'u-marginBsm');
 
