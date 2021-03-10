@@ -16,6 +16,7 @@ link.addEventListener('click', (event) => {
     event: 'interaction',
     eventCategory: 'Experiment',
     eventAction: 'headercheckout-click',
+    eventLabel: '',
   });
   location.href = '/handla/betala/';
 });

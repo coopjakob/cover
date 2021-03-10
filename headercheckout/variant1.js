@@ -8,7 +8,8 @@ link.addEventListener('click', function (event) {
   dataLayer.push({
     event: 'interaction',
     eventCategory: 'Experiment',
-    eventAction: 'headercheckout-click'
+    eventAction: 'headercheckout-click',
+    eventLabel: ''
   });
   location.href = '/handla/betala/';
 });
