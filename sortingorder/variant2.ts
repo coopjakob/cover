@@ -20,21 +20,23 @@ while (steps > 0) {
 }
 
 function run() {
-  let wrapper;
+  if (!document.querySelector('.experiment.t41')) {
+    let wrapper;
 
-  if (window.location.pathname.startsWith('/handla/varor/')) {
-    wrapper = document.querySelector(
-      '.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown'
-    );
-  } else {
-    wrapper = document.querySelector(
-      '.Dropdown.Dropdown--stripped.Dropdown--limitHeight'
-    );
+    if (window.location.pathname.startsWith('/handla/varor/')) {
+      wrapper = document.querySelector(
+        '.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown'
+      );
+    } else {
+      wrapper = document.querySelector(
+        '.Dropdown.Dropdown--stripped.Dropdown--limitHeight'
+      );
+    }
+
+    let label = document.createElement('p');
+    label.classList.add('experiment', 't41', 'u-pullLeft', 'u-marginAxsm');
+    label.innerText = 'Sortera:';
+
+    wrapper.prepend(label);
   }
-
-  let label = document.createElement('p');
-  label.classList.add('experiment', 't41', 'u-pullLeft', 'u-marginAxsm');
-  label.innerText = 'Sortera:';
-
-  wrapper.prepend(label);
 }

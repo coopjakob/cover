@@ -23,18 +23,20 @@ if (queries.get('variant') == '2') {
   }
 
   function run() {
-    var wrapper;
+    if (!document.querySelector('.experiment.t41')) {
+      var wrapper;
 
-    if (window.location.pathname.startsWith('/handla/varor/')) {
-      wrapper = document.querySelector('.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown');
-    } else {
-      wrapper = document.querySelector('.Dropdown.Dropdown--stripped.Dropdown--limitHeight');
+      if (window.location.pathname.startsWith('/handla/varor/')) {
+        wrapper = document.querySelector('.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown');
+      } else {
+        wrapper = document.querySelector('.Dropdown.Dropdown--stripped.Dropdown--limitHeight');
+      }
+
+      var label = document.createElement('p');
+      label.classList.add('experiment', 't41', 'u-pullLeft', 'u-marginAxsm');
+      label.innerText = 'Sortera:';
+      wrapper.prepend(label);
     }
-
-    var label = document.createElement('p');
-    label.classList.add('experiment', 't41', 'u-pullLeft', 'u-marginAxsm');
-    label.innerText = 'Sortera:';
-    wrapper.prepend(label);
   }
 } else {
   var _steps = dataLayer.length;
