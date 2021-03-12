@@ -1,11 +1,45 @@
-let sidebarTriggerBarIcon = document.querySelector(
-  '.js-sidebarTrigger .Bar-icon'
-);
+const element = document.querySelector('[data-test=mobileCategoryTrigger]');
 
-if (sidebarTriggerBarIcon) {
-  sidebarTriggerBarIcon.style.width = '18px';
-  sidebarTriggerBarIcon.style.height = '18px';
-  sidebarTriggerBarIcon.innerHTML = `
+if (element) {
+  run();
+} else {
+  const wrapper = document.querySelector('#ecommerceHeader');
+
+  const observer = new MutationObserver((mutationsList) => {
+    console.debug('<experiment> change detected');
+    for (const mutation of mutationsList) {
+      console.debug('<experiment> mutation', mutation);
+
+      if (
+        mutation.addedNodes.length > 0 &&
+        mutation.addedNodes[0].querySelector(
+          '[data-test=mobileCategoryTrigger]'
+        )
+      ) {
+        console.debug('<experiment> run change');
+        run();
+
+        observer.disconnect();
+      }
+    }
+  });
+
+  console.debug('<experiment> observing search results');
+  observer.observe(wrapper, {
+    attributes: false,
+    childList: true,
+  });
+}
+
+function run() {
+  let sidebarTriggerBarIcon = document.querySelector(
+    '.js-sidebarTrigger .Bar-icon'
+  );
+
+  if (sidebarTriggerBarIcon) {
+    sidebarTriggerBarIcon.style.width = '18px';
+    sidebarTriggerBarIcon.style.height = '18px';
+    sidebarTriggerBarIcon.innerHTML = `
     <path fill-rule="evenodd" clip-rule="evenodd" d="M2.39129 9.91157C2.712 9.32634 3.1735 8.83029 3.73409 8.46826C4.23718 8.02976 4.84165 7.72364 5.49281 7.57755C6.1639 7.44679 6.82624 7.84052 7.03196 8.49253C7.03196 8.49253 9.27412 13.4526 10.0377 15.784C10.1235 16.0563 10.0283 16.3531 9.80019 16.5248C9.57205 16.6965 9.26048 16.7058 9.02259 16.5479C6.99474 15.1684 2.84864 11.639 2.84864 11.639C2.28137 11.2617 2.08507 10.5203 2.39129 9.91157Z" stroke="#005537" stroke-width="0.870968" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M3.73429 8.46681L2.51133 6.8417" stroke="#005537" stroke-width="0.870968" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M3.00424 9.07271L0.977493 8.41774" stroke="#005537" stroke-width="0.870968" stroke-linecap="round" stroke-linejoin="round"/>
@@ -19,4 +53,5 @@ if (sidebarTriggerBarIcon) {
     <path d="M7.05756 5.93955L8.52833 4.04839H15.4961" stroke="#005537" stroke-width="0.870968" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M12.9374 15.371L13.0452 6.86684C13.0452 6.73161 13.0766 6.59822 13.137 6.47723L14.7872 4.04839H15.491L17.129 6.47723V6.86684V15.371C17.1162 15.6613 16.8911 16.2419 16.0936 16.2419H13.6452H11.8839C12.813 16.2419 12.9374 15.6613 12.9374 15.371ZM12.9374 15.371C12.9374 15.4362 12.9446 15.4998 12.9582 15.5608L12.9374 15.371ZM12.9374 15.371L12.9582 15.5608L12.9374 15.371ZM12.9582 15.5608C12.9671 15.6008 12.9787 15.6398 12.9929 15.6774L12.9582 15.5608ZM12.9582 15.5608L12.9929 15.6774L12.9582 15.5608ZM12.9929 15.6774C13.0077 15.7168 13.0252 15.7548 13.0453 15.7912L12.9929 15.6774ZM12.9929 15.6774L13.0453 15.7912L12.9929 15.6774ZM13.0453 15.7912C13.0693 15.8347 13.097 15.876 13.1279 15.9146L13.0453 15.7912ZM13.0453 15.7912L13.1279 15.9146L13.0453 15.7912ZM13.1279 15.9146C13.1619 15.9571 13.1999 15.9964 13.2411 16.0319L13.1279 15.9146ZM13.1279 15.9146L13.2411 16.0319L13.1279 15.9146ZM13.2411 16.0319C13.2767 16.0624 13.3147 16.0901 13.3548 16.1147L13.2411 16.0319ZM13.2411 16.0319L13.3548 16.1147L13.2411 16.0319ZM13.3548 16.1147C13.4015 16.1432 13.451 16.1674 13.5028 16.1868L13.3548 16.1147ZM13.3548 16.1147L13.5028 16.1868L13.3548 16.1147ZM13.5028 16.1868C13.5485 16.204 13.5962 16.2174 13.6452 16.2267L13.5028 16.1868Z" stroke="#005537" stroke-width="0.870968" stroke-linecap="round" stroke-linejoin="round"/>
   `;
+  }
 }
