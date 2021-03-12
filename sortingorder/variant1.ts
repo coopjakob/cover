@@ -4,14 +4,14 @@ let step;
 while (steps > 0) {
   step = steps - 1;
 
-  if (dataLayer[step].event === 'gtm.historyChange') {
+  if (step === 0 || dataLayer[step].event === 'gtm.historyChange') {
     window.addEventListener('ga:productImpression', run, {
       once: true,
     });
     break;
   }
 
-  if (step === 0 || dataLayer[step].event === 'impression') {
+  if (dataLayer[step].event === 'impression') {
     run();
     break;
   }
@@ -28,9 +28,11 @@ function run() {
     );
   } else {
     element = document.querySelector(
-      '.js-accordionFilter > .u-flex > .Dropdown > .Dropdown-header'
+      '.Dropdown.Dropdown--stripped.Dropdown--limitHeight .Dropdown-header'
     );
   }
+
+  element.classList.add('experiment', 't41');
 
   element.style.backgroundRepeat = 'no-repeat';
   element.style.backgroundPosition = '16px center';
@@ -40,8 +42,8 @@ function run() {
 
   let experimentStyle = document.createElement('style');
   experimentStyle.innerHTML = `
-    .js-accordionFilter .Dropdown .Dropdown-header {
-      border: 1px solid #777777;
+    .Dropdown .Dropdown-header {
+      border: 1px solid #777777!important;
     }
   `;
   document.body.appendChild(experimentStyle);

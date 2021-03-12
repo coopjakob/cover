@@ -4,14 +4,14 @@ var step;
 while (steps > 0) {
   step = steps - 1;
 
-  if (dataLayer[step].event === 'gtm.historyChange') {
+  if (step === 0 || dataLayer[step].event === 'gtm.historyChange') {
     window.addEventListener('ga:productImpression', run, {
       once: true
     });
     break;
   }
 
-  if (step === 0 || dataLayer[step].event === 'impression') {
+  if (dataLayer[step].event === 'impression') {
     run();
     break;
   }
@@ -25,11 +25,11 @@ function run() {
   if (window.location.pathname.startsWith('/handla/varor/')) {
     wrapper = document.querySelector('.js-accordionFilter > .u-flex > .u-sm-flex .Dropdown');
   } else {
-    wrapper = document.querySelector('.js-accordionFilter > .u-flex > .Dropdown');
+    wrapper = document.querySelector('.Dropdown.Dropdown--stripped.Dropdown--limitHeight');
   }
 
   var label = document.createElement('p');
-  label.classList.add('experiment', 'u-pullLeft', 'u-marginAxsm');
+  label.classList.add('experiment', 't41', 'u-pullLeft', 'u-marginAxsm');
   label.innerText = 'Sortera:';
   wrapper.prepend(label);
 }
