@@ -31,8 +31,13 @@ function showSubcategories() {
       });
       experimentArea.append(link);
     });
-    var productListParent = document.querySelector('.js-productList').parentElement;
-    productListParent.prepend(experimentArea);
+
+    if (document.querySelector('.experiment.t40')) {
+      document.querySelector('.experiment.t40').replaceWith(experimentArea);
+    } else {
+      var productListParent = document.querySelector('.js-productList').parentElement;
+      productListParent.prepend(experimentArea);
+    }
   }
 }
 

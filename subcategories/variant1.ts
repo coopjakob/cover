@@ -47,9 +47,13 @@ function showSubcategories() {
       experimentArea.append(link);
     });
 
-    let productListParent = document.querySelector('.js-productList')
-      .parentElement;
-    productListParent.prepend(experimentArea);
+    if (document.querySelector('.experiment.t40')) {
+      document.querySelector('.experiment.t40').replaceWith(experimentArea);
+    } else {
+      let productListParent = document.querySelector('.js-productList')
+        .parentElement;
+      productListParent.prepend(experimentArea);
+    }
   }
 }
 
