@@ -1,0 +1,4 @@
+Koda ut i js
+Observer på .Search .Search-clear
+Events: knappen
+Tag Manager: enter, länken längst ner
