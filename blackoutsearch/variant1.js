@@ -45,3 +45,6 @@ function experimentRun() {
 //     eventLabel: '',
 //   });
 // }
+
+
+experimentRun();

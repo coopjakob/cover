@@ -51,3 +51,5 @@ function experimentRun() {
 //     eventLabel: '',
 //   });
 // }
+
+experimentRun();

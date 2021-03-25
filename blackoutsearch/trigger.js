@@ -1,4 +1,4 @@
-console.debug('<experiment> activate blackoutsearch');
+console.debug('<experiment> click search bar');
 dataLayer.push({
-  event: 'optimize.activate.blackoutsearch'
+  event: 'optimize.activate.clicksearchbar'
 });
