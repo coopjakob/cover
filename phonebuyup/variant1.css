@@ -1,8 +1,13 @@
 .ItemInfo-media {
   min-height: unset;
-  padding: unset;
+  padding: 20px 0 0;
+  border-bottom: unset;
 }
 
 .ItemInfo-label-splash {
   margin: unset;
+}
+
+.ItemInfo-details {
+  border-top: unset;
 }
