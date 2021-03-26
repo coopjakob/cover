@@ -1,4 +1,4 @@
 Add tracking for:
-- close-icon (X)
-- modal click
-- escape key (maybe)
+- closeicon (X)
+- blackclick
+- escapekey (maybe)
