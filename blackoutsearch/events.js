@@ -15,6 +15,15 @@ document.querySelector('.Search-input').addEventListener('keydown', function (ev
     });
   }
 });
+document.querySelector('.Search-input').addEventListener('blur', function () {
+  console.debug('<experiment> leavefield');
+  dataLayer.push({
+    event: 'interaction',
+    eventCategory: 'Experiment',
+    eventAction: 'search-leavefield',
+    eventLabel: ''
+  });
+});
 var observer = new MutationObserver(function (mutations) {
   console.debug('<experiment> change detected');
 

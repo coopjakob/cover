@@ -12,6 +12,16 @@ document
     }
   });
 
+document.querySelector('.Search-input').addEventListener('blur', () => {
+  console.debug('<experiment> leavefield');
+  dataLayer.push({
+    event: 'interaction',
+    eventCategory: 'Experiment',
+    eventAction: 'search-leavefield',
+    eventLabel: '',
+  });
+});
+
 const observer = new MutationObserver((mutations) => {
   console.debug('<experiment> change detected');
   for (const { addedNodes } of mutations) {
