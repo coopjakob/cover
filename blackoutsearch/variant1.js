@@ -56,7 +56,7 @@ function run() {
 
               if (node.classList.contains('Search-clear')) {
                 console.debug('<experiment> added clear');
-                document.querySelector('.Search .Search-clear').addEventListener('click', function () {
+                node.addEventListener('click', function () {
                   setTimeout(function () {
                     experimentClose();
                   }, 50);

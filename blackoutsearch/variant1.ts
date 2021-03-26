@@ -42,13 +42,11 @@ function run() {
           if (!node.tagName) continue; // not an element
           if (node.classList.contains('Search-clear')) {
             console.debug('<experiment> added clear');
-            document
-              .querySelector('.Search .Search-clear')
-              .addEventListener('click', () => {
-                setTimeout(() => {
-                  experimentClose();
-                }, 50);
-              });
+            node.addEventListener('click', () => {
+              setTimeout(() => {
+                experimentClose();
+              }, 50);
+            });
           }
         }
       }
