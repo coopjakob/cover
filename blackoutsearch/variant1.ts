@@ -1,11 +1,11 @@
 let search = document.querySelector('.Search');
-search.addEventListener('click', experimentRun);
+search.addEventListener('click', run);
 
 let searchInput = document.querySelector('.Search-input');
-searchInput.addEventListener('change', experimentRun);
-searchInput.addEventListener('input', experimentRun);
+searchInput.addEventListener('change', run);
+searchInput.addEventListener('input', run);
 
-function experimentRun() {
+function run() {
   if (!document.querySelector('.experiment.t45')) {
     let modal = document.createElement('div');
     modal.classList.add('experiment', 't45', 'Modal', 'is-visible');
@@ -19,37 +19,55 @@ function experimentRun() {
 
     function experimentClose() {
       modal.remove();
+      observer.disconnect();
     }
-
-    modal.addEventListener('click', experimentClose);
 
     window.addEventListener('ga:virtualPageView', experimentClose);
 
+    modal.addEventListener('click', () => {
+      experimentClose();
+      console.debug('<experiment> blackclick');
+      dataLayer.push({
+        event: 'interaction',
+        eventCategory: 'Experiment',
+        eventAction: 'blackoutsearch-blackclick',
+        eventLabel: '',
+      });
+    });
+
+    const observer = new MutationObserver((mutations) => {
+      console.debug('<experiment> change detected');
+      for (const { addedNodes } of mutations) {
+        for (const node of addedNodes) {
+          if (!node.tagName) continue; // not an element
+          if (node.classList.contains('Search-clear')) {
+            console.debug('<experiment> added clear');
+            document
+              .querySelector('.Search .Search-clear')
+              .addEventListener('click', () => {
+                setTimeout(() => {
+                  experimentClose();
+                }, 50);
+              });
+          }
+        }
+      }
+    });
+
+    let wrapper = document.querySelector('.Search-content');
+
+    console.debug('<experiment> observing search');
+    observer.observe(wrapper, {
+      childList: true,
+      subtree: false,
+    });
+
     searchInput.addEventListener('keydown', function (event) {
-      // not needed because we use ga:virutalPageView event?
-      if (event.key === 'Enter') {
+      if (event.key === 'Escape') {
         experimentClose();
       }
-      // replace with observer?
-      setTimeout(() => {
-        let searchClear = document.querySelector('.Search-clear');
-        searchClear.addEventListener('click', () => {
-          setTimeout(() => {
-            experimentClose();
-          }, 50);
-        });
-      }, 50);
     });
   }
 }
 
-// function experimentEvent() {
-//   dataLayer.push({
-//     event: 'interaction',
-//     eventCategory: 'Experiment',
-//     eventAction: 'blackoutsearch-close',
-//     eventLabel: '',
-//   });
-// }
-
-experimentRun();
+run();
