@@ -9,7 +9,6 @@ var element = document.querySelector('[data-test=mobileCategoryTrigger]');
 if (element) {
   run();
 } else {
-  var wrapper = document.querySelector('#ecommerceHeader');
   var observer = new MutationObserver(function (mutationsList) {
     console.debug('<experiment> change detected');
 
@@ -33,9 +32,9 @@ if (element) {
       _iterator.f();
     }
   });
-  console.debug('<experiment> observing search results');
+  var wrapper = document.querySelector('#ecommerceHeader');
+  console.debug('<experiment> observing header');
   observer.observe(wrapper, {
-    attributes: false,
     childList: true
   });
 }

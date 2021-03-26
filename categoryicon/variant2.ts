@@ -3,8 +3,6 @@ const element = document.querySelector('[data-test=mobileCategoryTrigger]');
 if (element) {
   run();
 } else {
-  const wrapper = document.querySelector('#ecommerceHeader');
-
   const observer = new MutationObserver((mutationsList) => {
     console.debug('<experiment> change detected');
     for (const mutation of mutationsList) {
@@ -24,9 +22,10 @@ if (element) {
     }
   });
 
-  console.debug('<experiment> observing search results');
+  const wrapper = document.querySelector('#ecommerceHeader');
+
+  console.debug('<experiment> observing header');
   observer.observe(wrapper, {
-    attributes: false,
     childList: true,
   });
 }
