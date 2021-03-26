@@ -1,4 +1,0 @@
-Add tracking for:
-- closeicon (X)
-- blackclick
-- escapekey (maybe)
