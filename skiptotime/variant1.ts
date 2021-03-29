@@ -11,7 +11,7 @@ function checkAllSlotsEmpty() {
     let emptyTimeslots = 0;
 
     for (const timeslot of timeslots) {
-    if (!timeslot.classList.contains('is-available')) {
+      if (timeslot.textContent.includes('Fullbokad')) {
         emptyTimeslots++;
       }
     }

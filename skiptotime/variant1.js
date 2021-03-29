@@ -22,7 +22,7 @@ function checkAllSlotsEmpty() {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         var timeslot = _step.value;
 
-      if (!timeslot.classList.contains('is-available')) {
+        if (timeslot.textContent.includes('Fullbokad')) {
           emptyTimeslots++;
         }
       }
