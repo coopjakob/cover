@@ -39,13 +39,7 @@ function run() {
   if (sidebarTriggerBarIcon) {
     sidebarTriggerBarIcon.style.width = '18px';
     sidebarTriggerBarIcon.style.height = '18px';
-    sidebarTriggerBarIcon.innerHTML = `
-    <line x1="5.5" y1="15.5" x2="16.5" y2="15.5" stroke="#005537" stroke-linecap="round" stroke-linejoin="round"/>
-    <line x1="5.5" y1="9.5" x2="16.5" y2="9.5" stroke="#005537" stroke-linecap="round" stroke-linejoin="round"/>
-    <line x1="5.5" y1="3.5" x2="16.5" y2="3.5" stroke="#005537" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="1.5" cy="15.5" r="1" fill="#005537"/>
-    <circle cx="1.5" cy="9.5" r="1" fill="#005537"/>
-    <circle cx="1.5" cy="3.5" r="1" fill="#005537"/>
-  `;
+    sidebarTriggerBarIcon.innerHTML =
+      '<path stroke="#005537" stroke-linecap="round" stroke-linejoin="round" d="M5.5 15.5h11M5.5 9.5h11M5.5 3.5h11"/><circle cx="1.5" cy="15.5" r="1" fill="#005537"/><circle cx="1.5" cy="9.5" r="1" fill="#005537"/><circle cx="1.5" cy="3.5" r="1" fill="#005537"/>';
   }
 }
