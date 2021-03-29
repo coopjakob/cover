@@ -5,33 +5,45 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function checkAllSlotsEmpty() {
-  console.debug('check');
-  var timeslots = document.querySelectorAll('.TimeslotCell');
-  var emptyTimeslots = 0;
+  var nextday = document.querySelector('.Timeslots-daySwitch--nextDay');
+  console.debug('nextday', nextday);
+  var skeleton = document.querySelector('.TimeslotCell--skeleton');
+  console.debug('skeleton', skeleton);
 
-  var _iterator = _createForOfIteratorHelper(timeslots),
-      _step;
+  if (nextday && !skeleton) {
+    console.debug('check');
+    var timeslots = document.querySelectorAll('.TimeslotCell');
+    var emptyTimeslots = 0;
 
-  try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var timeslot = _step.value;
+    var _iterator = _createForOfIteratorHelper(timeslots),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var timeslot = _step.value;
 
       if (!timeslot.classList.contains('is-available')) {
-        emptyTimeslots++;
+          emptyTimeslots++;
+        }
       }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
     }
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
-  }
 
-  if (timeslots.length == emptyTimeslots) {
-    console.debug('go');
-    document.querySelector('.Timeslots-daySwitch--nextDay').click();
-    checkAllSlotsEmpty();
+    if (timeslots.length == emptyTimeslots) {
+      console.debug('go');
+      document.querySelector('.Timeslots-daySwitch--nextDay').click();
+      checkAllSlotsEmpty();
+    } else {
+      console.debug('stop');
+    }
   } else {
-    console.debug('stop');
+    console.debug('wait');
+    setTimeout(function () {
+      checkAllSlotsEmpty();
+    }, 100);
   }
 }
 

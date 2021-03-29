@@ -1,20 +1,33 @@
 function checkAllSlotsEmpty() {
-  console.debug('check');
-  let timeslots = document.querySelectorAll('.TimeslotCell');
-  let emptyTimeslots = 0;
+  let nextday = document.querySelector('.Timeslots-daySwitch--nextDay');
+  console.debug('nextday', nextday);
 
-  for (const timeslot of timeslots) {
+  let skeleton = document.querySelector('.TimeslotCell--skeleton');
+  console.debug('skeleton', skeleton);
+
+  if (nextday && !skeleton) {
+    console.debug('check');
+    let timeslots = document.querySelectorAll('.TimeslotCell');
+    let emptyTimeslots = 0;
+
+    for (const timeslot of timeslots) {
     if (!timeslot.classList.contains('is-available')) {
-      emptyTimeslots++;
+        emptyTimeslots++;
+      }
     }
-  }
 
-  if (timeslots.length == emptyTimeslots) {
-    console.debug('go');
-    document.querySelector('.Timeslots-daySwitch--nextDay').click();
-    checkAllSlotsEmpty();
+    if (timeslots.length == emptyTimeslots) {
+      console.debug('go');
+      document.querySelector('.Timeslots-daySwitch--nextDay').click();
+      checkAllSlotsEmpty();
+    } else {
+      console.debug('stop');
+    }
   } else {
-    console.debug('stop');
+    console.debug('wait');
+    setTimeout(() => {
+      checkAllSlotsEmpty();
+    }, 100);
   }
 }
 
