@@ -22,7 +22,7 @@ if (element) {
     }
   });
 
-  const wrapper = document.querySelector('#ecommerceHeader');
+  const wrapper = document.getElementById('ecommerceHeader');
 
   console.debug('<experiment> observing header');
   observer.observe(wrapper, {

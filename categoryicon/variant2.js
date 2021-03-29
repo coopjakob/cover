@@ -32,7 +32,7 @@ if (element) {
       _iterator.f();
     }
   });
-  var wrapper = document.querySelector('#ecommerceHeader');
+  var wrapper = document.getElementById('ecommerceHeader');
   console.debug('<experiment> observing header');
   observer.observe(wrapper, {
     childList: true

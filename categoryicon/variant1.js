@@ -9,7 +9,7 @@ var element = document.querySelector('[data-test=mobileCategoryTrigger]');
 if (element) {
   run();
 } else {
-  var wrapper = document.querySelector('#ecommerceHeader');
+  var wrapper = document.getElementById('ecommerceHeader');
   var observer = new MutationObserver(function (mutationsList) {
     console.debug('<experiment> change detected');
 

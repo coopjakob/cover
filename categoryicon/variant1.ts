@@ -3,7 +3,7 @@ const element = document.querySelector('[data-test=mobileCategoryTrigger]');
 if (element) {
   run();
 } else {
-  const wrapper = document.querySelector('#ecommerceHeader');
+  const wrapper = document.getElementById('ecommerceHeader');
 
   const observer = new MutationObserver((mutationsList) => {
     console.debug('<experiment> change detected');
