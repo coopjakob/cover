@@ -1,16 +1,17 @@
 .Search.Search--online .Search-icon {
-  top: 0;
-  right: 0;
+  top: -1px;
+  right: -1px;
   left: unset;
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 44px;
   padding: 0;
-  background-color: #ededed;
-  border-radius: 0 21px 21px 0;
+  border-right: 4px solid #00aa46;
+  background-color: #00aa46;
+  border-radius: 0 22px 22px 0;
 }
 
 .Search.Search--radiusDropdown.is-active .Search-icon {
-  border-radius: 0 21px 0 0;
+  border-radius: 0 22px 0 0;
 }
 
 .Search-clear {
@@ -19,4 +20,8 @@
 
 .Search-input {
   padding-left: 1rem;
+}
+
+.Search.Search--green .Search-content .Search-icon svg {
+  stroke: white !important;
 }
