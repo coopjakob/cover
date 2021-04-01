@@ -4,9 +4,9 @@ if (element) {
   run();
 } else {
   const observer = new MutationObserver((mutationsList) => {
-    console.debug('<experiment> change detected');
+    // console.debug('<experiment> change detected');
     for (const mutation of mutationsList) {
-      console.debug('<experiment> mutation', mutation);
+      // console.debug('<experiment> mutation', mutation);
 
       if (
         mutation.addedNodes.length > 0 &&
@@ -14,7 +14,7 @@ if (element) {
           '[data-test=mobileCategoryTrigger]'
         )
       ) {
-        console.debug('<experiment> run change');
+        // console.debug('<experiment> run change');
         run();
 
         observer.disconnect();
@@ -24,7 +24,7 @@ if (element) {
 
   const wrapper = document.getElementById('ecommerceHeader');
 
-  console.debug('<experiment> observing header');
+  // console.debug('<experiment> observing header');
   observer.observe(wrapper, {
     childList: true,
   });
