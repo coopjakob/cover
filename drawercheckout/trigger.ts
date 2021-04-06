@@ -1,11 +1,18 @@
-event: 'interaction';
-eventAction: 'Slider - Slider öppnas';
-// eventCategory: 'Ecommerce';
-// eventLabel: 'Cart ikon';
+// event: 'interaction';
+// eventAction: 'Slider - Slider öppnas';
 
-if (document.querySelector('.Cart-footer button.is-disabled')) {
-  console.debug('<experiment> activate drawercheckout');
-  dataLayer.push({
-    event: 'optimize.activate.drawercheckout',
-  });
-}
+(function run() {
+  console.debug('<experiment> wait for button');
+
+  if (document.querySelector('.Cart-footer button.is-disabled')) {
+    console.debug('<experiment> activate drawercheckout');
+    dataLayer.push({
+      event: 'optimize.activate.drawercheckout',
+    });
+  } else if (
+    document.querySelector('#portal .Modal') &&
+    !document.querySelector('[data-test=goToCheckout]')
+  ) {
+    setTimeout(run, 1000);
+  }
+})();
