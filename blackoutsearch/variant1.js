@@ -6,7 +6,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 var search = document.querySelector('.Search');
 search.addEventListener('click', run);
-var searchInput = document.querySelector('.Search-input');
+var searchInput = search.querySelector('.Search-input');
 searchInput.addEventListener('change', run);
 searchInput.addEventListener('input', run);
 
@@ -25,10 +25,10 @@ function run() {
       observer.disconnect();
     }
 
+    searchInput.addEventListener('blur', experimentClose);
     window.addEventListener('ga:virtualPageView', experimentClose);
     modal.addEventListener('click', function () {
       experimentClose();
-      console.debug('<experiment> blackclick');
       dataLayer.push({
         event: 'interaction',
         eventCategory: 'Experiment',

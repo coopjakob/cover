@@ -1,7 +1,7 @@
 let search = document.querySelector('.Search');
 search.addEventListener('click', run);
 
-let searchInput = document.querySelector('.Search-input');
+let searchInput = search.querySelector('.Search-input');
 searchInput.addEventListener('change', run);
 searchInput.addEventListener('input', run);
 
@@ -21,6 +21,8 @@ function run() {
       modal.remove();
       observer.disconnect();
     }
+
+    searchInput.addEventListener('blur', experimentClose);
 
     window.addEventListener('ga:virtualPageView', experimentClose);
 
