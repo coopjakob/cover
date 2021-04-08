@@ -11,18 +11,14 @@ if (element) {
 } else {
   var wrapper = document.querySelector('#ecommerceHeader');
   var observer = new MutationObserver(function (mutationsList) {
-    console.debug('<experiment> change detected');
-
     var _iterator = _createForOfIteratorHelper(mutationsList),
         _step;
 
     try {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         var mutation = _step.value;
-        console.debug('<experiment> mutation', mutation);
 
         if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].querySelector('[data-test=mobileCategoryTrigger]')) {
-          console.debug('<experiment> run change');
           run();
           observer.disconnect();
         }
@@ -33,7 +29,6 @@ if (element) {
       _iterator.f();
     }
   });
-  console.debug('<experiment> observing search results');
   observer.observe(wrapper, {
     attributes: false,
     childList: true

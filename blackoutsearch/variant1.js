@@ -37,8 +37,6 @@ function run() {
       });
     });
     var observer = new MutationObserver(function (mutations) {
-      console.debug('<experiment> change detected');
-
       var _iterator = _createForOfIteratorHelper(mutations),
           _step;
 
@@ -55,7 +53,6 @@ function run() {
               if (!node.tagName) continue; // not an element
 
               if (node.classList.contains('Search-clear')) {
-                console.debug('<experiment> added clear');
                 node.addEventListener('click', function () {
                   setTimeout(function () {
                     experimentClose();
@@ -76,7 +73,6 @@ function run() {
       }
     });
     var wrapper = document.querySelector('.Search-content');
-    console.debug('<experiment> observing search');
     observer.observe(wrapper, {
       childList: true,
       subtree: false

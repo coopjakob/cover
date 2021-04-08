@@ -8,5 +8,13 @@
       }
     ],
     ["@babel/preset-typescript"]
+  ],
+  "plugins": [
+    [
+      "transform-remove-console",
+      {
+        "exclude": ["error", "warn"]
+      }
+    ]
   ]
 }

@@ -8,5 +8,4 @@ document.addEventListener('load', function () {
     transport: 'beacon',
     nonInteraction: true
   });
-  console.log('<experiment> load time', loadTime);
 });

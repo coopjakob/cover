@@ -6,12 +6,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 function checkAllSlotsEmpty() {
   var nextday = document.querySelector('.Timeslots-daySwitch--nextDay');
-  console.debug('nextday', nextday);
   var skeleton = document.querySelector('.TimeslotCell--skeleton');
-  console.debug('skeleton', skeleton);
 
   if (nextday && !skeleton) {
-    console.debug('check');
     var timeslots = document.querySelectorAll('.TimeslotCell');
     var emptyTimeslots = 0;
 
@@ -33,14 +30,10 @@ function checkAllSlotsEmpty() {
     }
 
     if (timeslots.length == emptyTimeslots) {
-      console.debug('go');
       document.querySelector('.Timeslots-daySwitch--nextDay').click();
       checkAllSlotsEmpty();
-    } else {
-      console.debug('stop');
-    }
+    } else {}
   } else {
-    console.debug('wait');
     setTimeout(function () {
       checkAllSlotsEmpty();
     }, 100);

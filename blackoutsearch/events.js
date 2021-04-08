@@ -6,7 +6,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 document.querySelector('.Search-input').addEventListener('keydown', function (event) {
   if (event.key === 'Escape') {
-    console.debug('<experiment> escapekey');
     dataLayer.push({
       event: 'interaction',
       eventCategory: 'Experiment',
@@ -16,7 +15,6 @@ document.querySelector('.Search-input').addEventListener('keydown', function (ev
   }
 });
 document.querySelector('.Search-input').addEventListener('blur', function () {
-  console.debug('<experiment> leavefield');
   dataLayer.push({
     event: 'interaction',
     eventCategory: 'Experiment',
@@ -25,8 +23,6 @@ document.querySelector('.Search-input').addEventListener('blur', function () {
   });
 });
 var observer = new MutationObserver(function (mutations) {
-  console.debug('<experiment> change detected');
-
   var _iterator = _createForOfIteratorHelper(mutations),
       _step;
 
@@ -44,7 +40,6 @@ var observer = new MutationObserver(function (mutations) {
 
           if (node.classList.contains('Search-clear')) {
             node.addEventListener('click', function () {
-              console.debug('<experiment> closeicon');
               dataLayer.push({
                 event: 'interaction',
                 eventCategory: 'Experiment',
@@ -67,7 +62,6 @@ var observer = new MutationObserver(function (mutations) {
   }
 });
 var wrapper = document.querySelector('.Search-content');
-console.debug('<experiment> observing search');
 observer.observe(wrapper, {
   childList: true,
   subtree: false

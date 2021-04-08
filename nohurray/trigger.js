@@ -16,7 +16,6 @@ var modalRightObserver = new MutationObserver(function (mutationsList) {
       if (mutation.addedNodes.length > 0 && document.querySelector('.MiniCartManager .Cart.Cart--mini:not(.u-hidden):not(.js-miniCart)')) {
         if (document.querySelector('.MiniCartManager .Cart.Cart--mini:not(.u-hidden) .Cart-header.Cart-headerInfo h2').textContent == 'Ange postnummer' || document.querySelector('.MiniCartManager .Cart.Cart--mini:not(.u-hidden) .Cart-header.Cart-headerInfo h2').textContent == 'Välj butik') {
           modalRightObserver.disconnect();
-          console.debug('<experiment> activate nohurray');
           dataLayer.push({
             event: 'optimize.activate.nohurray'
           });
@@ -28,9 +27,7 @@ var modalRightObserver = new MutationObserver(function (mutationsList) {
             nonInteraction: true
           });
           break;
-        } else {
-          console.debug("<experiment> Don't activate nohurray yet");
-        }
+        } else {}
       }
     }
   } catch (err) {

@@ -21,7 +21,6 @@ var drawerObserver = new MutationObserver(function (mutationsList) {
 
           try {
             if (addedNode.querySelector('h2').innerText === 'Varukorg') {
-              console.debug('<experiment> activate');
               dataLayer.push({
                 event: 'optimize.activate'
               });

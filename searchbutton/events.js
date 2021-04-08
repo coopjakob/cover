@@ -6,7 +6,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 document.querySelector('.Search-input').addEventListener('keydown', function (event) {
   if (event.key === 'Enter') {
-    console.debug('<experiment> enterkey');
     dataLayer.push({
       event: 'interaction',
       eventCategory: 'Experiment',
@@ -35,7 +34,6 @@ function containClassInNodes(nodes, containClass) {
       if (!node.tagName) continue;
 
       if (node.classList.contains(containClass)) {
-        console.debug('<experiment> see ', containClass);
         foundNode = node;
         break;
       }
@@ -60,11 +58,8 @@ var observer = new MutationObserver(function (mutations) {
 
       // console.debug('<experiment> added node', addedNodes);
       if (containClassInNodes(addedNodes, 'ProductSearch-footer')) {
-        console.debug('return true');
         var element = document.querySelector('.ProductSearch-footer button');
-        console.debug('<experiment> see resultslink');
         element.addEventListener('click', function () {
-          console.debug('<experiment> click resultslink');
           dataLayer.push({
             event: 'interaction',
             eventCategory: 'Experiment',
@@ -81,7 +76,6 @@ var observer = new MutationObserver(function (mutations) {
   }
 });
 var wrapper = document.querySelector('.Search');
-console.debug('<experiment> observing search results');
 observer.observe(wrapper, {
   childList: true,
   subtree: false

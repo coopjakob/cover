@@ -13,18 +13,14 @@ if (queries.get('variant') == '2') {
     run();
   } else {
     var observer = new MutationObserver(function (mutationsList) {
-      console.debug('<experiment> change detected');
-
       var _iterator = _createForOfIteratorHelper(mutationsList),
           _step;
 
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var mutation = _step.value;
-          console.debug('<experiment> mutation', mutation);
 
           if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].querySelector('[data-test=mobileCategoryTrigger]')) {
-            console.debug('<experiment> run change');
             run();
             observer.disconnect();
           }
@@ -36,7 +32,6 @@ if (queries.get('variant') == '2') {
       }
     });
     var wrapper = document.getElementById('ecommerceHeader');
-    console.debug('<experiment> observing header');
     observer.observe(wrapper, {
       childList: true
     });
@@ -60,18 +55,14 @@ if (queries.get('variant') == '2') {
     var _wrapper = document.getElementById('ecommerceHeader');
 
     var _observer = new MutationObserver(function (mutationsList) {
-      console.debug('<experiment> change detected');
-
       var _iterator2 = _createForOfIteratorHelper(mutationsList),
           _step2;
 
       try {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var mutation = _step2.value;
-          console.debug('<experiment> mutation', mutation);
 
           if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].querySelector('[data-test=mobileCategoryTrigger]')) {
-            console.debug('<experiment> run change');
             run();
 
             _observer.disconnect();
@@ -83,8 +74,6 @@ if (queries.get('variant') == '2') {
         _iterator2.f();
       }
     });
-
-    console.debug('<experiment> observing search results');
 
     _observer.observe(_wrapper, {
       attributes: false,
