@@ -2,8 +2,13 @@ let wrapper = document.querySelector('.Main-container .Section .Grid');
 
 let element = document.createElement('div');
 element.classList.add('experiment', 't50', 'Grid-cell', 'u-sizeFull');
-element.innerText =
-  'Välj ett leveranssätt som passar dig - välj hemleverans eller hämta i butik.';
+
+if (element.clientWidth > 310) {
+  element.innerHTML = 'Spara tid – Handla hemma<br>Hämta i butik';
+} else {
+  element.innerText = 'Spara tid – Handla hemma – Hämta i butik';
+}
+
 element.style.padding = '5px 10px';
 element.style.border = '1px solid #005537';
 element.style.borderTop = 'unset';
