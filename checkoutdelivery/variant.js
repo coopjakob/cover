@@ -1,13 +1,13 @@
 function updateText() {
-  var amountLeft = 1000 - Math.floor(sum);
+  var amountLeft = 2000 - Math.floor(sum);
 
   if (amountLeft < 0) {
     amountLeft = 0;
   }
 
-  if (amountLeft >= 0) {
-    heading.textContent = 'Handla lite till och få fri frakt!';
-    document.querySelector('.u-bgWhite.u-borderRadius8.u-paddingA.u-marginB.u-flex.u-flexDirectionRow.u-flexAlignCenter p').textContent = "Du beh\xF6ver bara handla f\xF6r ytterligare ".concat(amountLeft, " kr. Nedan finner du f\xF6rslag p\xE5 varor vi tror du gillar.");
+  if (amountLeft <= 500 && amountLeft >= 0) {
+    heading.textContent = "Psst! Du har ".concat(amountLeft, " kr kvar till fri frakt.");
+    document.querySelector('.u-bgWhite.u-borderRadius8.u-paddingA.u-marginB.u-flex.u-flexDirectionRow.u-flexAlignCenter p').textContent = 'Vill du lägga något mer i varukorgen? Nedan finner du några förslag på populära varor.';
   }
 }
 

@@ -10,7 +10,7 @@ if (heading.textContent == "Psst! Du har väl inte glömt någonting?") {
       function(response) {
         response.json().then(function(data) {
           sum = data.cartData.productSum;
-          if (sum < 1000) {
+          if (sum < 2000) {
             dataLayer.push({
               event: 'optimize.activate.checkoutdelivery'
             });
