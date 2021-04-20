@@ -33,6 +33,7 @@ document.body.appendChild(style);
 let element = document.querySelector('.Search.Search--online .Search-icon');
 
 element.addEventListener('click', () => {
+  console.debug('<experiment> click searchbutton');
   dataLayer.push({
     event: 'interaction',
     eventCategory: 'Experiment',
