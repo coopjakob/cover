@@ -20,7 +20,7 @@ while (steps > 0) {
 }
 
 function run() {
-  if (!document.querySelector('.experiment.t41')) {
+  if (!document.querySelector('.experiment.t49')) {
     let element;
 
     if (window.location.pathname.startsWith('/handla/varor/')) {
@@ -33,7 +33,7 @@ function run() {
       );
     }
 
-    element.classList.add('experiment', 't41');
+    element.classList.add('experiment', 't49');
 
     let experimentStyle = document.createElement('style');
     experimentStyle.innerHTML = `
@@ -56,7 +56,7 @@ function run() {
     }
 
     let label = document.createElement('p');
-    label.classList.add('experiment', 't41', 'u-pullLeft', 'u-marginAxsm');
+    label.classList.add('experiment', 't49', 'u-pullLeft', 'u-marginAxsm');
     label.innerText = 'Sortera:';
 
     wrapper.prepend(label);

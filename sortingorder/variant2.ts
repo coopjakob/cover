@@ -20,7 +20,7 @@ while (steps > 0) {
 }
 
 function run() {
-  if (!document.querySelector('.experiment.t41')) {
+  if (!document.querySelector('.experiment.t49')) {
     let wrapper;
 
     if (window.location.pathname.startsWith('/handla/varor/')) {
@@ -34,7 +34,7 @@ function run() {
     }
 
     let label = document.createElement('p');
-    label.classList.add('experiment', 't41', 'u-pullLeft', 'u-marginAxsm');
+    label.classList.add('experiment', 't49', 'u-pullLeft', 'u-marginAxsm');
     label.innerText = 'Sortera:';
 
     wrapper.prepend(label);
