@@ -27,7 +27,7 @@ gtm.uniqueEventId: 492
 loginStatus: "Inloggad ej medlem"
 
 
-se fler tider, i flödet:
+se fler tider, i flödet efter man angett postnummeer:
 
 event: "interaction"
 eventAction: "Slider - Välj leveranssätt"
