@@ -33,7 +33,7 @@ function checkAllSlotsEmpty() {
       document.querySelector('.Timeslots-daySwitch--nextDay').click();
       checkAllSlotsEmpty();
     } else {}
-  } else {
+  } else if (document.querySelector('#portal .Modal')) {
     setTimeout(function () {
       checkAllSlotsEmpty();
     }, 100);

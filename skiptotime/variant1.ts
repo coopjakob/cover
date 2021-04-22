@@ -23,7 +23,7 @@ function checkAllSlotsEmpty() {
     } else {
       console.debug('stop');
     }
-  } else {
+  } else if (document.querySelector('#portal .Modal')) {
     console.debug('wait');
     setTimeout(() => {
       checkAllSlotsEmpty();
