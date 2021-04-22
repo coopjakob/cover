@@ -10,12 +10,10 @@ icon.style.height = '44px';
 icon.style.padding = '0';
 icon.style.borderRight = '4px solid #00aa46';
 icon.style.backgroundColor = '#00aa46';
-icon.style.borderRadius = '0 22px 22px 0'; // Include svg to be able to set color of path
-
+icon.style.borderRadius = '0 22px 22px 0';
 var svg = icon.querySelector('svg');
 svg.setAttribute('viewBox', '0 0 20 20');
-svg.innerHTML = '<path xmlns="http://www.w3.org/2000/svg" d="M19 19l-4.64-4.64m-5.534 2.292A7.826 7.826 0 108.826 1a7.826 7.826 0 000 15.652z" stroke-linecap="round" stroke-linejoin="round" stroke="white"/>'; // Add style for elements that isn't visible yet
-
+svg.innerHTML = '<path xmlns="http://www.w3.org/2000/svg" d="M19 19l-4.64-4.64m-5.534 2.292A7.826 7.826 0 108.826 1a7.826 7.826 0 000 15.652z" stroke-linecap="round" stroke-linejoin="round" stroke="white"/>';
 var style = document.createElement('style');
 style.innerHTML = "\n  .Search.Search--radiusDropdown.is-active .Search-icon {\n    border-radius: 0 22px 0 0 !important;\n  }\n  .Search-clear {\n    right: 44px !important;\n  }\n  ";
 document.body.appendChild(style);
