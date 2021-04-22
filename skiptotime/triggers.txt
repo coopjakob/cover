@@ -1,5 +1,4 @@
 <script>
-console.debug('<experiment> activate skiptotime');
 dataLayer.push({
   event: 'optimize.activate.skiptotime'
 });
