@@ -50,7 +50,7 @@ function run() {
           try {
             for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
               var node = _step2.value;
-              if (!node.tagName) continue; // not an element
+              if (!node.tagName) continue;
 
               if (node.classList.contains('Search-clear')) {
                 node.addEventListener('click', function () {

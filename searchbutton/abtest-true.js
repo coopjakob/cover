@@ -26,10 +26,8 @@ function containClassInNodes(nodes, containClass) {
       var node = _step.value;
 
       if (node.childNodes) {
-        // console.debug('<experiment> child exist');
         foundNode = containClassInNodes(node.childNodes, containClass);
-      } // console.debug('<experiment> node', node);
-
+      }
 
       if (!node.tagName) continue;
 
@@ -48,7 +46,6 @@ function containClassInNodes(nodes, containClass) {
 }
 
 var observer = new MutationObserver(function (mutations) {
-  // console.debug('<experiment> change detected');
   var _iterator2 = _createForOfIteratorHelper(mutations),
       _step2;
 
@@ -56,7 +53,6 @@ var observer = new MutationObserver(function (mutations) {
     for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
       var addedNodes = _step2.value.addedNodes;
 
-      // console.debug('<experiment> added node', addedNodes);
       if (containClassInNodes(addedNodes, 'ProductSearch-footer')) {
         var _element = document.querySelector('.ProductSearch-footer button');
 

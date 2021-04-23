@@ -13,7 +13,6 @@ var hurrayObserver = new MutationObserver(function (mutationsList) {
       var mutation = _step.value;
 
       if (mutation.addedNodes.length > 0) {
-        // console.debug(mutation.addedNodes[0].textContent);
         if (document.querySelector('.MiniCartManager .Cart.Cart--mini:not(.u-hidden):not(.is-loading) .Cart-header.Cart-headerInfo h2') && document.querySelector('.MiniCartManager .Cart.Cart--mini:not(.u-hidden):not(.is-loading) .Cart-header.Cart-headerInfo h2').textContent == 'Hurra!') {
           document.querySelector('.MiniCartManager .js-reserveTimeslot').click();
         } else {}
