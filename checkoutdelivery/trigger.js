@@ -6,7 +6,7 @@ if (document.querySelector('.Checkout h1.Heading').textContent == "Psst! Du har 
       function(response) {
         response.json().then(function(data) {
           experimentCartDataProductSum = data.cartData.productSum;
-          if (experimentCartDataProductSum < 2000 && experimentCartDataProductSum > 1500) {
+          if (experimentCartDataProductSum < 2000 && experimentCartDataProductSum >= 1500) {
             dataLayer.push({
               event: 'optimize.activate.checkoutdelivery'
             });
