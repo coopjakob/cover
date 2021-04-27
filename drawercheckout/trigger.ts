@@ -13,6 +13,6 @@
     document.querySelector('#portal .Modal') &&
     !document.querySelector('[data-test=goToCheckout]')
   ) {
-    setTimeout(run, 1000);
+    setTimeout(run, 200);
   }
 })();
