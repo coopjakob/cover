@@ -4,65 +4,71 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-document.querySelector('.Search-input').addEventListener('keydown', function (event) {
-  if (event.key === 'Escape') {
-    dataLayer.push({
-      event: 'interaction',
-      eventCategory: 'Experiment',
-      eventAction: 'search-escapekey',
-      eventLabel: ''
+(function () {
+  var searchInput = document.querySelector('.Search-input');
+
+  if (searchInput) {
+    searchInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        dataLayer.push({
+          event: 'interaction',
+          eventCategory: 'Experiment',
+          eventAction: 'search-escapekey',
+          eventLabel: ''
+        });
+      }
     });
-  }
-});
-document.querySelector('.Search-input').addEventListener('blur', function () {
-  dataLayer.push({
-    event: 'interaction',
-    eventCategory: 'Experiment',
-    eventAction: 'search-leavefield',
-    eventLabel: ''
-  });
-});
-var observer = new MutationObserver(function (mutations) {
-  var _iterator = _createForOfIteratorHelper(mutations),
-      _step;
-
-  try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var addedNodes = _step.value.addedNodes;
-
-      var _iterator2 = _createForOfIteratorHelper(addedNodes),
-          _step2;
+    searchInput.addEventListener('blur', function () {
+      dataLayer.push({
+        event: 'interaction',
+        eventCategory: 'Experiment',
+        eventAction: 'search-leavefield',
+        eventLabel: ''
+      });
+    });
+    var closeIconObserver = new MutationObserver(function (mutations) {
+      var _iterator = _createForOfIteratorHelper(mutations),
+          _step;
 
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var node = _step2.value;
-          if (!node.tagName) continue;
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var addedNodes = _step.value.addedNodes;
 
-          if (node.classList.contains('Search-clear')) {
-            node.addEventListener('click', function () {
-              dataLayer.push({
-                event: 'interaction',
-                eventCategory: 'Experiment',
-                eventAction: 'search-closeicon',
-                eventLabel: ''
-              });
-            });
+          var _iterator2 = _createForOfIteratorHelper(addedNodes),
+              _step2;
+
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var node = _step2.value;
+              if (!node.tagName) continue;
+
+              if (node.classList.contains('Search-clear')) {
+                node.addEventListener('click', function () {
+                  dataLayer.push({
+                    event: 'interaction',
+                    eventCategory: 'Experiment',
+                    eventAction: 'search-closeicon',
+                    eventLabel: ''
+                  });
+                });
+              }
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
           }
         }
       } catch (err) {
-        _iterator2.e(err);
+        _iterator.e(err);
       } finally {
-        _iterator2.f();
+        _iterator.f();
       }
-    }
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
+    });
+    var wrapper = document.querySelector('.Search-content');
+    closeIconObserver.observe(wrapper, {
+      childList: true,
+      subtree: false
+    });
   }
-});
-var wrapper = document.querySelector('.Search-content');
-observer.observe(wrapper, {
-  childList: true,
-  subtree: false
-});
+})();
