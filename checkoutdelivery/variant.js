@@ -13,7 +13,7 @@ function updateText() {
 
 updateText();
 window.addEventListener('ga:modifyCart', function () {
-  fetch('https://www.coop.se/api/hybris/carts/current').then(function (response) {
+  fetch('/api/hybris/carts/current').then(function (response) {
     response.json().then(function (data) {
       experimentCartDataProductSum = data.cartData.productSum;
       updateText();

@@ -4,9 +4,7 @@ if (
   document.querySelector('.Checkout h1.Heading')?.textContent ==
   'Psst! Du har väl inte glömt någonting?'
 ) {
-  fetch('https://www.coop.se/api/hybris/carts/current').then(function (
-    response
-  ) {
+  fetch('/api/hybris/carts/current').then(function (response) {
     response.json().then(function (data) {
       experimentCartDataProductSum = data.cartData.productSum;
       if (
