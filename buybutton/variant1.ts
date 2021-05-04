@@ -42,10 +42,13 @@ function addButtonLabels() {
 addButtonLabels();
 
 window.addEventListener('ga:productImpression', addButtonLabels);
-window.addEventListener('ga:modifyCart', addButtonLabels);
 
 let setLabelAfterTimeout;
 
+window.addEventListener('ga:modifyCart', () => {
+  clearTimeout(setLabelAfterTimeout);
+  setLabelAfterTimeout = setTimeout(addButtonLabels, 1000);
+});
 window.addEventListener('resize', () => {
   clearTimeout(setLabelAfterTimeout);
   setLabelAfterTimeout = setTimeout(addButtonLabels, 200);
