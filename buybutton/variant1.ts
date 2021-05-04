@@ -1,73 +1,52 @@
-function labelButtons() {
-  document
-    .querySelectorAll(
-      '.ProductSearch-itemAmountSelector .ProductSearch-itemCell:not(.experiment)'
-    )
-    .forEach((element) => {
-      element.classList.add('experiment');
+function addButtonLabels() {
+  // startsidan, sökresultat, kategorier
+  document.querySelectorAll('.ItemTeaser-button .Button').forEach((element) => {
+    if (element.parentElement.querySelector('input').value == 0) {
+      element.classList.remove('u-hidden');
+      element.parentElement
+        .querySelector('.AddToCart')
+        .classList.add('u-hidden');
 
-      const buttonView = document.createElement('div');
-      buttonView.classList.add('js-buttonView');
-
-      const buttonContainer = element.getElementsByClassName(
-        'js-buttonContainer'
-      )[0];
-      buttonContainer.classList.add('js-changeButtonsContainer');
-      buttonContainer.classList.remove('AddToCart--mediumToSmall');
-
-      const buyButton = document.createElement('button');
-      buyButton.setAttribute('type', 'button');
-      buyButton.classList.add(
-        'Button',
-        'Button--green',
-        'Button--medium',
-        'Button--full',
-        'Button--radius',
-        'js-kop',
-        'experiment',
-        'u-hidden'
-      );
-      buyButton.style.width = '125px';
-
-      buttonView.appendChild(buttonContainer);
-      buttonView.appendChild(buyButton);
-
-      element.appendChild(buttonView);
-    });
-
-  document.querySelectorAll('.js-kop:not(.experiment)').forEach((element) => {
-    element.classList.add('experiment');
-    element.style.textOverflow = 'unset';
-    element.style.paddingLeft = 0;
-    element.style.paddingRight = 0;
-    element.textContent = 'Lägg till';
+      element.style.textOverflow = 'unset';
+      element.style.paddingLeft = 0;
+      element.style.paddingRight = 0;
+      element.textContent = 'Lägg till';
+    } else {
+      element.classList.add('u-hidden');
+      element.parentElement
+        .querySelector('.AddToCart')
+        .classList.remove('u-hidden');
+    }
   });
 
+  // dropdown på handla
   document
-    .querySelectorAll(
-      '.js-buttonView:not(.ProductSearch-itemCta) .js-kop.u-hidden'
-    )
+    .querySelectorAll('.ProductSearch-itemCta .Button')
     .forEach((element) => {
-      if (
-        element.parentElement.getElementsByClassName('js-input')[0].value == 0
-      ) {
+      if (element.parentElement.querySelector('input').value == 0) {
         element.classList.remove('u-hidden');
 
         element.parentElement
-          .getElementsByClassName('js-buttonContainer')[0]
+          .querySelector('.AddToCart')
           .classList.add('u-hidden');
+
+        element.style.textOverflow = 'unset';
+        element.style.paddingLeft = 0;
+        element.style.paddingRight = 0;
+        element.style.width = '120px';
+        element.textContent = 'Lägg till';
       }
     });
 }
 
-labelButtons();
+addButtonLabels();
 
-window.addEventListener('ga:modifyCart', () => {
-  window.setTimeout(labelButtons, 750);
-});
+window.addEventListener('ga:productImpression', addButtonLabels);
+window.addEventListener('ga:modifyCart', addButtonLabels);
+
+let setLabelAfterTimeout;
 
 window.addEventListener('resize', () => {
-  window.setTimeout(labelButtons, 500);
+  clearTimeout(setLabelAfterTimeout);
+  setLabelAfterTimeout = setTimeout(addButtonLabels, 200);
 });
-
-window.addEventListener('ga:productImpression', labelButtons);
