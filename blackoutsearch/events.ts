@@ -1,7 +1,7 @@
 (() => {
   let searchInput = document.querySelector('.Search-input');
 
-  if (let searchInput = document.querySelector('.Search-input')) {
+  if (searchInput) {
     searchInput.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
         console.debug('<experiment> escapekey');
@@ -12,16 +12,6 @@
           eventLabel: '',
         });
       }
-    });
-
-    searchInput.addEventListener('blur', () => {
-      console.debug('<experiment> leavefield');
-      dataLayer.push({
-        event: 'interaction',
-        eventCategory: 'Experiment',
-        eventAction: 'search-leavefield',
-        eventLabel: '',
-      });
     });
 
     const closeIconObserver = new MutationObserver((mutations) => {

@@ -18,14 +18,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         });
       }
     });
-    searchInput.addEventListener('blur', function () {
-      dataLayer.push({
-        event: 'interaction',
-        eventCategory: 'Experiment',
-        eventAction: 'search-leavefield',
-        eventLabel: ''
-      });
-    });
     var closeIconObserver = new MutationObserver(function (mutations) {
       var _iterator = _createForOfIteratorHelper(mutations),
           _step;
