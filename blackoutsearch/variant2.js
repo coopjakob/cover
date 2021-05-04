@@ -4,7 +4,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var searchInput = search.querySelector('.Search-input');
+var searchInput = document.querySelector('.Search-input');
 searchInput.addEventListener('change', run);
 searchInput.addEventListener('input', run);
 

@@ -1,4 +1,4 @@
-let searchInput = search.querySelector('.Search-input');
+let searchInput = document.querySelector('.Search-input');
 searchInput.addEventListener('change', run);
 searchInput.addEventListener('input', run);
 
