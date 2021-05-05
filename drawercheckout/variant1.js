@@ -7,6 +7,12 @@ element.addEventListener('click', function (event) {
     eventAction: 'Slider - Varukorg - Överblick',
     eventLabel: 'Gå till kassan'
   });
+  dataLayer.push({
+    event: 'interaction',
+    eventCategory: 'Experiment',
+    eventAction: 'drawercheckout-click',
+    eventLabel: ''
+  });
   location.href = '/handla/betala/';
 });
 element.classList.remove('is-disabled');
