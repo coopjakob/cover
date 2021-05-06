@@ -4,45 +4,47 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var element = document.querySelector('[data-test=mobileCategoryTrigger]');
+(function () {
+  var element = document.querySelector('[data-test=mobileCategoryTrigger]');
 
-if (element) {
-  run();
-} else {
-  var wrapper = document.querySelector('#ecommerceHeader');
-  var observer = new MutationObserver(function (mutationsList) {
-    var _iterator = _createForOfIteratorHelper(mutationsList),
-        _step;
+  if (element) {
+    run();
+  } else {
+    var wrapper = document.querySelector('#ecommerceHeader');
+    var observer = new MutationObserver(function (mutationsList) {
+      var _iterator = _createForOfIteratorHelper(mutationsList),
+          _step;
 
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var mutation = _step.value;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var mutation = _step.value;
 
-        if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].querySelector('[data-test=mobileCategoryTrigger]')) {
-          run();
-          observer.disconnect();
+          if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].querySelector('[data-test=mobileCategoryTrigger]')) {
+            run();
+            observer.disconnect();
+          }
         }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
       }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-  });
-  observer.observe(wrapper, {
-    attributes: false,
-    childList: true
-  });
-}
+    });
+    observer.observe(wrapper, {
+      attributes: false,
+      childList: true
+    });
+  }
 
-function run() {
-  document.querySelector('.js-sidebarTrigger').addEventListener('click', function (event) {
-    if (event.currentTarget.classList.contains('is-active')) {
-      dataLayer.push({
-        event: 'interaction',
-        eventCategory: 'Experiment',
-        eventAction: 'categoryicon-click'
-      });
-    }
-  });
-}
+  function run() {
+    document.querySelector('.js-sidebarTrigger').addEventListener('click', function (event) {
+      if (event.currentTarget.classList.contains('is-active')) {
+        dataLayer.push({
+          event: 'interaction',
+          eventCategory: 'Experiment',
+          eventAction: 'categoryicon-click'
+        });
+      }
+    });
+  }
+})();
