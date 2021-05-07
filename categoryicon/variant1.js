@@ -9,7 +9,7 @@ var element = document.querySelector('[data-test=mobileCategoryTrigger]');
 if (element) {
   run();
 } else {
-  var wrapper = document.getElementById('ecommerceHeader');
+  var wrapper = document.querySelector('[data-react-component=EcommerceExtendedHeader]');
   var observer = new MutationObserver(function (mutationsList) {
     var _iterator = _createForOfIteratorHelper(mutationsList),
         _step;

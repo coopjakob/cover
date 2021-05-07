@@ -31,7 +31,7 @@ if (queries.get('variant') == '2') {
         _iterator.f();
       }
     });
-    var wrapper = document.getElementById('ecommerceHeader');
+    var wrapper = document.querySelector('[data-react-component=EcommerceExtendedHeader]');
     observer.observe(wrapper, {
       childList: true
     });
@@ -52,7 +52,7 @@ if (queries.get('variant') == '2') {
   if (_element) {
     run();
   } else {
-    var _wrapper = document.getElementById('ecommerceHeader');
+    var _wrapper = document.querySelector('[data-react-component=EcommerceExtendedHeader]');
 
     var _observer = new MutationObserver(function (mutationsList) {
       var _iterator2 = _createForOfIteratorHelper(mutationsList),

@@ -4,7 +4,9 @@
   if (element) {
     run();
   } else {
-    const wrapper = document.querySelector('#ecommerceHeader');
+    const wrapper = document.querySelector(
+      '[data-react-component=EcommerceExtendedHeader]'
+    );
 
     const observer = new MutationObserver((mutationsList) => {
       console.debug('<experiment> change detected');
@@ -25,7 +27,7 @@
       }
     });
 
-    console.debug('<experiment> observing search results');
+    console.debug('<experiment> observing header');
     observer.observe(wrapper, {
       attributes: false,
       childList: true,

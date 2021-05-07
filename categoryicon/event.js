@@ -10,7 +10,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   if (element) {
     run();
   } else {
-    var wrapper = document.querySelector('#ecommerceHeader');
+    var wrapper = document.querySelector('[data-react-component=EcommerceExtendedHeader]');
     var observer = new MutationObserver(function (mutationsList) {
       var _iterator = _createForOfIteratorHelper(mutationsList),
           _step;

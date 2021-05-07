@@ -28,7 +28,7 @@ if (element) {
       _iterator.f();
     }
   });
-  var wrapper = document.getElementById('ecommerceHeader');
+  var wrapper = document.querySelector('[data-react-component=EcommerceExtendedHeader]');
   observer.observe(wrapper, {
     childList: true
   });

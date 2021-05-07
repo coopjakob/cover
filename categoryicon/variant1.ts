@@ -3,7 +3,9 @@ const element = document.querySelector('[data-test=mobileCategoryTrigger]');
 if (element) {
   run();
 } else {
-  const wrapper = document.getElementById('ecommerceHeader');
+  const wrapper = document.querySelector(
+    '[data-react-component=EcommerceExtendedHeader]'
+  );
 
   const observer = new MutationObserver((mutationsList) => {
     console.debug('<experiment> change detected');
@@ -24,7 +26,7 @@ if (element) {
     }
   });
 
-  console.debug('<experiment> observing ecommerceHeader');
+  console.debug('<experiment> observing EcommerceExtendedHeader');
   observer.observe(wrapper, {
     attributes: false,
     childList: true,

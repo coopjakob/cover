@@ -25,7 +25,9 @@ if (queries.get('variant') == '2') {
       }
     });
 
-    const wrapper = document.getElementById('ecommerceHeader');
+    const wrapper = document.querySelector(
+      '[data-react-component=EcommerceExtendedHeader]'
+    );
 
     console.debug('<experiment> observing header');
     observer.observe(wrapper, {
@@ -51,7 +53,9 @@ if (queries.get('variant') == '2') {
   if (element) {
     run();
   } else {
-    const wrapper = document.getElementById('ecommerceHeader');
+    const wrapper = document.querySelector(
+      '[data-react-component=EcommerceExtendedHeader]'
+    );
 
     const observer = new MutationObserver((mutationsList) => {
       console.debug('<experiment> change detected');
