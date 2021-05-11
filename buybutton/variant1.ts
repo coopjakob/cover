@@ -1,14 +1,26 @@
 function addButtonLabels() {
   document
     .querySelectorAll(
-      '.ItemTeaser-button > .Button, .ProductSearch-itemCta > .Button'
+      '.ItemTeaser-button > .Button, .ProductSearch-itemCta .ProductSearch-itemCell > .Button, .ItemInfo-button > .Button'
     )
     .forEach((element) => {
+      console.debug('e', element);
+
       let isItemTeaser = element.parentElement.classList.contains(
-        '.ItemTeaser-button'
+        'ItemTeaser-button'
       );
 
-      if (element.parentElement.querySelector('input').value === 0) {
+      let isItemInfo = element.parentElement.classList.contains(
+        'ItemInfo-button'
+      );
+
+      console.debug('isItemTeaser', isItemTeaser);
+
+      //Uncaught TypeError: Cannot read property 'value' of null:
+      console.log(element.parentElement.querySelector('input').value);
+      console.log(element.parentElement.querySelector('input').value === '0');
+
+      if (element.parentElement.querySelector('input').value === '0') {
         element.classList.remove('u-hidden');
         element.parentElement
           .querySelector('.AddToCart')
@@ -18,6 +30,10 @@ function addButtonLabels() {
         element.style.textOverflow = 'unset';
         element.style.paddingLeft = 0;
         element.style.paddingRight = 0;
+
+        if (isItemInfo) {
+          element.style.width = '120px';
+        }
 
         element.textContent = 'Lägg till';
       } else if (isItemTeaser) {

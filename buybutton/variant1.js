@@ -1,14 +1,20 @@
 function addButtonLabels() {
-  document.querySelectorAll('.ItemTeaser-button > .Button, .ProductSearch-itemCta > .Button').forEach(function (element) {
-    var isItemTeaser = element.parentElement.classList.contains('.ItemTeaser-button');
+  document.querySelectorAll('.ItemTeaser-button > .Button, .ProductSearch-itemCta .ProductSearch-itemCell > .Button, .ItemInfo-button > .Button').forEach(function (element) {
+    var isItemTeaser = element.parentElement.classList.contains('ItemTeaser-button');
+    var isItemInfo = element.parentElement.classList.contains('ItemInfo-button');
 
-    if (element.parentElement.querySelector('input').value === 0) {
+    if (element.parentElement.querySelector('input').value === '0') {
       element.classList.remove('u-hidden');
       element.parentElement.querySelector('.AddToCart').classList.add('u-hidden');
       element.style.minWidth = '120px';
       element.style.textOverflow = 'unset';
       element.style.paddingLeft = 0;
       element.style.paddingRight = 0;
+
+      if (isItemInfo) {
+        element.style.width = '120px';
+      }
+
       element.textContent = 'Lägg till';
     } else if (isItemTeaser) {
       element.classList.add('u-hidden');
