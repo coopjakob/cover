@@ -22,7 +22,7 @@ function containClassInNodes(nodes, containClass) {
     // console.debug('<experiment> node', node);
     if (!node.tagName) continue;
     if (node.classList.contains(containClass)) {
-      console.debug('<experiment> see ', containClass);
+      console.debug('<experiment> see', containClass);
       foundNode = node;
       break;
     }
@@ -35,18 +35,21 @@ let observer = new MutationObserver((mutations) => {
   for (const { addedNodes } of mutations) {
     // console.debug('<experiment> added node', addedNodes);
     if (containClassInNodes(addedNodes, 'ProductSearch-footer')) {
-      console.debug('return true');
+      console.debug('<experiment> footer exist');
+
       let element = document.querySelector('.ProductSearch-footer button');
-      console.debug('<experiment> see resultslink');
-      element.addEventListener('click', () => {
-        console.debug('<experiment> click resultslink');
-        dataLayer.push({
-          event: 'interaction',
-          eventCategory: 'Experiment',
-          eventAction: 'search-resultslink',
-          eventLabel: '',
+      if (element) {
+        console.debug('<experiment> button in footer exist');
+        element.addEventListener('click', () => {
+          console.debug('<experiment> click resultslink');
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'Experiment',
+            eventAction: 'search-resultslink',
+            eventLabel: '',
+          });
         });
-      });
+      }
     }
   }
 });

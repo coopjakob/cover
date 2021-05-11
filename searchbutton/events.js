@@ -55,14 +55,17 @@ var observer = new MutationObserver(function (mutations) {
 
       if (containClassInNodes(addedNodes, 'ProductSearch-footer')) {
         var element = document.querySelector('.ProductSearch-footer button');
-        element.addEventListener('click', function () {
-          dataLayer.push({
-            event: 'interaction',
-            eventCategory: 'Experiment',
-            eventAction: 'search-resultslink',
-            eventLabel: ''
+
+        if (element) {
+          element.addEventListener('click', function () {
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'Experiment',
+              eventAction: 'search-resultslink',
+              eventLabel: ''
+            });
           });
-        });
+        }
       }
     }
   } catch (err) {
