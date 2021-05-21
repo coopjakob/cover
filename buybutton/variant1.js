@@ -1,5 +1,5 @@
 function addButtonLabels() {
-  document.querySelectorAll('.ItemTeaser-button > .Button, .ProductSearch-itemCta .ProductSearch-itemCell > .Button, .ItemInfo-button > .Button').forEach(function (element) {
+  document.querySelectorAll('.ItemTeaser-button > button.Button, .ProductSearch-itemCta .ProductSearch-itemCell > button.Button, .ItemInfo-button > button.Button').forEach(function (element) {
     var isItemTeaser = element.parentElement.classList.contains('ItemTeaser-button');
     var isItemInfo = element.parentElement.classList.contains('ItemInfo-button');
 

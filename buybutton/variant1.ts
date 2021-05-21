@@ -1,7 +1,7 @@
 function addButtonLabels() {
   document
     .querySelectorAll(
-      '.ItemTeaser-button > .Button, .ProductSearch-itemCta .ProductSearch-itemCell > .Button, .ItemInfo-button > .Button'
+      '.ItemTeaser-button > button.Button, .ProductSearch-itemCta .ProductSearch-itemCell > button.Button, .ItemInfo-button > button.Button'
     )
     .forEach((element) => {
       let isItemTeaser = element.parentElement.classList.contains(
@@ -11,10 +11,6 @@ function addButtonLabels() {
       let isItemInfo = element.parentElement.classList.contains(
         'ItemInfo-button'
       );
-
-      //Uncaught TypeError: Cannot read property 'value' of null:
-      console.log(element.parentElement.querySelector('input').value);
-      // console.log(element.parentElement.querySelector('input').value === '0');
 
       if (element.parentElement.querySelector('input').value === '0') {
         element.classList.remove('u-hidden');
@@ -47,7 +43,6 @@ window.addEventListener('ga:productImpression', addButtonLabels);
 
 let setLabelAfterTimeout;
 
-// ga:emptyCart maybe?
 window.addEventListener('ga:modifyCart', () => {
   clearTimeout(setLabelAfterTimeout);
   setLabelAfterTimeout = setTimeout(addButtonLabels, 1000);
