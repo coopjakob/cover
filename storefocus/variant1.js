@@ -102,7 +102,8 @@ function createBox() {
   okbutton.addEventListener('click', function () {
     document.querySelector('[data-test=cncheader-chagedeliverymethodbutton]').click();
     questionbox.remove();
-    modalContainer.querySelector('div').style.visibility = 'unset';
+    containerDiv.classList.add('u-flex');
+    containerDiv.classList.remove('u-hidden');
   });
   questionbox.append(okbutton);
   var cancelbutton = document.createElement('button');
@@ -112,6 +113,8 @@ function createBox() {
     questionbox.remove();
   });
   questionbox.append(cancelbutton);
-  modalContainer.querySelector('div').style.visibility = 'hidden';
+  var containerDiv = modalContainer.querySelector('div');
+  containerDiv.classList.remove('u-flex');
+  containerDiv.classList.add('u-hidden');
   modalContainer.prepend(questionbox);
 }

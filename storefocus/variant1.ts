@@ -109,7 +109,10 @@ function createBox() {
       .querySelector('[data-test=cncheader-chagedeliverymethodbutton]')
       .click();
     questionbox.remove();
-    modalContainer.querySelector('div').style.visibility = 'unset';
+
+    // TODO: Is flex needed?
+    containerDiv.classList.add('u-flex');
+    containerDiv.classList.remove('u-hidden');
   });
   questionbox.append(okbutton);
 
@@ -122,6 +125,11 @@ function createBox() {
   questionbox.append(cancelbutton);
 
   // let modalcontainer = document.querySelector('.Modal-container');
-  modalContainer.querySelector('div').style.visibility = 'hidden';
+  let containerDiv = modalContainer.querySelector('div');
+  containerDiv.classList.remove('u-flex');
+  containerDiv.classList.add('u-hidden');
+
+  // TODO: Remove close buttons and close on click on black
+
   modalContainer.prepend(questionbox);
 }
