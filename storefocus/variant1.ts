@@ -2,50 +2,41 @@ let itemsInCart = document.querySelector('.CartButton .Badge')?.textContent;
 
 let isStoreSet = !!document.querySelector('.TimeslotPreview-info')?.textContent;
 
-if (!isStoreSet) {
-}
+if (itemsInCart === '0') {
+  console.debug('0 in cart');
 
-// if (itemsInCart === '0') {
-//   console.debug('0 in cart');
+  if (isStoreSet) {
+    window.addEventListener(
+      'ga:modifyCart',
+      () => {
+        console.debug('ga:modifyCart');
+        // dataLayer.push({
+        //   event: 'optimize.activate.storefocus'
+        // });
+        run();
+      },
+      {
+        once: true,
+      }
+    );
+  } else {
+    let portalObserver = new MutationObserver((mutations) => {
+      console.debug('<experiment> portal change detected');
+      for (const { addedNodes } of mutations) {
+        console.debug('<experiment> added node', addedNodes);
+        if (containClassInNodes(addedNodes, 'FlyIn-header')) {
+          console.debug('<experiment> FlyIn-header exist');
+          portalObserver.disconnect();
+          run();
+        }
+      }
+    });
 
-//   window.addEventListener(
-//     'ga:modifyCart',
-//     () => {
-//       console.debug('ga:modifyCart');
-//       // dataLayer.push({
-//       //   event: 'optimize.activate.storefocus'
-//       // });
-//       run();
-//     },
-//     {
-//       once: true,
-//     }
-//   );
-// }
-
-let portalObserver = new MutationObserver((mutations) => {
-  console.debug('<experiment> portal change detected');
-  for (const { addedNodes } of mutations) {
-    console.debug('<experiment> added node', addedNodes);
-    if (containClassInNodes(addedNodes, 'FlyIn-header')) {
-      console.debug('<experiment> FlyIn-header exist');
-      portalObserver.disconnect();
-      // addWelcomeContainer();
-      run();
-    }
+    portalObserver.observe(document.getElementById('portal'), {
+      childList: true,
+      subtree: true,
+    });
   }
-});
-
-if (isStoreSet) {
-  window.addEventListener('ga:modifyCart', () => {
-    console.debug('ga:modifyCart');
-    run();
-  });
-} else {
-  portalObserver.observe(document.getElementById('portal'), {
-    childList: true,
-    subtree: true,
-  });
 }
 
 // window.addEventListener('ga:emptyCart', () => {
@@ -65,40 +56,48 @@ if (isStoreSet) {
 
 let modalContainer;
 function run() {
-  if (isStoreSet) {
-    document.querySelector('.CartButton').click();
-  }
-
-  modalContainer = document.querySelector('#portal .Modal-container');
+  console.debug('run');
 
   if (isStoreSet) {
-    let modalContainerObserver = new MutationObserver((mutations) => {
-      console.debug('<experiment> modal change detected');
-      for (const { addedNodes } of mutations) {
-        console.debug('<experiment> added node', addedNodes);
-
-        if (containClassInNodes(addedNodes, 'Cart-header')) {
-          console.debug('<experiment> Cart-header exist');
-          modalContainerObserver.disconnect();
-          getVariables();
-        }
-      }
-    });
-
-    console.debug('<experiment> observing Modal-container', modalContainer);
-    modalContainerObserver.observe(modalContainer, {
-      childList: true,
-      subtree: true,
-    });
+    waitForModal();
   } else {
-    createBox();
+    centerModal();
+    remake();
   }
+}
 
+function centerModal() {
   let modal = document.querySelector('#portal .Modal.Modal--right');
-  console.debug('Check for modal:', modal);
 
   modal.classList.remove('Modal--right');
   modal.classList.add('Modal--center');
+}
+
+function waitForModal() {
+  document.querySelector('.CartButton').click();
+  centerModal();
+
+  modalContainer = document.querySelector('#portal .Modal-container');
+  console.debug('modalContainer', modalContainer);
+
+  let modalContainerObserver = new MutationObserver((mutations) => {
+    console.debug('<experiment> modal change detected');
+    for (const { addedNodes } of mutations) {
+      console.debug('<experiment> added node', addedNodes);
+
+      if (containClassInNodes(addedNodes, 'Cart-header')) {
+        console.debug('<experiment> Cart-header exist');
+        modalContainerObserver.disconnect();
+        getVariables();
+      }
+    }
+  });
+
+  console.debug('<experiment> observing Modal-container', modalContainer);
+  modalContainerObserver.observe(modalContainer, {
+    childList: true,
+    subtree: true,
+  });
 }
 
 // document.querySelector('.Modal-container').style.padding = '2em';
@@ -139,6 +138,39 @@ function getVariables() {
   createBox();
 }
 
+let isLoggedIn = coopUserSettings.isAuthenticated;
+
+function remake() {
+  // Bild
+
+  document.querySelector('.FlyIn-header .Heading').innerHTML =
+    'Välkommen till<br>vår butik online!';
+
+  document.querySelector('.FlyIn-scroll p').innerHTML =
+    'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
+
+  document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display =
+    'none';
+
+  document.querySelector('.FlyIn-scroll > div:last-of-type').style.display =
+    'none';
+
+  setStyling(document.querySelector('#portal .Modal-container > div'));
+}
+
+function setStyling(element) {
+  element.style.height = '587px'; // will stick until next view TODO: Remove before change
+  element.style.borderRadius = '20px';
+  element.style.padding = '30px 0 68px 0';
+  let h2 = element.querySelector('h2');
+  if (h2) {
+    h2.style.fontSize = '34px';
+    h2.style.fontFamily = 'Coop New';
+  }
+
+  element.classList.remove('u-heightAll');
+}
+
 function createBox() {
   let questionbox = document.createElement('div');
 
@@ -151,38 +183,50 @@ function createBox() {
     'u-sm-size540'
   );
 
+  setStyling(questionbox);
+
   questionbox.style.position = 'absolute';
 
   // let modalcontainer = document.querySelector('.Modal-container');
   let containerDiv = modalContainer.querySelector('div');
 
-  if (deliverymethod) {
-    questionbox.innerText = `Ditt val från tidigare köp är ${deliverymethod}`;
+  questionbox.innerText = `Ditt val från tidigare köp är ${deliverymethod}`;
 
-    let okbutton = document.createElement('button');
-    okbutton.innerText = 'Jag vill ändra';
-    okbutton.addEventListener('click', () => {
-      document
-        .querySelector('[data-test=cncheader-chagedeliverymethodbutton]')
-        .click();
-      questionbox.remove();
+  let okbutton = document.createElement('button');
+  okbutton.innerText = 'Jag vill ändra';
+  okbutton.addEventListener('click', () => {
+    document
+      .querySelector('[data-test=cncheader-chagedeliverymethodbutton]')
+      .click();
+    questionbox.remove();
 
-      // TODO: Is flex needed?
-      containerDiv.classList.add('u-flex');
-      containerDiv.classList.remove('u-hidden');
-    });
-    questionbox.append(okbutton);
+    // TODO: Is flex needed?
+    containerDiv.classList.add('u-flex');
+    containerDiv.classList.remove('u-hidden');
 
-    let cancelbutton = document.createElement('button');
-    cancelbutton.innerText = 'Fortsätt handla';
-    cancelbutton.addEventListener('click', () => {
-      document.querySelector('.FlyIn-close').click();
-      questionbox.remove();
-    });
-    questionbox.append(cancelbutton);
-  } else {
-    questionbox.innerText = 'Välkommen!';
-  }
+    setStyling(document.querySelector('#portal .Modal-container > div'));
+
+    document.querySelector('.FlyIn-header .Heading').innerHTML =
+      'Ändra dina val';
+
+    document.querySelector('.FlyIn-scroll p').innerHTML =
+      'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
+
+    document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display =
+      'none';
+
+    document.querySelector('.FlyIn-scroll h4').style.display = 'none';
+    document.querySelector('.FlyIn-scroll ul').style.display = 'none';
+  });
+  questionbox.append(okbutton);
+
+  let cancelbutton = document.createElement('button');
+  cancelbutton.innerText = 'Fortsätt handla';
+  cancelbutton.addEventListener('click', () => {
+    document.querySelector('.FlyIn-close').click();
+    questionbox.remove();
+  });
+  questionbox.append(cancelbutton);
 
   containerDiv.classList.remove('u-flex');
   containerDiv.classList.add('u-hidden');

@@ -9,79 +9,84 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 var itemsInCart = (_document$querySelect = document.querySelector('.CartButton .Badge')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.textContent;
 var isStoreSet = !!((_document$querySelect2 = document.querySelector('.TimeslotPreview-info')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.textContent);
 
-if (!isStoreSet) {}
+if (itemsInCart === '0') {
+  if (isStoreSet) {
+    window.addEventListener('ga:modifyCart', function () {
+      run();
+    }, {
+      once: true
+    });
+  } else {
+    var portalObserver = new MutationObserver(function (mutations) {
+      var _iterator = _createForOfIteratorHelper(mutations),
+          _step;
 
-var portalObserver = new MutationObserver(function (mutations) {
-  var _iterator = _createForOfIteratorHelper(mutations),
-      _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var addedNodes = _step.value.addedNodes;
 
-  try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var addedNodes = _step.value.addedNodes;
-
-      if (containClassInNodes(addedNodes, 'FlyIn-header')) {
-        portalObserver.disconnect();
-        run();
+          if (containClassInNodes(addedNodes, 'FlyIn-header')) {
+            portalObserver.disconnect();
+            run();
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
       }
-    }
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
+    });
+    portalObserver.observe(document.getElementById('portal'), {
+      childList: true,
+      subtree: true
+    });
   }
-});
-
-if (isStoreSet) {
-  window.addEventListener('ga:modifyCart', function () {
-    run();
-  });
-} else {
-  portalObserver.observe(document.getElementById('portal'), {
-    childList: true,
-    subtree: true
-  });
 }
 
 var modalContainer;
 
 function run() {
   if (isStoreSet) {
-    document.querySelector('.CartButton').click();
-  }
-
-  modalContainer = document.querySelector('#portal .Modal-container');
-
-  if (isStoreSet) {
-    var modalContainerObserver = new MutationObserver(function (mutations) {
-      var _iterator2 = _createForOfIteratorHelper(mutations),
-          _step2;
-
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var addedNodes = _step2.value.addedNodes;
-
-          if (containClassInNodes(addedNodes, 'Cart-header')) {
-            modalContainerObserver.disconnect();
-            getVariables();
-          }
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-    });
-    modalContainerObserver.observe(modalContainer, {
-      childList: true,
-      subtree: true
-    });
+    waitForModal();
   } else {
-    createBox();
+    centerModal();
+    remake();
   }
+}
 
+function centerModal() {
   var modal = document.querySelector('#portal .Modal.Modal--right');
   modal.classList.remove('Modal--right');
   modal.classList.add('Modal--center');
+}
+
+function waitForModal() {
+  document.querySelector('.CartButton').click();
+  centerModal();
+  modalContainer = document.querySelector('#portal .Modal-container');
+  var modalContainerObserver = new MutationObserver(function (mutations) {
+    var _iterator2 = _createForOfIteratorHelper(mutations),
+        _step2;
+
+    try {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var addedNodes = _step2.value.addedNodes;
+
+        if (containClassInNodes(addedNodes, 'Cart-header')) {
+          modalContainerObserver.disconnect();
+          getVariables();
+        }
+      }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
+    }
+  });
+  modalContainerObserver.observe(modalContainer, {
+    childList: true,
+    subtree: true
+  });
 }
 
 function containClassInNodes(nodes, containClass) {
@@ -127,34 +132,59 @@ function getVariables() {
   createBox();
 }
 
+var isLoggedIn = coopUserSettings.isAuthenticated;
+
+function remake() {
+  document.querySelector('.FlyIn-header .Heading').innerHTML = 'Välkommen till<br>vår butik online!';
+  document.querySelector('.FlyIn-scroll p').innerHTML = 'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
+  document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display = 'none';
+  document.querySelector('.FlyIn-scroll > div:last-of-type').style.display = 'none';
+  setStyling(document.querySelector('#portal .Modal-container > div'));
+}
+
+function setStyling(element) {
+  element.style.height = '587px';
+  element.style.borderRadius = '20px';
+  element.style.padding = '30px 0 68px 0';
+  var h2 = element.querySelector('h2');
+
+  if (h2) {
+    h2.style.fontSize = '34px';
+    h2.style.fontFamily = 'Coop New';
+  }
+
+  element.classList.remove('u-heightAll');
+}
+
 function createBox() {
   var questionbox = document.createElement('div');
   questionbox.classList.add('u-flex', 'u-flexDirectionColumn', 'u-bgWhite', 'u-sizeFull', 'u-sm-size540');
+  setStyling(questionbox);
   questionbox.style.position = 'absolute';
   var containerDiv = modalContainer.querySelector('div');
-
-  if (deliverymethod) {
-    questionbox.innerText = "Ditt val fr\xE5n tidigare k\xF6p \xE4r ".concat(deliverymethod);
-    var okbutton = document.createElement('button');
-    okbutton.innerText = 'Jag vill ändra';
-    okbutton.addEventListener('click', function () {
-      document.querySelector('[data-test=cncheader-chagedeliverymethodbutton]').click();
-      questionbox.remove();
-      containerDiv.classList.add('u-flex');
-      containerDiv.classList.remove('u-hidden');
-    });
-    questionbox.append(okbutton);
-    var cancelbutton = document.createElement('button');
-    cancelbutton.innerText = 'Fortsätt handla';
-    cancelbutton.addEventListener('click', function () {
-      document.querySelector('.FlyIn-close').click();
-      questionbox.remove();
-    });
-    questionbox.append(cancelbutton);
-  } else {
-    questionbox.innerText = 'Välkommen!';
-  }
-
+  questionbox.innerText = "Ditt val fr\xE5n tidigare k\xF6p \xE4r ".concat(deliverymethod);
+  var okbutton = document.createElement('button');
+  okbutton.innerText = 'Jag vill ändra';
+  okbutton.addEventListener('click', function () {
+    document.querySelector('[data-test=cncheader-chagedeliverymethodbutton]').click();
+    questionbox.remove();
+    containerDiv.classList.add('u-flex');
+    containerDiv.classList.remove('u-hidden');
+    setStyling(document.querySelector('#portal .Modal-container > div'));
+    document.querySelector('.FlyIn-header .Heading').innerHTML = 'Ändra dina val';
+    document.querySelector('.FlyIn-scroll p').innerHTML = 'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
+    document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display = 'none';
+    document.querySelector('.FlyIn-scroll h4').style.display = 'none';
+    document.querySelector('.FlyIn-scroll ul').style.display = 'none';
+  });
+  questionbox.append(okbutton);
+  var cancelbutton = document.createElement('button');
+  cancelbutton.innerText = 'Fortsätt handla';
+  cancelbutton.addEventListener('click', function () {
+    document.querySelector('.FlyIn-close').click();
+    questionbox.remove();
+  });
+  questionbox.append(cancelbutton);
   containerDiv.classList.remove('u-flex');
   containerDiv.classList.add('u-hidden');
   modalContainer.prepend(questionbox);
