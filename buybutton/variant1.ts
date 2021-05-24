@@ -28,7 +28,7 @@ function addButtonLabels() {
         }
 
         element.textContent = 'Lägg till';
-      } else if (isItemTeaser) {
+      } else if (isItemTeaser || isItemInfo) {
         element.classList.add('u-hidden');
         element.parentElement
           .querySelector('.AddToCart')
