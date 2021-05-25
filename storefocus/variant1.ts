@@ -215,8 +215,10 @@ function createBox() {
     document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display =
       'none';
 
+    waitFor('List', '.FlyIn-scroll', () => {
     document.querySelector('.FlyIn-scroll h4').style.display = 'none';
     document.querySelector('.FlyIn-scroll ul').style.display = 'none';
+  });
   });
   questionbox.append(okbutton);
 
@@ -234,4 +236,35 @@ function createBox() {
   // TODO: Remove close buttons and close on click on black
 
   modalContainer.prepend(questionbox);
+}
+
+function waitFor(className, element, callback) {
+  console.debug('Wait for className', className);
+
+  if (!element) {
+    element = 'body';
+  }
+
+  if (!element.tagName) {
+    element = document.querySelector(element);
+  }
+
+  let observer = new MutationObserver((mutations) => {
+    console.debug('<experiment> modal change detected');
+    for (const { addedNodes } of mutations) {
+      console.debug('<experiment> added node', addedNodes);
+
+      if (containClassInNodes(addedNodes, className)) {
+        console.debug('<experiment> className exist, callback');
+        observer.disconnect();
+        callback();
+      }
+    }
+  });
+
+  console.debug('<experiment> observing', element);
+  observer.observe(element, {
+    childList: true,
+    subtree: true,
+  });
 }
