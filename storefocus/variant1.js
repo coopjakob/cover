@@ -18,27 +18,12 @@ if (itemsInCart === '0' || itemsInCart === '') {
     });
   } else {
     var portalObserver = new MutationObserver(function (mutations) {
-      var _iterator = _createForOfIteratorHelper(mutations),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var addedNodes = _step.value.addedNodes;
-
-          if (containClassInNodes(addedNodes, 'FlyIn-header')) {
-            portalObserver.disconnect();
-            run();
-          }
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
+      portalObserver.disconnect();
+      run();
     });
     portalObserver.observe(document.getElementById('portal'), {
       childList: true,
-      subtree: true
+      subtree: false
     });
   }
 }
@@ -50,14 +35,20 @@ function run() {
     waitForModal();
   } else {
     centerModal();
-    remake();
+    waitFor('FlyIn-header', '#portal', function () {
+      remake();
+    });
   }
 }
 
 function centerModal() {
   var modal = document.querySelector('#portal .Modal.Modal--right');
+  modal.classList.add('u-hidden');
   modal.classList.remove('Modal--right');
   modal.classList.add('Modal--center');
+  setTimeout(function () {
+    modal.classList.remove('u-hidden');
+  }, 500);
   document.querySelector('#portal .Modal-overlay').addEventListener('click', function (event) {});
 }
 
@@ -66,12 +57,12 @@ function waitForModal() {
   centerModal();
   modalContainer = document.querySelector('#portal .Modal-container');
   var modalContainerObserver = new MutationObserver(function (mutations) {
-    var _iterator2 = _createForOfIteratorHelper(mutations),
-        _step2;
+    var _iterator = _createForOfIteratorHelper(mutations),
+        _step;
 
     try {
-      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-        var addedNodes = _step2.value.addedNodes;
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var addedNodes = _step.value.addedNodes;
 
         if (containClassInNodes(addedNodes, 'Cart-header')) {
           modalContainerObserver.disconnect();
@@ -79,9 +70,9 @@ function waitForModal() {
         }
       }
     } catch (err) {
-      _iterator2.e(err);
+      _iterator.e(err);
     } finally {
-      _iterator2.f();
+      _iterator.f();
     }
   });
   modalContainerObserver.observe(modalContainer, {
@@ -93,12 +84,12 @@ function waitForModal() {
 function containClassInNodes(nodes, containClass) {
   var foundNode = false;
 
-  var _iterator3 = _createForOfIteratorHelper(nodes),
-      _step3;
+  var _iterator2 = _createForOfIteratorHelper(nodes),
+      _step2;
 
   try {
-    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-      var node = _step3.value;
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var node = _step2.value;
 
       if (node.childNodes) {
         foundNode = containClassInNodes(node.childNodes, containClass);
@@ -112,9 +103,9 @@ function containClassInNodes(nodes, containClass) {
       }
     }
   } catch (err) {
-    _iterator3.e(err);
+    _iterator2.e(err);
   } finally {
-    _iterator3.f();
+    _iterator2.f();
   }
 
   return foundNode;
@@ -148,14 +139,14 @@ function remake() {
 }
 
 function setStyling(element) {
-  element.style.height = '587px';
+  element.style.height = 'auto';
   element.style.borderRadius = '20px';
   element.style.padding = '21px 0 42px 0';
   var h2 = element.querySelector('h2');
 
   if (h2) {
     h2.style.fontSize = '34px';
-    h2.style.fontFamily = 'Coop New';
+    h2.style.fontFamily = 'CoopNew-Black, sans-serif';
   }
 
   element.querySelectorAll('strong').forEach(function (element) {
@@ -239,6 +230,11 @@ function createBox() {
       document.querySelector('.FlyIn-scroll h4').style.display = 'none';
       document.querySelector('.FlyIn-scroll ul').style.display = 'none';
     });
+    waitFor('Cart', '#portal .Modal-container > div', function () {
+      var _document$querySelect6;
+
+      (_document$querySelect6 = document.querySelector('.FlyIn-close')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.click();
+    });
   });
   questionbox.append(changebutton);
   containerDiv.classList.remove('u-flex');
@@ -258,12 +254,12 @@ function waitFor(className, element, callback) {
   }
 
   var observer = new MutationObserver(function (mutations) {
-    var _iterator4 = _createForOfIteratorHelper(mutations),
-        _step4;
+    var _iterator3 = _createForOfIteratorHelper(mutations),
+        _step3;
 
     try {
-      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-        var addedNodes = _step4.value.addedNodes;
+      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+        var addedNodes = _step3.value.addedNodes;
 
         if (containClassInNodes(addedNodes, className)) {
           observer.disconnect();
@@ -271,9 +267,9 @@ function waitFor(className, element, callback) {
         }
       }
     } catch (err) {
-      _iterator4.e(err);
+      _iterator3.e(err);
     } finally {
-      _iterator4.f();
+      _iterator3.f();
     }
   });
   observer.observe(element, {

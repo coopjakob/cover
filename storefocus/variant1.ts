@@ -21,20 +21,13 @@ if (itemsInCart === '0' || itemsInCart === '') {
     );
   } else {
     let portalObserver = new MutationObserver((mutations) => {
-      console.debug('<experiment> portal change detected');
-      for (const { addedNodes } of mutations) {
-        console.debug('<experiment> added node', addedNodes);
-        if (containClassInNodes(addedNodes, 'FlyIn-header')) {
-          console.debug('<experiment> FlyIn-header exist');
-          portalObserver.disconnect();
-          run();
-        }
-      }
+      portalObserver.disconnect();
+      run();
     });
 
     portalObserver.observe(document.getElementById('portal'), {
       childList: true,
-      subtree: true,
+      subtree: false,
     });
   }
 }
@@ -62,15 +55,25 @@ function run() {
     waitForModal();
   } else {
     centerModal();
-    remake();
+    waitFor('FlyIn-header', '#portal', () => {
+      remake();
+    });
   }
 }
 
 function centerModal() {
   let modal = document.querySelector('#portal .Modal.Modal--right');
 
+  // let modalContainer = modal.querySelector(".Modal-container");
+  // modalContainer.style.animation = 'none';
+
+  modal.classList.add('u-hidden');
   modal.classList.remove('Modal--right');
   modal.classList.add('Modal--center');
+
+  setTimeout(() => {
+    modal.classList.remove('u-hidden');
+  }, 500);
 
   document
     .querySelector('#portal .Modal-overlay')
@@ -177,13 +180,13 @@ function remake() {
 }
 
 function setStyling(element) {
-  element.style.height = '587px'; // will stick until next view TODO: Remove before change
+  element.style.height = 'auto';
   element.style.borderRadius = '20px';
   element.style.padding = '21px 0 42px 0';
   let h2 = element.querySelector('h2');
   if (h2) {
     h2.style.fontSize = '34px';
-    h2.style.fontFamily = 'Coop New';
+    h2.style.fontFamily = 'CoopNew-Black, sans-serif';
   }
 
   element.querySelectorAll('strong').forEach((element) => {
@@ -482,10 +485,15 @@ function createBox() {
     document.querySelector('.FlyIn-scroll > div:last-of-type').style.display =
       'none';
 
-    // when you've entered a zip code
+    // Remove "Tidigare adresser"
     waitFor('List', '.FlyIn-scroll', () => {
       document.querySelector('.FlyIn-scroll h4').style.display = 'none';
       document.querySelector('.FlyIn-scroll ul').style.display = 'none';
+    });
+
+    // when you've entered a zip code
+    waitFor('Cart', '#portal .Modal-container > div', () => {
+      document.querySelector('.FlyIn-close')?.click();
     });
   });
   questionbox.append(changebutton);
