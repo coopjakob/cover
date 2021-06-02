@@ -51,7 +51,14 @@ function centerModal() {
     setTimeout(function () {
       modal.classList.remove('u-hidden');
     }, 500);
-    document.querySelector('#portal .Modal-overlay').addEventListener('click', function (event) {});
+    document.querySelector('#portal .Modal-overlay').addEventListener('click', function (event) {
+      dataLayer.push({
+        event: 'interaction',
+        eventCategory: 'Experiment',
+        eventAction: 'storefocus-blackclick',
+        eventLabel: ''
+      });
+    });
   }
 }
 
@@ -130,6 +137,12 @@ function getVariables() {
 var isLoggedIn = coopUserSettings.isAuthenticated;
 
 function remake() {
+  dataLayer.push({
+    event: 'interaction',
+    eventCategory: 'Experiment',
+    eventAction: 'storefocus-welcome',
+    eventLabel: ''
+  });
   document.querySelector('.FlyIn-scroll').prepend(imageLaptop);
   document.querySelector('.FlyIn-header .Heading').innerHTML = 'Välkommen till<br>vår butik online!';
   document.querySelector('.FlyIn-scroll p').innerHTML = 'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
@@ -179,7 +192,14 @@ function setDeliveryStyle() {
 
   document.querySelector('.FlyIn-back').classList.remove('u-hidden');
   document.querySelector('.FlyIn-close').classList.add('u-hidden');
-  document.querySelector('.FlyIn-back').addEventListener('click', function () {});
+  document.querySelector('.FlyIn-back').addEventListener('click', function () {
+    dataLayer.push({
+      event: 'interaction',
+      eventCategory: 'Experiment',
+      eventAction: 'storefocus-back',
+      eventLabel: ''
+    });
+  });
 }
 
 var imageLaptop = document.createElement('div');
@@ -228,6 +248,12 @@ function createBox() {
   closebutton.style.margin = '0 auto';
   closebutton.innerText = 'Ja, fortsätt handla';
   closebutton.addEventListener('click', function () {
+    dataLayer.push({
+      event: 'interaction',
+      eventCategory: 'Experiment',
+      eventAction: 'storefocus-close',
+      eventLabel: ''
+    });
     document.querySelector('.FlyIn-close').classList.remove('u-hidden');
     document.querySelector('.FlyIn-close').click();
     questionbox.remove();
@@ -245,6 +271,13 @@ function createBox() {
   changebutton.style.margin = '0 auto';
   changebutton.innerText = 'Nej, jag vill ändra mina val';
   changebutton.addEventListener('click', function () {
+    dataLayer.push({
+      event: 'interaction',
+      eventCategory: 'Experiment',
+      eventAction: 'storefocus-change',
+      eventLabel: ''
+    });
+
     if (!isPhone) {
       document.querySelector('#portal .Modal-container > div').classList.add('u-heightAll');
     }

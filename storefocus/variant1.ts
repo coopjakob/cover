@@ -80,12 +80,12 @@ function centerModal() {
     document
       .querySelector('#portal .Modal-overlay')
       .addEventListener('click', (event) => {
-        // dataLayer.push({
-        //   event: 'interaction',
-        //   eventCategory: 'Experiment',
-        //   eventAction: 'storefocus-blackclick',
-        //   eventLabel: '',
-        // });
+        dataLayer.push({
+          event: 'interaction',
+          eventCategory: 'Experiment',
+          eventAction: 'storefocus-blackclick',
+          eventLabel: '',
+        });
       });
   }
 }
@@ -158,12 +158,12 @@ function getVariables() {
 let isLoggedIn = coopUserSettings.isAuthenticated;
 
 function remake() {
-  // dataLayer.push({
-  //   event: 'interaction',
-  //   eventCategory: 'Experiment',
-  //   eventAction: 'storefocus-welcome', //edit name
-  //   eventLabel: '',
-  // });
+  dataLayer.push({
+    event: 'interaction',
+    eventCategory: 'Experiment',
+    eventAction: 'storefocus-welcome',
+    eventLabel: '',
+  });
 
   // document.querySelector('.FlyIn-back').classList.add('u-hidden');
   // document.querySelector('.FlyIn-close').classList.add('u-hidden');
@@ -235,12 +235,12 @@ function setDeliveryStyle() {
   document.querySelector('.FlyIn-close').classList.add('u-hidden');
 
   document.querySelector('.FlyIn-back').addEventListener('click', () => {
-    // dataLayer.push({
-    //   event: 'interaction',
-    //   eventCategory: 'Experiment',
-    //   eventAction: 'storefocus-back',
-    //   eventLabel: '',
-    // });
+    dataLayer.push({
+      event: 'interaction',
+      eventCategory: 'Experiment',
+      eventAction: 'storefocus-back',
+      eventLabel: '',
+    });
   });
 }
 
@@ -448,12 +448,12 @@ function createBox() {
 
   closebutton.innerText = 'Ja, fortsätt handla';
   closebutton.addEventListener('click', () => {
-    // dataLayer.push({
-    //   event: 'interaction',
-    //   eventCategory: 'Experiment',
-    //   eventAction: 'storefocus-close',
-    //   eventLabel: '',
-    // });
+    dataLayer.push({
+      event: 'interaction',
+      eventCategory: 'Experiment',
+      eventAction: 'storefocus-close',
+      eventLabel: '',
+    });
     document.querySelector('.FlyIn-close').classList.remove('u-hidden');
     document.querySelector('.FlyIn-close').click();
     questionbox.remove();
@@ -476,12 +476,12 @@ function createBox() {
 
   changebutton.innerText = 'Nej, jag vill ändra mina val';
   changebutton.addEventListener('click', () => {
-    // dataLayer.push({
-    //   event: 'interaction',
-    //   eventCategory: 'Experiment',
-    //   eventAction: 'storefocus-okclick',
-    //   eventLabel: '',
-    // });
+    dataLayer.push({
+      event: 'interaction',
+      eventCategory: 'Experiment',
+      eventAction: 'storefocus-change',
+      eventLabel: '',
+    });
 
     if (!isPhone) {
       document
