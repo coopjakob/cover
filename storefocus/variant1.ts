@@ -1,6 +1,7 @@
 let itemsInCart = document.querySelector('.CartButton .Badge')?.textContent;
 
 let isStoreSet = !!document.querySelector('.TimeslotPreview-info')?.textContent;
+let isPhone = window.innerWidth < 600;
 
 if (itemsInCart === '0' || itemsInCart === '') {
   console.debug('0 in cart');
@@ -62,29 +63,31 @@ function run() {
 }
 
 function centerModal() {
-  let modal = document.querySelector('#portal .Modal.Modal--right');
+  if (!isPhone) {
+    let modal = document.querySelector('#portal .Modal.Modal--right');
 
-  // let modalContainer = modal.querySelector(".Modal-container");
-  // modalContainer.style.animation = 'none';
+    // let modalContainer = modal.querySelector(".Modal-container");
+    // modalContainer.style.animation = 'none';
 
-  modal.classList.add('u-hidden');
-  modal.classList.remove('Modal--right');
-  modal.classList.add('Modal--center');
+    modal.classList.add('u-hidden');
+    modal.classList.remove('Modal--right');
+    modal.classList.add('Modal--center');
 
-  setTimeout(() => {
-    modal.classList.remove('u-hidden');
-  }, 500);
+    setTimeout(() => {
+      modal.classList.remove('u-hidden');
+    }, 500);
 
-  document
-    .querySelector('#portal .Modal-overlay')
-    .addEventListener('click', (event) => {
-      // dataLayer.push({
-      //   event: 'interaction',
-      //   eventCategory: 'Experiment',
-      //   eventAction: 'storefocus-blackclick',
-      //   eventLabel: '',
-      // });
-    });
+    document
+      .querySelector('#portal .Modal-overlay')
+      .addEventListener('click', (event) => {
+        // dataLayer.push({
+        //   event: 'interaction',
+        //   eventCategory: 'Experiment',
+        //   eventAction: 'storefocus-blackclick',
+        //   eventLabel: '',
+        // });
+      });
+  }
 }
 
 function waitForModal() {
@@ -173,7 +176,9 @@ function remake() {
   document.querySelector('.FlyIn-scroll p').innerHTML =
     'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
 
-  document.querySelector('.FlyIn-scroll input').focus();
+  setTimeout(() => {
+    document.querySelector('.FlyIn-scroll input').focus();
+  }, 1000);
 
   document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display =
     'none';
@@ -195,8 +200,13 @@ function remake() {
 
 function setStyling(element) {
   element.style.height = 'auto';
-  element.style.borderRadius = '20px';
-  element.style.padding = '21px 0 42px 0';
+  element.style.padding = '21px 15px 42px 15px';
+
+  if (!isPhone) {
+    element.style.borderRadius = '20px';
+    element.classList.remove('u-heightAll');
+  }
+
   let h2 = element.querySelector('h2');
   if (h2) {
     h2.style.fontSize = '34px';
@@ -206,19 +216,19 @@ function setStyling(element) {
   element.querySelectorAll('strong').forEach((element) => {
     element.style.color = '#008844';
   });
-
-  element.classList.remove('u-heightAll');
 }
 
 function setDeliveryStyle() {
-  document
-    .querySelector('#portal .Modal-container > div')
-    .classList.add('u-heightAll');
+  if (!isPhone) {
+    document
+      .querySelector('#portal .Modal-container > div')
+      .classList.add('u-heightAll');
 
-  document.querySelector('#portal .Modal-container').style.padding = '20px';
+    document.querySelector('#portal .Modal-container').style.padding = '20px';
 
-  document.querySelector('#portal .Modal-container > div').style.position =
-    'relative';
+    document.querySelector('#portal .Modal-container > div').style.position =
+      'relative';
+  }
 
   // TODO: Try which one is the one needed
   document.querySelector('.FlyIn-back').classList.remove('u-hidden');
@@ -393,6 +403,10 @@ function createBox() {
     'u-sm-size540'
   );
 
+  if (isPhone) {
+    questionbox.classList.add('u-heightAll');
+  }
+
   questionbox.style.position = 'absolute';
 
   // let modalcontainer = document.querySelector('.Modal-container');
@@ -424,7 +438,12 @@ function createBox() {
     'Button--radius',
     'u-marginBsm'
   );
-  closebutton.style.width = '280px';
+
+  if (isPhone) {
+    closebutton.style.width = '100%';
+  } else {
+    closebutton.style.width = '280px';
+  }
   closebutton.style.margin = '0 auto';
 
   closebutton.innerText = 'Ja, fortsätt handla';
@@ -447,7 +466,12 @@ function createBox() {
     'Button--transparentGreen',
     'Button--radius'
   );
-  changebutton.style.width = '280px';
+
+  if (isPhone) {
+    changebutton.style.width = '100%';
+  } else {
+    changebutton.style.width = '280px';
+  }
   changebutton.style.margin = '0 auto';
 
   changebutton.innerText = 'Nej, jag vill ändra mina val';
@@ -459,11 +483,11 @@ function createBox() {
     //   eventLabel: '',
     // });
 
-    //TODO: Why doesn't it work here?
-
-    document
-      .querySelector('#portal .Modal-container > div')
-      .classList.add('u-heightAll');
+    if (!isPhone) {
+      document
+        .querySelector('#portal .Modal-container > div')
+        .classList.add('u-heightAll');
+    }
 
     document
       .querySelector('[data-test=cncheader-chagedeliverymethodbutton]')

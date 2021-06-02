@@ -8,6 +8,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 var itemsInCart = (_document$querySelect = document.querySelector('.CartButton .Badge')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.textContent;
 var isStoreSet = !!((_document$querySelect2 = document.querySelector('.TimeslotPreview-info')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.textContent);
+var isPhone = window.innerWidth < 600;
 
 if (itemsInCart === '0' || itemsInCart === '') {
   if (isStoreSet) {
@@ -42,14 +43,16 @@ function run() {
 }
 
 function centerModal() {
-  var modal = document.querySelector('#portal .Modal.Modal--right');
-  modal.classList.add('u-hidden');
-  modal.classList.remove('Modal--right');
-  modal.classList.add('Modal--center');
-  setTimeout(function () {
-    modal.classList.remove('u-hidden');
-  }, 500);
-  document.querySelector('#portal .Modal-overlay').addEventListener('click', function (event) {});
+  if (!isPhone) {
+    var modal = document.querySelector('#portal .Modal.Modal--right');
+    modal.classList.add('u-hidden');
+    modal.classList.remove('Modal--right');
+    modal.classList.add('Modal--center');
+    setTimeout(function () {
+      modal.classList.remove('u-hidden');
+    }, 500);
+    document.querySelector('#portal .Modal-overlay').addEventListener('click', function (event) {});
+  }
 }
 
 function waitForModal() {
@@ -130,7 +133,9 @@ function remake() {
   document.querySelector('.FlyIn-scroll').prepend(imageLaptop);
   document.querySelector('.FlyIn-header .Heading').innerHTML = 'Välkommen till<br>vår butik online!';
   document.querySelector('.FlyIn-scroll p').innerHTML = 'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
-  document.querySelector('.FlyIn-scroll input').focus();
+  setTimeout(function () {
+    document.querySelector('.FlyIn-scroll input').focus();
+  }, 1000);
   document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display = 'none';
   document.querySelector('.FlyIn-scroll > div:last-of-type').style.display = 'none';
   setStyling(document.querySelector('#portal .Modal-container > div'));
@@ -146,8 +151,13 @@ function remake() {
 
 function setStyling(element) {
   element.style.height = 'auto';
-  element.style.borderRadius = '20px';
-  element.style.padding = '21px 0 42px 0';
+  element.style.padding = '21px 15px 42px 15px';
+
+  if (!isPhone) {
+    element.style.borderRadius = '20px';
+    element.classList.remove('u-heightAll');
+  }
+
   var h2 = element.querySelector('h2');
 
   if (h2) {
@@ -158,13 +168,15 @@ function setStyling(element) {
   element.querySelectorAll('strong').forEach(function (element) {
     element.style.color = '#008844';
   });
-  element.classList.remove('u-heightAll');
 }
 
 function setDeliveryStyle() {
-  document.querySelector('#portal .Modal-container > div').classList.add('u-heightAll');
-  document.querySelector('#portal .Modal-container').style.padding = '20px';
-  document.querySelector('#portal .Modal-container > div').style.position = 'relative';
+  if (!isPhone) {
+    document.querySelector('#portal .Modal-container > div').classList.add('u-heightAll');
+    document.querySelector('#portal .Modal-container').style.padding = '20px';
+    document.querySelector('#portal .Modal-container > div').style.position = 'relative';
+  }
+
   document.querySelector('.FlyIn-back').classList.remove('u-hidden');
   document.querySelector('.FlyIn-close').classList.add('u-hidden');
   document.querySelector('.FlyIn-back').addEventListener('click', function () {});
@@ -180,6 +192,11 @@ imageSigns.innerHTML = "\n<svg width=\"203\" height=\"234\" fill=\"none\" xmlns=
 function createBox() {
   var questionbox = document.createElement('div');
   questionbox.classList.add('u-flex', 'u-flexDirectionColumn', 'u-bgWhite', 'u-sizeFull', 'u-sm-size540');
+
+  if (isPhone) {
+    questionbox.classList.add('u-heightAll');
+  }
+
   questionbox.style.position = 'absolute';
   var containerDiv = modalContainer.querySelector('div');
   questionbox.append(imageLaptop);
@@ -201,7 +218,13 @@ function createBox() {
   questionbox.append(question);
   var closebutton = document.createElement('button');
   closebutton.classList.add('Button', 'Button--green', 'Button--radius', 'u-marginBsm');
-  closebutton.style.width = '280px';
+
+  if (isPhone) {
+    closebutton.style.width = '100%';
+  } else {
+    closebutton.style.width = '280px';
+  }
+
   closebutton.style.margin = '0 auto';
   closebutton.innerText = 'Ja, fortsätt handla';
   closebutton.addEventListener('click', function () {
@@ -212,11 +235,20 @@ function createBox() {
   questionbox.append(closebutton);
   var changebutton = document.createElement('button');
   changebutton.classList.add('Button', 'Button--transparentGreen', 'Button--radius');
-  changebutton.style.width = '280px';
+
+  if (isPhone) {
+    changebutton.style.width = '100%';
+  } else {
+    changebutton.style.width = '280px';
+  }
+
   changebutton.style.margin = '0 auto';
   changebutton.innerText = 'Nej, jag vill ändra mina val';
   changebutton.addEventListener('click', function () {
-    document.querySelector('#portal .Modal-container > div').classList.add('u-heightAll');
+    if (!isPhone) {
+      document.querySelector('#portal .Modal-container > div').classList.add('u-heightAll');
+    }
+
     document.querySelector('[data-test=cncheader-chagedeliverymethodbutton]').click();
     questionbox.remove();
     containerDiv.classList.add('u-flex');
