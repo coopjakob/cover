@@ -42,7 +42,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         dataLayer.push({
           event: 'interaction',
           eventCategory: 'Experiment',
-          eventAction: 'categoryicon-click'
+          eventAction: 'categoryicon-click',
+          eventLabel: ''
         });
       }
     });

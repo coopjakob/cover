@@ -43,6 +43,7 @@
             event: 'interaction',
             eventCategory: 'Experiment',
             eventAction: 'categoryicon-click',
+            eventLabel: '',
           });
         }
       });
