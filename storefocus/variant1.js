@@ -130,11 +130,17 @@ function remake() {
   document.querySelector('.FlyIn-scroll').prepend(imageLaptop);
   document.querySelector('.FlyIn-header .Heading').innerHTML = 'Välkommen till<br>vår butik online!';
   document.querySelector('.FlyIn-scroll p').innerHTML = 'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
+  document.querySelector('.FlyIn-scroll input').focus();
   document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display = 'none';
   document.querySelector('.FlyIn-scroll > div:last-of-type').style.display = 'none';
   setStyling(document.querySelector('#portal .Modal-container > div'));
   waitFor('Heading--h2', '#portal .Modal-container > div', function () {
     setDeliveryStyle();
+  });
+  waitFor('Cart', '#portal .Modal-container > div', function () {
+    var _document$querySelect6;
+
+    (_document$querySelect6 = document.querySelector('.FlyIn-close')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.click();
   });
 }
 
@@ -224,6 +230,7 @@ function createBox() {
     document.querySelector('.FlyIn-scroll').prepend(imageSigns);
     document.querySelector('.FlyIn-header .Heading').innerHTML = 'Ändra dina val';
     document.querySelector('.FlyIn-scroll p').innerHTML = 'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
+    document.querySelector('.FlyIn-scroll input').focus();
     document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display = 'none';
     document.querySelector('.FlyIn-scroll > div:last-of-type').style.display = 'none';
     waitFor('List', '.FlyIn-scroll', function () {
@@ -231,9 +238,9 @@ function createBox() {
       document.querySelector('.FlyIn-scroll ul').style.display = 'none';
     });
     waitFor('Cart', '#portal .Modal-container > div', function () {
-      var _document$querySelect6;
+      var _document$querySelect7;
 
-      (_document$querySelect6 = document.querySelector('.FlyIn-close')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.click();
+      (_document$querySelect7 = document.querySelector('.FlyIn-close')) === null || _document$querySelect7 === void 0 ? void 0 : _document$querySelect7.click();
     });
   });
   questionbox.append(changebutton);

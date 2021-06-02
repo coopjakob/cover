@@ -155,6 +155,13 @@ function getVariables() {
 let isLoggedIn = coopUserSettings.isAuthenticated;
 
 function remake() {
+  // dataLayer.push({
+  //   event: 'interaction',
+  //   eventCategory: 'Experiment',
+  //   eventAction: 'storefocus-welcome', //edit name
+  //   eventLabel: '',
+  // });
+
   // document.querySelector('.FlyIn-back').classList.add('u-hidden');
   // document.querySelector('.FlyIn-close').classList.add('u-hidden');
 
@@ -166,6 +173,8 @@ function remake() {
   document.querySelector('.FlyIn-scroll p').innerHTML =
     'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
 
+  document.querySelector('.FlyIn-scroll input').focus();
+
   document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display =
     'none';
 
@@ -176,6 +185,11 @@ function remake() {
 
   waitFor('Heading--h2', '#portal .Modal-container > div', () => {
     setDeliveryStyle();
+  });
+
+  // when you've entered a zip code
+  waitFor('Cart', '#portal .Modal-container > div', () => {
+    document.querySelector('.FlyIn-close')?.click();
   });
 }
 
@@ -476,6 +490,8 @@ function createBox() {
 
     document.querySelector('.FlyIn-scroll p').innerHTML =
       'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
+
+    document.querySelector('.FlyIn-scroll input').focus();
 
     // remove "Eller, välj att söka efter en butik"
     document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display =
