@@ -171,6 +171,7 @@ function setStyling(element) {
   element.style.padding = '21px 15px 42px 15px';
 
   if (!isPhone) {
+    element.style.position = 'relative';
     element.style.borderRadius = '20px';
     element.classList.remove('u-heightAll');
   }
@@ -334,7 +335,7 @@ function createBox() {
     setStyling(document.querySelector('#portal .Modal-container > div'));
 
     document.querySelector('.FlyIn-back').classList.add('u-hidden');
-    document.querySelector('.FlyIn-close').classList.add('u-hidden');
+    // document.querySelector('.FlyIn-close').classList.add('u-hidden');
 
     waitFor('Heading--h2', '#portal .Modal-container > div', () => {
       setDeliveryStyle();
