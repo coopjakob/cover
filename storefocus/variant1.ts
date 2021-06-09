@@ -335,7 +335,31 @@ function createBox() {
     setStyling(document.querySelector('#portal .Modal-container > div'));
 
     document.querySelector('.FlyIn-back').classList.add('u-hidden');
-    // document.querySelector('.FlyIn-close').classList.add('u-hidden');
+
+    document.querySelector('.FlyIn-close').addEventListener('click', () => {
+      dataLayer.push({
+        event: 'interaction',
+        eventCategory: 'Experiment',
+        eventAction: 'storefocus-x',
+        eventLabel: '',
+      });
+    });
+
+    let back = document.createElement('button');
+    back.classList.add('FlyIn-back');
+    back.innerHTML =
+      '<svg role="img"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=210608.1232#pointer-left"><title>Tillbaka</title></use></svg>';
+    containerDiv.prepend(back);
+
+    back.addEventListener('click', (event) => {
+      createBox();
+      dataLayer.push({
+        event: 'interaction',
+        eventCategory: 'Experiment',
+        eventAction: 'storefocus-back',
+        eventLabel: '',
+      });
+    });
 
     waitFor('Heading--h2', '#portal .Modal-container > div', () => {
       setDeliveryStyle();

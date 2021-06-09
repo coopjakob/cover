@@ -284,13 +284,38 @@ function createBox() {
       document.querySelector('#portal .Modal-container > div').classList.add('u-heightAll');
     }
 
-    document.querySelector('[data-test=cncheader-chagedeliverymethodbutton]').click();
     questionbox.remove();
+    var deliveryButton = document.querySelector('[data-test=cncheader-chagedeliverymethodbutton]');
+
+    if (deliveryButton) {
+      deliveryButton.click();
+    }
+
     containerDiv.classList.add('u-flex');
     containerDiv.classList.remove('u-hidden');
     setStyling(document.querySelector('#portal .Modal-container > div'));
     document.querySelector('.FlyIn-back').classList.add('u-hidden');
-    document.querySelector('.FlyIn-close').classList.add('u-hidden');
+    document.querySelector('.FlyIn-close').addEventListener('click', function () {
+      dataLayer.push({
+        event: 'interaction',
+        eventCategory: 'Experiment',
+        eventAction: 'storefocus-x',
+        eventLabel: ''
+      });
+    });
+    var back = document.createElement('button');
+    back.classList.add('FlyIn-back');
+    back.innerHTML = '<svg role="img"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=210608.1232#pointer-left"><title>Tillbaka</title></use></svg>';
+    containerDiv.prepend(back);
+    back.addEventListener('click', function (event) {
+      createBox();
+      dataLayer.push({
+        event: 'interaction',
+        eventCategory: 'Experiment',
+        eventAction: 'storefocus-back',
+        eventLabel: ''
+      });
+    });
     waitFor('Heading--h2', '#portal .Modal-container > div', function () {
       setDeliveryStyle();
     });
