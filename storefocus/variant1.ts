@@ -2,23 +2,7 @@ let isStoreSet = !!document.querySelector('.TimeslotPreview-info')?.textContent;
 let isPhone = window.innerWidth < 600;
 let modalContainer;
 
-if (isStoreSet) {
-  run();
-} else {
-  if (document.getElementById('portal')) {
-    run();
-  } else {
-    let portalObserver = new MutationObserver((mutations) => {
-      portalObserver.disconnect();
-      run();
-    });
-
-    portalObserver.observe(document.getElementById('portal'), {
-      childList: true,
-      subtree: false,
-    });
-  }
-}
+run();
 
 function run() {
   console.debug('run');
@@ -35,7 +19,9 @@ function run() {
 
 function centerModal() {
   if (!isPhone) {
-    let modal = document.querySelector('#portal .Modal.Modal--right');
+    let modal = document.querySelector(
+      '#portal .Modal.Modal--right.is-visible'
+    );
 
     modal.classList.add('u-hidden');
     modal.classList.remove('Modal--right');
@@ -223,7 +209,8 @@ let imageSigns = document.createElement('img');
 imageSigns.style.margin = '0 auto';
 imageSigns.style.display = 'block';
 imageSigns.style.height = '233px';
-imageSigns.src = 'https://www.coop.se/assets/icons/Tray.svg';
+imageSigns.src =
+  'https://res.cloudinary.com/coopjakob/image/upload/v1622715712/T55/postnum_ct5pko.svg';
 
 function createBox() {
   let questionbox = document.createElement('div');
@@ -325,7 +312,7 @@ function createBox() {
 
     document
       .querySelector('[data-test=cncheader-chagedeliverymethodbutton]')
-      .click();
+      ?.click();
     questionbox.remove();
 
     // TODO: Is flex needed?

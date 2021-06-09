@@ -9,23 +9,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 var isStoreSet = !!((_document$querySelect = document.querySelector('.TimeslotPreview-info')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.textContent);
 var isPhone = window.innerWidth < 600;
 var modalContainer;
-
-if (isStoreSet) {
-  run();
-} else {
-  if (document.getElementById('portal')) {
-    run();
-  } else {
-    var portalObserver = new MutationObserver(function (mutations) {
-      portalObserver.disconnect();
-      run();
-    });
-    portalObserver.observe(document.getElementById('portal'), {
-      childList: true,
-      subtree: false
-    });
-  }
-}
+run();
 
 function run() {
   if (isStoreSet) {
@@ -40,7 +24,7 @@ function run() {
 
 function centerModal() {
   if (!isPhone) {
-    var modal = document.querySelector('#portal .Modal.Modal--right');
+    var modal = document.querySelector('#portal .Modal.Modal--right.is-visible');
     modal.classList.add('u-hidden');
     modal.classList.remove('Modal--right');
     modal.classList.add('Modal--center');
@@ -164,6 +148,7 @@ function setStyling(element) {
   element.style.padding = '21px 15px 42px 15px';
 
   if (!isPhone) {
+    element.style.position = 'relative';
     element.style.borderRadius = '20px';
     element.classList.remove('u-heightAll');
   }
@@ -204,7 +189,6 @@ imageLaptop.style.margin = '0 auto';
 imageLaptop.style.display = 'block';
 imageLaptop.style.height = '242px';
 imageLaptop.src = 'https://www.coop.se/assets/icons/computer.svg';
-
 var imageSigns = document.createElement('img');
 imageSigns.style.margin = '0 auto';
 imageSigns.style.display = 'block';
@@ -273,6 +257,8 @@ function createBox() {
   changebutton.style.margin = '0 auto';
   changebutton.innerText = 'Nej, jag vill ändra mina val';
   changebutton.addEventListener('click', function () {
+    var _document$querySelect6;
+
     dataLayer.push({
       event: 'interaction',
       eventCategory: 'Experiment',
@@ -284,13 +270,8 @@ function createBox() {
       document.querySelector('#portal .Modal-container > div').classList.add('u-heightAll');
     }
 
+    (_document$querySelect6 = document.querySelector('[data-test=cncheader-chagedeliverymethodbutton]')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.click();
     questionbox.remove();
-    var deliveryButton = document.querySelector('[data-test=cncheader-chagedeliverymethodbutton]');
-
-    if (deliveryButton) {
-      deliveryButton.click();
-    }
-
     containerDiv.classList.add('u-flex');
     containerDiv.classList.remove('u-hidden');
     setStyling(document.querySelector('#portal .Modal-container > div'));
@@ -330,9 +311,9 @@ function createBox() {
       document.querySelector('.FlyIn-scroll ul').style.display = 'none';
     });
     waitFor('Cart', '#portal .Modal-container > div', function () {
-      var _document$querySelect6;
+      var _document$querySelect7;
 
-      (_document$querySelect6 = document.querySelector('.FlyIn-close')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.click();
+      (_document$querySelect7 = document.querySelector('.FlyIn-close')) === null || _document$querySelect7 === void 0 ? void 0 : _document$querySelect7.click();
     });
   });
   questionbox.append(changebutton);
