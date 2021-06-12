@@ -23,23 +23,21 @@ function run() {
 }
 
 function centerModal() {
-  if (!isPhone) {
-    var modal = document.querySelector('#portal .Modal.Modal--right.is-visible');
-    modal.classList.add('u-hidden');
-    modal.classList.remove('Modal--right');
-    modal.classList.add('Modal--center');
-    setTimeout(function () {
-      modal.classList.remove('u-hidden');
-    }, 500);
-    document.querySelector('#portal .Modal-overlay').addEventListener('click', function (event) {
-      dataLayer.push({
-        event: 'interaction',
-        eventCategory: 'Experiment',
-        eventAction: 'storefocus-blackclick',
-        eventLabel: ''
-      });
+  var modal = document.querySelector('#portal .Modal.Modal--right.is-visible');
+  modal.classList.add('u-hidden');
+  modal.classList.remove('Modal--right');
+  modal.classList.add('Modal--center');
+  setTimeout(function () {
+    modal.classList.remove('u-hidden');
+  }, 500);
+  document.querySelector('#portal .Modal-overlay').addEventListener('click', function (event) {
+    dataLayer.push({
+      event: 'interaction',
+      eventCategory: 'Experiment',
+      eventAction: 'storefocus-blackclick',
+      eventLabel: ''
     });
-  }
+  });
 }
 
 function waitForModal() {

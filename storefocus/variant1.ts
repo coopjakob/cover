@@ -18,30 +18,26 @@ function run() {
 }
 
 function centerModal() {
-  if (!isPhone) {
-    let modal = document.querySelector(
-      '#portal .Modal.Modal--right.is-visible'
-    );
+  let modal = document.querySelector('#portal .Modal.Modal--right.is-visible');
 
-    modal.classList.add('u-hidden');
-    modal.classList.remove('Modal--right');
-    modal.classList.add('Modal--center');
+  modal.classList.add('u-hidden');
+  modal.classList.remove('Modal--right');
+  modal.classList.add('Modal--center');
 
-    setTimeout(() => {
-      modal.classList.remove('u-hidden');
-    }, 500);
+  setTimeout(() => {
+    modal.classList.remove('u-hidden');
+  }, 500);
 
-    document
-      .querySelector('#portal .Modal-overlay')
-      .addEventListener('click', (event) => {
-        dataLayer.push({
-          event: 'interaction',
-          eventCategory: 'Experiment',
-          eventAction: 'storefocus-blackclick',
-          eventLabel: '',
-        });
+  document
+    .querySelector('#portal .Modal-overlay')
+    .addEventListener('click', (event) => {
+      dataLayer.push({
+        event: 'interaction',
+        eventCategory: 'Experiment',
+        eventAction: 'storefocus-blackclick',
+        eventLabel: '',
       });
-  }
+    });
 }
 
 function waitForModal() {
