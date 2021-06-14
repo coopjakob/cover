@@ -194,6 +194,12 @@ imageSigns.style.height = '233px';
 imageSigns.src = 'https://res.cloudinary.com/coopjakob/image/upload/v1622715712/T55/postnum_ct5pko.svg';
 
 function createBox() {
+  dataLayer.push({
+    event: 'interaction',
+    eventCategory: 'Experiment',
+    eventAction: 'storefocus-newcart',
+    eventLabel: ''
+  });
   var questionbox = document.createElement('div');
   questionbox.classList.add('u-flex', 'u-flexDirectionColumn', 'u-bgWhite', 'u-sizeFull', 'u-sm-size540');
 

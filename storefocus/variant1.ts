@@ -209,6 +209,13 @@ imageSigns.src =
   'https://res.cloudinary.com/coopjakob/image/upload/v1622715712/T55/postnum_ct5pko.svg';
 
 function createBox() {
+  dataLayer.push({
+    event: 'interaction',
+    eventCategory: 'Experiment',
+    eventAction: 'storefocus-newcart',
+    eventLabel: '',
+  });
+
   let questionbox = document.createElement('div');
 
   questionbox.classList.add(
