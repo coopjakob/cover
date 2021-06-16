@@ -338,7 +338,7 @@ function createBox() {
     let back = document.createElement('button');
     back.classList.add('FlyIn-back');
     back.innerHTML =
-      '<svg role="img"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=210608.1232#pointer-left"><title>Tillbaka</title></use></svg>';
+      '<svg role="img"><svg id="pointer-left" viewBox="0 0 12 14"><path d="M12.3 6.9H-.2m5 5l-5-5 5-5"></path></svg></svg>';
     containerDiv.prepend(back);
 
     back.addEventListener('click', (event) => {
