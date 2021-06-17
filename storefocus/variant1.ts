@@ -20,7 +20,6 @@ function run() {
 function centerModal() {
   let modal = document.querySelector('#portal .Modal.Modal--right.is-visible');
 
-  //chaina
   modal.classList.add('u-hidden');
   modal.classList.remove('Modal--right');
   modal.classList.add('Modal--center');
