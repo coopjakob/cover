@@ -1,8 +1,8 @@
 var modalContainer = document.querySelector('#portal .Modal-container');
 var containerDiv = modalContainer.querySelector('div');
 var back = document.createElement('button');
-back.classList.add('FlyIn-back', 'u-flex', 'u-flexAlignCenter', 'u-textXSmall');
-back.innerHTML = '<svg role="img"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=210608.1232#pointer-left"><title>Tillbaka</title></use></svg> &nbsp; Fortsätt handla';
+back.classList.add('Experiment', 'T59', 'u-flex', 'u-flexAlignCenter', 'u-textXSmall');
+back.innerHTML = '<svg role="img"><svg viewBox="0 0 12 14"><path d="M12.3 6.9H-.2m5 5l-5-5 5-5"></path></svg></svg>Fortsätt handla';
 containerDiv.prepend(back);
 back.addEventListener('click', function (event) {
   document.querySelector('.FlyIn-close').click();
@@ -13,3 +13,6 @@ back.addEventListener('click', function (event) {
     eventLabel: ''
   });
 });
+var styleT59 = document.createElement('style');
+styleT59.innerHTML = "\n  .Experiment.T59 {\n    z-index: 2;\n    position: absolute;\n    top: 0;\n    left: 0;\n    cursor: pointer;\n    padding: .93750234rem;\n    stroke: #333;\n  }\n  .Experiment.T59 svg {\n    width: 16px;\n    height: 16px;\n    margin-right: 5px;\n    fill: none;\n  }\n  .Experiment.T59:hover {\n    text-decoration: underline;\n    color: #00aa46;\n    stroke: #00aa46;\n  }\n";
+document.body.appendChild(styleT59);
