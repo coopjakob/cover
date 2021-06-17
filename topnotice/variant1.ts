@@ -1,5 +1,3 @@
-let wrapper = document.querySelector('.js-page');
-
 let element = document.createElement('div');
 element.classList.add('experiment', 't50', 'Grid-cell', 'u-sizeFull');
 
@@ -25,9 +23,7 @@ element.style.color = 'white';
 element.style.marginBottom = '1.25em';
 element.style.fontWeight = 'bold';
 
-wrapper.prepend(element);
-
-element.querySelectorAll('svg').forEach((element) => {
+element.querySelectorAll('svg').forEach(function (element) {
   element.style.margin = '0 2px 0 8px';
   element.style.verticalAlign = 'top';
   element.style.marginTop = '2px';
@@ -36,5 +32,7 @@ element.querySelectorAll('svg').forEach((element) => {
 // no margin left on first icon, to make everything centered
 element.querySelector('svg').style.marginLeft = '0';
 
-let container = document.querySelector('.js-childLayoutContainer');
-container.classList.remove('u-marginTmd');
+let wrapper = document.querySelector('.js-childLayoutContainer');
+wrapper.prepend(element);
+
+wrapper.classList.remove('u-marginTmd');
