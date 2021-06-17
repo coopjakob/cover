@@ -16,7 +16,7 @@ function run() {
     waitForModal();
   } else {
     centerModal();
-    waitFor('FlyIn-header', '#portal', function () {
+    waitFor('.FlyIn-header', '#portal', function () {
       remake();
     });
   }
@@ -44,59 +44,9 @@ function waitForModal() {
   document.querySelector('.CartButton').click();
   centerModal();
   modalContainer = document.querySelector('#portal .Modal-container');
-  var modalContainerObserver = new MutationObserver(function (mutations) {
-    var _iterator = _createForOfIteratorHelper(mutations),
-        _step;
-
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var addedNodes = _step.value.addedNodes;
-
-        if (containClassInNodes(addedNodes, 'Cart-header')) {
-          modalContainerObserver.disconnect();
-          getVariables();
-        }
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
+  waitFor('.Cart-header', modalContainer, function () {
+    getVariables();
   });
-  modalContainerObserver.observe(modalContainer, {
-    childList: true,
-    subtree: true
-  });
-}
-
-function containClassInNodes(nodes, containClass) {
-  var foundNode = false;
-
-  var _iterator2 = _createForOfIteratorHelper(nodes),
-      _step2;
-
-  try {
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-      var node = _step2.value;
-
-      if (node.childNodes) {
-        foundNode = containClassInNodes(node.childNodes, containClass);
-      }
-
-      if (!node.tagName) continue;
-
-      if (node.classList.contains(containClass)) {
-        foundNode = node;
-        break;
-      }
-    }
-  } catch (err) {
-    _iterator2.e(err);
-  } finally {
-    _iterator2.f();
-  }
-
-  return foundNode;
 }
 
 var deliverymethod;
@@ -131,10 +81,10 @@ function remake() {
   document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display = 'none';
   document.querySelector('.FlyIn-scroll > div:last-of-type').style.display = 'none';
   setStyling(document.querySelector('#portal .Modal-container > div'));
-  waitFor('Heading--h2', '#portal .Modal-container > div', function () {
+  waitFor('.Heading--h2', '#portal .Modal-container > div', function () {
     setDeliveryStyle();
   });
-  waitFor('Cart', '#portal .Modal-container > div', function () {
+  waitFor('.Cart', '#portal .Modal-container > div', function () {
     var _document$querySelect5;
 
     (_document$querySelect5 = document.querySelector('.FlyIn-close')) === null || _document$querySelect5 === void 0 ? void 0 : _document$querySelect5.click();
@@ -290,7 +240,7 @@ function createBox() {
     });
     var back = document.createElement('button');
     back.classList.add('FlyIn-back');
-    back.innerHTML = '<svg role="img"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=210608.1232#pointer-left"><title>Tillbaka</title></use></svg>';
+    back.innerHTML = '<svg role="img"><svg id="pointer-left" viewBox="0 0 12 14"><path d="M12.3 6.9H-.2m5 5l-5-5 5-5"></path></svg></svg>';
     containerDiv.prepend(back);
     back.addEventListener('click', function (event) {
       createBox();
@@ -301,7 +251,7 @@ function createBox() {
         eventLabel: ''
       });
     });
-    waitFor('Heading--h2', '#portal .Modal-container > div', function () {
+    waitFor('.Heading--h2', '#portal .Modal-container > div', function () {
       setDeliveryStyle();
     });
     document.querySelector('.FlyIn-scroll').prepend(imageSigns);
@@ -310,11 +260,11 @@ function createBox() {
     document.querySelector('.FlyIn-scroll input').focus();
     document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display = 'none';
     document.querySelector('.FlyIn-scroll > div:last-of-type').style.display = 'none';
-    waitFor('List', '.FlyIn-scroll', function () {
+    waitFor('.List', '.FlyIn-scroll', function () {
       document.querySelector('.FlyIn-scroll h4').style.display = 'none';
       document.querySelector('.FlyIn-scroll ul').style.display = 'none';
     });
-    waitFor('Cart', '#portal .Modal-container > div', function () {
+    waitFor('.Cart', '#portal .Modal-container > div', function () {
       var _document$querySelect7;
 
       (_document$querySelect7 = document.querySelector('.FlyIn-close')) === null || _document$querySelect7 === void 0 ? void 0 : _document$querySelect7.click();
@@ -328,32 +278,45 @@ function createBox() {
   modalContainer.prepend(questionbox);
 }
 
-function waitFor(className, element, callback) {
-  if (!element) {
-    element = 'body';
-  }
-
+function waitFor(selector, element, callback) {
   if (!element.tagName) {
     element = document.querySelector(element);
   }
 
   var observer = new MutationObserver(function (mutations) {
-    var _iterator3 = _createForOfIteratorHelper(mutations),
-        _step3;
+    var _iterator = _createForOfIteratorHelper(mutations),
+        _step;
 
     try {
-      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-        var addedNodes = _step3.value.addedNodes;
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var addedNodes = _step.value.addedNodes;
 
-        if (containClassInNodes(addedNodes, className)) {
-          observer.disconnect();
-          callback();
+        var _iterator2 = _createForOfIteratorHelper(addedNodes),
+            _step2;
+
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var node = _step2.value;
+
+            if (!node.tagName) {
+              continue;
+            }
+
+            if (node.matches(selector) || node.querySelector(selector)) {
+              observer.disconnect();
+              callback();
+            }
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
         }
       }
     } catch (err) {
-      _iterator3.e(err);
+      _iterator.e(err);
     } finally {
-      _iterator3.f();
+      _iterator.f();
     }
   });
   observer.observe(element, {

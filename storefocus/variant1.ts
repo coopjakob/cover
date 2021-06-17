@@ -11,7 +11,7 @@ function run() {
     waitForModal();
   } else {
     centerModal();
-    waitFor('FlyIn-header', '#portal', () => {
+    waitFor('.FlyIn-header', '#portal', () => {
       remake();
     });
   }
@@ -20,6 +20,7 @@ function run() {
 function centerModal() {
   let modal = document.querySelector('#portal .Modal.Modal--right.is-visible');
 
+  //chaina
   modal.classList.add('u-hidden');
   modal.classList.remove('Modal--right');
   modal.classList.add('Modal--center');
@@ -47,45 +48,12 @@ function waitForModal() {
   modalContainer = document.querySelector('#portal .Modal-container');
   console.debug('modalContainer', modalContainer);
 
-  let modalContainerObserver = new MutationObserver((mutations) => {
-    console.debug('<experiment> modal change detected');
-    for (const { addedNodes } of mutations) {
-      console.debug('<experiment> added node', addedNodes);
-
-      if (containClassInNodes(addedNodes, 'Cart-header')) {
-        console.debug('<experiment> Cart-header exist');
-        modalContainerObserver.disconnect();
-        getVariables();
-      }
-    }
-  });
-
-  console.debug('<experiment> observing Modal-container', modalContainer);
-  modalContainerObserver.observe(modalContainer, {
-    childList: true,
-    subtree: true,
+  waitFor('.Cart-header', modalContainer, () => {
+    getVariables();
   });
 }
 
 // document.querySelector('.Modal-container').style.padding = '2em';
-
-function containClassInNodes(nodes, containClass) {
-  let foundNode = false;
-  for (const node of nodes) {
-    if (node.childNodes) {
-      console.debug('<experiment> child exist');
-      foundNode = containClassInNodes(node.childNodes, containClass);
-    }
-    console.debug('<experiment> node', node);
-    if (!node.tagName) continue;
-    if (node.classList.contains(containClass)) {
-      console.debug('<experiment> see', containClass);
-      foundNode = node;
-      break;
-    }
-  }
-  return foundNode;
-}
 
 let deliverymethod;
 let postalcode;
@@ -102,7 +70,10 @@ function getVariables() {
   storename = document.querySelector('[data-test=pickupStoreLink]')
     ?.textContent;
 
+  // flytt ut
   createBox();
+
+  // return [deliverymethod, deliverymethod]
 }
 
 let isLoggedIn = coopUserSettings.isAuthenticated;
@@ -138,12 +109,12 @@ function remake() {
 
   setStyling(document.querySelector('#portal .Modal-container > div'));
 
-  waitFor('Heading--h2', '#portal .Modal-container > div', () => {
+  waitFor('.Heading--h2', '#portal .Modal-container > div', () => {
     setDeliveryStyle();
   });
 
   // when you've entered a zip code
-  waitFor('Cart', '#portal .Modal-container > div', () => {
+  waitFor('.Cart', '#portal .Modal-container > div', () => {
     document.querySelector('.FlyIn-close')?.click();
   });
 }
@@ -249,6 +220,7 @@ function createBox() {
   } else {
     p.innerHTML = `<strong>${deliverymethod}</strong> på <strong>${storename}</strong>`;
   }
+  // set strong color på p innan rendering
   questionbox.append(p);
 
   let question = document.createElement('p');
@@ -264,6 +236,7 @@ function createBox() {
   );
 
   if (isPhone) {
+    // u-sizeFull
     closebutton.style.width = '100%';
   } else {
     closebutton.style.width = '280px';
@@ -351,7 +324,7 @@ function createBox() {
       });
     });
 
-    waitFor('Heading--h2', '#portal .Modal-container > div', () => {
+    waitFor('.Heading--h2', '#portal .Modal-container > div', () => {
       setDeliveryStyle();
     });
 
@@ -374,13 +347,13 @@ function createBox() {
       'none';
 
     // Remove "Tidigare adresser"
-    waitFor('List', '.FlyIn-scroll', () => {
+    waitFor('.List', '.FlyIn-scroll', () => {
       document.querySelector('.FlyIn-scroll h4').style.display = 'none';
       document.querySelector('.FlyIn-scroll ul').style.display = 'none';
     });
 
     // when you've entered a zip code
-    waitFor('Cart', '#portal .Modal-container > div', () => {
+    waitFor('.Cart', '#portal .Modal-container > div', () => {
       document.querySelector('.FlyIn-close')?.click();
     });
   });
@@ -397,13 +370,10 @@ function createBox() {
   modalContainer.prepend(questionbox);
 }
 
-function waitFor(className, element, callback) {
-  console.debug('Wait for className', className);
+function waitFor(selector, element, callback) {
+  console.debug('Wait for selector', selector);
 
-  if (!element) {
-    element = 'body';
-  }
-
+  // if not an element
   if (!element.tagName) {
     element = document.querySelector(element);
   }
@@ -411,12 +381,18 @@ function waitFor(className, element, callback) {
   let observer = new MutationObserver((mutations) => {
     console.debug('<experiment> modal change detected');
     for (const { addedNodes } of mutations) {
-      console.debug('<experiment> added node', addedNodes);
-
-      if (containClassInNodes(addedNodes, className)) {
-        console.debug('<experiment> className exist, callback');
-        observer.disconnect();
-        callback();
+      for (const node of addedNodes) {
+        console.debug('<experiment> added node', node);
+        if (!node.tagName) {
+          console.debug('not an element');
+          continue;
+        }
+        // parentNode finds it twice
+        if (node.matches(selector) || node.querySelector(selector)) {
+          console.debug('<experiment> selector exist', selector);
+          observer.disconnect();
+          callback();
+        }
       }
     }
   });
