@@ -1,124 +1,143 @@
-let isStoreSet = !!document.querySelector('.TimeslotPreview-info')?.textContent;
-let isPhone = window.innerWidth < 600;
-let modalContainer;
+let isStoreSet = !!document.querySelector('.TimeslotPreview-info')?.textContent; // Only on handla
+let isPhone = window.innerWidth < 600; // Design breakpoint
 
-run();
-
-function run() {
-  console.debug('run');
-
-  if (isStoreSet) {
-    waitForModal();
-  } else {
-    centerModal();
-    waitFor('.FlyIn-header', '#portal', () => {
-      remake();
-    });
-  }
+function pushEvent(action) {
+  console.debug('<experiment> Event pushed to dataLayer', action);
+  dataLayer.push({
+    event: 'interaction',
+    eventCategory: 'Experiment',
+    eventAction: 'storefocus-' + action,
+    eventLabel: '',
+  });
 }
+
+function waitFor(selector, element, callback) {
+  console.debug('<experiment> Wait for selector', selector);
+
+  // If not an element
+  if (!element.tagName) {
+    element = document.querySelector(element);
+  }
+
+  let observer = new MutationObserver((mutations) => {
+    console.debug('<experiment> Change detected in element', element);
+    for (const { addedNodes } of mutations) {
+      for (const node of addedNodes) {
+        console.debug('<experiment> Node added', node);
+        if (!node.tagName) {
+          console.debug('<experiment> Node is not an element');
+          continue;
+        }
+        if (node.matches(selector)) {
+          console.debug('<experiment> Selector matches', selector);
+          observer.disconnect();
+          console.debug('<experiment> callback', node);
+
+          callback(node);
+        } else if (node.querySelector(selector)) {
+          console.debug('<experiment> Selector exist in node', selector);
+          observer.disconnect();
+
+          console.debug('<experiment> callback', node.querySelector(selector));
+          callback(node.querySelector(selector));
+        }
+      }
+    }
+  });
+
+  console.debug('<experiment> observing', element);
+  observer.observe(element, {
+    childList: true,
+    subtree: true,
+  });
+}
+
+waitFor('.Modal-overlay', '#portal', (element) => {
+  if (!isPhone) {
+    let overlay = document.createElement('div');
+    overlay.classList.add('overlay');
+    overlay.style.height = '100%';
+    overlay.style.width = '100%';
+    overlay.style.background = 'black';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.opacity = '0.25';
+
+    overlay.addEventListener('click', () => {
+      pushEvent('overlayclick');
+    });
+
+    document.querySelector('#portal .Modal-container').prepend(overlay);
+  }
+
+  element.addEventListener('click', () => {
+    pushEvent('blackclick');
+  });
+});
 
 function centerModal() {
   let modal = document.querySelector('#portal .Modal.Modal--right.is-visible');
 
   modal.classList.add('u-hidden');
+
   modal.classList.remove('Modal--right');
   modal.classList.add('Modal--center');
 
   setTimeout(() => {
     modal.classList.remove('u-hidden');
   }, 500);
-
-  document
-    .querySelector('#portal .Modal-overlay')
-    .addEventListener('click', (event) => {
-      dataLayer.push({
-        event: 'interaction',
-        eventCategory: 'Experiment',
-        eventAction: 'storefocus-blackclick',
-        eventLabel: '',
-      });
-    });
 }
 
-function waitForModal() {
-  document.querySelector('.CartButton').click();
-  centerModal();
+let imageLaptop = document.createElement('img');
+imageLaptop.style.margin = '0 auto';
+imageLaptop.style.display = 'block';
+imageLaptop.style.height = '242px';
+imageLaptop.src = 'https://www.coop.se/assets/icons/computer.svg';
 
-  modalContainer = document.querySelector('#portal .Modal-container');
-  console.debug('modalContainer', modalContainer);
+function welcome() {
+  let welcomeDiv = document.querySelector(
+    '#portal .Modal-container > div:not(.overlay)'
+  );
 
-  waitFor('.Cart-header', modalContainer, () => {
-    getVariables();
-  });
-}
+  // Add image
+  welcomeDiv.querySelector('.FlyIn-scroll').prepend(imageLaptop);
 
-// document.querySelector('.Modal-container').style.padding = '2em';
-
-let deliverymethod;
-let postalcode;
-let storename;
-
-function getVariables() {
-  deliverymethod = document.querySelector(
-    '[data-test=cncheader-changedeliverymethod]'
-  )?.textContent;
-
-  postalcode = document.querySelector('[data-test=changePostalCode]')
-    ?.textContent;
-
-  storename = document.querySelector('[data-test=pickupStoreLink]')
-    ?.textContent;
-
-  // flytt ut
-  createBox();
-
-  // return [deliverymethod, deliverymethod]
-}
-
-let isLoggedIn = coopUserSettings.isAuthenticated;
-
-function remake() {
-  dataLayer.push({
-    event: 'interaction',
-    eventCategory: 'Experiment',
-    eventAction: 'storefocus-welcome',
-    eventLabel: '',
-  });
-
-  // document.querySelector('.FlyIn-back').classList.add('u-hidden');
-  document.querySelector('.FlyIn-close').classList.add('u-hidden');
-
-  document.querySelector('.FlyIn-scroll').prepend(imageLaptop);
-
-  document.querySelector('.FlyIn-header .Heading').innerHTML =
+  welcomeDiv.querySelector('.FlyIn-header .Heading').innerHTML =
     'Välkommen till<br>vår butik online!';
-
-  document.querySelector('.FlyIn-scroll p').innerHTML =
+  welcomeDiv.querySelector('.FlyIn-scroll p').innerHTML =
     'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
 
   setTimeout(() => {
-    document.querySelector('.FlyIn-scroll input').focus();
+    welcomeDiv.querySelector('.FlyIn-scroll input').focus();
   }, 1000);
 
-  document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display =
+  // Remove "X"
+  welcomeDiv.querySelector('.FlyIn-close').classList.add('u-hidden');
+
+  // Remove "Eller, välj att söka efter en butik"
+  welcomeDiv.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display =
     'none';
 
-  document.querySelector('.FlyIn-scroll > div:last-of-type').style.display =
+  // Remove "Logga in eller Skapa inloggning" and tooltip
+  welcomeDiv.querySelector('.FlyIn-scroll > div:last-of-type').style.display =
     'none';
 
-  setStyling(document.querySelector('#portal .Modal-container > div'));
+  setStyling(welcomeDiv);
 
-  waitFor('.Heading--h2', '#portal .Modal-container > div', () => {
-    setDeliveryStyle();
+  waitFor('.Heading--h2', welcomeDiv, () => {
+    redesignDelivery();
   });
 
-  // when you've entered a zip code
-  waitFor('.Cart', '#portal .Modal-container > div', () => {
+  // When completed all steps, close cart when shown
+  waitFor('.Cart', welcomeDiv, () => {
     document.querySelector('.FlyIn-close')?.click();
   });
 }
 
 function setStyling(element) {
+  console.debug('styling', element);
+
   element.style.height = 'auto';
   element.style.padding = '21px 15px 42px 15px';
 
@@ -133,65 +152,70 @@ function setStyling(element) {
     h2.style.fontSize = '34px';
     h2.style.fontFamily = 'CoopNew-Black, sans-serif';
   }
-
-  element.querySelectorAll('strong').forEach((element) => {
-    element.style.color = '#008844';
-  });
 }
 
-function setDeliveryStyle() {
+function redesignDelivery() {
   if (!isPhone) {
     document
-      .querySelector('#portal .Modal-container > div')
+      .querySelector('#portal .Modal-container > div:not(.overlay)')
       .classList.add('u-heightAll');
 
     document.querySelector('#portal .Modal-container').style.padding = '20px';
 
-    document.querySelector('#portal .Modal-container > div').style.position =
-      'relative';
+    document.querySelector(
+      '#portal .Modal-container > div:not(.overlay)'
+    ).style.position = 'relative';
   }
 
-  // TODO: Try which one is the one needed
   document.querySelector('.FlyIn-back').classList.remove('u-hidden');
   document.querySelector('.FlyIn-close').classList.add('u-hidden');
 
   document.querySelector('.FlyIn-back').addEventListener('click', () => {
-    dataLayer.push({
-      event: 'interaction',
-      eventCategory: 'Experiment',
-      eventAction: 'storefocus-back',
-      eventLabel: '',
-    });
+    pushEvent('deliveryback');
   });
 }
 
-let imageLaptop = document.createElement('img');
-imageLaptop.style.margin = '0 auto';
-imageLaptop.style.display = 'block';
-imageLaptop.style.height = '242px';
-imageLaptop.src = 'https://www.coop.se/assets/icons/computer.svg';
+function redesignZip() {
+  let imageSigns = document.createElement('img');
+  imageSigns.style.margin = '0 auto';
+  imageSigns.style.display = 'block';
+  imageSigns.style.height = '233px';
+  imageSigns.src =
+    'https://res.cloudinary.com/coopjakob/image/upload/v1622715712/T55/postnum_ct5pko.svg';
+  document.querySelector('.FlyIn-scroll').prepend(imageSigns);
 
-let imageSigns = document.createElement('img');
-imageSigns.style.margin = '0 auto';
-imageSigns.style.display = 'block';
-imageSigns.style.height = '233px';
-imageSigns.src =
-  'https://res.cloudinary.com/coopjakob/image/upload/v1622715712/T55/postnum_ct5pko.svg';
+  document.querySelector('.FlyIn-header .Heading').innerHTML = 'Ändra dina val';
+  document.querySelector('.FlyIn-scroll p').innerHTML =
+    'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
 
-function createBox() {
-  dataLayer.push({
-    event: 'interaction',
-    eventCategory: 'Experiment',
-    eventAction: 'storefocus-newcart',
-    eventLabel: '',
+  document.querySelector('.FlyIn-scroll input').focus();
+
+  // Remove "Eller, välj att söka efter en butik"
+  document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display =
+    'none';
+  // Remove tooltip
+  document.querySelector('.FlyIn-scroll > div:last-of-type').style.display =
+    'none';
+  // Remove "Tidigare adresser"
+  waitFor('.List', '.FlyIn-scroll', () => {
+    document.querySelector('.FlyIn-scroll h4').style.display = 'none';
+    document.querySelector('.FlyIn-scroll ul').style.display = 'none';
   });
 
+  // When you've entered a zip code
+  waitFor('.Cart', '#portal .Modal-container > div:not(.overlay)', () => {
+    document.querySelector('.FlyIn-close')?.click();
+  });
+
+  document.querySelector('.FlyIn-scroll').classList.add('is-redesign');
+}
+
+function newCart() {
   let questionbox = document.createElement('div');
 
   questionbox.classList.add(
     'u-flex',
     'u-flexDirectionColumn',
-    // 'u-heightAll',
     'u-bgWhite',
     'u-sizeFull',
     'u-sm-size540'
@@ -203,9 +227,6 @@ function createBox() {
 
   questionbox.style.position = 'absolute';
 
-  // let modalcontainer = document.querySelector('.Modal-container');
-  let containerDiv = modalContainer.querySelector('div');
-
   questionbox.append(imageLaptop);
 
   let h2 = document.createElement('h2');
@@ -214,12 +235,24 @@ function createBox() {
   questionbox.append(h2);
 
   let p = document.createElement('p');
-  if (postalcode) {
-    p.innerHTML = `<strong>${deliverymethod}</strong> till <strong>${postalcode}<strong>`;
+
+  const deliveryData = {
+    postalcode: document.querySelector('[data-test=changePostalCode]')
+      ?.textContent,
+    storename: document.querySelector('[data-test=pickupStoreLink]')
+      ?.textContent,
+  };
+
+  if (deliveryData.postalcode) {
+    p.innerHTML = `<strong>Hemleverans</strong> till <strong>${deliveryData.postalcode}<strong>`;
   } else {
-    p.innerHTML = `<strong>${deliverymethod}</strong> på <strong>${storename}</strong>`;
+    p.innerHTML = `<strong>Hämtas</strong> på <strong>${deliveryData.storename}</strong>`;
   }
-  // set strong color på p innan rendering
+
+  p.querySelectorAll('strong').forEach((element) => {
+    element.style.color = '#008844';
+  });
+
   questionbox.append(p);
 
   let question = document.createElement('p');
@@ -235,8 +268,7 @@ function createBox() {
   );
 
   if (isPhone) {
-    // u-sizeFull
-    closebutton.style.width = '100%';
+    closebutton.classList.add('u-sizeFull');
   } else {
     closebutton.style.width = '280px';
   }
@@ -264,13 +296,18 @@ function createBox() {
   );
 
   if (isPhone) {
-    changebutton.style.width = '100%';
+    changebutton.classList.add('u-sizeFull');
   } else {
     changebutton.style.width = '280px';
   }
   changebutton.style.margin = '0 auto';
 
   changebutton.innerText = 'Nej, jag vill ändra mina val';
+
+  let containerDiv = document.querySelector(
+    '#portal .Modal-container > div:not(.overlay)'
+  );
+
   changebutton.addEventListener('click', () => {
     dataLayer.push({
       event: 'interaction',
@@ -281,7 +318,7 @@ function createBox() {
 
     if (!isPhone) {
       document
-        .querySelector('#portal .Modal-container > div')
+        .querySelector('#portal .Modal-container > div:not(.overlay)')
         .classList.add('u-heightAll');
     }
 
@@ -290,11 +327,12 @@ function createBox() {
       ?.click();
     questionbox.remove();
 
-    // TODO: Is flex needed?
     containerDiv.classList.add('u-flex');
     containerDiv.classList.remove('u-hidden');
 
-    setStyling(document.querySelector('#portal .Modal-container > div'));
+    setStyling(
+      document.querySelector('#portal .Modal-container > div:not(.overlay)')
+    );
 
     document.querySelector('.FlyIn-back').classList.add('u-hidden');
 
@@ -314,91 +352,50 @@ function createBox() {
     containerDiv.prepend(back);
 
     back.addEventListener('click', (event) => {
-      createBox();
-      dataLayer.push({
-        event: 'interaction',
-        eventCategory: 'Experiment',
-        eventAction: 'storefocus-back',
-        eventLabel: '',
-      });
+      pushEvent('zipback');
+      newCart();
     });
 
-    waitFor('.Heading--h2', '#portal .Modal-container > div', () => {
-      setDeliveryStyle();
-    });
+    waitFor(
+      '.Heading--h2',
+      '#portal .Modal-container > div:not(.overlay)',
+      () => {
+        redesignDelivery();
+      }
+    );
 
-    document.querySelector('.FlyIn-scroll').prepend(imageSigns);
-
-    document.querySelector('.FlyIn-header .Heading').innerHTML =
-      'Ändra dina val';
-
-    document.querySelector('.FlyIn-scroll p').innerHTML =
-      'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
-
-    document.querySelector('.FlyIn-scroll input').focus();
-
-    // remove "Eller, välj att söka efter en butik"
-    document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display =
-      'none';
-
-    // remove tooltip
-    document.querySelector('.FlyIn-scroll > div:last-of-type').style.display =
-      'none';
-
-    // Remove "Tidigare adresser"
-    waitFor('.List', '.FlyIn-scroll', () => {
-      document.querySelector('.FlyIn-scroll h4').style.display = 'none';
-      document.querySelector('.FlyIn-scroll ul').style.display = 'none';
-    });
-
-    // when you've entered a zip code
-    waitFor('.Cart', '#portal .Modal-container > div', () => {
-      document.querySelector('.FlyIn-close')?.click();
-    });
+    if (!document.querySelector('.FlyIn-scroll.is-redesign')) {
+      redesignZip();
+    }
   });
   questionbox.append(changebutton);
 
   containerDiv.classList.remove('u-flex');
   containerDiv.classList.add('u-hidden');
 
-  // TODO: Remove close buttons and close on click on black
-
   questionbox.style.textAlign = 'center';
   setStyling(questionbox);
 
-  modalContainer.prepend(questionbox);
+  console.debug('<experiment> Append questionbox', questionbox);
+  document.querySelector('#portal .Modal-container').append(questionbox);
 }
 
-function waitFor(selector, element, callback) {
-  console.debug('Wait for selector', selector);
+if (isStoreSet) {
+  console.debug('<experiment> Open cart');
+  document.querySelector('.CartButton').click();
 
-  // if not an element
-  if (!element.tagName) {
-    element = document.querySelector(element);
-  }
-
-  let observer = new MutationObserver((mutations) => {
-    console.debug('<experiment> modal change detected');
-    for (const { addedNodes } of mutations) {
-      for (const node of addedNodes) {
-        console.debug('<experiment> added node', node);
-        if (!node.tagName) {
-          console.debug('not an element');
-          continue;
-        }
-        // parentNode finds it twice
-        if (node.matches(selector) || node.querySelector(selector)) {
-          console.debug('<experiment> selector exist', selector);
-          observer.disconnect();
-          callback();
-        }
-      }
-    }
+  centerModal();
+  waitFor('.Cart-header', '#portal', () => {
+    pushEvent('newCart');
+    newCart();
   });
+} else {
+  // WHILE TESTING: Trigger on local machine:
+  // document.querySelector('.CartButton').click();
 
-  console.debug('<experiment> observing', element);
-  observer.observe(element, {
-    childList: true,
-    subtree: true,
+  centerModal();
+  waitFor('.FlyIn-header', '#portal', () => {
+    pushEvent('welcome');
+    welcome();
   });
 }

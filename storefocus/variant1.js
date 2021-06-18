@@ -8,274 +8,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 var isStoreSet = !!((_document$querySelect = document.querySelector('.TimeslotPreview-info')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.textContent);
 var isPhone = window.innerWidth < 600;
-var modalContainer;
-run();
 
-function run() {
-  if (isStoreSet) {
-    waitForModal();
-  } else {
-    centerModal();
-    waitFor('.FlyIn-header', '#portal', function () {
-      remake();
-    });
-  }
-}
-
-function centerModal() {
-  var modal = document.querySelector('#portal .Modal.Modal--right.is-visible');
-  modal.classList.add('u-hidden');
-  modal.classList.remove('Modal--right');
-  modal.classList.add('Modal--center');
-  setTimeout(function () {
-    modal.classList.remove('u-hidden');
-  }, 500);
-  document.querySelector('#portal .Modal-overlay').addEventListener('click', function (event) {
-    dataLayer.push({
-      event: 'interaction',
-      eventCategory: 'Experiment',
-      eventAction: 'storefocus-blackclick',
-      eventLabel: ''
-    });
-  });
-}
-
-function waitForModal() {
-  document.querySelector('.CartButton').click();
-  centerModal();
-  modalContainer = document.querySelector('#portal .Modal-container');
-  waitFor('.Cart-header', modalContainer, function () {
-    getVariables();
-  });
-}
-
-var deliverymethod;
-var postalcode;
-var storename;
-
-function getVariables() {
-  var _document$querySelect2, _document$querySelect3, _document$querySelect4;
-
-  deliverymethod = (_document$querySelect2 = document.querySelector('[data-test=cncheader-changedeliverymethod]')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.textContent;
-  postalcode = (_document$querySelect3 = document.querySelector('[data-test=changePostalCode]')) === null || _document$querySelect3 === void 0 ? void 0 : _document$querySelect3.textContent;
-  storename = (_document$querySelect4 = document.querySelector('[data-test=pickupStoreLink]')) === null || _document$querySelect4 === void 0 ? void 0 : _document$querySelect4.textContent;
-  createBox();
-}
-
-var isLoggedIn = coopUserSettings.isAuthenticated;
-
-function remake() {
+function pushEvent(action) {
   dataLayer.push({
     event: 'interaction',
     eventCategory: 'Experiment',
-    eventAction: 'storefocus-welcome',
+    eventAction: 'storefocus-' + action,
     eventLabel: ''
   });
-  document.querySelector('.FlyIn-close').classList.add('u-hidden');
-  document.querySelector('.FlyIn-scroll').prepend(imageLaptop);
-  document.querySelector('.FlyIn-header .Heading').innerHTML = 'Välkommen till<br>vår butik online!';
-  document.querySelector('.FlyIn-scroll p').innerHTML = 'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
-  setTimeout(function () {
-    document.querySelector('.FlyIn-scroll input').focus();
-  }, 1000);
-  document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display = 'none';
-  document.querySelector('.FlyIn-scroll > div:last-of-type').style.display = 'none';
-  setStyling(document.querySelector('#portal .Modal-container > div'));
-  waitFor('.Heading--h2', '#portal .Modal-container > div', function () {
-    setDeliveryStyle();
-  });
-  waitFor('.Cart', '#portal .Modal-container > div', function () {
-    var _document$querySelect5;
-
-    (_document$querySelect5 = document.querySelector('.FlyIn-close')) === null || _document$querySelect5 === void 0 ? void 0 : _document$querySelect5.click();
-  });
-}
-
-function setStyling(element) {
-  element.style.height = 'auto';
-  element.style.padding = '21px 15px 42px 15px';
-
-  if (!isPhone) {
-    element.style.position = 'relative';
-    element.style.borderRadius = '20px';
-    element.classList.remove('u-heightAll');
-  }
-
-  var h2 = element.querySelector('h2');
-
-  if (h2) {
-    h2.style.fontSize = '34px';
-    h2.style.fontFamily = 'CoopNew-Black, sans-serif';
-  }
-
-  element.querySelectorAll('strong').forEach(function (element) {
-    element.style.color = '#008844';
-  });
-}
-
-function setDeliveryStyle() {
-  if (!isPhone) {
-    document.querySelector('#portal .Modal-container > div').classList.add('u-heightAll');
-    document.querySelector('#portal .Modal-container').style.padding = '20px';
-    document.querySelector('#portal .Modal-container > div').style.position = 'relative';
-  }
-
-  document.querySelector('.FlyIn-back').classList.remove('u-hidden');
-  document.querySelector('.FlyIn-close').classList.add('u-hidden');
-  document.querySelector('.FlyIn-back').addEventListener('click', function () {
-    dataLayer.push({
-      event: 'interaction',
-      eventCategory: 'Experiment',
-      eventAction: 'storefocus-back',
-      eventLabel: ''
-    });
-  });
-}
-
-var imageLaptop = document.createElement('img');
-imageLaptop.style.margin = '0 auto';
-imageLaptop.style.display = 'block';
-imageLaptop.style.height = '242px';
-imageLaptop.src = 'https://www.coop.se/assets/icons/computer.svg';
-var imageSigns = document.createElement('img');
-imageSigns.style.margin = '0 auto';
-imageSigns.style.display = 'block';
-imageSigns.style.height = '233px';
-imageSigns.src = 'https://res.cloudinary.com/coopjakob/image/upload/v1622715712/T55/postnum_ct5pko.svg';
-
-function createBox() {
-  dataLayer.push({
-    event: 'interaction',
-    eventCategory: 'Experiment',
-    eventAction: 'storefocus-newcart',
-    eventLabel: ''
-  });
-  var questionbox = document.createElement('div');
-  questionbox.classList.add('u-flex', 'u-flexDirectionColumn', 'u-bgWhite', 'u-sizeFull', 'u-sm-size540');
-
-  if (isPhone) {
-    questionbox.classList.add('u-heightAll');
-  }
-
-  questionbox.style.position = 'absolute';
-  var containerDiv = modalContainer.querySelector('div');
-  questionbox.append(imageLaptop);
-  var h2 = document.createElement('h2');
-  h2.innerText = 'Dina senaste val';
-  h2.style.marginBottom = '0';
-  questionbox.append(h2);
-  var p = document.createElement('p');
-
-  if (postalcode) {
-    p.innerHTML = "<strong>".concat(deliverymethod, "</strong> till <strong>").concat(postalcode, "<strong>");
-  } else {
-    p.innerHTML = "<strong>".concat(deliverymethod, "</strong> p\xE5 <strong>").concat(storename, "</strong>");
-  }
-
-  questionbox.append(p);
-  var question = document.createElement('p');
-  question.innerText = 'Stämmer dina val fortfarande?';
-  questionbox.append(question);
-  var closebutton = document.createElement('button');
-  closebutton.classList.add('Button', 'Button--green', 'Button--radius', 'u-marginBsm');
-
-  if (isPhone) {
-    closebutton.style.width = '100%';
-  } else {
-    closebutton.style.width = '280px';
-  }
-
-  closebutton.style.margin = '0 auto';
-  closebutton.innerText = 'Ja, fortsätt handla';
-  closebutton.addEventListener('click', function () {
-    dataLayer.push({
-      event: 'interaction',
-      eventCategory: 'Experiment',
-      eventAction: 'storefocus-close',
-      eventLabel: ''
-    });
-    document.querySelector('.FlyIn-close').classList.remove('u-hidden');
-    document.querySelector('.FlyIn-close').click();
-    questionbox.remove();
-  });
-  questionbox.append(closebutton);
-  var changebutton = document.createElement('button');
-  changebutton.classList.add('Button', 'Button--transparentGreen', 'Button--radius');
-
-  if (isPhone) {
-    changebutton.style.width = '100%';
-  } else {
-    changebutton.style.width = '280px';
-  }
-
-  changebutton.style.margin = '0 auto';
-  changebutton.innerText = 'Nej, jag vill ändra mina val';
-  changebutton.addEventListener('click', function () {
-    var _document$querySelect6;
-
-    dataLayer.push({
-      event: 'interaction',
-      eventCategory: 'Experiment',
-      eventAction: 'storefocus-change',
-      eventLabel: ''
-    });
-
-    if (!isPhone) {
-      document.querySelector('#portal .Modal-container > div').classList.add('u-heightAll');
-    }
-
-    (_document$querySelect6 = document.querySelector('[data-test=cncheader-chagedeliverymethodbutton]')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.click();
-    questionbox.remove();
-    containerDiv.classList.add('u-flex');
-    containerDiv.classList.remove('u-hidden');
-    setStyling(document.querySelector('#portal .Modal-container > div'));
-    document.querySelector('.FlyIn-back').classList.add('u-hidden');
-    document.querySelector('.FlyIn-close').addEventListener('click', function () {
-      dataLayer.push({
-        event: 'interaction',
-        eventCategory: 'Experiment',
-        eventAction: 'storefocus-x',
-        eventLabel: ''
-      });
-    });
-    var back = document.createElement('button');
-    back.classList.add('FlyIn-back');
-    back.innerHTML = '<svg role="img"><svg id="pointer-left" viewBox="0 0 12 14"><path d="M12.3 6.9H-.2m5 5l-5-5 5-5"></path></svg></svg>';
-    containerDiv.prepend(back);
-    back.addEventListener('click', function (event) {
-      createBox();
-      dataLayer.push({
-        event: 'interaction',
-        eventCategory: 'Experiment',
-        eventAction: 'storefocus-back',
-        eventLabel: ''
-      });
-    });
-    waitFor('.Heading--h2', '#portal .Modal-container > div', function () {
-      setDeliveryStyle();
-    });
-    document.querySelector('.FlyIn-scroll').prepend(imageSigns);
-    document.querySelector('.FlyIn-header .Heading').innerHTML = 'Ändra dina val';
-    document.querySelector('.FlyIn-scroll p').innerHTML = 'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
-    document.querySelector('.FlyIn-scroll input').focus();
-    document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display = 'none';
-    document.querySelector('.FlyIn-scroll > div:last-of-type').style.display = 'none';
-    waitFor('.List', '.FlyIn-scroll', function () {
-      document.querySelector('.FlyIn-scroll h4').style.display = 'none';
-      document.querySelector('.FlyIn-scroll ul').style.display = 'none';
-    });
-    waitFor('.Cart', '#portal .Modal-container > div', function () {
-      var _document$querySelect7;
-
-      (_document$querySelect7 = document.querySelector('.FlyIn-close')) === null || _document$querySelect7 === void 0 ? void 0 : _document$querySelect7.click();
-    });
-  });
-  questionbox.append(changebutton);
-  containerDiv.classList.remove('u-flex');
-  containerDiv.classList.add('u-hidden');
-  questionbox.style.textAlign = 'center';
-  setStyling(questionbox);
-  modalContainer.prepend(questionbox);
 }
 
 function waitFor(selector, element, callback) {
@@ -302,9 +42,12 @@ function waitFor(selector, element, callback) {
               continue;
             }
 
-            if (node.matches(selector) || node.querySelector(selector)) {
+            if (node.matches(selector)) {
               observer.disconnect();
-              callback();
+              callback(node);
+            } else if (node.querySelector(selector)) {
+              observer.disconnect();
+              callback(node.querySelector(selector));
             }
           }
         } catch (err) {
@@ -322,5 +65,258 @@ function waitFor(selector, element, callback) {
   observer.observe(element, {
     childList: true,
     subtree: true
+  });
+}
+
+waitFor('.Modal-overlay', '#portal', function (element) {
+  if (!isPhone) {
+    var overlay = document.createElement('div');
+    overlay.classList.add('overlay');
+    overlay.style.height = '100%';
+    overlay.style.width = '100%';
+    overlay.style.background = 'black';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.opacity = '0.25';
+    overlay.addEventListener('click', function () {
+      pushEvent('overlayclick');
+    });
+    document.querySelector('#portal .Modal-container').prepend(overlay);
+  }
+
+  element.addEventListener('click', function () {
+    pushEvent('blackclick');
+  });
+});
+
+function centerModal() {
+  var modal = document.querySelector('#portal .Modal.Modal--right.is-visible');
+  modal.classList.add('u-hidden');
+  modal.classList.remove('Modal--right');
+  modal.classList.add('Modal--center');
+  setTimeout(function () {
+    modal.classList.remove('u-hidden');
+  }, 500);
+}
+
+var imageLaptop = document.createElement('img');
+imageLaptop.style.margin = '0 auto';
+imageLaptop.style.display = 'block';
+imageLaptop.style.height = '242px';
+imageLaptop.src = 'https://www.coop.se/assets/icons/computer.svg';
+
+function welcome() {
+  var welcomeDiv = document.querySelector('#portal .Modal-container > div:not(.overlay)');
+  welcomeDiv.querySelector('.FlyIn-scroll').prepend(imageLaptop);
+  welcomeDiv.querySelector('.FlyIn-header .Heading').innerHTML = 'Välkommen till<br>vår butik online!';
+  welcomeDiv.querySelector('.FlyIn-scroll p').innerHTML = 'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
+  setTimeout(function () {
+    welcomeDiv.querySelector('.FlyIn-scroll input').focus();
+  }, 1000);
+  welcomeDiv.querySelector('.FlyIn-close').classList.add('u-hidden');
+  welcomeDiv.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display = 'none';
+  welcomeDiv.querySelector('.FlyIn-scroll > div:last-of-type').style.display = 'none';
+  setStyling(welcomeDiv);
+  waitFor('.Heading--h2', welcomeDiv, function () {
+    redesignDelivery();
+  });
+  waitFor('.Cart', welcomeDiv, function () {
+    var _document$querySelect2;
+
+    (_document$querySelect2 = document.querySelector('.FlyIn-close')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.click();
+  });
+}
+
+function setStyling(element) {
+  element.style.height = 'auto';
+  element.style.padding = '21px 15px 42px 15px';
+
+  if (!isPhone) {
+    element.style.position = 'relative';
+    element.style.borderRadius = '20px';
+    element.classList.remove('u-heightAll');
+  }
+
+  var h2 = element.querySelector('h2');
+
+  if (h2) {
+    h2.style.fontSize = '34px';
+    h2.style.fontFamily = 'CoopNew-Black, sans-serif';
+  }
+}
+
+function redesignDelivery() {
+  if (!isPhone) {
+    document.querySelector('#portal .Modal-container > div:not(.overlay)').classList.add('u-heightAll');
+    document.querySelector('#portal .Modal-container').style.padding = '20px';
+    document.querySelector('#portal .Modal-container > div:not(.overlay)').style.position = 'relative';
+  }
+
+  document.querySelector('.FlyIn-back').classList.remove('u-hidden');
+  document.querySelector('.FlyIn-close').classList.add('u-hidden');
+  document.querySelector('.FlyIn-back').addEventListener('click', function () {
+    pushEvent('deliveryback');
+  });
+}
+
+function redesignZip() {
+  var imageSigns = document.createElement('img');
+  imageSigns.style.margin = '0 auto';
+  imageSigns.style.display = 'block';
+  imageSigns.style.height = '233px';
+  imageSigns.src = 'https://res.cloudinary.com/coopjakob/image/upload/v1622715712/T55/postnum_ct5pko.svg';
+  document.querySelector('.FlyIn-scroll').prepend(imageSigns);
+  document.querySelector('.FlyIn-header .Heading').innerHTML = 'Ändra dina val';
+  document.querySelector('.FlyIn-scroll p').innerHTML = 'Fyll i ditt postnummer för att få se rätt sortiment och leveransalternativ för dig.';
+  document.querySelector('.FlyIn-scroll input').focus();
+  document.querySelector('.FlyIn-scroll > p:nth-of-type(2)').style.display = 'none';
+  document.querySelector('.FlyIn-scroll > div:last-of-type').style.display = 'none';
+  waitFor('.List', '.FlyIn-scroll', function () {
+    document.querySelector('.FlyIn-scroll h4').style.display = 'none';
+    document.querySelector('.FlyIn-scroll ul').style.display = 'none';
+  });
+  waitFor('.Cart', '#portal .Modal-container > div:not(.overlay)', function () {
+    var _document$querySelect3;
+
+    (_document$querySelect3 = document.querySelector('.FlyIn-close')) === null || _document$querySelect3 === void 0 ? void 0 : _document$querySelect3.click();
+  });
+  document.querySelector('.FlyIn-scroll').classList.add('is-redesign');
+}
+
+function newCart() {
+  var _document$querySelect4, _document$querySelect5;
+
+  var questionbox = document.createElement('div');
+  questionbox.classList.add('u-flex', 'u-flexDirectionColumn', 'u-bgWhite', 'u-sizeFull', 'u-sm-size540');
+
+  if (isPhone) {
+    questionbox.classList.add('u-heightAll');
+  }
+
+  questionbox.style.position = 'absolute';
+  questionbox.append(imageLaptop);
+  var h2 = document.createElement('h2');
+  h2.innerText = 'Dina senaste val';
+  h2.style.marginBottom = '0';
+  questionbox.append(h2);
+  var p = document.createElement('p');
+  var deliveryData = {
+    postalcode: (_document$querySelect4 = document.querySelector('[data-test=changePostalCode]')) === null || _document$querySelect4 === void 0 ? void 0 : _document$querySelect4.textContent,
+    storename: (_document$querySelect5 = document.querySelector('[data-test=pickupStoreLink]')) === null || _document$querySelect5 === void 0 ? void 0 : _document$querySelect5.textContent
+  };
+
+  if (deliveryData.postalcode) {
+    p.innerHTML = "<strong>Hemleverans</strong> till <strong>".concat(deliveryData.postalcode, "<strong>");
+  } else {
+    p.innerHTML = "<strong>H\xE4mtas</strong> p\xE5 <strong>".concat(deliveryData.storename, "</strong>");
+  }
+
+  p.querySelectorAll('strong').forEach(function (element) {
+    element.style.color = '#008844';
+  });
+  questionbox.append(p);
+  var question = document.createElement('p');
+  question.innerText = 'Stämmer dina val fortfarande?';
+  questionbox.append(question);
+  var closebutton = document.createElement('button');
+  closebutton.classList.add('Button', 'Button--green', 'Button--radius', 'u-marginBsm');
+
+  if (isPhone) {
+    closebutton.classList.add('u-sizeFull');
+  } else {
+    closebutton.style.width = '280px';
+  }
+
+  closebutton.style.margin = '0 auto';
+  closebutton.innerText = 'Ja, fortsätt handla';
+  closebutton.addEventListener('click', function () {
+    dataLayer.push({
+      event: 'interaction',
+      eventCategory: 'Experiment',
+      eventAction: 'storefocus-close',
+      eventLabel: ''
+    });
+    document.querySelector('.FlyIn-close').classList.remove('u-hidden');
+    document.querySelector('.FlyIn-close').click();
+    questionbox.remove();
+  });
+  questionbox.append(closebutton);
+  var changebutton = document.createElement('button');
+  changebutton.classList.add('Button', 'Button--transparentGreen', 'Button--radius');
+
+  if (isPhone) {
+    changebutton.classList.add('u-sizeFull');
+  } else {
+    changebutton.style.width = '280px';
+  }
+
+  changebutton.style.margin = '0 auto';
+  changebutton.innerText = 'Nej, jag vill ändra mina val';
+  var containerDiv = document.querySelector('#portal .Modal-container > div:not(.overlay)');
+  changebutton.addEventListener('click', function () {
+    var _document$querySelect6;
+
+    dataLayer.push({
+      event: 'interaction',
+      eventCategory: 'Experiment',
+      eventAction: 'storefocus-change',
+      eventLabel: ''
+    });
+
+    if (!isPhone) {
+      document.querySelector('#portal .Modal-container > div:not(.overlay)').classList.add('u-heightAll');
+    }
+
+    (_document$querySelect6 = document.querySelector('[data-test=cncheader-chagedeliverymethodbutton]')) === null || _document$querySelect6 === void 0 ? void 0 : _document$querySelect6.click();
+    questionbox.remove();
+    containerDiv.classList.add('u-flex');
+    containerDiv.classList.remove('u-hidden');
+    setStyling(document.querySelector('#portal .Modal-container > div:not(.overlay)'));
+    document.querySelector('.FlyIn-back').classList.add('u-hidden');
+    document.querySelector('.FlyIn-close').addEventListener('click', function () {
+      dataLayer.push({
+        event: 'interaction',
+        eventCategory: 'Experiment',
+        eventAction: 'storefocus-x',
+        eventLabel: ''
+      });
+    });
+    var back = document.createElement('button');
+    back.classList.add('FlyIn-back');
+    back.innerHTML = '<svg role="img"><svg id="pointer-left" viewBox="0 0 12 14"><path d="M12.3 6.9H-.2m5 5l-5-5 5-5"></path></svg></svg>';
+    containerDiv.prepend(back);
+    back.addEventListener('click', function (event) {
+      pushEvent('zipback');
+      newCart();
+    });
+    waitFor('.Heading--h2', '#portal .Modal-container > div:not(.overlay)', function () {
+      redesignDelivery();
+    });
+
+    if (!document.querySelector('.FlyIn-scroll.is-redesign')) {
+      redesignZip();
+    }
+  });
+  questionbox.append(changebutton);
+  containerDiv.classList.remove('u-flex');
+  containerDiv.classList.add('u-hidden');
+  questionbox.style.textAlign = 'center';
+  setStyling(questionbox);
+  document.querySelector('#portal .Modal-container').append(questionbox);
+}
+
+if (isStoreSet) {
+  document.querySelector('.CartButton').click();
+  centerModal();
+  waitFor('.Cart-header', '#portal', function () {
+    pushEvent('newCart');
+    newCart();
+  });
+} else {
+  centerModal();
+  waitFor('.FlyIn-header', '#portal', function () {
+    pushEvent('welcome');
+    welcome();
   });
 }
