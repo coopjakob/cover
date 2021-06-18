@@ -130,7 +130,7 @@ function welcome() {
 
 function setStyling(element) {
   element.style.height = 'auto';
-  element.style.padding = '21px 15px 42px 15px';
+  element.style.padding = '21px 10px 42px 10px';
 
   if (!isPhone) {
     element.style.position = 'relative';
@@ -314,7 +314,6 @@ if (isStoreSet) {
     newCart();
   });
 } else {
-  centerModal();
   waitFor('.FlyIn-header', '#portal', function () {
     pushEvent('welcome');
     welcome();
