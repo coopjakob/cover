@@ -15,10 +15,9 @@ function waitFor(selector, callback) {
           continue;
         }
 
-        if (node.querySelector(selector)) {
+        let elements = node.querySelectorAll(selector);
+        if (elements.length > 0) {
           console.debug('<experiment> Selector exist in node', selector);
-          let elements = node.querySelectorAll(selector);
-
           console.debug('<experiment> callback elements', elements);
           callback(elements);
         }
@@ -35,10 +34,9 @@ function waitFor(selector, callback) {
 
 waitFor('.AddToCart-button--add', (elements) => {
   elements.forEach((element) => {
-    if (document.querySelector('.CartButton .Badge').innerText == '') {
+    if (document.querySelector('.CartButton .Badge').innerText === '') {
       element.addEventListener('click', (event) => {
         console.debug('optimize.activate.storefocus click');
-        console.debug(document.querySelector('.CartButton .Badge').innerText);
         dataLayer.push({
           event: 'optimize.activate.storefocus',
         });
@@ -49,7 +47,7 @@ waitFor('.AddToCart-button--add', (elements) => {
 
 waitFor('.AddToCart-input', (elements) => {
   elements.forEach((element) => {
-    if (document.querySelector('.CartButton .Badge').innerText == '') {
+    if (document.querySelector('.CartButton .Badge').innerText === '') {
       element.addEventListener('keydown', (event) => {
         console.debug('key', event.key);
         if (event.key === 'Enter') {

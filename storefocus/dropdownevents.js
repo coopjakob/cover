@@ -25,8 +25,9 @@ function waitFor(selector, callback) {
               continue;
             }
 
-            if (node.querySelector(selector)) {
-              var elements = node.querySelectorAll(selector);
+            var elements = node.querySelectorAll(selector);
+
+            if (elements.length > 0) {
               callback(elements);
             }
           }
@@ -50,7 +51,7 @@ function waitFor(selector, callback) {
 
 waitFor('.AddToCart-button--add', function (elements) {
   elements.forEach(function (element) {
-    if (document.querySelector('.CartButton .Badge').innerText == '') {
+    if (document.querySelector('.CartButton .Badge').innerText === '') {
       element.addEventListener('click', function (event) {
         dataLayer.push({
           event: 'optimize.activate.storefocus'
@@ -61,7 +62,7 @@ waitFor('.AddToCart-button--add', function (elements) {
 });
 waitFor('.AddToCart-input', function (elements) {
   elements.forEach(function (element) {
-    if (document.querySelector('.CartButton .Badge').innerText == '') {
+    if (document.querySelector('.CartButton .Badge').innerText === '') {
       element.addEventListener('keydown', function (event) {
         if (event.key === 'Enter') {
           dataLayer.push({
