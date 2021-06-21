@@ -314,6 +314,7 @@ if (isStoreSet) {
     newCart();
   });
 } else {
+  centerModal();
   waitFor('.FlyIn-header', '#portal', function () {
     pushEvent('welcome');
     welcome();

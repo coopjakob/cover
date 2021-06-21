@@ -393,7 +393,7 @@ if (isStoreSet) {
   // WHILE TESTING: Trigger on local machine:
   // document.querySelector('.CartButton').click();
 
-  // centerModal();
+  centerModal();
   waitFor('.FlyIn-header', '#portal', () => {
     pushEvent('welcome');
     welcome();
