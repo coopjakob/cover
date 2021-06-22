@@ -1,6 +1,7 @@
-let modalContainer = document.querySelector('#portal .Modal-container');
+let containerDiv = document.querySelector(
+  '#portal .Modal-container .Cart-header'
+);
 
-let containerDiv = modalContainer.querySelector('div');
 let back = document.createElement('button');
 back.classList.add(
   'Experiment',
@@ -10,7 +11,7 @@ back.classList.add(
   'u-textXSmall'
 );
 back.innerHTML =
-  '<svg role="img"><svg viewBox="0 0 12 14"><path d="M12.3 6.9H-.2m5 5l-5-5 5-5"></path></svg></svg>Fortsätt handla';
+  '<svg role="img"><svg viewBox="0 0 12 14"><path d="M12.3 6.9H-.2m5 5l-5-5 5-5"></path></svg></svg><span>Fortsätt handla</span>';
 
 containerDiv.prepend(back);
 
@@ -45,6 +46,9 @@ styleT59.innerHTML = `
     text-decoration: underline;
     color: #00aa46;
     stroke: #00aa46;
+  }
+  .Cart-headerInfo--slim .Experiment.T59 span {
+    display: none;
   }
 `;
 document.body.appendChild(styleT59);
