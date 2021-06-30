@@ -4,7 +4,7 @@
   "description": "ab-testing",
   "main": "index.js",
   "dependencies": {
-    "node-sass": "^4.14.1"
+    "node-sass": "^6.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.5",
@@ -20,7 +20,8 @@
     "stylelint-order": "^4.1.0"
   },
   "scripts": {
-    "babel": "babel . --ignore 'node_modules' --extensions '.ts' --watch --out-dir ."
+    "babel": "babel . --ignore 'node_modules' --extensions '.ts' --watch --out-dir .",
+    "build": "babel events.ts --ignore 'node_modules' --extensions '.ts' --out-dir public"
   },
   "repository": {
     "type": "git",
