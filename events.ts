@@ -14,13 +14,21 @@
     element.classList.add('Experiment', 'T35', 'variant1-delete');
   };
 
+  const reportToDynamicYield = () => {
+    DY.API('event', {
+      name: 'test',
+    });
+  };
+
   if (existWithContent(element)) {
     addIdentifierClasses(element);
+    reportToDynamicYield();
   }
 
   waitForeverFor(selector, '.Main', (element) => {
     if (existWithContent(element)) {
       addIdentifierClasses(element);
+      reportToDynamicYield();
     }
   });
 
