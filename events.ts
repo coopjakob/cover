@@ -25,14 +25,16 @@
     reportToDynamicYield();
   }
 
-  waitFor(selector, '.Main', (element) => {
+  cover.waitFor(selector, '.Main', (element) => {
     if (existWithContent(element)) {
       addIdentifierClasses(element);
       reportToDynamicYield();
     }
   });
+})();
 
-  function waitFor(selector, element, callback) {
+const cover = {
+  waitFor: (selector, element, callback) => {
     console.debug('<experiment> Wait for selector', selector);
 
     // If not an element
@@ -73,5 +75,5 @@
       childList: true,
       subtree: true,
     });
-  }
-})();
+  },
+};
