@@ -11,7 +11,7 @@
   };
 
   const addIdentifierClasses = (element) => {
-    element.classList.add('Experiment', 'T35', 'variant1-delete');
+    element.classList.add('Experiment', 'T35');
   };
 
   const reportToDynamicYield = () => {
