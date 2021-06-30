@@ -25,14 +25,14 @@
     reportToDynamicYield();
   }
 
-  waitForeverFor(selector, '.Main', (element) => {
+  waitFor(selector, '.Main', (element) => {
     if (existWithContent(element)) {
       addIdentifierClasses(element);
       reportToDynamicYield();
     }
   });
 
-  function waitForeverFor(selector, element, callback) {
+  function waitFor(selector, element, callback) {
     console.debug('<experiment> Wait for selector', selector);
 
     // If not an element
@@ -53,8 +53,9 @@
           let selectorElement;
           if (node.matches(selector)) {
             console.debug('<experiment> Selector matches', selector);
-            console.debug('<experiment> callback', node);
+            observer.disconnect();
 
+            console.debug('<experiment> callback', node);
             callback(node);
           } else if ((selectorElement = node.querySelector(selector))) {
             console.debug('<experiment> Selector exist in node', selector);
