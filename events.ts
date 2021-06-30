@@ -16,15 +16,15 @@
 
   if (existWithContent(element)) {
     addIdentifierClasses(element);
-  } else {
-    waitFor(selector, '.Main', (element) => {
-      if (existWithContent(element)) {
-        addIdentifierClasses(element);
-      }
-    });
   }
 
-  function waitFor(selector, element, callback) {
+  waitForeverFor(selector, '.Main', (element) => {
+    if (existWithContent(element)) {
+      addIdentifierClasses(element);
+    }
+  });
+
+  function waitForeverFor(selector, element, callback) {
     console.debug('<experiment> Wait for selector', selector);
 
     // If not an element
@@ -45,7 +45,6 @@
           let selectorElement;
           if (node.matches(selector)) {
             console.debug('<experiment> Selector matches', selector);
-            observer.disconnect();
             console.debug('<experiment> callback', node);
 
             callback(node);
