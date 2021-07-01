@@ -21,7 +21,7 @@
   },
   "scripts": {
     "babel": "babel . --ignore 'node_modules' --extensions '.ts' --watch --out-dir .",
-    "build": "babel events.ts --ignore 'node_modules' --extensions '.ts' --out-dir public"
+    "build": "babel . --ignore 'node_modules' --extensions '.ts' --out-dir public/."
   },
   "repository": {
     "type": "git",
