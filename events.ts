@@ -90,6 +90,6 @@ const cover = {
       addIdentifierClasses(element);
       eventToDynamicYield();
     },
-    { disconnect: false, content: content }
+    { init: true, disconnect: false, content: content }
   );
 })();
