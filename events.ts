@@ -62,19 +62,8 @@ const cover = {
 };
 
 (() => {
-  const selector = '.Notice.Notice--info.Notice--animated.Notice--center';
-  const content = 'Nu visas varor för: Hemleverans i StockholmÄndra';
-  const element = document.querySelector(selector);
-
-  const existWithContent = (element) => {
-    if (element?.textContent == content) {
-      return true;
-    }
-    return false;
-  };
-
-  const addIdentifierClasses = (element) => {
-    element.classList.add('Experiment', 'T35');
+  const addIdentifierClasses = (element, id) => {
+    element.classList.add('Experiment', id);
   };
 
   const eventToDynamicYield = () => {
@@ -84,12 +73,28 @@ const cover = {
   };
 
   cover.waitFor(
-    selector,
+    '.Notice.Notice--info.Notice--animated.Notice--center',
     '.Main',
     (element) => {
-      addIdentifierClasses(element);
+      addIdentifierClasses(element, 'T35');
       eventToDynamicYield();
     },
-    { init: true, disconnect: false, content: content }
+    {
+      init: true,
+      disconnect: false,
+      content: 'Nu visas varor för: Hemleverans i StockholmÄndra',
+    }
+  );
+
+  cover.waitFor(
+    '[data-test="cncheader-chagedeliverymethodbutton"]',
+    '#portal',
+    (element) => {
+      addIdentifierClasses(element, 'T32');
+      eventToDynamicYield();
+    },
+    {
+      disconnect: false,
+    }
   );
 })();
