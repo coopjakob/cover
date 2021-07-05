@@ -1,6 +1,6 @@
 (function run() {
   cover.waitFor(
-    '.T32',
+    '.T67',
     '#portal',
     (element) => {
       element.remove();

@@ -1,10 +1,10 @@
 (function run() {
-  console.debug('<experiment> Wait for T35');
+  console.debug('<experiment> Wait for T66');
   cover.waitFor(
-    '.T35',
+    '.T66',
     '.Main',
     (element) => {
-      console.debug('<experiment> Remove T35');
+      console.debug('<experiment> Remove T66');
       element.remove();
       run();
     },

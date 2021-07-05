@@ -76,7 +76,7 @@ const cover = {
     '.Notice.Notice--info.Notice--animated.Notice--center',
     '.Main',
     (element) => {
-      addIdentifierClasses(element, 'T35');
+      addIdentifierClasses(element, 'T66');
       eventToDynamicYield();
     },
     {
@@ -90,7 +90,7 @@ const cover = {
     '[data-test="cncheader-chagedeliverymethodbutton"]',
     '#portal',
     (element) => {
-      addIdentifierClasses(element, 'T32');
+      addIdentifierClasses(element, 'T67');
       eventToDynamicYield();
     },
     {
