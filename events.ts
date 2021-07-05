@@ -9,16 +9,16 @@ const cover = {
       wrapper = document.querySelector(wrapper);
     }
 
-    const prepareCallback = (element) => {
+    function prepareCallback(element) {
       if (options.disconnect) {
         observer.disconnect();
       }
 
       console.debug('<experiment> callback', element);
       callback(element);
-    };
+    }
 
-    const foundSelector = (element) => {
+    function foundSelector(element) {
       if (options.content) {
         if (element.textContent == options.content) {
           prepareCallback(element);
@@ -26,7 +26,7 @@ const cover = {
       } else {
         prepareCallback(element);
       }
-    };
+    }
 
     if (options.init && (selectorElement = wrapper.querySelector(selector))) {
       foundSelector(selectorElement);
@@ -95,6 +95,25 @@ const cover = {
     },
     {
       disconnect: false,
+    }
+  );
+
+  cover.waitFor(
+    '.ItemTeaser-button',
+    '[data-react-component="CheckoutPage"]',
+    (element) => {
+      addIdentifierClasses(
+        element.closest(
+          '.Grid.Grid--equalHeight.Grid--gutterHsm.Grid--gutterVsm'
+        ),
+        'T60'
+      );
+      eventToDynamicYield();
+    },
+    {
+      init: true,
+      disconnect: true,
+      content: 'Köp',
     }
   );
 })();
