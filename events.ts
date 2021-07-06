@@ -1,3 +1,15 @@
+const preload = (href) => {
+  let link = document.createElement('link');
+  link.setAttribute('rel', 'preload');
+  link.setAttribute('href', href);
+  link.setAttribute('as', 'script');
+
+  document.head.appendChild(link);
+};
+
+preload('/t60/variant1.js');
+preload('/t66/variant1.js');
+
 const cover = {
   waitFor: (selector, wrapper, callback, options = {}) => {
     let selectorElement;
@@ -85,19 +97,6 @@ const cover = {
       content: 'Nu visas varor för: Hemleverans i StockholmÄndra',
     }
   );
-
-  cover.waitFor(
-    '[data-test="cncheader-chagedeliverymethodbutton"]',
-    '#portal',
-    (element) => {
-      addIdentifierClasses(element, 'T67');
-      eventToDynamicYield();
-    },
-    {
-      disconnect: false,
-    }
-  );
-
   cover.waitFor(
     '.ItemTeaser-button',
     '[data-react-component="CheckoutPage"]',
@@ -114,6 +113,18 @@ const cover = {
       init: true,
       disconnect: true,
       content: 'Köp',
+    }
+  );
+
+  cover.waitFor(
+    '[data-test="cncheader-chagedeliverymethodbutton"]',
+    '#portal',
+    (element) => {
+      addIdentifierClasses(element, 'T67');
+      eventToDynamicYield();
+    },
+    {
+      disconnect: false,
     }
   );
 })();
