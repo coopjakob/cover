@@ -1,14 +1,17 @@
-const preload = (href) => {
-  let link = document.createElement('link');
-  link.setAttribute('rel', 'preload');
-  link.setAttribute('href', href);
-  link.setAttribute('as', 'script');
+console.debug('currentScript', document.currentScript);
 
-  document.head.appendChild(link);
-};
+// const preload = (href) => {
+//   let link = document.createElement('link');
+//   link.setAttribute('rel', 'preload');
+//   link.setAttribute('href', href);
+//   link.setAttribute('as', 'script');
 
-preload('/t60/variant1.js');
-preload('/t66/variant1.js');
+//   document.head.appendChild(link);
+// };
+
+// preload('/t60/variant1.js');
+// preload('/t66/variant1.js');
+// TODO: Domain is from the page not from the file
 
 const cover = {
   waitFor: (selector, wrapper, callback, options = {}) => {
