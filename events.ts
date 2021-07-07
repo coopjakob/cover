@@ -71,6 +71,14 @@ const cover = {
       subtree: true,
     });
   },
+  ready: (id) => {
+    DY.API('event', {
+      name: 'cover.ready',
+      properties: {
+        id: id,
+      },
+    });
+  },
 };
 
 (() => {
@@ -78,18 +86,12 @@ const cover = {
     element.classList.add('Experiment', id);
   };
 
-  const eventToDynamicYield = () => {
-    DY.API('event', {
-      name: 'test',
-    });
-  };
-
   cover.waitFor(
     '.Notice.Notice--info.Notice--animated.Notice--center',
     '.Main',
     (element) => {
       addIdentifierClasses(element, 'T66');
-      eventToDynamicYield();
+      cover.ready('T66');
     },
     {
       init: true,
@@ -107,7 +109,7 @@ const cover = {
         ),
         'T60'
       );
-      eventToDynamicYield();
+      cover.ready('T60');
     },
     {
       init: true,
@@ -121,7 +123,7 @@ const cover = {
     '#portal',
     (element) => {
       addIdentifierClasses(element, 'T67');
-      eventToDynamicYield();
+      cover.ready('T67');
     },
     {
       disconnect: false,
