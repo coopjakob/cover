@@ -1,4 +1,4 @@
-console.debug('currentScript', document.currentScript);
+console.warn('currentScript', document.currentScript);
 
 // const preload = (href) => {
 //   let link = document.createElement('link');
