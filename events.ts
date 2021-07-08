@@ -1,6 +1,12 @@
 (() => {
-  const origin = () => new URL(document.currentScript.src).origin;
+  const src = document.currentScript?.src;
+  if (src) {
+    const origin = new URL(src).origin;
+  }
 
+  console.debug('origin', origin);
+
+  if (origin) {
   const preload = (path) => {
     let link = document.createElement('link');
     link.setAttribute('rel', 'preload');
@@ -9,8 +15,6 @@
 
     document.head.appendChild(link);
   };
-
-  if (origin) {
     preload('t60/variant1.js');
     preload('t66/variant1.js');
   }
