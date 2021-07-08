@@ -82,10 +82,15 @@ const cover = {
       observer.observe(wrapper, {
         childList: true,
         subtree: true,
+        attributeFilter: ['data-test'],
       });
     }
   },
-  ready: (id) => {
+  ready: (element, id) => {
+    // element.identifier = id;
+    const event = new Event(`cover.ready ${id}`, { bubbles: true });
+    element.dispatchEvent(event);
+
     DY.API('event', {
       name: 'cover.ready',
       properties: {
@@ -105,7 +110,7 @@ const cover = {
     '.Main',
     (element) => {
       addIdentifierClasses(element, 'T66');
-      cover.ready('T66');
+      cover.ready(element, 'T66');
     },
     {
       init: true,
@@ -124,7 +129,7 @@ const cover = {
           ),
           'T60'
         );
-        cover.ready('T60');
+        cover.ready(element, 'T60');
       } else {
         console.debug('wrapper false');
       }
@@ -141,7 +146,7 @@ const cover = {
     '#portal',
     (element) => {
       addIdentifierClasses(element, 'T67');
-      cover.ready('T67');
+      cover.ready(element, 'T67');
     },
     {
       disconnect: false,

@@ -1,11 +1,6 @@
-(function run() {
-  cover.waitFor(
-    '.T67',
-    '#portal',
-    (element) => {
-      element.remove();
-      run();
-    },
-    { init: true, disconnect: false }
-  );
-})();
+document.querySelector('.T67')?.remove();
+
+document.addEventListener('cover.ready T67', (event) => {
+  console.log(event);
+  event.target.remove();
+});
