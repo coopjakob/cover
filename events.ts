@@ -7,14 +7,14 @@
   console.debug('origin', origin);
 
   if (origin) {
-  const preload = (path) => {
-    let link = document.createElement('link');
-    link.setAttribute('rel', 'preload');
-    link.setAttribute('href', `${origin}/${path}`);
-    link.setAttribute('as', 'script');
+    const preload = (path) => {
+      let link = document.createElement('link');
+      link.setAttribute('rel', 'preload');
+      link.setAttribute('href', `${origin}/${path}`);
+      link.setAttribute('as', 'script');
 
-    document.head.appendChild(link);
-  };
+      document.head.appendChild(link);
+    };
     preload('t60/variant1.js');
     preload('t66/variant1.js');
   }
@@ -31,55 +31,59 @@ const cover = {
       wrapper = document.querySelector(wrapper);
     }
 
-    function prepareCallback(element) {
-      if (options.disconnect) {
-        observer.disconnect();
+    if (!wrapper) {
+      callback(false);
+    } else {
+      function prepareCallback(element) {
+        if (options.disconnect) {
+          observer.disconnect();
+        }
+
+        console.debug('<experiment> callback', element);
+        callback(element);
       }
 
-      console.debug('<experiment> callback', element);
-      callback(element);
-    }
-
-    function foundSelector(element) {
-      if (options.content) {
-        if (element.textContent == options.content) {
+      function foundSelector(element) {
+        if (options.content) {
+          if (element.textContent == options.content) {
+            prepareCallback(element);
+          }
+        } else {
           prepareCallback(element);
         }
-      } else {
-        prepareCallback(element);
       }
-    }
 
-    if (options.init && (selectorElement = wrapper.querySelector(selector))) {
-      foundSelector(selectorElement);
-    }
+      if (options.init && (selectorElement = wrapper.querySelector(selector))) {
+        foundSelector(selectorElement);
+      }
 
-    let observer = new MutationObserver((mutations) => {
-      console.debug('<experiment> Change detected in element', wrapper);
-      for (const { addedNodes } of mutations) {
-        for (const node of addedNodes) {
-          console.debug('<experiment> Node added', node);
-          if (!node.tagName) {
-            console.debug('<experiment> Node is not an element');
-            continue;
-          }
+      let observer = new MutationObserver((mutations) => {
+        console.debug('<experiment> Change detected in element', wrapper);
+        for (const { addedNodes } of mutations) {
+          for (const node of addedNodes) {
+            console.debug('<experiment> Node added', node);
+            if (!node.tagName) {
+              console.debug('<experiment> Node is not an element');
+              continue;
+            }
 
-          if (node.matches(selector)) {
-            console.debug('<experiment> Selector matches', selector);
-            foundSelector(node);
-          } else if ((selectorElement = node.querySelector(selector))) {
-            console.debug('<experiment> Selector exist in node', selector);
-            foundSelector(selectorElement);
+            if (node.matches(selector)) {
+              console.debug('<experiment> Selector matches', selector);
+              foundSelector(node);
+            } else if ((selectorElement = node.querySelector(selector))) {
+              console.debug('<experiment> Selector exist in node', selector);
+              foundSelector(selectorElement);
+            }
           }
         }
-      }
-    });
+      });
 
-    console.debug('<experiment> observing', wrapper);
-    observer.observe(wrapper, {
-      childList: true,
-      subtree: true,
-    });
+      console.debug('<experiment> observing', wrapper);
+      observer.observe(wrapper, {
+        childList: true,
+        subtree: true,
+      });
+    }
   },
   ready: (id) => {
     DY.API('event', {
@@ -113,13 +117,17 @@ const cover = {
     '.ItemTeaser-button',
     '[data-react-component="CheckoutPage"]',
     (element) => {
-      addIdentifierClasses(
-        element.closest(
-          '.Grid.Grid--equalHeight.Grid--gutterHsm.Grid--gutterVsm'
-        ),
-        'T60'
-      );
-      cover.ready('T60');
+      if (element) {
+        addIdentifierClasses(
+          element.closest(
+            '.Grid.Grid--equalHeight.Grid--gutterHsm.Grid--gutterVsm'
+          ),
+          'T60'
+        );
+        cover.ready('T60');
+      } else {
+        console.debug('wrapper false');
+      }
     },
     {
       init: true,
