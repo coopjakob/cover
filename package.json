@@ -33,5 +33,5 @@
     "url": "https://github.com/coopjakob/cover/issues"
   },
   "homepage": "https://github.com/coopjakob/cover#readme",
-  "browserslist": "ie 11"
+  "browserslist": "> 2% in SV, last 2 versions, not dead"
 }
