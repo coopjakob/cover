@@ -1,17 +1,20 @@
-console.warn('currentScript', document.currentScript);
+(() => {
+  const origin = () => new URL(document.currentScript.src).origin;
 
-// const preload = (href) => {
-//   let link = document.createElement('link');
-//   link.setAttribute('rel', 'preload');
-//   link.setAttribute('href', href);
-//   link.setAttribute('as', 'script');
+  const preload = (path) => {
+    let link = document.createElement('link');
+    link.setAttribute('rel', 'preload');
+    link.setAttribute('href', `${origin}/${path}`);
+    link.setAttribute('as', 'script');
 
-//   document.head.appendChild(link);
-// };
+    document.head.appendChild(link);
+  };
 
-// preload('/t60/variant1.js');
-// preload('/t66/variant1.js');
-// TODO: Domain is from the page not from the file
+  if (origin) {
+    preload('t60/variant1.js');
+    preload('t66/variant1.js');
+  }
+})();
 
 const cover = {
   waitFor: (selector, wrapper, callback, options = {}) => {
