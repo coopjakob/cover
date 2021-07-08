@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/coopjakob/cover.git"
+    "url": "https://github.com/coopjakob/cover.git"
   },
   "author": "",
   "license": "MIT",
