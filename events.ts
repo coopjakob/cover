@@ -1,23 +1,18 @@
 (() => {
-  const src = document.currentScript?.src;
-  if (src) {
-    const origin = new URL(src).origin;
-  }
+  const scriptOrigin = new URL(document.currentScript.src).origin;
+  console.debug('scriptOrigin', scriptOrigin);
 
-  console.debug('origin', origin);
+  const preload = (path) => {
+    let link = document.createElement('link');
+    link.setAttribute('rel', 'preload');
+    link.setAttribute('href', `${scriptOrigin}/${path}`);
+    link.setAttribute('as', 'script');
 
-  if (origin) {
-    const preload = (path) => {
-      let link = document.createElement('link');
-      link.setAttribute('rel', 'preload');
-      link.setAttribute('href', `${origin}/${path}`);
-      link.setAttribute('as', 'script');
+    document.head.appendChild(link);
+  };
 
-      document.head.appendChild(link);
-    };
-    preload('t60/variant1.js');
-    preload('t66/variant1.js');
-  }
+  preload('t60/variant1.js');
+  preload('t66/variant1.js');
 })();
 
 const cover = {
@@ -145,7 +140,7 @@ const cover = {
     '[data-test="cncheader-chagedeliverymethodbutton"]',
     '#portal',
     (element) => {
-      addIdentifierClasses(element, 'T67');
+      // addIdentifierClasses(element, 'T67');
       cover.ready(element, 'T67');
     },
     {
