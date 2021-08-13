@@ -104,6 +104,13 @@ const cover = {
     element.classList.add('Experiment', id);
   };
 
+  if (/complete|interactive|loaded/.test(document.readyState)) {
+    run();
+  } else {
+    document.addEventListener('DOMContentLoaded', run);
+  }
+
+  function run() {
     try {
   cover.waitFor(
     '.Notice.Notice--info.Notice--animated.Notice--center',
@@ -160,4 +167,5 @@ const cover = {
     } catch (error) {
       console.debug(error);
     }
+  }
 })();
