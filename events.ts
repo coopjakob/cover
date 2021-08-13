@@ -104,6 +104,7 @@ const cover = {
     element.classList.add('Experiment', id);
   };
 
+    try {
   cover.waitFor(
     '.Notice.Notice--info.Notice--animated.Notice--center',
     '.Main',
@@ -117,11 +118,15 @@ const cover = {
       content: 'Nu visas varor för: Hemleverans i StockholmÄndra',
     }
   );
+    } catch (error) {
+      console.debug(error);
+    }
+
+    try {
   cover.waitFor(
     '.ItemTeaser-button',
     '[data-react-component="CheckoutPage"]',
     (element) => {
-      if (element) {
         addIdentifierClasses(
           element.closest(
             '.Grid.Grid--equalHeight.Grid--gutterHsm.Grid--gutterVsm'
@@ -129,9 +134,6 @@ const cover = {
           'T60'
         );
         cover.ready(element, 'T60');
-      } else {
-        console.debug('wrapper false');
-      }
     },
     {
       init: true,
@@ -139,7 +141,11 @@ const cover = {
       content: 'Köp',
     }
   );
+    } catch (error) {
+      console.debug(error);
+    }
 
+    try {
   cover.waitFor(
     '[data-test="cncheader-chagedeliverymethodbutton"]',
     '#portal',
@@ -151,4 +157,7 @@ const cover = {
       disconnect: false,
     }
   );
+    } catch (error) {
+      console.debug(error);
+    }
 })();
