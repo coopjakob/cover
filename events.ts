@@ -24,6 +24,7 @@ const cover = {
   // init: Boolean, disconnect: Boolean, content: String
   waitFor: (selector, wrapper, callback, options = {}) => {
     let selectorElement;
+    let isCallbackSent = false;
 
     console.debug('<experiment> Wait for selector', selector);
 
@@ -37,14 +38,19 @@ const cover = {
         if ((selectorElement = wrapper.querySelector(selector))) {
           if (okContent(selectorElement)) {
             callback(selectorElement);
+            isCallbackSent = true;
           }
         }
-      } else {
+      }
+
+      if (!isCallbackSent && !options.disconnect) {
         initObserver();
       }
 
       function observerMatch(element) {
-        if (okContent) callback(element);
+        if (okContent) {
+          callback(element);
+        }
 
         if (options.disconnect) {
           observer.disconnect();
