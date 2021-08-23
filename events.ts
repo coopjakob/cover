@@ -43,7 +43,10 @@ const cover = {
         }
       }
 
-      if (!isCallbackSent && !options.disconnect) {
+      if (isCallbackSent && options.disconnect) {
+        // Don't start observer
+      } else {
+        // Start if disconnect is both false or true
         initObserver();
       }
 
