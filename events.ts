@@ -148,21 +148,21 @@ const cover = {
 
     try {
       cover.waitFor(
-        '.ItemTeaser-button',
+        '.Grid.Grid--equalHeight.Grid--gutterHsm.Grid--gutterVsm',
         '[data-react-component="CheckoutPage"]',
         (element) => {
-          addIdentifierClasses(
-            element.closest(
-              '.Grid.Grid--equalHeight.Grid--gutterHsm.Grid--gutterVsm'
-            ),
-            'T60'
-          );
-          cover.ready(element, 'T60');
+          if (
+            element.querySelector(
+              '.Grid-cell.u-size1of2.u-sm-size1of4.u-md-size1of5.u-lg-size1of6'
+            )
+          ) {
+            addIdentifierClasses(element, 'T60');
+            cover.ready(element, 'T60');
+          }
         },
         {
           init: true,
-          disconnect: true,
-          content: 'Köp',
+          disconnect: false,
         }
       );
     } catch (error) {
