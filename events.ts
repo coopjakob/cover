@@ -209,6 +209,7 @@ const cover = {
       '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
       '.Main',
       (element) => {
+        // search will include quantity on load
         if (element.parentElement.querySelector('input').value === '0') {
           addIdentifierClasses(element, 'T68');
           cover.ready(element, 'T68');
