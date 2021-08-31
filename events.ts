@@ -16,12 +16,13 @@
 
     preload('t60/variant1.js');
     preload('t66/variant1.js');
+    preload('t68/variant1.js');
   }
 })();
 
 const cover = {
   // TODO: add options and types
-  // init: Boolean, disconnect: Boolean, content: String
+  // init: Boolean, querySelectorAll: Boolean, content: String, disconnect: Boolean
   waitFor: (selector, wrapper, callback, options = {}) => {
     let selectorElement;
     let isCallbackSent = false;
@@ -36,9 +37,20 @@ const cover = {
     if (wrapper) {
       if (options.init) {
         if ((selectorElement = wrapper.querySelector(selector))) {
-          if (okContent(selectorElement)) {
-            callback(selectorElement);
-            isCallbackSent = true;
+          if (options.querySelectorAll) {
+            console.debug('<experiment> querySelectorAll init', wrapper);
+            wrapper.querySelectorAll(selector).forEach((element) => {
+              if (okContent(element)) {
+                //TODO: options.disconnect is not checked
+                callback(element);
+                isCallbackSent = true;
+              }
+            });
+          } else {
+            if (okContent(selectorElement)) {
+              callback(selectorElement);
+              isCallbackSent = true;
+            }
           }
         }
       }
@@ -86,7 +98,14 @@ const cover = {
                 observerMatch(node);
               } else if ((selectorElement = node.querySelector(selector))) {
                 console.debug('<experiment> Selector exist in node', selector);
-                observerMatch(selectorElement);
+                if (options.querySelectorAll) {
+                  console.debug('<experiment> querySelectorAll', node);
+                  node.querySelectorAll(selector).forEach((element) => {
+                    observerMatch(element);
+                  });
+                } else {
+                  observerMatch(selectorElement);
+                }
               }
             }
           }
@@ -178,11 +197,27 @@ const cover = {
           cover.ready(element, 'T67');
         },
         {
+          init: false,
           disconnect: false,
         }
       );
     } catch (error) {
       console.debug(error);
     }
+
+    cover.waitFor(
+      '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
+      '.Main',
+      (element) => {
+        addIdentifierClasses(element, 'T68');
+        cover.ready(element, 'T68');
+      },
+      {
+        init: true,
+        querySelectorAll: true,
+        content: 'Köp',
+        disconnect: false,
+      }
+    );
   }
 })();
