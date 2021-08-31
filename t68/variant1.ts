@@ -1,6 +1,12 @@
-document.addEventListener('cover.ready T68', (event) => {
-  let element = event.target;
+document.querySelectorAll('.T68').forEach((element) => {
+  run(element);
+});
 
+document.addEventListener('cover.ready T68', (event) => {
+  run(event.target);
+});
+
+function run(element) {
   console.debug('fix styling', element);
 
   element.classList.remove('u-hidden');
@@ -25,4 +31,4 @@ document.addEventListener('cover.ready T68', (event) => {
       .querySelector('.AddToCart')
       .classList.remove('u-hidden');
   });
-});
+}

@@ -1,4 +1,12 @@
 document.querySelectorAll('.T60 .Grid-cell').forEach((element) => {
+  run(element);
+});
+
+document.addEventListener('cover.ready T60', (event) => {
+  run(event.target.querySelector('.Grid-cell'));
+});
+
+function run(element) {
   element.classList.add('u-lg-size1of4');
   element.classList.remove('u-lg-size1of6');
 
@@ -7,4 +15,4 @@ document.querySelectorAll('.T60 .Grid-cell').forEach((element) => {
   let button = element.querySelector('.ItemTeaser-button');
   button.style.width = '170px';
   button.style.margin = '0 auto';
-});
+}
