@@ -1,6 +1,6 @@
-document.querySelector('.T66')?.remove();
+document.querySelector('.T66')?.classList.add('u-hidden');
 
 document.addEventListener('cover.ready T66', (event) => {
   console.log(event);
-  event.target.remove();
+  event.target.classList.add('u-hidden');
 });
