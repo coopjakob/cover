@@ -1,9 +1,9 @@
-document.querySelectorAll('.T60 .Grid-cell').forEach((element) => {
+document.querySelectorAll('.T60').forEach((element) => {
   run(element);
 });
 
 document.addEventListener('cover.ready T60', (event) => {
-  run(event.target.querySelector('.Grid-cell'));
+  run(event.target);
 });
 
 function run(element) {

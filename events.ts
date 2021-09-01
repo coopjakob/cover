@@ -147,63 +147,48 @@ const cover = {
   }
 
   function run() {
-    try {
-      cover.waitFor(
-        '.Notice.Notice--info.Notice--animated.Notice--center',
-        '.Main',
-        (element) => {
-          addIdentifierClasses(element, 'T66');
-          cover.ready(element, 'T66');
-        },
-        {
-          init: true,
-          disconnect: false,
-          content: 'Nu visas varor för: Hemleverans i StockholmÄndra',
-        }
-      );
-    } catch (error) {
-      console.debug(error);
-    }
+    cover.waitFor(
+      '.Notice.Notice--info.Notice--animated.Notice--center',
+      '.Main',
+      (element) => {
+        addIdentifierClasses(element, 'T66');
+        cover.ready(element, 'T66');
+      },
+      {
+        init: true,
+        disconnect: false,
+        content: 'Nu visas varor för: Hemleverans i StockholmÄndra',
+      }
+    );
 
-    try {
+    if (window.innerWidth > 1024) {
       cover.waitFor(
-        '.Grid.Grid--equalHeight.Grid--gutterHsm.Grid--gutterVsm',
+        '.Grid-cell.u-size1of2.u-sm-size1of4.u-md-size1of5.u-lg-size1of6',
         '[data-react-component="CheckoutPage"]',
         (element) => {
-          if (
-            element.querySelector(
-              '.Grid-cell.u-size1of2.u-sm-size1of4.u-md-size1of5.u-lg-size1of6'
-            )
-          ) {
-            addIdentifierClasses(element, 'T60');
-            cover.ready(element, 'T60');
-          }
+          addIdentifierClasses(element, 'T60');
+          cover.ready(element, 'T60');
         },
         {
           init: true,
+          querySelectorAll: true,
           disconnect: false,
         }
       );
-    } catch (error) {
-      console.debug(error);
     }
 
-    try {
-      cover.waitFor(
-        '[data-test="cncheader-chagedeliverymethodbutton"]',
-        '#portal',
-        (element) => {
-          addIdentifierClasses(element, 'T67');
-          cover.ready(element, 'T67');
-        },
-        {
-          init: false,
-          disconnect: false,
-        }
-      );
-    } catch (error) {
-      console.debug(error);
-    }
+    cover.waitFor(
+      '[data-test="cncheader-chagedeliverymethodbutton"]',
+      '#portal',
+      (element) => {
+        addIdentifierClasses(element, 'T67');
+        cover.ready(element, 'T67');
+      },
+      {
+        init: false,
+        disconnect: false,
+      }
+    );
 
     cover.waitFor(
       '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
