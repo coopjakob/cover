@@ -14,7 +14,7 @@
       document.head.appendChild(link);
     };
 
-    preload('t60/variant1.js');
+    // preload('t60/variant1.js');
     preload('t66/variant1.js');
     preload('t68/variant1.js');
   }
