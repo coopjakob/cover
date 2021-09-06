@@ -127,10 +127,7 @@ const cover = {
     element.dispatchEvent(event);
 
     DY.API('event', {
-      name: 'cover.ready',
-      properties: {
-        id: id,
-      },
+      name: 'cover.ready ${id}',
     });
   },
 };
@@ -178,7 +175,7 @@ const cover = {
     }
 
     cover.waitFor(
-      '[data-test="cncheader-chagedeliverymethodbutton"]',
+      '[data-test="cncheader-chagedeliverymethodbutton"]:not(u-hidden)',
       '#portal',
       (element) => {
         addIdentifierClasses(element, 'T67');
