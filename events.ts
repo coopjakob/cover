@@ -127,7 +127,7 @@ const cover = {
     element.dispatchEvent(event);
 
     DY.API('event', {
-      name: 'cover.ready ${id}',
+      name: `cover.ready ${id}`,
     });
   },
 };
