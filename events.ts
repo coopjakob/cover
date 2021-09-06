@@ -145,7 +145,7 @@ const cover = {
 
   function run() {
     cover.waitFor(
-      '[data-react-component="NoticeRibbonDefaultStore"]',
+      '.Notice.Notice--info.Notice--animated.Notice--center',
       '.Main',
       (element) => {
         addIdentifierClasses(element, 'T66');
