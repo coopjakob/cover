@@ -20,6 +20,7 @@
   }
 })();
 
+let readyHistory = [];
 const cover = {
   // TODO: add options and types
   // init: Boolean, querySelectorAll: Boolean, content: String, disconnect: Boolean
@@ -126,9 +127,13 @@ const cover = {
     const event = new Event(`cover.ready ${id}`, { bubbles: true });
     element.dispatchEvent(event);
 
-    DY.API('event', {
-      name: `cover.ready ${id}`,
-    });
+    if (!readyHistory.includes(id)) {
+      DY.API('event', {
+        name: `cover.ready ${id}`,
+      });
+
+      readyHistory.push(id);
+    }
   },
 };
 
