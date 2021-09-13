@@ -82,7 +82,8 @@ const cover: coverType = {
           callback(element);
         }
 
-        if (options.disconnect) {
+        // observer might not exist
+        if (typeof observer !== 'undefined' && options.disconnect) {
           observer.disconnect();
         }
       }
