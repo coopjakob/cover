@@ -3,7 +3,6 @@
 
   if (currentScript) {
     let scriptOrigin = new URL(currentScript.src).origin;
-    console.debug('scriptOrigin', scriptOrigin);
 
     const preload = (path) => {
       let link = document.createElement('link');
@@ -42,8 +41,6 @@ const cover: coverType = {
     let selectorElement;
     let isCallbackSent = false;
 
-    console.debug('<experiment> Wait for selector', selector);
-
     // If not an element
     if (!wrapper.tagName) {
       wrapper = document.querySelector(wrapper);
@@ -53,7 +50,6 @@ const cover: coverType = {
       if (options.init) {
         if ((selectorElement = wrapper.querySelector(selector))) {
           if (options.querySelectorAll) {
-            console.debug('<experiment> querySelectorAll init', wrapper);
             wrapper.querySelectorAll(selector).forEach((element) => {
               if (okContent(element)) {
                 //TODO: options.disconnect is not checked
@@ -99,23 +95,17 @@ const cover: coverType = {
       }
 
       function initObserver() {
-        let observer = new MutationObserver((mutations) => {
-          console.debug('<experiment> Change detected in element', wrapper);
+        const observer = new MutationObserver((mutations) => {
           for (const { addedNodes } of mutations) {
             for (const node of addedNodes) {
-              console.debug('<experiment> Node added', node);
               if (!node.tagName) {
-                console.debug('<experiment> Node is not an element');
                 continue;
               }
 
               if (node.matches(selector)) {
-                console.debug('<experiment> Selector matches', selector);
                 observerMatch(node);
               } else if ((selectorElement = node.querySelector(selector))) {
-                console.debug('<experiment> Selector exist in node', selector);
                 if (options.querySelectorAll) {
-                  console.debug('<experiment> querySelectorAll', node);
                   node.querySelectorAll(selector).forEach((element) => {
                     observerMatch(element);
                   });
@@ -127,7 +117,6 @@ const cover: coverType = {
           }
         });
 
-        console.debug('<experiment> observing', wrapper);
         observer.observe(wrapper, {
           childList: true,
           subtree: true,
@@ -227,6 +216,7 @@ const cover: coverType = {
         disconnect: false,
       }
     );
+
     if (cover.onCategory()) {
       startObserver();
     }
