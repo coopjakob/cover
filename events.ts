@@ -227,5 +227,51 @@ const cover: coverType = {
         disconnect: false,
       }
     );
+    if (cover.onCategory()) {
+      startObserver();
+    }
+
+    // back button and other browser buttons
+    window.addEventListener('popstate', () => {
+      if (cover.onCategory()) {
+        startObserver();
+      }
+    });
+
+    // popstate doesn't work if you move forward
+    window.addEventListener('ga:virtualPageView', () => {
+      if (cover.onCategory()) {
+        startObserver();
+      }
+    });
+
+    function startObserver() {
+      cover.waitFor(
+        '.ItemTeaser',
+        '.Main-container .Section .Grid',
+        (element) => {
+          const intersectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) {
+                cover.ready(element, 'T61');
+              }
+            });
+          });
+          intersectionObserver.observe(element);
+
+          window.addEventListener('popstate', () => {
+            intersectionObserver.unobserve(element);
+          });
+
+          window.addEventListener('ga:virtualPageView', () => {
+            intersectionObserver.unobserve(element);
+          });
+        },
+        {
+          init: false,
+          disconnect: true,
+        }
+      );
+    }
   }
 })();
