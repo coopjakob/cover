@@ -20,11 +20,25 @@
   }
 })();
 
+interface coverType {
+  waitFor: (
+    selector: string,
+    wrapper: string | Element,
+    callback: (element: Element) => void,
+    options?: {
+      init?: Boolean;
+      querySelectorAll?: Boolean;
+      content?: String;
+      disconnect?: Boolean;
+    }
+  ) => void;
+  onCategory: () => boolean;
+  ready: (element: Element, id: string) => void;
+}
+
 let readyHistory = [];
-const cover = {
-  // TODO: add options and types
-  // init: Boolean, querySelectorAll: Boolean, content: String, disconnect: Boolean
-  waitFor: (selector, wrapper, callback, options = {}) => {
+const cover: coverType = {
+  waitFor: (selector, wrapper, callback, options) => {
     let selectorElement;
     let isCallbackSent = false;
 
