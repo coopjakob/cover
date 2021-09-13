@@ -136,6 +136,9 @@ const cover: coverType = {
       }
     }
   },
+  onCategory: () => {
+    return window.location.pathname.startsWith('/handla/varor/');
+  },
   ready: (element, id) => {
     // TODO: Remove duplicated id if possible
     // (element.identifier === id);
