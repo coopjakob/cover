@@ -13,6 +13,7 @@
       document.head.appendChild(link);
     };
 
+    preload('t63/variant1.js');
     preload('t60/variant1.js');
     preload('t66/variant1.js');
     preload('t68/variant1.js');
@@ -263,5 +264,18 @@ const cover: coverType = {
         }
       );
     }
+
+    cover.waitFor(
+      '.js-savedCarts',
+      '.Main',
+      (savedCarts) => {
+        if (window.location.pathname == '/handla/') {
+          const element = savedCarts.closest('.Grid-cell.u-sizeFull');
+          addIdentifierClasses(element, 'T63');
+          cover.ready(element, 'T63');
+        }
+      },
+      { init: true }
+    );
   }
 })();
