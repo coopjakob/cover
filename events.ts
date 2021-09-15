@@ -275,7 +275,10 @@ const cover: coverType = {
           cover.ready(element, 'T63');
         }
       },
-      { init: true }
+      {
+        init: true,
+        disconnect: true,
+      }
     );
   }
 })();
