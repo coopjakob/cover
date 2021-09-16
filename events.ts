@@ -288,7 +288,10 @@ const cover: coverType = {
         addIdentifierClasses(element, 'T70');
         cover.ready(element, 'T70');
       },
-      { init: false }
+      {
+        init: false,
+        querySelectorAll: true,
+      }
     );
   }
 })();
