@@ -280,5 +280,10 @@ const cover: coverType = {
         disconnect: true,
       }
     );
+
+    cover.waitFor('.Swiper-button', '.Main', (element) => {
+      addIdentifierClasses(element, 'T70');
+      cover.ready(element, 'T70');
+    });
   }
 })();
