@@ -281,9 +281,14 @@ const cover: coverType = {
       }
     );
 
-    cover.waitFor('.Swiper-button', '.Main', (element) => {
-      addIdentifierClasses(element, 'T70');
-      cover.ready(element, 'T70');
-    });
+    cover.waitFor(
+      '.Swiper-button',
+      '.Main',
+      (element) => {
+        addIdentifierClasses(element, 'T70');
+        cover.ready(element, 'T70');
+      },
+      { init: false }
+    );
   }
 })();
