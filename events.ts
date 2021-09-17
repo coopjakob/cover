@@ -300,7 +300,7 @@ const cover: coverType = {
       (heading) => {
         if (window.location.pathname == '/handla/') {
           const element = heading.parentElement;
-          console.log(element, 'T71');
+          addIdentifierClasses(element, 'T71');
           cover.ready(element, 'T71');
         }
       },
