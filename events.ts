@@ -295,18 +295,20 @@ const cover: coverType = {
     );
 
     cover.waitFor(
-      '.Heading.Heading--h4.u-marginAz',
+      '.Swiper.is-loaded',
       '.Main',
-      (heading) => {
+      (loaded) => {
         if (window.location.pathname == '/handla/') {
-          const element = heading.parentElement;
-          addIdentifierClasses(element, 'T71');
-          cover.ready(element, 'T71');
+          const parent = loaded.parentElement;
+          if (parent.matches('[data-list="Offer Recommendation Handla"]')) {
+            const element = parent.previousElementSibling;
+            addIdentifierClasses(element, 'T71');
+            cover.ready(element, 'T71');
+          }
         }
       },
       {
         init: true,
-        content: 'Aktuella erbjudanden',
       }
     );
   }
