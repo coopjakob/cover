@@ -293,5 +293,21 @@ const cover: coverType = {
         querySelectorAll: true,
       }
     );
+
+    cover.waitFor(
+      '.Heading.Heading--h4.u-marginAz',
+      '.Main',
+      (heading) => {
+        if (window.location.pathname == '/handla/') {
+          const element = heading.parentElement;
+          console.log(element, 'T71');
+          cover.ready(element, 'T71');
+        }
+      },
+      {
+        init: true,
+        content: 'Aktuella erbjudanden',
+      }
+    );
   }
 })();
