@@ -41,7 +41,9 @@ function quantityObserver(targetNode) {
         console.log(mutation);
         if (mutation.target.value > 0) {
           hide(
-            mutation.target.closest('.ItemTeaser-button').querySelector('.T68')
+            mutation.target
+              .closest('.ItemTeaser-button, .ItemInfo-button')
+              .querySelector('.T68')
           );
         }
       }
