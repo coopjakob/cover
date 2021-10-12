@@ -17,6 +17,7 @@
     preload('t60/variant1.js');
     preload('t66/variant1.js');
     preload('t68/variant1.js');
+    preload('t67/variant1.js');
   }
 })();
 
@@ -200,6 +201,7 @@ const cover: coverType = {
       }
     );
 
+    //document.querySelectorAll(".Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden").forEach((element) => { element.classList.add("T68") });
     cover.waitFor(
       '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
       '.Main',
@@ -241,6 +243,9 @@ const cover: coverType = {
         '.ItemTeaser',
         '.Main-container .Section .Grid',
         (element) => {
+          // TODO: only on category pages not working!?
+          // https://www.coop.se/handla/inspiration on Edge
+          // on ga:virtualPageView and popstate
           const intersectionObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
               if (!entry.isIntersecting) {
