@@ -224,10 +224,23 @@ const cover: coverType = {
       startObserver();
     }
 
+    function t69Ready() {
+      const element = document.body;
+      addIdentifierClasses(element, 'T69');
+      cover.ready(element, 'T69');
+    }
+
+    if (window.location.pathname == '/handla/aktuella-erbjudanden/') {
+      t69Ready();
+    }
+
     // back button and other browser buttons
     window.addEventListener('popstate', () => {
       if (cover.onCategory()) {
         startObserver();
+      }
+      if (window.location.pathname == '/handla/aktuella-erbjudanden/') {
+        t69Ready();
       }
     });
 
@@ -235,6 +248,9 @@ const cover: coverType = {
     window.addEventListener('ga:virtualPageView', () => {
       if (cover.onCategory()) {
         startObserver();
+      }
+      if (window.location.pathname == '/handla/aktuella-erbjudanden/') {
+        t69Ready();
       }
     });
 
