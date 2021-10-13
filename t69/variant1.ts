@@ -5,5 +5,5 @@ document.addEventListener('cover.ready T69', () => {
 });
 
 function t69() {
-  window.location.replace('/handla/aktuella-erbjudanden/v1/');
+  console.log('/handla/aktuella-erbjudanden/v1/');
 }
