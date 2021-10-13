@@ -5,5 +5,5 @@ document.addEventListener('cover.ready T69', () => {
 });
 
 function t69() {
-  console.log('/handla/aktuella-erbjudanden/v1/');
+  location.replace('https://www.coop.se/handla/aktuella-erbjudanden/v1/');
 }
