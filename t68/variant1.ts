@@ -7,8 +7,6 @@ document.addEventListener('cover.ready T68', (event) => {
 });
 
 function show(button) {
-  console.debug('fix styling', button);
-
   button.classList.remove('u-hidden');
   button.parentElement.querySelector('.AddToCart').classList.add('u-hidden');
 
@@ -26,8 +24,6 @@ function show(button) {
 }
 
 function hide(button) {
-  console.debug('reset', button);
-
   button.classList.add('u-hidden');
   button.parentElement.querySelector('.AddToCart').classList.remove('u-hidden');
 }
@@ -38,7 +34,6 @@ function quantityObserver(targetNode) {
   const callback = function (mutationsList, observer) {
     for (const mutation of mutationsList) {
       if (mutation.type === 'attributes') {
-        console.log(mutation);
         if (mutation.target.value > 0) {
           hide(
             mutation.target

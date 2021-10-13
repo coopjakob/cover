@@ -1,3 +1,11 @@
+// TODO: If wrapper is the same, use the same observer
+// Implement URL checker and triggers etc.
+// Flatten ifs,
+// Add all tests as a setting/options
+// way too many nested if. Better use the following rule: worst case scenario first .
+// Firstly put all the exit scenarios (negate the condition inside ifs), then you can continue with your TODO code,
+// This will make your code more readable for debugging and you will avoid any unknown bugs.
+
 (() => {
   const currentScript = document.currentScript;
 
@@ -24,13 +32,13 @@
 interface coverType {
   waitFor: (
     selector: string,
-    wrapper: string | Element,
     callback: (element: Element) => void,
     options?: {
-      init?: Boolean;
-      querySelectorAll?: Boolean;
-      content?: String;
-      disconnect?: Boolean;
+      wrapper?: string;
+      init?: boolean;
+      querySelectorAll?: boolean;
+      content?: string;
+      disconnect?: boolean;
     }
   ) => void;
   onCategory: () => boolean;
@@ -39,92 +47,82 @@ interface coverType {
 
 let readyHistory = [];
 const cover: coverType = {
-  waitFor: (selector, wrapper, callback, options) => {
-    let selectorElement;
-    let isCallbackSent = false;
-
-    // If not an element
-    if (!wrapper.tagName) {
-      wrapper = document.querySelector(wrapper);
+  waitFor: (selector, callback, options) => {
+    if (!options.wrapper) {
+      options.wrapper = '.Main';
     }
 
-    if (wrapper) {
-      if (options.init) {
-        if ((selectorElement = wrapper.querySelector(selector))) {
-          if (options.querySelectorAll) {
-            wrapper.querySelectorAll(selector).forEach((element) => {
-              if (okContent(element)) {
-                //TODO: options.disconnect is not checked
-                callback(element);
-                isCallbackSent = true;
-              }
-            });
-          } else {
-            if (okContent(selectorElement)) {
-              callback(selectorElement);
-              isCallbackSent = true;
-            }
-          }
-        }
+    let wrapperElement = document.querySelector(options.wrapper);
+    let observer: MutationObserver;
+    let isCallbackSent = false;
+
+    function okContent(element) {
+      if (!options.content) {
+        return true;
       }
 
-      if (isCallbackSent && options.disconnect) {
-        // Don't start observer
+      return element.textContent == options.content;
+    }
+
+    function matchElementSelector(wrapper: Element) {
+      let elements = [];
+
+      if (wrapper.matches(selector)) {
+        elements.push(wrapper);
+      }
+
+      if (options.querySelectorAll) {
+        elements = elements.concat(
+          Array.from(wrapper.querySelectorAll(selector))
+        );
       } else {
-        // Start if disconnect is both false or true
-        initObserver();
-      }
-
-      function observerMatch(element) {
-        if (okContent) {
-          callback(element);
-        }
-
-        // observer might not exist
-        if (typeof observer !== 'undefined' && options.disconnect) {
-          observer.disconnect();
+        if (wrapper.querySelector(selector)) {
+          elements.push(wrapper.querySelector(selector)); //duplicated code
         }
       }
 
-      function okContent(element) {
-        if (!options.content) return true;
+      // const elements = options.querySelectorAll
+      //   ? Array.from(wrapper.querySelectorAll(selector))
+      //   : [wrapper.querySelector(selector)];
 
-        if (element.textContent == options.content) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-
-      function initObserver() {
-        const observer = new MutationObserver((mutations) => {
-          for (const { addedNodes } of mutations) {
-            for (const node of addedNodes) {
-              if (!node.tagName) {
-                continue;
+      if (elements.length > 0) {
+        for (let i = 0; i < elements.length; i++) {
+          if (okContent(elements[i])) {
+            callback(elements[i]);
+            isCallbackSent = true;
+            if (options.disconnect) {
+              if (observer) {
+                observer.disconnect();
               }
-
-              if (node.matches(selector)) {
-                observerMatch(node);
-              } else if ((selectorElement = node.querySelector(selector))) {
-                if (options.querySelectorAll) {
-                  node.querySelectorAll(selector).forEach((element) => {
-                    observerMatch(element);
-                  });
-                } else {
-                  observerMatch(selectorElement);
-                }
-              }
+              break;
             }
           }
-        });
-
-        observer.observe(wrapper, {
-          childList: true,
-          subtree: true,
-          attributeFilter: ['data-test'],
-        });
+        }
       }
+    }
+
+    if (options.init) {
+      matchElementSelector(wrapperElement);
+    }
+
+    if (options.disconnect && isCallbackSent) {
+      //
+    } else {
+      observer = new MutationObserver((mutations) => {
+        for (const { addedNodes } of mutations) {
+          for (const node of addedNodes) {
+            if (node instanceof Element) {
+              matchElementSelector(node);
+            }
+          }
+        }
+      });
+
+      observer.observe(wrapperElement, {
+        childList: true,
+        subtree: true,
+        attributeFilter: ['data-test'],
+      });
     }
   },
   onCategory: () => {
@@ -160,7 +158,6 @@ const cover: coverType = {
   function run() {
     cover.waitFor(
       '.Notice.Notice--info.Notice--animated.Notice--center',
-      '.Main',
       (element) => {
         addIdentifierClasses(element, 'T66');
         cover.ready(element, 'T66');
@@ -175,12 +172,12 @@ const cover: coverType = {
     if (window.innerWidth > 1024) {
       cover.waitFor(
         '.Grid-cell.u-size1of2.u-sm-size1of4.u-md-size1of5.u-lg-size1of6',
-        '[data-react-component="CheckoutPage"]',
         (element) => {
           addIdentifierClasses(element, 'T60');
           cover.ready(element, 'T60');
         },
         {
+          wrapper: '[data-react-component="CheckoutPage"]',
           init: true,
           querySelectorAll: true,
           disconnect: false,
@@ -190,21 +187,19 @@ const cover: coverType = {
 
     cover.waitFor(
       '[data-test="cncheader-chagedeliverymethodbutton"]:not(u-hidden)',
-      '#portal',
       (element) => {
         addIdentifierClasses(element, 'T67');
         cover.ready(element, 'T67');
       },
       {
+        wrapper: '#portal',
         init: false,
         disconnect: false,
       }
     );
 
-    //document.querySelectorAll(".Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden").forEach((element) => { element.classList.add("T68") });
     cover.waitFor(
       '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
-      '.Main',
       (element) => {
         // search will include quantity on load
         if (element.parentElement.querySelector('input').value === '0') {
@@ -241,7 +236,6 @@ const cover: coverType = {
     function startObserver() {
       cover.waitFor(
         '.ItemTeaser',
-        '.Main-container .Section .Grid',
         (element) => {
           // TODO: only on category pages not working!?
           // https://www.coop.se/handla/inspiration on Edge
@@ -264,6 +258,7 @@ const cover: coverType = {
           });
         },
         {
+          wrapper: '.Main-container .Section .Grid',
           init: false,
           disconnect: true,
         }
@@ -272,9 +267,8 @@ const cover: coverType = {
 
     cover.waitFor(
       '.js-savedCarts',
-      '.Main',
       (savedCarts) => {
-        if (window.location.pathname == '/handla/') {
+        if (window.location.pathname === '/handla/') {
           const element = savedCarts.closest('.Grid-cell.u-sizeFull');
           addIdentifierClasses(element, 'T63');
           cover.ready(element, 'T63');
@@ -288,7 +282,6 @@ const cover: coverType = {
 
     cover.waitFor(
       '.Swiper-button',
-      '.Main',
       (element) => {
         addIdentifierClasses(element, 'T70');
         cover.ready(element, 'T70');
@@ -301,9 +294,8 @@ const cover: coverType = {
 
     cover.waitFor(
       '.Swiper.is-loaded',
-      '.Main',
       (loaded) => {
-        if (window.location.pathname == '/handla/') {
+        if (window.location.pathname === '/handla/') {
           const parent = loaded.parentElement;
           if (parent.matches('[data-list="Offer Recommendation Handla"]')) {
             const element = parent.previousElementSibling;
