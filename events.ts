@@ -154,6 +154,20 @@ const cover: coverType = {
 
   function run() {
     cover.waitFor(
+      '.js-page',
+      (element) => {
+        if (window.location.pathname == '/handla/aktuella-erbjudanden/') {
+          addIdentifierClasses(element, 'T69');
+          cover.ready(element, 'T69');
+        }
+      },
+      {
+        wrapper: '.js-pageContainer',
+        init: true,
+      }
+    );
+
+    cover.waitFor(
       '.Notice.Notice--info.Notice--animated.Notice--center',
       (element) => {
         addIdentifierClasses(element, 'T66');
