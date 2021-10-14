@@ -129,10 +129,7 @@ const cover: coverType = {
     return window.location.pathname.startsWith('/handla/varor/');
   },
   ready: (element, id) => {
-    // TODO: Remove duplicated id if possible
-    // (element.identifier === id);
-    const event = new Event(`cover.ready ${id}`, { bubbles: true });
-    element.dispatchEvent(event);
+    element.dispatchEvent(new Event(`cover.ready ${id}`, { bubbles: true }));
 
     if (!readyHistory.includes(id)) {
       DY.API('event', {
