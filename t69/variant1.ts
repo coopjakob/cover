@@ -5,8 +5,7 @@ document.addEventListener('cover.ready T69', () => {
 });
 
 function t69() {
-  var a = document.createElement('a');
-  a.classList.add('js-asyncLink');
-  a.href = '/handla/aktuella-erbjudanden/v1/';
+  let a = document.querySelector('[data-id="81297"] a');
+  a.setAttribute('href', '/handla/aktuella-erbjudanden/v1/');
   a.click();
 }
