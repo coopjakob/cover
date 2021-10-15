@@ -1,11 +1,3 @@
-// TODO: If wrapper is the same, use the same observer
-// Implement URL checker and triggers etc.
-// Flatten ifs,
-// Add all tests as a setting/options
-// way too many nested if. Better use the following rule: worst case scenario first .
-// Firstly put all the exit scenarios (negate the condition inside ifs), then you can continue with your TODO code,
-// This will make your code more readable for debugging and you will avoid any unknown bugs.
-
 (() => {
   const currentScript = document.currentScript;
 
@@ -80,10 +72,6 @@ const cover: coverType = {
           elements.push(wrapper.querySelector(selector)); //duplicated code
         }
       }
-
-      // const elements = options.querySelectorAll
-      //   ? Array.from(wrapper.querySelectorAll(selector))
-      //   : [wrapper.querySelector(selector)];
 
       if (elements.length > 0) {
         for (let i = 0; i < elements.length; i++) {
