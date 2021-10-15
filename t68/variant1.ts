@@ -33,14 +33,12 @@ function quantityObserver(targetNode) {
 
   const callback = function (mutationsList, observer) {
     for (const mutation of mutationsList) {
-      if (mutation.type === 'attributes') {
-        if (mutation.target.value > 0) {
-          hide(
-            mutation.target
-              .closest('.ItemTeaser-button, .ItemInfo-button')
-              .querySelector('.T68')
-          );
-        }
+      if (mutation.type === 'attributes' && mutation.target.value > 0) {
+        hide(
+          mutation.target
+            .closest('.ItemTeaser-button, .ItemInfo-button')
+            .querySelector('.T68')
+        );
       }
     }
   };
