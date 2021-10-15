@@ -39,7 +39,7 @@ interface coverType {
 
 let readyHistory = [];
 const cover: coverType = {
-  waitFor: (selector, callback, options) => {
+  waitFor: (selector, callback, options = {}) => {
     if (!options.wrapper) {
       options.wrapper = '.Main';
     }
@@ -144,7 +144,7 @@ const cover: coverType = {
     cover.waitFor(
       '.js-page',
       (element) => {
-        if (window.location.pathname == '/handla/aktuella-erbjudanden/') {
+        if (window.location.pathname === '/handla/aktuella-erbjudanden/') {
           addIdentifierClasses(element, 'T69');
           cover.ready(element, 'T69');
         }
