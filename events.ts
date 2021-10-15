@@ -48,6 +48,10 @@ const cover: coverType = {
     let observer: MutationObserver;
     let isCallbackSent = false;
 
+    if (!wrapperElement) {
+      return;
+    }
+
     function okContent(element) {
       if (!options.content) {
         return true;
