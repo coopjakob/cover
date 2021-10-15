@@ -160,6 +160,27 @@ const cover: coverType = {
           addIdentifierClasses(element, 'T69');
           cover.ready(element, 'T69');
         }
+
+        if (cover.onCategory) {
+          cover.waitFor(
+            '.ItemTeaser',
+            (element) => {
+              const scrollAway = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                  if (!entry.isIntersecting) {
+                    addIdentifierClasses(element, 'T61');
+                    cover.ready(element, 'T61');
+                  }
+                });
+              });
+              scrollAway.observe(element);
+            },
+            {
+              wrapper: '.Main-container .Section .Grid',
+              init: false,
+            }
+          );
+        }
       },
       {
         wrapper: '.js-pageContainer',
@@ -225,56 +246,6 @@ const cover: coverType = {
         disconnect: false,
       }
     );
-
-    if (cover.onCategory()) {
-      startObserver();
-    }
-
-    // back button and other browser buttons
-    window.addEventListener('popstate', () => {
-      if (cover.onCategory()) {
-        startObserver();
-      }
-    });
-
-    // popstate doesn't work if you move forward
-    window.addEventListener('ga:virtualPageView', () => {
-      if (cover.onCategory()) {
-        startObserver();
-      }
-    });
-
-    function startObserver() {
-      cover.waitFor(
-        '.ItemTeaser',
-        (element) => {
-          // TODO: only on category pages not working!?
-          // https://www.coop.se/handla/inspiration on Edge
-          // on ga:virtualPageView and popstate
-          const intersectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) {
-                cover.ready(element, 'T61');
-              }
-            });
-          });
-          intersectionObserver.observe(element);
-
-          window.addEventListener('popstate', () => {
-            intersectionObserver.unobserve(element);
-          });
-
-          window.addEventListener('ga:virtualPageView', () => {
-            intersectionObserver.unobserve(element);
-          });
-        },
-        {
-          wrapper: '.Main-container .Section .Grid',
-          init: false,
-          disconnect: true,
-        }
-      );
-    }
 
     cover.waitFor(
       '.js-savedCarts',

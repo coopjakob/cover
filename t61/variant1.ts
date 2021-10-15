@@ -54,13 +54,14 @@ function t61() {
   });
   observer.observe(header);
 
-  // Remove when page unload
-  window.addEventListener('popstate', function (event) {
-    scrollToTop.remove();
-    observer.unobserve(header);
-  });
-  window.addEventListener('ga:virtualPageView', () => {
-    scrollToTop.remove();
-    observer.unobserve(header);
-  });
+  cover.waitFor(
+    '.js-page',
+    (element) => {
+      scrollToTop.remove();
+      observer.unobserve(header);
+    },
+    {
+      wrapper: '.js-pageContainer',
+    }
+  );
 }
