@@ -64,9 +64,10 @@ const cover: coverType = {
         isCallbackSent = true;
 
         if (options.disconnect) {
-          if (observer) {
+          try {
             observer.disconnect();
-          }
+          } catch {}
+
           break;
         }
       }
