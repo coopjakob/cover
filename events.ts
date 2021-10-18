@@ -1,26 +1,3 @@
-(() => {
-  const currentScript = document.currentScript;
-
-  if (currentScript) {
-    let scriptOrigin = new URL(currentScript.src).origin;
-
-    const preload = (path) => {
-      let link = document.createElement('link');
-      link.setAttribute('rel', 'preload');
-      link.setAttribute('href', `${scriptOrigin}/${path}`);
-      link.setAttribute('as', 'script');
-
-      document.head.appendChild(link);
-    };
-
-    preload('t63/variant1.js');
-    preload('t60/variant1.js');
-    preload('t66/variant1.js');
-    preload('t68/variant1.js');
-    preload('t67/variant1.js');
-  }
-})();
-
 interface coverType {
   waitFor: (
     selector: string,
