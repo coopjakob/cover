@@ -34,7 +34,7 @@ const cover: coverType = {
         return true;
       }
 
-      return element.textContent == options.content;
+      return element.textContent === options.content;
     }
 
     function matchElementSelector(wrapper: Element) {
