@@ -56,15 +56,18 @@ const cover: coverType = {
       }
 
       for (let i = 0; i < elements.length; i++) {
-        if (okContent(elements[i])) {
-          callback(elements[i]);
-          isCallbackSent = true;
-          if (options.disconnect) {
-            if (observer) {
-              observer.disconnect();
-            }
-            break;
+        if (!okContent(elements[i])) {
+          continue;
+        }
+
+        callback(elements[i]);
+        isCallbackSent = true;
+
+        if (options.disconnect) {
+          if (observer) {
+            observer.disconnect();
           }
+          break;
         }
       }
     }
