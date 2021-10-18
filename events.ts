@@ -49,7 +49,7 @@ const cover: coverType = {
           Array.from(wrapper.querySelectorAll(selector))
         );
       } else {
-        let selectorElement = wrapper.querySelector(selector);
+        const selectorElement = wrapper.querySelector(selector);
         if (selectorElement) {
           elements.push(selectorElement);
         }
