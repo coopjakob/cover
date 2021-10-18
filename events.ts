@@ -81,13 +81,13 @@ const cover: coverType = {
       //
     } else {
       observer = new MutationObserver((mutations) => {
-        for (const { addedNodes } of mutations) {
-          for (const node of addedNodes) {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
             if (node instanceof Element) {
               matchElementSelector(node);
             }
-          }
-        }
+          });
+        });
       });
 
       observer.observe(wrapperElement, {
