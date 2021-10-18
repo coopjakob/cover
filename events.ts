@@ -1,13 +1,13 @@
 interface coverType {
   waitFor: (
     selector: string,
-    wrapper: string | Element,
     callback: (element: Element) => void,
     options?: {
-      init?: Boolean;
-      querySelectorAll?: Boolean;
-      content?: String;
-      disconnect?: Boolean;
+      wrapper?: string;
+      init?: boolean;
+      querySelectorAll?: boolean;
+      content?: string;
+      disconnect?: boolean;
     }
   ) => void;
   onCategory: () => boolean;
@@ -16,102 +16,90 @@ interface coverType {
 
 let readyHistory = [];
 const cover: coverType = {
-  waitFor: (selector, wrapper, callback, options) => {
-    let selectorElement;
-    let isCallbackSent = false;
-
-    // If not an element
-    if (!wrapper.tagName) {
-      wrapper = document.querySelector(wrapper);
+  waitFor: (selector, callback, options = {}) => {
+    if (!options.wrapper) {
+      options.wrapper = '.Main';
     }
 
-    if (wrapper) {
-      if (options.init) {
-        if ((selectorElement = wrapper.querySelector(selector))) {
-          if (options.querySelectorAll) {
-            wrapper.querySelectorAll(selector).forEach((element) => {
-              if (okContent(element)) {
-                //TODO: options.disconnect is not checked
-                callback(element);
-                isCallbackSent = true;
-              }
-            });
-          } else {
-            if (okContent(selectorElement)) {
-              callback(selectorElement);
-              isCallbackSent = true;
-            }
-          }
-        }
+    let wrapperElement = document.querySelector(options.wrapper);
+    let observer: MutationObserver;
+    let isCallbackSent = false;
+
+    if (!wrapperElement) {
+      return;
+    }
+
+    function okContent(element) {
+      if (!options.content) {
+        return true;
       }
 
-      if (isCallbackSent && options.disconnect) {
-        // Don't start observer
+      return element.textContent == options.content;
+    }
+
+    function matchElementSelector(wrapper: Element) {
+      let elements = [];
+
+      if (wrapper.matches(selector)) {
+        elements.push(wrapper);
+      }
+
+      if (options.querySelectorAll) {
+        elements = elements.concat(
+          Array.from(wrapper.querySelectorAll(selector))
+        );
       } else {
-        // Start if disconnect is both false or true
-        initObserver();
-      }
-
-      function observerMatch(element) {
-        if (okContent) {
-          callback(element);
-        }
-
-        // observer might not exist
-        if (typeof observer !== 'undefined' && options.disconnect) {
-          observer.disconnect();
+        let selectorElement = wrapper.querySelector(selector);
+        if (selectorElement) {
+          elements.push(selectorElement);
         }
       }
 
-      function okContent(element) {
-        if (!options.content) return true;
-
-        if (element.textContent == options.content) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-
-      function initObserver() {
-        const observer = new MutationObserver((mutations) => {
-          for (const { addedNodes } of mutations) {
-            for (const node of addedNodes) {
-              if (!node.tagName) {
-                continue;
+      if (elements.length > 0) {
+        for (let i = 0; i < elements.length; i++) {
+          if (okContent(elements[i])) {
+            callback(elements[i]);
+            isCallbackSent = true;
+            if (options.disconnect) {
+              if (observer) {
+                observer.disconnect();
               }
-
-              if (node.matches(selector)) {
-                observerMatch(node);
-              } else if ((selectorElement = node.querySelector(selector))) {
-                if (options.querySelectorAll) {
-                  node.querySelectorAll(selector).forEach((element) => {
-                    observerMatch(element);
-                  });
-                } else {
-                  observerMatch(selectorElement);
-                }
-              }
+              break;
             }
           }
-        });
-
-        observer.observe(wrapper, {
-          childList: true,
-          subtree: true,
-          attributeFilter: ['data-test'],
-        });
+        }
       }
+    }
+
+    if (options.init) {
+      matchElementSelector(wrapperElement);
+    }
+
+    if (options.disconnect && isCallbackSent) {
+      //
+    } else {
+      observer = new MutationObserver((mutations) => {
+        for (const { addedNodes } of mutations) {
+          for (const node of addedNodes) {
+            if (node instanceof Element) {
+              matchElementSelector(node);
+            }
+          }
+        }
+      });
+
+      observer.observe(wrapperElement, {
+        childList: true,
+        subtree: true,
+        attributeFilter: ['data-test'],
+      });
     }
   },
   onCategory: () => {
     return window.location.pathname.startsWith('/handla/varor/');
   },
   ready: (element, id) => {
-    // TODO: Remove duplicated id if possible
-    // (element.identifier === id);
-    const event = new Event(`cover.ready ${id}`, { bubbles: true });
-    element.dispatchEvent(event);
+    element.dispatchEvent(new Event(`cover.ready ${id}`, { bubbles: true }));
 
     if (!readyHistory.includes(id)) {
       DY.API('event', {
@@ -136,8 +124,42 @@ const cover: coverType = {
 
   function run() {
     cover.waitFor(
+      '.js-page',
+      (element) => {
+        if (window.location.pathname === '/handla/aktuella-erbjudanden/') {
+          addIdentifierClasses(element, 'T69');
+          cover.ready(element, 'T69');
+        }
+
+        if (cover.onCategory) {
+          cover.waitFor(
+            '.ItemTeaser',
+            (element) => {
+              const scrollAway = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                  if (!entry.isIntersecting) {
+                    addIdentifierClasses(element, 'T61');
+                    cover.ready(element, 'T61');
+                  }
+                });
+              });
+              scrollAway.observe(element);
+            },
+            {
+              wrapper: '.Main-container .Section .Grid',
+              init: false,
+            }
+          );
+        }
+      },
+      {
+        wrapper: '.js-pageContainer',
+        init: true,
+      }
+    );
+
+    cover.waitFor(
       '.Notice.Notice--info.Notice--animated.Notice--center',
-      '.Main',
       (element) => {
         addIdentifierClasses(element, 'T66');
         cover.ready(element, 'T66');
@@ -152,12 +174,12 @@ const cover: coverType = {
     if (window.innerWidth > 1024) {
       cover.waitFor(
         '.Grid-cell.u-size1of2.u-sm-size1of4.u-md-size1of5.u-lg-size1of6',
-        '[data-react-component="CheckoutPage"]',
         (element) => {
           addIdentifierClasses(element, 'T60');
           cover.ready(element, 'T60');
         },
         {
+          wrapper: '[data-react-component="CheckoutPage"]',
           init: true,
           querySelectorAll: true,
           disconnect: false,
@@ -167,21 +189,19 @@ const cover: coverType = {
 
     cover.waitFor(
       '[data-test="cncheader-chagedeliverymethodbutton"]:not(u-hidden)',
-      '#portal',
       (element) => {
         addIdentifierClasses(element, 'T67');
         cover.ready(element, 'T67');
       },
       {
+        wrapper: '#portal',
         init: false,
         disconnect: false,
       }
     );
 
-    //document.querySelectorAll(".Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden").forEach((element) => { element.classList.add("T68") });
     cover.waitFor(
       '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
-      '.Main',
       (element) => {
         // search will include quantity on load
         if (element.parentElement.querySelector('input').value === '0') {
@@ -197,75 +217,10 @@ const cover: coverType = {
       }
     );
 
-    if (cover.onCategory()) {
-      startObserver();
-    }
-
-    // back button and other browser buttons
-    window.addEventListener('popstate', () => {
-      if (cover.onCategory()) {
-        startObserver();
-      }
-    });
-
-    cover.waitFor(
-      '.js-page',
-      '.js-pageContainer',
-      (element) => {
-        if (window.location.pathname == '/handla/aktuella-erbjudanden/') {
-          addIdentifierClasses(element, 'T69');
-          cover.ready(element, 'T69');
-        }
-      },
-      {
-        init: true,
-      }
-    );
-
-    // popstate doesn't work if you move forward
-    window.addEventListener('ga:virtualPageView', () => {
-      if (cover.onCategory()) {
-        startObserver();
-      }
-    });
-
-    function startObserver() {
-      cover.waitFor(
-        '.ItemTeaser',
-        '.Main-container .Section .Grid',
-        (element) => {
-          // TODO: only on category pages not working!?
-          // https://www.coop.se/handla/inspiration on Edge
-          // on ga:virtualPageView and popstate
-          const intersectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) {
-                cover.ready(element, 'T61');
-              }
-            });
-          });
-          intersectionObserver.observe(element);
-
-          window.addEventListener('popstate', () => {
-            intersectionObserver.unobserve(element);
-          });
-
-          window.addEventListener('ga:virtualPageView', () => {
-            intersectionObserver.unobserve(element);
-          });
-        },
-        {
-          init: false,
-          disconnect: true,
-        }
-      );
-    }
-
     cover.waitFor(
       '.js-savedCarts',
-      '.Main',
       (savedCarts) => {
-        if (window.location.pathname == '/handla/') {
+        if (window.location.pathname === '/handla/') {
           const element = savedCarts.closest('.Grid-cell.u-sizeFull');
           addIdentifierClasses(element, 'T63');
           cover.ready(element, 'T63');
@@ -279,7 +234,6 @@ const cover: coverType = {
 
     cover.waitFor(
       '.Swiper-button',
-      '.Main',
       (element) => {
         addIdentifierClasses(element, 'T70');
         cover.ready(element, 'T70');
@@ -292,9 +246,8 @@ const cover: coverType = {
 
     cover.waitFor(
       '.Swiper.is-loaded',
-      '.Main',
       (loaded) => {
-        if (window.location.pathname == '/handla/') {
+        if (window.location.pathname === '/handla/') {
           const parent = loaded.parentElement;
           if (parent.matches('[data-list="Offer Recommendation Handla"]')) {
             const element = parent.previousElementSibling;
