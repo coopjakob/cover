@@ -140,7 +140,6 @@ const cover: coverType = {
               const scrollAway = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                   if (!entry.isIntersecting) {
-                    addIdentifierClasses(element, 'T61');
                     cover.ready(element, 'T61');
                   }
                 });
