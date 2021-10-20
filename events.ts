@@ -19,11 +19,7 @@ interface coverType {
 let readyHistory: Array<string> = [];
 const cover: coverType = {
   waitFor: (selector, callback, options = {}) => {
-    if (!options.wrapper) {
-      options.wrapper = '.Main';
-    }
-
-    let wrapperElement = document.querySelector(options.wrapper);
+    let wrapperElement = document.body;
     let observer: MutationObserver;
     let isCallbackSent = false;
 
@@ -120,13 +116,6 @@ const cover: coverType = {
     element.classList.add('Experiment', id);
   };
 
-  if (/complete|interactive|loaded/.test(document.readyState)) {
-    run();
-  } else {
-    document.addEventListener('DOMContentLoaded', run);
-  }
-
-  function run() {
     cover.waitFor(
       '.js-page',
       (element) => {
@@ -263,5 +252,4 @@ const cover: coverType = {
         init: true,
       }
     );
-  }
 })();
