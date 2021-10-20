@@ -4,11 +4,14 @@
   "description": "ab-testing",
   "main": "events.ts",
   "devDependencies": {
-    "typescript": "^4.4.4",
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-typescript": "^7.15.0",
     "prettier": "2.3.2"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "babel . --extensions .ts --ignore node_modules --out-dir public"
   },
   "repository": {
     "type": "git",

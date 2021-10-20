@@ -16,7 +16,7 @@ interface coverType {
   ready: (element: Element, id: string) => void;
 }
 
-let readyHistory: Array<string>;
+let readyHistory: Array<string> = [];
 const cover: coverType = {
   waitFor: (selector, callback, options = {}) => {
     if (!options.wrapper) {
