@@ -75,9 +75,7 @@ const cover: coverType = {
       matchElementSelector(wrapperElement);
     }
 
-    if (options.disconnect && isCallbackSent) {
-      //
-    } else {
+    if (!(options.disconnect && isCallbackSent)) {
       observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
           mutation.addedNodes.forEach((node) => {
