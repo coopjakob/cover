@@ -1,3 +1,5 @@
+declare var DY: any;
+
 interface coverType {
   waitFor: (
     selector: string,
@@ -14,7 +16,7 @@ interface coverType {
   ready: (element: Element, id: string) => void;
 }
 
-let readyHistory = [];
+let readyHistory: Array<string>;
 const cover: coverType = {
   waitFor: (selector, callback, options = {}) => {
     if (!options.wrapper) {

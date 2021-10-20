@@ -7,5 +7,6 @@ if (button) {
 }
 
 document.addEventListener('cover.ready T67', (event) => {
-  event.target.classList.add('u-hidden');
+  const element = event.target as HTMLElement;
+  element.classList.add('u-hidden');
 });

@@ -7,6 +7,6 @@ if (window.location.pathname == '/handla/') {
 }
 
 document.addEventListener('cover.ready T66', (event) => {
-  console.log(event);
-  event.target.classList.add('u-hidden');
+  const element = event.target as HTMLElement;
+  element.classList.add('u-hidden');
 });
