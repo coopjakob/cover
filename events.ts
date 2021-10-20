@@ -5,7 +5,6 @@ interface coverType {
     selector: string,
     callback: (element: Element) => void,
     options?: {
-      wrapper?: string;
       init?: boolean;
       querySelectorAll?: boolean;
       content?: string;
@@ -122,6 +121,23 @@ const cover: coverType = {
         cover.ready(element, 'T69');
       }
 
+      if (window.location.pathname === '/handla/betala/') {
+        if (window.innerWidth > 1024) {
+          cover.waitFor(
+            '.Grid-cell.u-size1of2.u-sm-size1of4.u-md-size1of5.u-lg-size1of6',
+            (element) => {
+              addIdentifierClasses(element, 'T60');
+              cover.ready(element, 'T60');
+            },
+            {
+              init: true,
+              querySelectorAll: true,
+              disconnect: false,
+            }
+          );
+        }
+      }
+
       if (cover.onCategory) {
         cover.waitFor(
           '.ItemTeaser',
@@ -136,14 +152,12 @@ const cover: coverType = {
             scrollAway.observe(element);
           },
           {
-            wrapper: '.Main-container .Section .Grid',
             init: false,
           }
         );
       }
     },
     {
-      wrapper: '.js-pageContainer',
       init: true,
     }
   );
@@ -161,22 +175,6 @@ const cover: coverType = {
     }
   );
 
-  if (window.innerWidth > 1024) {
-    cover.waitFor(
-      '.Grid-cell.u-size1of2.u-sm-size1of4.u-md-size1of5.u-lg-size1of6',
-      (element) => {
-        addIdentifierClasses(element, 'T60');
-        cover.ready(element, 'T60');
-      },
-      {
-        wrapper: '[data-react-component="CheckoutPage"]',
-        init: true,
-        querySelectorAll: true,
-        disconnect: false,
-      }
-    );
-  }
-
   cover.waitFor(
     '[data-test="cncheader-chagedeliverymethodbutton"]:not(u-hidden)',
     (element) => {
@@ -184,7 +182,6 @@ const cover: coverType = {
       cover.ready(element, 'T67');
     },
     {
-      wrapper: '#portal',
       init: false,
       disconnect: false,
     }
