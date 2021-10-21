@@ -14,6 +14,7 @@ interface coverType {
   ) => void;
   onCategory: () => boolean;
   ready: (element: Element, id: string) => void;
+  readyHistory: Array<string>;
 }
 
 function checkDynamicYieldABtestConsent() {
@@ -31,7 +32,6 @@ if (checkDynamicYieldABtestConsent()) {
   __cmp('addEventListener', ['consent', consentIsAvailable, false], null);
 }
 
-let readyHistory: Array<string> = [];
 const cover: coverType = {
   waitFor: (selector, callback, options = {}) => {
     let wrapperElement = document.body;
@@ -114,14 +114,15 @@ const cover: coverType = {
   ready: (element, id) => {
     element.dispatchEvent(new Event(`cover.ready ${id}`, { bubbles: true }));
 
-    if (!readyHistory.includes(id)) {
+    if (!cover.readyHistory.includes(id)) {
       DY.API('event', {
         name: `cover.ready ${id}`,
       });
 
-      readyHistory.push(id);
+      cover.readyHistory.push(id);
     }
   },
+  readyHistory: [],
 };
 
 function run() {
