@@ -1,4 +1,5 @@
 declare const DY: any;
+declare const __cmp: any;
 
 interface coverType {
   waitFor: (
@@ -13,6 +14,21 @@ interface coverType {
   ) => void;
   onCategory: () => boolean;
   ready: (element: Element, id: string) => void;
+}
+
+function checkDynamicYieldABtestConsent() {
+  return __cmp('getCMPData').vendorConsents.c18593;
+}
+
+if (checkDynamicYieldABtestConsent()) {
+  run();
+} else {
+  function consentIsAvailable() {
+    if (checkDynamicYieldABtestConsent()) {
+      run();
+    }
+  }
+  __cmp('addEventListener', ['consent', consentIsAvailable, false], null);
 }
 
 let readyHistory: Array<string> = [];
@@ -108,7 +124,7 @@ const cover: coverType = {
   },
 };
 
-(() => {
+function run() {
   const addIdentifierClasses = (element, id) => {
     element.classList.add('Experiment', id);
   };
@@ -247,4 +263,4 @@ const cover: coverType = {
       init: true,
     }
   );
-})();
+}
