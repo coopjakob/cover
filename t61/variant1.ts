@@ -16,7 +16,7 @@ function t61() {
     .T61 {
       position: fixed;
       bottom: 10px;
-      right: 20px;
+      right: 10px;
       background-color: #005537;
       border-radius: 50%;
       height: 75px;
