@@ -2,6 +2,7 @@ declare const DY: any;
 declare const __cmp: any;
 
 interface coverType {
+  checkDynamicYieldABtestConsent: () => boolean;
   waitFor: (
     selector: string,
     callback: (element: Element) => void,
@@ -17,22 +18,10 @@ interface coverType {
   readyHistory: Array<string>;
 }
 
-function checkDynamicYieldABtestConsent() {
-  return __cmp('getCMPData').vendorConsents.c18593;
-}
-
-if (checkDynamicYieldABtestConsent()) {
-  run();
-} else {
-  function consentIsAvailable() {
-    if (checkDynamicYieldABtestConsent()) {
-      run();
-    }
-  }
-  __cmp('addEventListener', ['consent', consentIsAvailable, false], null);
-}
-
 const cover: coverType = {
+  checkDynamicYieldABtestConsent: () => {
+    return __cmp('getCMPData').vendorConsents.c18593;
+  },
   waitFor: (selector, callback, options = {}) => {
     let wrapperElement = document.body;
     let observer: MutationObserver;
@@ -124,6 +113,17 @@ const cover: coverType = {
   },
   readyHistory: [],
 };
+
+if (cover.checkDynamicYieldABtestConsent()) {
+  run();
+} else {
+  function consentIsAvailable() {
+    if (cover.checkDynamicYieldABtestConsent()) {
+      run();
+    }
+  }
+  __cmp('addEventListener', ['consent', consentIsAvailable, false], null);
+}
 
 function run() {
   const addIdentifierClasses = (element, id) => {
