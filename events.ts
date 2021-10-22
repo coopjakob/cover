@@ -1,5 +1,6 @@
 declare const DY: any;
 declare const __cmp: any;
+declare const coopUserSettings: any;
 
 interface coverType {
   checkDynamicYieldABtestConsent: () => boolean;
@@ -251,7 +252,10 @@ function run() {
   cover.waitFor(
     '.Swiper.is-loaded',
     (loaded) => {
-      if (window.location.pathname === '/handla/') {
+      if (
+        window.location.pathname === '/handla/' &&
+        !coopUserSettings.isCompany
+      ) {
         const parent = loaded.parentElement;
         if (parent.matches('[data-list="Offer Recommendation Handla"]')) {
           const element = parent.previousElementSibling;
