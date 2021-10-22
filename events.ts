@@ -1,5 +1,6 @@
 declare const DY: any;
 declare const __cmp: any;
+declare const coopUserSettings: any;
 
 interface coverType {
   checkDynamicYieldABtestConsent: () => boolean;
@@ -133,6 +134,25 @@ function run() {
   cover.waitFor(
     '.js-page',
     (element) => {
+      if (
+        window.location.pathname === '/handla/' &&
+        coopUserSettings.isAuthenticated &&
+        !coopUserSettings.isCompany
+      ) {
+        cover.waitFor(
+          '.js-savedCarts',
+          (savedCarts) => {
+            const element = savedCarts.closest('.Grid-cell.u-sizeFull');
+            addIdentifierClasses(element, 'T63');
+            cover.ready(element, 'T63');
+          },
+          {
+            init: true,
+            disconnect: true,
+          }
+        );
+      }
+
       if (window.location.pathname === '/handla/aktuella-erbjudanden/') {
         addIdentifierClasses(element, 'T69');
         cover.ready(element, 'T69');
@@ -218,21 +238,6 @@ function run() {
       querySelectorAll: true,
       content: 'Köp',
       disconnect: false,
-    }
-  );
-
-  cover.waitFor(
-    '.js-savedCarts',
-    (savedCarts) => {
-      if (window.location.pathname === '/handla/') {
-        const element = savedCarts.closest('.Grid-cell.u-sizeFull');
-        addIdentifierClasses(element, 'T63');
-        cover.ready(element, 'T63');
-      }
-    },
-    {
-      init: true,
-      disconnect: true,
     }
   );
 
