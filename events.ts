@@ -175,7 +175,7 @@ function run() {
         }
       }
 
-      if (cover.onCategory) {
+      if (cover.onCategory()) {
         cover.waitFor(
           '.ItemTeaser',
           (element) => {
