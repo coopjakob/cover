@@ -229,7 +229,7 @@ function run() {
     (element) => {
       // search will include quantity on load
       if (element.parentElement.querySelector('input').value === '0') {
-        if (cover.onCategory) {
+        if (cover.onCategory()) {
           addIdentifierClasses(element, 'T72');
           cover.ready(element, 'T72');
         } else {
