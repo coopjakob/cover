@@ -229,8 +229,13 @@ function run() {
     (element) => {
       // search will include quantity on load
       if (element.parentElement.querySelector('input').value === '0') {
-        addIdentifierClasses(element, 'T68');
-        cover.ready(element, 'T68');
+        if (cover.onCategory) {
+          addIdentifierClasses(element, 'T72');
+          cover.ready(element, 'T72');
+        } else {
+          addIdentifierClasses(element, 'T68');
+          cover.ready(element, 'T68');
+        }
       }
     },
     {
@@ -262,6 +267,23 @@ function run() {
           const element = parent.previousElementSibling;
           addIdentifierClasses(element, 'T71');
           cover.ready(element, 'T71');
+        }
+      }
+    },
+    {
+      init: true,
+    }
+  );
+
+  cover.waitFor(
+    '.ItemTeaser',
+    (target) => {
+      if (target.clientWidth < 170) {
+        const element = target.closest('.Grid--product');
+
+        if (element) {
+          addIdentifierClasses(element, 'T73');
+          cover.ready(element, 'T73');
         }
       }
     },
