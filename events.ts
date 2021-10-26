@@ -99,7 +99,14 @@ const cover: coverType = {
     }
   },
   onCategory: () => {
-    return window.location.pathname.startsWith('/handla/varor/');
+    const path = window.location.pathname;
+
+    if (
+      path.startsWith('/handla/varor/') &&
+      isNaN(parseFloat(path.split('-').pop())) // not on a product detail page
+    ) {
+      return true;
+    }
   },
   ready: (element, id) => {
     element.dispatchEvent(new Event(`cover.ready ${id}`, { bubbles: true }));
