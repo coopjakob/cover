@@ -16,7 +16,7 @@ function t61() {
     .T61 {
       position: fixed;
       bottom: 10px;
-      right: 20px;
+      right: 10px;
       background-color: #005537;
       border-radius: 50%;
       height: 75px;
@@ -54,13 +54,14 @@ function t61() {
   });
   observer.observe(header);
 
-  // Remove when page unload
-  window.addEventListener('popstate', function (event) {
-    scrollToTop.remove();
-    observer.unobserve(header);
-  });
-  window.addEventListener('ga:virtualPageView', () => {
-    scrollToTop.remove();
-    observer.unobserve(header);
-  });
+  cover.waitFor(
+    '.js-page',
+    (element) => {
+      scrollToTop.remove();
+      observer.unobserve(header);
+    },
+    {
+      wrapper: '.js-pageContainer',
+    }
+  );
 }

@@ -1,20 +1,4 @@
 {
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "modules": false
-      }
-    ],
-    ["@babel/preset-typescript"]
-  ],
-  "plugins": [
-    [
-      "transform-remove-console",
-      {
-        "exclude": ["error", "warn"]
-      }
-    ]
-  ],
+  "presets": ["@babel/preset-env", "@babel/preset-typescript"],
   "comments": false
 }

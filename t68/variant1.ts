@@ -1,14 +1,12 @@
 document.querySelectorAll('.T68').forEach((button) => {
-  show(button);
+  T68(button);
 });
 
 document.addEventListener('cover.ready T68', (event) => {
-  show(event.target);
+  T68(event.target);
 });
 
-function show(button) {
-  console.debug('fix styling', button);
-
+function T68(button) {
   button.classList.remove('u-hidden');
   button.parentElement.querySelector('.AddToCart').classList.add('u-hidden');
 
@@ -23,23 +21,20 @@ function show(button) {
 
   // Reset button after quantity change, for ItemInfo and ItemTeaser
   quantityObserver(button.parentElement.querySelector('.AddToCart-input'));
-}
 
-function hide(button) {
-  console.debug('reset', button);
+  function hide(button) {
+    button.classList.add('u-hidden');
+    button.parentElement
+      .querySelector('.AddToCart')
+      .classList.remove('u-hidden');
+  }
 
-  button.classList.add('u-hidden');
-  button.parentElement.querySelector('.AddToCart').classList.remove('u-hidden');
-}
+  function quantityObserver(targetNode) {
+    const config = { attributes: true, childList: false, subtree: false };
 
-function quantityObserver(targetNode) {
-  const config = { attributes: true, childList: false, subtree: false };
-
-  const callback = function (mutationsList, observer) {
-    for (const mutation of mutationsList) {
-      if (mutation.type === 'attributes') {
-        console.log(mutation);
-        if (mutation.target.value > 0) {
+    const callback = function (mutationsList, observer) {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'attributes' && mutation.target.value > 0) {
           hide(
             mutation.target
               .closest('.ItemTeaser-button, .ItemInfo-button')
@@ -47,9 +42,9 @@ function quantityObserver(targetNode) {
           );
         }
       }
-    }
-  };
+    };
 
-  const observer = new MutationObserver(callback);
-  observer.observe(targetNode, config);
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
+  }
 }
