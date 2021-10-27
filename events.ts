@@ -298,4 +298,15 @@ function run() {
       init: true,
     }
   );
+
+  cover.waitFor(
+    '.Tooltip--loginReminder',
+    (element) => {
+      addIdentifierClasses(element, 'T74');
+      cover.ready(element, 'T74');
+    },
+    {
+      disconnect: true,
+    }
+  );
 }
