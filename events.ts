@@ -28,7 +28,7 @@ interface coverType {
 
 const cover: coverType = {
   checkDynamicYieldABtestConsent: () => {
-    return __cmp('getCMPData').vendorConsents.c18593;
+    return __cmp('getCMPData')?.vendorConsents?.c18593;
   },
   isInternetExplorer: () => {
     return !!window.document.documentMode;
