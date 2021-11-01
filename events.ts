@@ -218,18 +218,6 @@ const cover: coverType = {
     );
 
     cover.waitFor(
-      '[data-test="cncheader-chagedeliverymethodbutton"]:not(u-hidden)',
-      (element) => {
-        cover.addIdentifierClasses(element, 'T67');
-        cover.ready(element, 'T67');
-      },
-      {
-        init: false,
-        disconnect: false,
-      }
-    );
-
-    cover.waitFor(
       '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
       (element) => {
         // search will include quantity on load
