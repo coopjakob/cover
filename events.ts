@@ -287,6 +287,7 @@ const cover: coverType = {
         cover.ready(element, 'T74');
       },
       {
+        init: true,
         disconnect: true,
       }
     );
