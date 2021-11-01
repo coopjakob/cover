@@ -130,11 +130,9 @@ const cover: coverType = {
     }
   },
   readyHistory: [],
-
   addIdentifierClasses: (element, id) => {
     element.classList.add('Experiment', id);
   },
-
   run: () => {
     cover.waitFor(
       '.js-page',
@@ -295,7 +293,7 @@ const cover: coverType = {
 };
 
 (() => {
-  if (!cover.isInternetExplorer()) {
+  if (cover.isInternetExplorer()) {
     return;
   }
 
