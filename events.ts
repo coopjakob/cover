@@ -21,7 +21,7 @@ interface coverType {
 
 const cover: coverType = {
   checkDynamicYieldABtestConsent: () => {
-    return __cmp('getCMPData').vendorConsents.c18593;
+    return __cmp('getCMPData')?.vendorConsents?.c18593;
   },
   waitFor: (selector, callback, options = {}) => {
     let wrapperElement = document.body;
@@ -236,13 +236,8 @@ function run() {
     (element) => {
       // search will include quantity on load
       if (element.parentElement.querySelector('input').value === '0') {
-        if (cover.onCategory()) {
-          addIdentifierClasses(element, 'T72');
-          cover.ready(element, 'T72');
-        } else {
-          addIdentifierClasses(element, 'T68');
-          cover.ready(element, 'T68');
-        }
+        addIdentifierClasses(element, 'T68');
+        cover.ready(element, 'T68');
       }
     },
     {
@@ -296,6 +291,17 @@ function run() {
     },
     {
       init: true,
+    }
+  );
+
+  cover.waitFor(
+    '.Tooltip--loginReminder',
+    (element) => {
+      addIdentifierClasses(element, 'T74');
+      cover.ready(element, 'T74');
+    },
+    {
+      disconnect: true,
     }
   );
 }
