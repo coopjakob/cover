@@ -2,8 +2,13 @@ declare const DY: any;
 declare const __cmp: any;
 declare const coopUserSettings: any;
 
+interface Document {
+  documentMode?: any;
+}
+
 interface coverType {
   checkDynamicYieldABtestConsent: () => boolean;
+  isInternetExplorer: () => boolean;
   waitFor: (
     selector: string,
     callback: (element: Element) => void,
@@ -17,11 +22,16 @@ interface coverType {
   onCategory: () => boolean;
   ready: (element: Element, id: string) => void;
   readyHistory: Array<string>;
+  addIdentifierClasses: (element: Element, id: string) => void;
+  run: () => void;
 }
 
 const cover: coverType = {
   checkDynamicYieldABtestConsent: () => {
     return __cmp('getCMPData')?.vendorConsents?.c18593;
+  },
+  isInternetExplorer: () => {
+    return !!window.document.documentMode;
   },
   waitFor: (selector, callback, options = {}) => {
     let wrapperElement = document.body;
@@ -120,188 +130,188 @@ const cover: coverType = {
     }
   },
   readyHistory: [],
-};
-
-if (cover.checkDynamicYieldABtestConsent()) {
-  run();
-} else {
-  function consentIsAvailable() {
-    if (cover.checkDynamicYieldABtestConsent()) {
-      run();
-    }
-  }
-  __cmp('addEventListener', ['consent', consentIsAvailable, false], null);
-}
-
-function run() {
-  const addIdentifierClasses = (element, id) => {
+  addIdentifierClasses: (element, id) => {
     element.classList.add('Experiment', id);
-  };
-
-  cover.waitFor(
-    '.js-page',
-    (element) => {
-      if (
-        window.location.pathname === '/handla/' &&
-        coopUserSettings.isAuthenticated &&
-        !coopUserSettings.isCompany
-      ) {
-        cover.waitFor(
-          '.js-savedCarts',
-          (savedCarts) => {
-            const element = savedCarts.closest('.Grid-cell.u-sizeFull');
-            addIdentifierClasses(element, 'T63');
-            cover.ready(element, 'T63');
-          },
-          {
-            init: true,
-            disconnect: true,
-          }
-        );
-      }
-
-      if (window.location.pathname === '/handla/aktuella-erbjudanden/') {
-        addIdentifierClasses(element, 'T69');
-        cover.ready(element, 'T69');
-      }
-
-      if (window.location.pathname === '/handla/betala/') {
-        if (window.innerWidth > 1024) {
+  },
+  run: () => {
+    cover.waitFor(
+      '.js-page',
+      (element) => {
+        if (
+          window.location.pathname === '/handla/' &&
+          coopUserSettings.isAuthenticated &&
+          !coopUserSettings.isCompany
+        ) {
           cover.waitFor(
-            '.Grid-cell.u-size1of2.u-sm-size1of4.u-md-size1of5.u-lg-size1of6',
-            (element) => {
-              addIdentifierClasses(element, 'T60');
-              cover.ready(element, 'T60');
+            '.js-savedCarts',
+            (savedCarts) => {
+              const element = savedCarts.closest('.Grid-cell.u-sizeFull');
+              cover.addIdentifierClasses(element, 'T63');
+              cover.ready(element, 'T63');
             },
             {
               init: true,
-              querySelectorAll: true,
-              disconnect: false,
+              disconnect: true,
             }
           );
         }
-      }
 
-      if (cover.onCategory()) {
-        cover.waitFor(
-          '.ItemTeaser',
-          (element) => {
-            const scrollAway = new IntersectionObserver((entries) => {
-              entries.forEach((entry) => {
-                if (!entry.isIntersecting) {
-                  cover.ready(element, 'T61');
-                }
-              });
-            });
-            scrollAway.observe(element);
-          },
-          {
-            init: false,
+        if (window.location.pathname === '/handla/aktuella-erbjudanden/') {
+          cover.addIdentifierClasses(element, 'T69');
+          cover.ready(element, 'T69');
+        }
+
+        if (window.location.pathname === '/handla/betala/') {
+          if (window.innerWidth > 1024) {
+            cover.waitFor(
+              '.Grid-cell.u-size1of2.u-sm-size1of4.u-md-size1of5.u-lg-size1of6',
+              (element) => {
+                cover.addIdentifierClasses(element, 'T60');
+                cover.ready(element, 'T60');
+              },
+              {
+                init: true,
+                querySelectorAll: true,
+                disconnect: false,
+              }
+            );
           }
-        );
-      }
-    },
-    {
-      init: true,
-    }
-  );
-
-  cover.waitFor(
-    '.Notice.Notice--info.Notice--animated.Notice--center',
-    (element) => {
-      addIdentifierClasses(element, 'T66');
-      cover.ready(element, 'T66');
-    },
-    {
-      init: true,
-      disconnect: false,
-      content: 'Nu visas varor för: Hemleverans i StockholmÄndra',
-    }
-  );
-
-  cover.waitFor(
-    '[data-test="cncheader-chagedeliverymethodbutton"]:not(u-hidden)',
-    (element) => {
-      addIdentifierClasses(element, 'T67');
-      cover.ready(element, 'T67');
-    },
-    {
-      init: false,
-      disconnect: false,
-    }
-  );
-
-  cover.waitFor(
-    '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
-    (element) => {
-      // search will include quantity on load
-      if (element.parentElement.querySelector('input').value === '0') {
-        addIdentifierClasses(element, 'T68');
-        cover.ready(element, 'T68');
-      }
-    },
-    {
-      init: true,
-      querySelectorAll: true,
-      content: 'Köp',
-      disconnect: false,
-    }
-  );
-
-  cover.waitFor(
-    '.Swiper-button',
-    (element) => {
-      addIdentifierClasses(element, 'T70');
-      cover.ready(element, 'T70');
-    },
-    {
-      init: false,
-      querySelectorAll: true,
-    }
-  );
-
-  cover.waitFor(
-    '.Swiper.is-loaded',
-    (loaded) => {
-      if (window.location.pathname === '/handla/') {
-        const parent = loaded.parentElement;
-        if (parent.matches('[data-list="Offer Recommendation Handla"]')) {
-          const element = parent.previousElementSibling;
-          addIdentifierClasses(element, 'T71');
-          cover.ready(element, 'T71');
         }
-      }
-    },
-    {
-      init: true,
-    }
-  );
 
-  cover.waitFor(
-    '.ItemTeaser',
-    (target) => {
-      if (target.clientWidth < 170) {
-        const element = target.closest('.Grid--product');
-
-        if (element) {
-          addIdentifierClasses(element, 'T73');
-          cover.ready(element, 'T73');
+        if (cover.onCategory()) {
+          cover.waitFor(
+            '.ItemTeaser',
+            (element) => {
+              const scrollAway = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                  if (!entry.isIntersecting) {
+                    cover.ready(element, 'T61');
+                  }
+                });
+              });
+              scrollAway.observe(element);
+            },
+            {
+              init: false,
+            }
+          );
         }
+      },
+      {
+        init: true,
       }
-    },
-    {
-      init: true,
-    }
-  );
+    );
 
-  cover.waitFor(
-    '.Tooltip--loginReminder',
-    (element) => {
-      addIdentifierClasses(element, 'T74');
-      cover.ready(element, 'T74');
-    },
-    {
-      disconnect: true,
-    }
-  );
-}
+    cover.waitFor(
+      '.Notice.Notice--info.Notice--animated.Notice--center',
+      (element) => {
+        cover.addIdentifierClasses(element, 'T66');
+        cover.ready(element, 'T66');
+      },
+      {
+        init: true,
+        disconnect: false,
+        content: 'Nu visas varor för: Hemleverans i StockholmÄndra',
+      }
+    );
+
+    cover.waitFor(
+      '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
+      (element) => {
+        // search will include quantity on load
+        if (element.parentElement.querySelector('input').value === '0') {
+          cover.addIdentifierClasses(element, 'T68');
+          cover.ready(element, 'T68');
+        }
+      },
+      {
+        init: true,
+        querySelectorAll: true,
+        content: 'Köp',
+        disconnect: false,
+      }
+    );
+
+    cover.waitFor(
+      '.Swiper-button',
+      (element) => {
+        cover.addIdentifierClasses(element, 'T70');
+        cover.ready(element, 'T70');
+      },
+      {
+        init: false,
+        querySelectorAll: true,
+      }
+    );
+
+    cover.waitFor(
+      '.Swiper.is-loaded',
+      (loaded) => {
+        if (window.location.pathname === '/handla/') {
+          const parent = loaded.parentElement;
+          if (parent.matches('[data-list="Offer Recommendation Handla"]')) {
+            const element = parent.previousElementSibling;
+            cover.addIdentifierClasses(element, 'T71');
+            cover.ready(element, 'T71');
+          }
+        }
+      },
+      {
+        init: true,
+      }
+    );
+
+    cover.waitFor(
+      '.ItemTeaser',
+      (target) => {
+        if (target.clientWidth < 170) {
+          const element = target.closest('.Grid--product');
+
+          if (element) {
+            cover.addIdentifierClasses(element, 'T73');
+            cover.ready(element, 'T73');
+          }
+        }
+      },
+      {
+        init: true,
+      }
+    );
+
+    cover.waitFor(
+      '.Tooltip--loginReminder',
+      (element) => {
+        cover.addIdentifierClasses(element, 'T74');
+        cover.ready(element, 'T74');
+      },
+      {
+        init: true,
+        disconnect: true,
+      }
+    );
+  },
+};
+
+(() => {
+  if (cover.isInternetExplorer()) {
+    return;
+  }
+
+  if (cover.checkDynamicYieldABtestConsent()) {
+    cover.run();
+  } else {
+    __cmp(
+      'addEventListener',
+      [
+        'consent',
+        () => {
+          if (cover.checkDynamicYieldABtestConsent()) {
+            cover.run();
+          }
+        },
+        false,
+      ],
+      null
+    );
+  }
+})();
