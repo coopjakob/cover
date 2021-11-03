@@ -7,6 +7,10 @@ document.addEventListener('cover.ready T68', (event) => {
 });
 
 function T68(button) {
+  if (button.parentElement.querySelector('input').value != '0') {
+    return;
+  }
+
   button.classList.remove('u-hidden');
   button.parentElement.querySelector('.AddToCart').classList.add('u-hidden');
 
