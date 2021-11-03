@@ -1,6 +1,6 @@
 {
   "name": "cover",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "ab-testing",
   "main": "events.ts",
   "devDependencies": {
