@@ -291,7 +291,7 @@ const cover: coverType = {
     );
 
     cover.waitFor(
-      '.u-sm-flex .js-substitute',
+      '.js-substitute',
       (element) => {
         new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
