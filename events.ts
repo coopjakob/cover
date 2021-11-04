@@ -293,14 +293,16 @@ const cover: coverType = {
     cover.waitFor(
       '.js-substitute',
       (element) => {
-        new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
+              observer.unobserve(entry.target);
               cover.addIdentifierClasses(element, 'T75');
               cover.ready(element, 'T75');
             }
           });
-        }).observe(element.closest('.Cart-item'));
+        });
+        observer.observe(element.closest('.Cart-item'));
       },
       {
         querySelectorAll: true,
