@@ -289,6 +289,17 @@ const cover: coverType = {
         disconnect: true,
       }
     );
+
+    cover.waitFor(
+      '.u-sm-flex .js-substitute',
+      (element) => {
+        cover.addIdentifierClasses(element, 'T75');
+        cover.ready(element, 'T75');
+      },
+      {
+        querySelectorAll: true,
+      }
+    );
   },
 };
 
