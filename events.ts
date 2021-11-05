@@ -291,10 +291,18 @@ const cover: coverType = {
     );
 
     cover.waitFor(
-      '.u-sm-flex .js-substitute',
+      '.js-substitute',
       (element) => {
-        cover.addIdentifierClasses(element, 'T75');
-        cover.ready(element, 'T75');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              observer.unobserve(entry.target);
+              cover.addIdentifierClasses(element, 'T75');
+              cover.ready(element, 'T75');
+            }
+          });
+        });
+        observer.observe(element.closest('.Cart-item'));
       },
       {
         querySelectorAll: true,
