@@ -308,6 +308,11 @@ const cover: coverType = {
         querySelectorAll: true,
       }
     );
+
+    cover.waitFor('.FlyIn-scroll', (element) => {
+      cover.addIdentifierClasses(element, 'T76');
+      cover.ready(element, 'T76');
+    });
   },
 };
 
