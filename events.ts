@@ -310,8 +310,10 @@ const cover: coverType = {
     );
 
     cover.waitFor('.FlyIn-scroll', (element) => {
-      cover.addIdentifierClasses(element, 'T76');
-      cover.ready(element, 'T76');
+      if (!element.parentElement.querySelector('.FlyIn-back')) {
+        cover.addIdentifierClasses(element, 'T76');
+        cover.ready(element, 'T76');
+      }
     });
   },
 };
