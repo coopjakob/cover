@@ -21,7 +21,7 @@ function T76() {
   heading.style.fontSize = '45px';
   heading.style.lineHeight = '1em';
   heading.style.fontFamily = 'CoopNew-Black, sans-serif';
-  heading.innerHTML = 'Se vårt utbud<br>i ditt område';
+  heading.innerHTML = 'Vårt utbud<br>i ditt område';
 
   p.classList.remove(
     'u-textSmall',
@@ -29,7 +29,7 @@ function T76() {
     'u-paddingH',
     'u-marginTz'
   );
-  p.classList.add('u-paddingHlg');
+  p.classList.add('u-paddingHxxlg');
   p.style.fontSize = '22px';
   p.textContent =
     'Sortiment och leveransalternativ kan variera beroende på område. Ange ditt postnummer för att se ditt utbud.';
