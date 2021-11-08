@@ -1,9 +1,9 @@
 const experimentStyle = document.createElement('style');
 experimentStyle.innerHTML = `
-      .T73.Grid--product>.Grid-cell {
-        flex-basis: 170px;
-        flex-grow: 1;
-        max-width: 220px;
-      }`;
+  .T73.Grid--product>.Grid-cell {
+    flex-basis: 170px;
+    flex-grow: 1;
+    max-width: 220px;
+  }`;
 
 document.body.append(experimentStyle);

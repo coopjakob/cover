@@ -261,22 +261,24 @@ const cover: coverType = {
       }
     );
 
-    cover.waitFor(
-      '.ItemTeaser',
-      (target) => {
-        if (target.clientWidth < 170) {
-          const element = target.closest('.Grid--product');
+    if (window.innerWidth >= 480) {
+      cover.waitFor(
+        '.ItemTeaser',
+        (target) => {
+          if (target.clientWidth < 170) {
+            const element = target.closest('.Grid--product');
 
-          if (element) {
-            cover.addIdentifierClasses(element, 'T73');
-            cover.ready(element, 'T73');
+            if (element) {
+              cover.addIdentifierClasses(element, 'T73');
+              cover.ready(element, 'T73');
+            }
           }
+        },
+        {
+          init: true,
         }
-      },
-      {
-        init: true,
-      }
-    );
+      );
+    }
 
     cover.waitFor(
       '.Tooltip--loginReminder',
