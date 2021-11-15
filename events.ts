@@ -196,6 +196,29 @@ const cover: coverType = {
             }
           );
         }
+
+        if (
+          window.innerWidth >= 480 &&
+          (cover.onCategory() ||
+            window.location.pathname.startsWith('/handla/sok/'))
+        ) {
+          cover.waitFor(
+            '.ItemTeaser',
+            (target) => {
+              if (target.clientWidth < 170) {
+                const element = target.closest('.Grid--product');
+
+                if (element) {
+                  cover.addIdentifierClasses(element, 'T73');
+                  cover.ready(element, 'T73');
+                }
+              }
+            },
+            {
+              init: true,
+            }
+          );
+        }
       },
       {
         init: true,
@@ -262,23 +285,6 @@ const cover: coverType = {
     );
 
     cover.waitFor(
-      '.ItemTeaser',
-      (target) => {
-        if (target.clientWidth < 170) {
-          const element = target.closest('.Grid--product');
-
-          if (element) {
-            cover.addIdentifierClasses(element, 'T73');
-            cover.ready(element, 'T73');
-          }
-        }
-      },
-      {
-        init: true,
-      }
-    );
-
-    cover.waitFor(
       '.Tooltip--loginReminder',
       (element) => {
         cover.addIdentifierClasses(element, 'T74');
@@ -308,6 +314,13 @@ const cover: coverType = {
         querySelectorAll: true,
       }
     );
+
+    cover.waitFor('.FlyIn-scroll', (element) => {
+      if (!element.parentElement.querySelector('.FlyIn-back')) {
+        cover.addIdentifierClasses(element, 'T76');
+        cover.ready(element, 'T76');
+      }
+    });
   },
 };
 
