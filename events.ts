@@ -156,11 +156,6 @@ const cover: coverType = {
           );
         }
 
-        if (window.location.pathname === '/handla/aktuella-erbjudanden/') {
-          cover.addIdentifierClasses(element, 'T69');
-          cover.ready(element, 'T69');
-        }
-
         if (window.location.pathname === '/handla/betala/') {
           if (window.innerWidth > 1024) {
             cover.waitFor(
