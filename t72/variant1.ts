@@ -11,6 +11,7 @@ function T72(button) {
   button.parentElement.querySelector('.AddToCart').classList.add('u-hidden');
 
   button.innerText = '';
+  button.setAttribute('aria-label', 'Köp');
 
   button.style.textOverflow = 'unset';
   button.style.paddingLeft = 0;
