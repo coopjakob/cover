@@ -157,9 +157,8 @@ const cover: coverType = {
         }
 
         if (window.location.pathname === '/handla/betala/') {
-          if (window.innerWidth > 1024) {
             cover.waitFor(
-              '.Grid-cell.u-size1of2.u-sm-size1of4.u-md-size1of5.u-lg-size1of6',
+            '.Grid-cell.u-size1of6',
               (element) => {
                 cover.addIdentifierClasses(element, 'T60');
                 cover.ready(element, 'T60');
@@ -171,7 +170,6 @@ const cover: coverType = {
               }
             );
           }
-        }
 
         if (cover.onCategory()) {
           cover.waitFor(
