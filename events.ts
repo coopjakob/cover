@@ -137,25 +137,6 @@ const cover: coverType = {
     cover.waitFor(
       '.js-page',
       (element) => {
-        if (
-          window.location.pathname === '/handla/' &&
-          coopUserSettings.isAuthenticated &&
-          !coopUserSettings.isCompany
-        ) {
-          cover.waitFor(
-            '.js-savedCarts',
-            (savedCarts) => {
-              const element = savedCarts.closest('.Grid-cell.u-sizeFull');
-              cover.addIdentifierClasses(element, 'T63');
-              cover.ready(element, 'T63');
-            },
-            {
-              init: true,
-              disconnect: true,
-            }
-          );
-        }
-
         if (window.location.pathname === '/handla/betala/') {
             cover.waitFor(
             '.Grid-cell.u-size1of6',
