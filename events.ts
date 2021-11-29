@@ -137,20 +137,33 @@ const cover: coverType = {
     cover.waitFor(
       '.js-page',
       (element) => {
+        if (window.location.pathname === '/handla/') {
+          cover.waitFor(
+            '.banner_wrapper, .banner_div',
+            (element) => {
+              cover.addIdentifierClasses(element, 'T81');
+              cover.ready(element, 'T81');
+            },
+            {
+              init: true,
+            }
+          );
+        }
+
         if (window.location.pathname === '/handla/betala/') {
-            cover.waitFor(
+          cover.waitFor(
             '.Grid-cell.u-size1of6',
-              (element) => {
-                cover.addIdentifierClasses(element, 'T60');
-                cover.ready(element, 'T60');
-              },
-              {
-                init: true,
-                querySelectorAll: true,
-                disconnect: false,
-              }
-            );
-          }
+            (element) => {
+              cover.addIdentifierClasses(element, 'T60');
+              cover.ready(element, 'T60');
+            },
+            {
+              init: true,
+              querySelectorAll: true,
+              disconnect: false,
+            }
+          );
+        }
 
         if (cover.onCategory()) {
           cover.waitFor(
