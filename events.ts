@@ -19,7 +19,8 @@ interface coverType {
       disconnect?: boolean;
     }
   ) => void;
-  onCategory: () => boolean;
+  isCategoryPage: () => boolean;
+  isProductPage: (path?: string) => boolean;
   ready: (element: Element, id: string) => void;
   readyHistory: Array<string>;
   addIdentifierClasses: (element: Element, id: string) => void;
@@ -108,12 +109,17 @@ const cover: coverType = {
       });
     }
   },
-  onCategory: () => {
+  isCategoryPage: () => {
     const path = window.location.pathname;
 
+    if (path.startsWith('/handla/varor/') && !cover.isProductPage(path)) {
+      return true;
+    }
+  },
+  isProductPage: (path = window.location.pathname) => {
     if (
       path.startsWith('/handla/varor/') &&
-      isNaN(parseFloat(path.split('-').pop())) // not on a product detail page
+      Number.isInteger(parseFloat(path.split('-').pop()))
     ) {
       return true;
     }
@@ -137,6 +143,25 @@ const cover: coverType = {
     cover.waitFor(
       '.js-page',
       (element) => {
+        if (!cover.isProductPage()) {
+          cover.waitFor(
+            '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
+            (element) => {
+              // search will include quantity on load
+              if (element.parentElement.querySelector('input').value === '0') {
+                cover.addIdentifierClasses(element, 'T72');
+                cover.ready(element, 'T72');
+              }
+            },
+            {
+              init: true,
+              querySelectorAll: true,
+              content: 'Köp',
+              disconnect: false,
+            }
+          );
+        }
+
         if (window.location.pathname === '/handla/') {
           cover.waitFor(
             '.banner_wrapper, .banner_div',
@@ -165,7 +190,7 @@ const cover: coverType = {
           );
         }
 
-        if (cover.onCategory()) {
+        if (cover.isCategoryPage()) {
           cover.waitFor(
             '.ItemTeaser',
             (element) => {
@@ -186,7 +211,7 @@ const cover: coverType = {
 
         if (
           window.innerWidth >= 480 &&
-          (cover.onCategory() ||
+          (cover.isCategoryPage() ||
             window.location.pathname.startsWith('/handla/sok/'))
         ) {
           cover.waitFor(
@@ -222,23 +247,6 @@ const cover: coverType = {
         init: true,
         disconnect: false,
         content: 'Nu visas varor för: Hemleverans i StockholmÄndra',
-      }
-    );
-
-    cover.waitFor(
-      '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
-      (element) => {
-        // search will include quantity on load
-        if (element.parentElement.querySelector('input').value === '0') {
-          cover.addIdentifierClasses(element, 'T68');
-          cover.ready(element, 'T68');
-        }
-      },
-      {
-        init: true,
-        querySelectorAll: true,
-        content: 'Köp',
-        disconnect: false,
       }
     );
 
