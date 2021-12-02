@@ -287,7 +287,7 @@ const cover: coverType = {
       },
       {
         init: true,
-        disconnect: true,
+        disconnect: false,
       }
     );
 
