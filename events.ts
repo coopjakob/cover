@@ -228,6 +228,7 @@ const cover: coverType = {
             },
             {
               init: true,
+              disconnect: true,
             }
           );
         }
