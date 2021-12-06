@@ -3,7 +3,9 @@ document.querySelectorAll('.T72').forEach((button) => {
 });
 
 document.addEventListener('cover.ready T72', (event) => {
-  T72(event.target);
+  if (!cover.isProductPage()) {
+    T72(event.target);
+  }
 });
 
 function T72(button) {

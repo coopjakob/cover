@@ -19,7 +19,8 @@ interface coverType {
       disconnect?: boolean;
     }
   ) => void;
-  onCategory: () => boolean;
+  isCategoryPage: () => boolean;
+  isProductPage: (path?: string) => boolean;
   ready: (element: Element, id: string) => void;
   readyHistory: Array<string>;
   addIdentifierClasses: (element: Element, id: string) => void;
@@ -108,12 +109,17 @@ const cover: coverType = {
       });
     }
   },
-  onCategory: () => {
+  isCategoryPage: () => {
     const path = window.location.pathname;
 
+    if (path.startsWith('/handla/varor/') && !cover.isProductPage(path)) {
+      return true;
+    }
+  },
+  isProductPage: (path = window.location.pathname) => {
     if (
       path.startsWith('/handla/varor/') &&
-      isNaN(parseFloat(path.split('-').pop())) // not on a product detail page
+      Number.isInteger(parseFloat(path.split('-').pop()))
     ) {
       return true;
     }
@@ -137,41 +143,54 @@ const cover: coverType = {
     cover.waitFor(
       '.js-page',
       (element) => {
-        if (
-          window.location.pathname === '/handla/' &&
-          coopUserSettings.isAuthenticated &&
-          !coopUserSettings.isCompany
-        ) {
+        if (!cover.isProductPage()) {
           cover.waitFor(
-            '.js-savedCarts',
-            (savedCarts) => {
-              const element = savedCarts.closest('.Grid-cell.u-sizeFull');
-              cover.addIdentifierClasses(element, 'T63');
-              cover.ready(element, 'T63');
+            '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
+            (element) => {
+              // search will include quantity on load
+              if (element.parentElement.querySelector('input').value === '0') {
+                cover.addIdentifierClasses(element, 'T72');
+                cover.ready(element, 'T72');
+              }
             },
             {
               init: true,
-              disconnect: true,
+              querySelectorAll: true,
+              content: 'Köp',
+              disconnect: false,
+            }
+          );
+        }
+
+        if (window.location.pathname === '/handla/') {
+          cover.waitFor(
+            '.banner_wrapper, .banner_div',
+            (element) => {
+              cover.addIdentifierClasses(element, 'T81');
+              cover.ready(element, 'T81');
+            },
+            {
+              init: true,
             }
           );
         }
 
         if (window.location.pathname === '/handla/betala/') {
-            cover.waitFor(
+          cover.waitFor(
             '.Grid-cell.u-size1of6',
-              (element) => {
-                cover.addIdentifierClasses(element, 'T60');
-                cover.ready(element, 'T60');
-              },
-              {
-                init: true,
-                querySelectorAll: true,
-                disconnect: false,
-              }
-            );
-          }
+            (element) => {
+              cover.addIdentifierClasses(element, 'T60');
+              cover.ready(element, 'T60');
+            },
+            {
+              init: true,
+              querySelectorAll: true,
+              disconnect: false,
+            }
+          );
+        }
 
-        if (cover.onCategory()) {
+        if (cover.isCategoryPage()) {
           cover.waitFor(
             '.ItemTeaser',
             (element) => {
@@ -192,7 +211,7 @@ const cover: coverType = {
 
         if (
           window.innerWidth >= 480 &&
-          (cover.onCategory() ||
+          (cover.isCategoryPage() ||
             window.location.pathname.startsWith('/handla/sok/'))
         ) {
           cover.waitFor(
@@ -209,6 +228,7 @@ const cover: coverType = {
             },
             {
               init: true,
+              disconnect: true,
             }
           );
         }
@@ -228,23 +248,6 @@ const cover: coverType = {
         init: true,
         disconnect: false,
         content: 'Nu visas varor för: Hemleverans i StockholmÄndra',
-      }
-    );
-
-    cover.waitFor(
-      '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
-      (element) => {
-        // search will include quantity on load
-        if (element.parentElement.querySelector('input').value === '0') {
-          cover.addIdentifierClasses(element, 'T68');
-          cover.ready(element, 'T68');
-        }
-      },
-      {
-        init: true,
-        querySelectorAll: true,
-        content: 'Köp',
-        disconnect: false,
       }
     );
 
@@ -285,7 +288,7 @@ const cover: coverType = {
       },
       {
         init: true,
-        disconnect: true,
+        disconnect: false,
       }
     );
 
