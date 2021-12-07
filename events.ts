@@ -1,6 +1,7 @@
 declare const DY: any;
 declare const __cmp: any;
 declare const coopUserSettings: any;
+declare const dataLayer: any;
 
 interface Document {
   documentMode?: any;
@@ -184,6 +185,17 @@ const cover: coverType = {
               if (element) {
                 cover.addIdentifierClasses(element, 'T82');
                 cover.ready(element, 'T82');
+
+                element
+                  .querySelector('.Button')
+                  .addEventListener('click', () => {
+                    dataLayer.push({
+                      event: 'interaction',
+                      eventCategory: 'Experiment',
+                      eventAction: 'T82-click',
+                      eventLabel: '',
+                    });
+                  });
               }
             },
             {
