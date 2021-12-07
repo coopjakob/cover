@@ -6,12 +6,11 @@ document.addEventListener('cover.ready T82', (event) => {
 
 function t82(element = document.querySelector('.Experiment.T82')) {
   if (element) {
-    const wrapper = element.querySelector('.Card--myCoopBanner');
     const title = element.querySelector('h2');
     const body = element.querySelector('p');
     const button = element.querySelector('.Button');
 
-    wrapper.style.minHeight = 'unset';
+    element.style.minHeight = 'unset';
 
     title.innerText = 'Medlemmar tjänar mer!';
 
