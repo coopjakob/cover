@@ -175,6 +175,24 @@ const cover: coverType = {
           );
         }
 
+        if (window.location.pathname === '/mitt-coop/') {
+          cover.waitFor(
+            '.Card-text',
+            (target) => {
+              const element = target.closest('.Card--myCoopBanner');
+
+              if (element) {
+                cover.addIdentifierClasses(element, 'T82');
+                cover.ready(element, 'T82');
+              }
+            },
+            {
+              init: true,
+              content: 'Är du medlem – anslut ditt medlemskap!',
+            }
+          );
+        }
+
         if (window.location.pathname === '/handla/betala/') {
           cover.waitFor(
             '.Grid-cell.u-size1of6',
