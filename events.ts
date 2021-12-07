@@ -195,6 +195,9 @@ const cover: coverType = {
                       eventAction: 'T82-click',
                       eventLabel: '',
                     });
+                    DY.API('event', {
+                      name: 'T82-click',
+                    });
                   });
               }
             },
