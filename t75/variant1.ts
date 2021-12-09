@@ -1,5 +1,3 @@
-declare const dataLayer: any;
-
 document.querySelectorAll('.T75').forEach((element) => {
   T75(element);
 });
