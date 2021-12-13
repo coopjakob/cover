@@ -142,27 +142,25 @@ const cover: coverType = {
   },
   run: () => {
     cover.waitFor(
+      '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
+      (element) => {
+        // search will include quantity on load
+        if (element.parentElement.querySelector('input').value === '0') {
+          cover.addIdentifierClasses(element, 'T83');
+          cover.ready(element, 'T83');
+        }
+      },
+      {
+        init: true,
+        querySelectorAll: true,
+        content: 'Köp',
+        disconnect: false,
+      }
+    );
+
+    cover.waitFor(
       '.js-page',
       (element) => {
-        if (!cover.isProductPage()) {
-          cover.waitFor(
-            '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
-            (element) => {
-              // search will include quantity on load
-              if (element.parentElement.querySelector('input').value === '0') {
-                cover.addIdentifierClasses(element, 'T83');
-                cover.ready(element, 'T83');
-              }
-            },
-            {
-              init: true,
-              querySelectorAll: true,
-              content: 'Köp',
-              disconnect: false,
-            }
-          );
-        }
-
         if (window.location.pathname === '/handla/') {
           cover.waitFor(
             '.banner_wrapper, .banner_div',
