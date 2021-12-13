@@ -1,6 +1,7 @@
 declare const DY: any;
 declare const __cmp: any;
 declare const coopUserSettings: any;
+declare const dataLayer: any;
 
 interface Document {
   documentMode?: any;
@@ -141,27 +142,25 @@ const cover: coverType = {
   },
   run: () => {
     cover.waitFor(
+      '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
+      (element) => {
+        // search will include quantity on load
+        if (element.parentElement.querySelector('input').value === '0') {
+          cover.addIdentifierClasses(element, 'T83');
+          cover.ready(element, 'T83');
+        }
+      },
+      {
+        init: true,
+        querySelectorAll: true,
+        content: 'Köp',
+        disconnect: false,
+      }
+    );
+
+    cover.waitFor(
       '.js-page',
       (element) => {
-        if (!cover.isProductPage()) {
-          cover.waitFor(
-            '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
-            (element) => {
-              // search will include quantity on load
-              if (element.parentElement.querySelector('input').value === '0') {
-                cover.addIdentifierClasses(element, 'T72');
-                cover.ready(element, 'T72');
-              }
-            },
-            {
-              init: true,
-              querySelectorAll: true,
-              content: 'Köp',
-              disconnect: false,
-            }
-          );
-        }
-
         if (window.location.pathname === '/handla/') {
           cover.waitFor(
             '.banner_wrapper, .banner_div',
@@ -171,6 +170,38 @@ const cover: coverType = {
             },
             {
               init: true,
+            }
+          );
+        }
+
+        if (window.location.pathname === '/mitt-coop/') {
+          cover.waitFor(
+            '.Card-text',
+            (target) => {
+              const element = target.closest('.Card--myCoopBanner');
+
+              if (element) {
+                cover.addIdentifierClasses(element, 'T82');
+                cover.ready(element, 'T82');
+
+                element
+                  .querySelector('.Button')
+                  .addEventListener('click', () => {
+                    dataLayer.push({
+                      event: 'interaction',
+                      eventCategory: 'Experiment',
+                      eventAction: 'T82-click',
+                      eventLabel: '',
+                    });
+                    DY.API('event', {
+                      name: 'T82-click',
+                    });
+                  });
+              }
+            },
+            {
+              init: true,
+              content: 'Är du medlem – anslut ditt medlemskap!',
             }
           );
         }
