@@ -150,8 +150,8 @@ const cover: coverType = {
             (element) => {
               // search will include quantity on load
               if (element.parentElement.querySelector('input').value === '0') {
-                cover.addIdentifierClasses(element, 'T72');
-                cover.ready(element, 'T72');
+                cover.addIdentifierClasses(element, 'T83');
+                cover.ready(element, 'T83');
               }
             },
             {
