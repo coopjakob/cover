@@ -7,7 +7,7 @@ interface Document {
   documentMode?: any;
 }
 
-interface coverType {
+interface CoverType {
   checkDynamicYieldABtestConsent: () => boolean;
   isInternetExplorer: () => boolean;
   waitFor: (
@@ -28,7 +28,7 @@ interface coverType {
   run: () => void;
 }
 
-const cover: coverType = {
+const cover: CoverType = {
   checkDynamicYieldABtestConsent: () => {
     return __cmp('getCMPData')?.vendorConsents?.c18593;
   },
@@ -70,12 +70,12 @@ const cover: coverType = {
         }
       }
 
-      for (let i = 0; i < elements.length; i++) {
-        if (!okContent(elements[i])) {
+      for (let element of elements) {
+        if (!okContent(element)) {
           continue;
         }
 
-        callback(elements[i]);
+        callback(element);
         isCallbackSent = true;
 
         if (options.disconnect) {
