@@ -60,9 +60,7 @@ const cover: coverType = {
       }
 
       if (options.querySelectorAll) {
-        elements = elements.concat(
-          Array.from(wrapper.querySelectorAll(selector))
-        );
+        elements = [...wrapper.querySelectorAll(selector)];
       } else {
         const selectorElement = wrapper.querySelector(selector);
         if (selectorElement) {
