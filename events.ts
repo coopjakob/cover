@@ -12,7 +12,7 @@ interface coverType {
   isInternetExplorer: () => boolean;
   waitFor: (
     selector: string,
-    callback: (element: Element) => void,
+    callback: (element: HTMLElement) => void,
     options?: {
       init?: boolean;
       querySelectorAll?: boolean;
@@ -161,6 +161,27 @@ const cover: coverType = {
       (element) => {
         if (window.location.pathname === '/handla/') {
           cover.waitFor(
+            '[data-react-component="DynamicYieldRecommendationsBlock"]',
+            (element) => {
+              const props = JSON.parse(element.dataset.reactProps);
+              const id = props.recommendationId;
+
+              if (
+                id == 'P04.favourite-products.handla-startpage' ||
+                id == 'P03.popular-products.handla-startpage' ||
+                id == 'Home_page.horizontal_recs1_b2b' ||
+                id == 'home_page.horizontal_recs4_b2b'
+              ) {
+                cover.addIdentifierClasses(element, 'T84');
+                cover.ready(element, 'T84');
+              }
+            },
+            {
+              querySelectorAll: true,
+              init: true,
+            }
+          );
+          cover.waitFor(
             '.banner_wrapper, .banner_div',
             (element) => {
               cover.addIdentifierClasses(element, 'T81');
@@ -215,6 +236,36 @@ const cover: coverType = {
               init: true,
               querySelectorAll: true,
               disconnect: false,
+            }
+          );
+          cover.waitFor(
+            '.Heading--h4',
+            (heading) => {
+              element = heading.closest('.Grid-cell');
+              if (element) {
+                cover.addIdentifierClasses(element, 'T84');
+                cover.ready(element, 'T84');
+              }
+            },
+            {
+              init: true,
+              content: 'Andra köpte även',
+            }
+          );
+        }
+
+        if (cover.isProductPage()) {
+          cover.waitFor(
+            '[data-list="Complementary Product Recommendation PDP"]',
+            (target) => {
+              element = target.closest('.Grid-cell');
+              if (element) {
+                cover.addIdentifierClasses(element, 'T84');
+                cover.ready(element, 'T84');
+              }
+            },
+            {
+              init: true,
             }
           );
         }
