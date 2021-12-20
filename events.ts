@@ -12,7 +12,7 @@ interface CoverType {
   isInternetExplorer: () => boolean;
   waitFor: (
     selector: string,
-    callback: (element: Element) => void,
+    callback: (element: HTMLElement) => void,
     options?: {
       init?: boolean;
       querySelectorAll?: boolean;
@@ -60,9 +60,7 @@ const cover: CoverType = {
       }
 
       if (options.querySelectorAll) {
-        elements = elements.concat(
-          Array.from(wrapper.querySelectorAll(selector))
-        );
+        elements = [...wrapper.querySelectorAll(selector)];
       } else {
         const selectorElement = wrapper.querySelector(selector);
         if (selectorElement) {
