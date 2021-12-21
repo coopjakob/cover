@@ -205,7 +205,8 @@ const cover: CoverType = {
 
                 element
                   .querySelector('.Button')
-                  .addEventListener('click', () => {
+                  .addEventListener('click', (event) => {
+                    event.preventDefault;
                     dataLayer.push({
                       event: 'interaction',
                       eventCategory: 'Experiment',
@@ -215,6 +216,7 @@ const cover: CoverType = {
                     DY.API('event', {
                       name: 'T82-click',
                     });
+                    location.href = event.currentTarget.getAttribute('href');
                   });
               }
             },
