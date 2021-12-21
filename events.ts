@@ -308,18 +308,6 @@ const cover: CoverType = {
         querySelectorAll: true,
       }
     );
-
-    cover.waitFor(
-      '.Tooltip--loginReminder',
-      (element) => {
-        cover.addIdentifierClasses(element, 'T74');
-        cover.ready(element, 'T74');
-      },
-      {
-        init: true,
-        disconnect: false,
-      }
-    );
   },
 };
 
