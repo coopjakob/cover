@@ -226,18 +226,6 @@ const cover: CoverType = {
         }
 
         if (window.location.pathname === '/handla/betala/') {
-          cover.waitFor(
-            '.Grid-cell.u-size1of6',
-            (element) => {
-              cover.addIdentifierClasses(element, 'T60');
-              cover.ready(element, 'T60');
-            },
-            {
-              init: true,
-              querySelectorAll: true,
-              disconnect: false,
-            }
-          );
           if (window.location.hash === '#/varukorg') {
             cover.waitFor(
               '.Heading--h4',
@@ -289,30 +277,6 @@ const cover: CoverType = {
             }
           );
         }
-
-        if (
-          window.innerWidth >= 480 &&
-          (cover.isCategoryPage() ||
-            window.location.pathname.startsWith('/handla/sok/'))
-        ) {
-          cover.waitFor(
-            '.ItemTeaser',
-            (target) => {
-              if (target.clientWidth < 170) {
-                const element = target.closest('.Grid--product');
-
-                if (element) {
-                  cover.addIdentifierClasses(element, 'T73');
-                  cover.ready(element, 'T73');
-                }
-              }
-            },
-            {
-              init: true,
-              disconnect: true,
-            }
-          );
-        }
       },
       {
         init: true,
@@ -345,23 +309,6 @@ const cover: CoverType = {
     );
 
     cover.waitFor(
-      '.Swiper.is-loaded',
-      (loaded) => {
-        if (window.location.pathname === '/handla/') {
-          const parent = loaded.parentElement;
-          if (parent.matches('[data-list="Offer Recommendation Handla"]')) {
-            const element = parent.previousElementSibling;
-            cover.addIdentifierClasses(element, 'T71');
-            cover.ready(element, 'T71');
-          }
-        }
-      },
-      {
-        init: true,
-      }
-    );
-
-    cover.waitFor(
       '.Tooltip--loginReminder',
       (element) => {
         cover.addIdentifierClasses(element, 'T74');
@@ -372,32 +319,6 @@ const cover: CoverType = {
         disconnect: false,
       }
     );
-
-    cover.waitFor(
-      '.js-substitute',
-      (element) => {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              observer.unobserve(entry.target);
-              cover.addIdentifierClasses(element, 'T75');
-              cover.ready(element, 'T75');
-            }
-          });
-        });
-        observer.observe(element.closest('.Cart-item'));
-      },
-      {
-        querySelectorAll: true,
-      }
-    );
-
-    cover.waitFor('.FlyIn-scroll', (element) => {
-      if (!element.parentElement.querySelector('.FlyIn-back')) {
-        cover.addIdentifierClasses(element, 'T76');
-        cover.ready(element, 'T76');
-      }
-    });
   },
 };
 
