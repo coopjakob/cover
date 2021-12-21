@@ -216,12 +216,6 @@ const cover: CoverType = {
                     DY.API('event', {
                       name: 'T82-click',
                     });
-                    window.ga('send', {
-                      hitType: 'event',
-                      eventCategory: 'Experiment',
-                      eventAction: 'T82-ga-click',
-                      transport: 'beacon',
-                    });
                     location.href = event.currentTarget.getAttribute('href');
                   });
               }
