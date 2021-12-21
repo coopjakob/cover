@@ -7,5 +7,5 @@ document.addEventListener('cover.ready T84', (event) => {
 });
 
 function t84(element) {
-  element.remove();
+  element?.remove();
 }
