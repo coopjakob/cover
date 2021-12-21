@@ -227,17 +227,17 @@ const cover: CoverType = {
           );
         }
 
-        if (
-          window.location.href ===
-          'https://www.coop.se/handla/betala/#/varukorg'
-        ) {
+        if (window.location.pathname === '/handla/betala/') {
           cover.waitFor(
             '.Heading--h4',
             (heading) => {
-              element = heading.closest('.Grid-cell');
-              if (element) {
-                cover.addIdentifierClasses(element, 'T84');
-                cover.ready(element, 'T84');
+              if (window.location.hash === '#/varukorg') {
+                element = heading.closest('.Grid-cell');
+                console.debug('h4', element);
+                if (element) {
+                  cover.addIdentifierClasses(element, 'T84');
+                  cover.ready(element, 'T84');
+                }
               }
             },
             {
