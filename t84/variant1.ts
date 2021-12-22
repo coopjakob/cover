@@ -1,11 +1,11 @@
-document.querySelectorAll('.T84').forEach((element) => {
-  t84(element);
+t84();
+
+document.addEventListener('cover.ready T84', () => {
+  t84();
 });
 
-document.addEventListener('cover.ready T84', (event) => {
-  t84(event.currentTarget);
-});
-
-function t84(element) {
-  element.remove();
+function t84() {
+  document.querySelectorAll('.T84').forEach((element) => {
+    element?.remove();
+  });
 }

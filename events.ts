@@ -7,7 +7,7 @@ interface Document {
   documentMode?: any;
 }
 
-interface coverType {
+interface CoverType {
   checkDynamicYieldABtestConsent: () => boolean;
   isInternetExplorer: () => boolean;
   waitFor: (
@@ -28,7 +28,7 @@ interface coverType {
   run: () => void;
 }
 
-const cover: coverType = {
+const cover: CoverType = {
   checkDynamicYieldABtestConsent: () => {
     return __cmp('getCMPData')?.vendorConsents?.c18593;
   },
@@ -68,12 +68,12 @@ const cover: coverType = {
         }
       }
 
-      for (let i = 0; i < elements.length; i++) {
-        if (!okContent(elements[i])) {
+      for (let element of elements) {
+        if (!okContent(element)) {
           continue;
         }
 
-        callback(elements[i]);
+        callback(element);
         isCallbackSent = true;
 
         if (options.disconnect) {
@@ -167,10 +167,10 @@ const cover: coverType = {
               const id = props.recommendationId;
 
               if (
-                id == 'P04.favourite-products.handla-startpage' ||
-                id == 'P03.popular-products.handla-startpage' ||
-                id == 'Home_page.horizontal_recs1_b2b' ||
-                id == 'home_page.horizontal_recs4_b2b'
+                id === 'P04.favourite-products.handla-startpage' ||
+                id === 'P03.popular-products.handla-startpage' ||
+                id === 'Home_page.horizontal_recs1_b2b' ||
+                id === 'home_page.horizontal_recs4_b2b'
               ) {
                 cover.addIdentifierClasses(element, 'T84');
                 cover.ready(element, 'T84');
@@ -205,7 +205,8 @@ const cover: coverType = {
 
                 element
                   .querySelector('.Button')
-                  .addEventListener('click', () => {
+                  .addEventListener('click', (event) => {
+                    event.preventDefault;
                     dataLayer.push({
                       event: 'interaction',
                       eventCategory: 'Experiment',
@@ -215,6 +216,7 @@ const cover: coverType = {
                     DY.API('event', {
                       name: 'T82-click',
                     });
+                    location.href = event.currentTarget.getAttribute('href');
                   });
               }
             },
@@ -227,15 +229,35 @@ const cover: coverType = {
 
         if (window.location.pathname === '/handla/betala/') {
           cover.waitFor(
-            '.Grid-cell.u-size1of6',
-            (element) => {
-              cover.addIdentifierClasses(element, 'T60');
-              cover.ready(element, 'T60');
+            '.Heading--h4',
+            (heading) => {
+              if (window.location.hash === '#/varukorg') {
+                element = heading.closest('.Grid-cell');
+                console.debug('h4', element);
+                if (element) {
+                  cover.addIdentifierClasses(element, 'T84');
+                  cover.ready(element, 'T84');
+                }
+              }
             },
             {
               init: true,
-              querySelectorAll: true,
-              disconnect: false,
+            }
+          );
+        }
+
+        if (cover.isProductPage()) {
+          cover.waitFor(
+            '[data-list="Complementary Product Recommendation PDP"]',
+            (target) => {
+              element = target.closest('.Grid-cell');
+              if (element) {
+                cover.addIdentifierClasses(element, 'T84');
+                cover.ready(element, 'T84');
+              }
+            },
+            {
+              init: true,
             }
           );
           cover.waitFor(
@@ -288,30 +310,6 @@ const cover: coverType = {
             }
           );
         }
-
-        if (
-          window.innerWidth >= 480 &&
-          (cover.isCategoryPage() ||
-            window.location.pathname.startsWith('/handla/sok/'))
-        ) {
-          cover.waitFor(
-            '.ItemTeaser',
-            (target) => {
-              if (target.clientWidth < 170) {
-                const element = target.closest('.Grid--product');
-
-                if (element) {
-                  cover.addIdentifierClasses(element, 'T73');
-                  cover.ready(element, 'T73');
-                }
-              }
-            },
-            {
-              init: true,
-              disconnect: true,
-            }
-          );
-        }
       },
       {
         init: true,
@@ -342,61 +340,6 @@ const cover: coverType = {
         querySelectorAll: true,
       }
     );
-
-    cover.waitFor(
-      '.Swiper.is-loaded',
-      (loaded) => {
-        if (window.location.pathname === '/handla/') {
-          const parent = loaded.parentElement;
-          if (parent.matches('[data-list="Offer Recommendation Handla"]')) {
-            const element = parent.previousElementSibling;
-            cover.addIdentifierClasses(element, 'T71');
-            cover.ready(element, 'T71');
-          }
-        }
-      },
-      {
-        init: true,
-      }
-    );
-
-    cover.waitFor(
-      '.Tooltip--loginReminder',
-      (element) => {
-        cover.addIdentifierClasses(element, 'T74');
-        cover.ready(element, 'T74');
-      },
-      {
-        init: true,
-        disconnect: false,
-      }
-    );
-
-    cover.waitFor(
-      '.js-substitute',
-      (element) => {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              observer.unobserve(entry.target);
-              cover.addIdentifierClasses(element, 'T75');
-              cover.ready(element, 'T75');
-            }
-          });
-        });
-        observer.observe(element.closest('.Cart-item'));
-      },
-      {
-        querySelectorAll: true,
-      }
-    );
-
-    cover.waitFor('.FlyIn-scroll', (element) => {
-      if (!element.parentElement.querySelector('.FlyIn-back')) {
-        cover.addIdentifierClasses(element, 'T76');
-        cover.ready(element, 'T76');
-      }
-    });
   },
 };
 
