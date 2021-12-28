@@ -241,36 +241,6 @@ const cover: CoverType = {
               init: true,
             }
           );
-          cover.waitFor(
-            '.Heading--h4',
-            (heading) => {
-              element = heading.closest('.Grid-cell');
-              if (element) {
-                cover.addIdentifierClasses(element, 'T84');
-                cover.ready(element, 'T84');
-              }
-            },
-            {
-              init: true,
-              content: 'Andra köpte även',
-            }
-          );
-        }
-
-        if (cover.isProductPage()) {
-          cover.waitFor(
-            '[data-list="Complementary Product Recommendation PDP"]',
-            (target) => {
-              element = target.closest('.Grid-cell');
-              if (element) {
-                cover.addIdentifierClasses(element, 'T84');
-                cover.ready(element, 'T84');
-              }
-            },
-            {
-              init: true,
-            }
-          );
         }
 
         if (cover.isCategoryPage()) {
