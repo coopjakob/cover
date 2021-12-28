@@ -227,25 +227,6 @@ const cover: CoverType = {
           );
         }
 
-        if (window.location.pathname === '/handla/betala/') {
-          cover.waitFor(
-            '.Heading--h4',
-            (heading) => {
-              if (window.location.hash === '#/varukorg') {
-                element = heading.closest('.Grid-cell');
-                console.debug('h4', element);
-                if (element) {
-                  cover.addIdentifierClasses(element, 'T84');
-                  cover.ready(element, 'T84');
-                }
-              }
-            },
-            {
-              init: true,
-            }
-          );
-        }
-
         if (cover.isProductPage()) {
           cover.waitFor(
             '[data-list="Complementary Product Recommendation PDP"]',
