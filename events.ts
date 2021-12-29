@@ -1,6 +1,5 @@
 declare const DY: any;
 declare const __cmp: any;
-declare const coopUserSettings: any;
 declare const dataLayer: any;
 
 interface Document {
@@ -27,9 +26,6 @@ interface CoverType {
     experiment: (id: string) => object;
     history: object;
   };
-  ready: (element: Element, id: string) => void;
-  readyHistory: Array<string>;
-  addIdentifierClasses: (element: Element, id: string) => void;
   run: () => void;
 }
 
@@ -108,7 +104,6 @@ const cover: CoverType = {
       observer.observe(wrapperElement, {
         childList: true,
         subtree: true,
-        attributeFilter: ['data-test'],
       });
     }
   },
@@ -181,6 +176,7 @@ const cover: CoverType = {
           .then((response) => response.json())
           .then((data) => {
             if (data.choices.length > 0) {
+              // TODO: Send event to analytics
               return data.choices[0].variations[0].payload.data;
             }
             return false;
@@ -189,192 +185,67 @@ const cover: CoverType = {
     },
     history: {},
   },
-  ready: (element, id) => {
-    element.dispatchEvent(new Event(`cover.ready ${id}`, { bubbles: true }));
-
-    if (!cover.readyHistory.includes(id)) {
-      DY.API('event', {
-        name: `cover.ready ${id}`,
-      });
-
-      cover.readyHistory.push(id);
-    }
-  },
-  readyHistory: [],
-  addIdentifierClasses: (element, id) => {
-    element.classList.add('Experiment', id);
-  },
   run: () => {
     cover.waitFor('.js-page', () => {
-      document.dispatchEvent(new Event(`virtualpageview`, { bubbles: true }));
+      document.dispatchEvent(new Event(`virtualpageview`, { bubbles: false }));
     });
 
-    document.addEventListener('virtualpageview', () => {});
+    // TODO: Run on first page view too
+    document.addEventListener('virtualpageview', () => {
+      if (window.location.pathname === '/handla/') {
+        cover.waitFor(
+          '[data-react-component="DynamicYieldRecommendationsBlock"]',
+          (element) => {
+            const props = JSON.parse(element.dataset.reactProps);
+            const id = props.recommendationId;
 
-    cover.waitFor(
-      '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
-      (element) => {
-        // search will include quantity on load
-        if (element.parentElement.querySelector('input').value === '0') {
-          cover.addIdentifierClasses(element, 'T83');
-          cover.ready(element, 'T83');
-        }
-      },
-      {
-        init: true,
-        querySelectorAll: true,
-        content: 'Köp',
-        disconnect: false,
-      }
-    );
+            if (
+              id === 'P04.favourite-products.handla-startpage' ||
+              id === 'P03.popular-products.handla-startpage' ||
+              id === 'Home_page.horizontal_recs1_b2b' ||
+              id === 'home_page.horizontal_recs4_b2b'
+            ) {
+              // element.loading();
 
-    cover.waitFor(
-      '.js-page',
-      (element) => {
-        if (window.location.pathname === '/handla/') {
-          cover.waitFor(
-            '[data-react-component="DynamicYieldRecommendationsBlock"]',
-            (element) => {
-              const props = JSON.parse(element.dataset.reactProps);
-              const id = props.recommendationId;
-
-              if (
-                id === 'P04.favourite-products.handla-startpage' ||
-                id === 'P03.popular-products.handla-startpage' ||
-                id === 'Home_page.horizontal_recs1_b2b' ||
-                id === 'home_page.horizontal_recs4_b2b'
-              ) {
-                // cover.addIdentifierClasses(element, 'T84');
-                // cover.ready(element, 'T84');
-
-                // element.loading();
-
-                if (cover.choose.experiment('T84')) {
-                  console.log('variant1');
-                  // element.remove();
-                } else {
-                  console.log('original');
-                  // element.show();
-                }
+              if (cover.choose.experiment('T84')) {
+                console.log('variant1');
+                // element.remove();
+              } else {
+                console.log('original');
+                // element.show();
               }
-            },
-            {
-              querySelectorAll: true,
-              init: true,
             }
-          );
-          cover.waitFor(
-            '.banner_wrapper, .banner_div',
-            (element) => {
-              cover.addIdentifierClasses(element, 'T81');
-              cover.ready(element, 'T81');
-            },
-            {
-              init: true,
-            }
-          );
-        }
+          },
+          {
+            querySelectorAll: true,
+            init: true,
+          }
+        );
+      }
 
-        if (window.location.pathname === '/mitt-coop/') {
-          cover.waitFor(
-            '.Card-text',
-            (target) => {
-              const element = target.closest('.Card--myCoopBanner');
+      if (cover.isProductPage()) {
+        cover.waitFor(
+          '[data-list="Complementary Product Recommendation PDP"]',
+          (target) => {
+            const element = target.closest('.Grid-cell');
+            if (element) {
+              // element.loading();
 
-              if (element) {
-                cover.addIdentifierClasses(element, 'T82');
-                cover.ready(element, 'T82');
-
-                element
-                  .querySelector('.Button')
-                  .addEventListener('click', (event) => {
-                    event.preventDefault;
-                    dataLayer.push({
-                      event: 'interaction',
-                      eventCategory: 'Experiment',
-                      eventAction: 'T82-click',
-                      eventLabel: '',
-                    });
-                    DY.API('event', {
-                      name: 'T82-click',
-                    });
-                    location.href = (
-                      event.currentTarget as HTMLAnchorElement
-                    ).getAttribute('href');
-                  });
+              if (cover.choose.experiment('T84')) {
+                console.log('variant1');
+                // element.remove();
+              } else {
+                console.log('original');
+                // element.show();
               }
-            },
-            {
-              init: true,
-              content: 'Är du medlem – anslut ditt medlemskap!',
             }
-          );
-        }
-
-        if (cover.isProductPage()) {
-          cover.waitFor(
-            '[data-list="Complementary Product Recommendation PDP"]',
-            (target) => {
-              element = target.closest('.Grid-cell');
-              if (element) {
-                cover.addIdentifierClasses(element, 'T84');
-                cover.ready(element, 'T84');
-              }
-            },
-            {
-              init: true,
-            }
-          );
-        }
-
-        if (cover.isCategoryPage()) {
-          cover.waitFor(
-            '.ItemTeaser',
-            (element) => {
-              const scrollAway = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                  if (!entry.isIntersecting) {
-                    cover.ready(element, 'T61');
-                  }
-                });
-              });
-              scrollAway.observe(element);
-            },
-            {
-              init: false,
-            }
-          );
-        }
-      },
-      {
-        init: true,
+          },
+          {
+            init: true,
+          }
+        );
       }
-    );
-
-    cover.waitFor(
-      '.Notice.Notice--info.Notice--animated.Notice--center',
-      (element) => {
-        cover.addIdentifierClasses(element, 'T66');
-        cover.ready(element, 'T66');
-      },
-      {
-        init: true,
-        disconnect: false,
-        content: 'Nu visas varor för: Hemleverans i StockholmÄndra',
-      }
-    );
-
-    cover.waitFor(
-      '.Swiper-button',
-      (element) => {
-        cover.addIdentifierClasses(element, 'T70');
-        cover.ready(element, 'T70');
-      },
-      {
-        init: false,
-        querySelectorAll: true,
-      }
-    );
+    });
   },
 };
 
