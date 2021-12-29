@@ -9,7 +9,8 @@ interface Document {
 
 interface CoverType {
   checkDynamicYieldABtestConsent: () => boolean;
-  isInternetExplorer: () => boolean;
+  isInternetExplorer: boolean;
+  dynamicYieldId: string;
   waitFor: (
     selector: string,
     callback: (element: HTMLElement) => void,
@@ -22,6 +23,11 @@ interface CoverType {
   ) => void;
   isCategoryPage: () => boolean;
   isProductPage: (path?: string) => boolean;
+  choose: {
+    experiment: (id: string) => object;
+    history: object;
+    pending: Array<string>;
+  };
   ready: (element: Element, id: string) => void;
   readyHistory: Array<string>;
   addIdentifierClasses: (element: Element, id: string) => void;
@@ -32,9 +38,8 @@ const cover: CoverType = {
   checkDynamicYieldABtestConsent: () => {
     return __cmp('getCMPData')?.vendorConsents?.c18593;
   },
-  isInternetExplorer: () => {
-    return !!window.document.documentMode;
-  },
+  isInternetExplorer: !!window.document.documentMode,
+  dynamicYieldId: localStorage.getItem('_dyid'),
   waitFor: (selector, callback, options = {}) => {
     let wrapperElement = document.body;
     let observer: MutationObserver;
@@ -123,6 +128,82 @@ const cover: CoverType = {
       return true;
     }
   },
+  choose: {
+    async experiment(id) {
+      let payload: object;
+
+      if ((payload = cover.choose.history[id])) {
+        return payload;
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const abtestFlag: string = urlParams.get('abtest');
+
+      if (abtestFlag == 'true' || abtestFlag == 'dev') {
+        setTimeout(() => {
+          return {};
+        }, 200);
+      }
+
+      if (abtestFlag == 'false') {
+        return false;
+      }
+
+      if ((payload = cover.choose.pending[id])) {
+        // TODO: Wait for it to finish
+        return payload;
+      }
+
+      if (!abtestFlag && !cover.choose.pending.includes(id)) {
+        cover.choose.pending.push(id);
+
+        const response = await fetch(
+          'https://direct.dy-api.eu/v2/serve/user/choose',
+          {
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json',
+              'dy-api-key':
+                '6152c2da8b4b298832dd025a5ae5644ad819dd203482f4add37e3ad3ed848362',
+            },
+            body: JSON.stringify({
+              user: {
+                dyid: cover.dynamicYieldId,
+              },
+              selector: {
+                names: [id],
+              },
+              context: {
+                page: {
+                  type: 'OTHER',
+                  data: [],
+                  location: window.location.href,
+                },
+              },
+              options: {
+                isImplicitPageview: false,
+              },
+            }),
+          }
+        );
+
+        const choose = await response.json();
+
+        if (choose.choices.length > 0) {
+          payload = choose.choices[0].variations[0].payload.data;
+
+          cover.choose.history[id] = payload;
+          cover.choose.pending.filter((item) => item != id);
+
+          return payload;
+        }
+
+        return false;
+      }
+    },
+    history: {},
+    pending: [],
+  },
   ready: (element, id) => {
     element.dispatchEvent(new Event(`cover.ready ${id}`, { bubbles: true }));
 
@@ -172,8 +253,18 @@ const cover: CoverType = {
                 id === 'Home_page.horizontal_recs1_b2b' ||
                 id === 'home_page.horizontal_recs4_b2b'
               ) {
-                cover.addIdentifierClasses(element, 'T84');
-                cover.ready(element, 'T84');
+                // cover.addIdentifierClasses(element, 'T84');
+                // cover.ready(element, 'T84');
+
+                // element.loading();
+
+                if (cover.choose.experiment('T84')) {
+                  console.log('variant1');
+                  // element.remove();
+                } else {
+                  console.log('original');
+                  // element.show();
+                }
               }
             },
             {
@@ -216,7 +307,9 @@ const cover: CoverType = {
                     DY.API('event', {
                       name: 'T82-click',
                     });
-                    location.href = event.currentTarget.getAttribute('href');
+                    location.href = (
+                      event.currentTarget as HTMLAnchorElement
+                    ).getAttribute('href');
                   });
               }
             },
@@ -295,7 +388,7 @@ const cover: CoverType = {
 };
 
 (() => {
-  if (cover.isInternetExplorer()) {
+  if (cover.isInternetExplorer) {
     return;
   }
 
