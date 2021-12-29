@@ -205,6 +205,12 @@ const cover: CoverType = {
     element.classList.add('Experiment', id);
   },
   run: () => {
+    cover.waitFor('.js-page', () => {
+      document.dispatchEvent(new Event(`virtualpageview`, { bubbles: true }));
+    });
+
+    document.addEventListener('virtualpageview', () => {});
+
     cover.waitFor(
       '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
       (element) => {
