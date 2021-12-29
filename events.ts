@@ -26,7 +26,6 @@ interface CoverType {
   choose: {
     experiment: (id: string) => object;
     history: object;
-    pending: Array<string>;
   };
   ready: (element: Element, id: string) => void;
   readyHistory: Array<string>;
@@ -132,7 +131,7 @@ const cover: CoverType = {
     async experiment(id) {
       let payload: object;
 
-      if ((payload = cover.choose.history[id])) {
+      if ((payload = await cover.choose.history[id])) {
         return payload;
       }
 
@@ -149,15 +148,8 @@ const cover: CoverType = {
         return false;
       }
 
-      if ((payload = cover.choose.pending[id])) {
-        // TODO: Wait for it to finish
-        return payload;
-      }
-
-      if (!abtestFlag && !cover.choose.pending.includes(id)) {
-        cover.choose.pending.push(id);
-
-        const response = await fetch(
+      if (!abtestFlag) {
+        cover.choose.history[id] = await fetch(
           'https://direct.dy-api.eu/v2/serve/user/choose',
           {
             method: 'POST',
@@ -185,24 +177,17 @@ const cover: CoverType = {
               },
             }),
           }
-        );
-
-        const choose = await response.json();
-
-        if (choose.choices.length > 0) {
-          payload = choose.choices[0].variations[0].payload.data;
-
-          cover.choose.history[id] = payload;
-          cover.choose.pending.filter((item) => item != id);
-
-          return payload;
-        }
-
-        return false;
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.choices.length > 0) {
+              return data.choices[0].variations[0].payload.data;
+            }
+            return false;
+          });
       }
     },
     history: {},
-    pending: [],
   },
   ready: (element, id) => {
     element.dispatchEvent(new Event(`cover.ready ${id}`, { bubbles: true }));
