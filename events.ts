@@ -2,10 +2,6 @@ declare const DY: any;
 declare const __cmp: any;
 declare const dataLayer: any;
 
-interface Document {
-  documentMode?: any;
-}
-
 interface CoverType {
   checkDynamicYieldABtestConsent: () => boolean;
   isInternetExplorer: boolean;
@@ -24,7 +20,9 @@ interface CoverType {
   isProductPage: (path?: string) => boolean;
   choose: {
     experiment: (id: string) => object;
-    history: object;
+    promises: object;
+    // history: object;
+    // pending: Array<string>;
   };
   run: () => void;
 }
@@ -33,7 +31,7 @@ const cover: CoverType = {
   checkDynamicYieldABtestConsent: () => {
     return __cmp('getCMPData')?.vendorConsents?.c18593;
   },
-  isInternetExplorer: !!window.document.documentMode,
+  isInternetExplorer: !!(document as any).documentMode,
   dynamicYieldId: localStorage.getItem('_dyid'),
   waitFor: (selector, callback, options = {}) => {
     let wrapperElement = document.body;
@@ -124,27 +122,34 @@ const cover: CoverType = {
   },
   choose: {
     async experiment(id) {
-      let payload: object;
+      // TODO: will not run if result is false for original?
+      // if (!!cover.choose.promises[id]) {
 
-      if ((payload = await cover.choose.history[id])) {
-        return payload;
-      }
+      if (typeof cover.choose.promises[id] !== 'undefined') {
+        console.debug('data pending... wait');
+        return cover.choose.promises[id]; // TODO: Replace with `this`
+      } else {
+        // Behövs else?
 
-      const urlParams = new URLSearchParams(window.location.search);
-      const abtestFlag: string = urlParams.get('abtest');
+        const urlParams = new URLSearchParams(window.location.search);
+        const abtestFlag: string = urlParams.get('abtest');
 
-      if (abtestFlag == 'true' || abtestFlag == 'dev') {
-        setTimeout(() => {
-          return {};
-        }, 200);
-      }
+        if (abtestFlag == 'true' || abtestFlag == 'dev') {
+          setTimeout(() => {
+            console.debug('abtest=true return true');
+            cover.choose.promises[id] = true;
+            return true;
+          }, 200);
+        }
 
-      if (abtestFlag == 'false') {
-        return false;
-      }
+        if (abtestFlag == 'false') {
+          console.debug('abtest=false return false');
+          cover.choose.promises[id] = false;
+          return false;
+        }
 
-      if (!abtestFlag) {
-        cover.choose.history[id] = await fetch(
+        // This will also run on abtest=true to notice errors
+        const response = await fetch(
           'https://direct.dy-api.eu/v2/serve/user/choose',
           {
             method: 'POST',
@@ -155,7 +160,9 @@ const cover: CoverType = {
             },
             body: JSON.stringify({
               user: {
-                dyid: cover.dynamicYieldId,
+                dyid: '123456', // return variant
+                // dyid: '1234', // return original
+                // dyid: cover.dynamicYieldId,
               },
               selector: {
                 names: [id],
@@ -175,23 +182,60 @@ const cover: CoverType = {
         )
           .then((response) => response.json())
           .then((data) => {
-            if (data.choices.length > 0) {
+            const payload = data.choices[0].variations[0].payload.data;
+
+            console.debug('payload', payload);
+
+            if (!!payload) {
               // TODO: Send event to analytics
-              return data.choices[0].variations[0].payload.data;
+              return true;
+            } else {
+              console.debug('ORIGINAL return false');
+              // TODO: Send event to analytics
+              return false;
             }
-            return false;
           });
+
+        return response;
+
+        // TODO: Send fail and timeout to analytics
       }
     },
-    history: {},
+    promises: {},
   },
   run: () => {
     cover.waitFor('.js-page', () => {
-      document.dispatchEvent(new Event(`virtualpageview`, { bubbles: false }));
+      document.dispatchEvent(new Event('virtualpageview', { bubbles: false }));
     });
 
     // TODO: Run on first page view too
     document.addEventListener('virtualpageview', () => {
+      cover.waitFor(
+        '.ItemTeaser',
+        async (element) => {
+          console.log('loading - opacity 0');
+          element.style.opacity = '0.5';
+
+          cover.choose.promises['T1337'] = cover.choose.experiment('T1337');
+
+          // await cover.choose.promises['T1337'];
+          // console.debug('prom after await', cover.choose.promises['T1337']);
+
+          if (await cover.choose.promises['T1337']) {
+            console.log('variant1 - remove');
+            element.style.opacity = '0.1';
+            //element.remove();
+          } else {
+            console.log('original - opacity 1');
+            element.style.opacity = '0.8';
+          }
+        },
+        {
+          querySelectorAll: true,
+          init: true,
+        }
+      );
+
       if (window.location.pathname === '/handla/') {
         cover.waitFor(
           '[data-react-component="DynamicYieldRecommendationsBlock"]',
@@ -205,15 +249,7 @@ const cover: CoverType = {
               id === 'Home_page.horizontal_recs1_b2b' ||
               id === 'home_page.horizontal_recs4_b2b'
             ) {
-              // element.loading();
-
-              if (cover.choose.experiment('T84')) {
-                console.log('variant1');
-                // element.remove();
-              } else {
-                console.log('original');
-                // element.show();
-              }
+              // TODO: Add actions
             }
           },
           {
@@ -228,16 +264,9 @@ const cover: CoverType = {
           '[data-list="Complementary Product Recommendation PDP"]',
           (target) => {
             const element = target.closest('.Grid-cell');
-            if (element) {
-              // element.loading();
 
-              if (cover.choose.experiment('T84')) {
-                console.log('variant1');
-                // element.remove();
-              } else {
-                console.log('original');
-                // element.show();
-              }
+            if (element) {
+              // TODO: Add actions
             }
           },
           {
@@ -272,3 +301,7 @@ const cover: CoverType = {
     );
   }
 })();
+
+// Debug:
+cover.run();
+document.dispatchEvent(new Event('virtualpageview', { bubbles: false }));
