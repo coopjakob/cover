@@ -205,12 +205,12 @@ const cover: CoverType = {
     promises: {},
   },
   run: () => {
+    pageview();
     cover.waitFor('.js-page', () => {
-      document.dispatchEvent(new Event('virtualpageview', { bubbles: false }));
+      pageview();
     });
 
-    // TODO: Run on first page view too
-    document.addEventListener('virtualpageview', () => {
+    function pageview() {
       cover.waitFor(
         '.ItemTeaser',
         async (element) => {
@@ -275,7 +275,7 @@ const cover: CoverType = {
           }
         );
       }
-    });
+    }
   },
 };
 
@@ -305,4 +305,3 @@ const cover: CoverType = {
 
 // Debug:
 cover.run();
-document.dispatchEvent(new Event('virtualpageview', { bubbles: false }));
