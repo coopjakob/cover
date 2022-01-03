@@ -122,12 +122,9 @@ const cover: CoverType = {
   },
   choose: {
     async experiment(id) {
-      // TODO: will not run if result is false for original?
-      // if (!!cover.choose.promises[id]) {
-
-      if (typeof cover.choose.promises[id] !== 'undefined') {
+      if (typeof this.promises[id] !== 'undefined') {
         console.debug('data pending... wait');
-        return cover.choose.promises[id]; // TODO: Replace with `this`
+        return this.promises[id];
       } else {
         // Behövs else?
 
@@ -137,14 +134,14 @@ const cover: CoverType = {
         if (abtestFlag == 'true' || abtestFlag == 'dev') {
           setTimeout(() => {
             console.debug('abtest=true return true');
-            cover.choose.promises[id] = true;
+            this.promises[id] = true;
             return true;
           }, 200);
         }
 
         if (abtestFlag == 'false') {
           console.debug('abtest=false return false');
-          cover.choose.promises[id] = false;
+          this.promises[id] = false;
           return false;
         }
 
