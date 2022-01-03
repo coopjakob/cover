@@ -124,7 +124,6 @@ const cover: CoverType = {
     // TODO: Change id to experimentId
     async experiment(id) {
       if (typeof this.promises[id] !== 'undefined') {
-        console.debug('data pending... wait');
         return this.promises[id];
       } else {
         // Behövs else?
@@ -134,14 +133,14 @@ const cover: CoverType = {
 
         if (abtestFlag == 'true' || abtestFlag == 'dev') {
           setTimeout(() => {
-            console.debug('abtest=true return true');
+            console.log('Experiments activated');
             this.promises[id] = true;
             return true;
           }, 200);
         }
 
         if (abtestFlag == 'false') {
-          console.debug('abtest=false return false');
+          console.log('Experiments disabled');
           this.promises[id] = false;
           return false;
         }
@@ -182,8 +181,6 @@ const cover: CoverType = {
           .then((data) => {
             const payload = data.choices[0].variations[0].payload.data;
 
-            console.debug('payload', payload);
-
             if (!!payload) {
               dataLayer.push({
                 event: 'DY Event',
@@ -193,7 +190,6 @@ const cover: CoverType = {
               });
               return true;
             } else {
-              console.debug('ORIGINAL return false');
               dataLayer.push({
                 event: 'DY Event',
                 eventCategory: 'DY Smart Action',
