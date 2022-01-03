@@ -121,6 +121,7 @@ const cover: CoverType = {
     }
   },
   choose: {
+    // TODO: Change id to experimentId
     async experiment(id) {
       if (typeof this.promises[id] !== 'undefined') {
         console.debug('data pending... wait');
@@ -184,18 +185,26 @@ const cover: CoverType = {
             console.debug('payload', payload);
 
             if (!!payload) {
-              // TODO: Send event to analytics
+              dataLayer.push({
+                event: 'DY Event',
+                eventCategory: 'DY Smart Action',
+                eventAction: id,
+                eventLabel: 'Variation 1',
+              });
               return true;
             } else {
               console.debug('ORIGINAL return false');
-              // TODO: Send event to analytics
+              dataLayer.push({
+                event: 'DY Event',
+                eventCategory: 'DY Smart Action',
+                eventAction: id,
+                eventLabel: 'Control Group',
+              });
               return false;
             }
           });
 
         return response;
-
-        // TODO: Send fail and timeout to analytics
       }
     },
     promises: {},
