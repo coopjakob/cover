@@ -121,10 +121,9 @@ const cover: CoverType = {
     }
   },
   choose: {
-    // TODO: Change id to experimentId
-    async experiment(id) {
-      if (typeof this.promises[id] !== 'undefined') {
-        return this.promises[id];
+    async experiment(experimentId) {
+      if (typeof this.promises[experimentId] !== 'undefined') {
+        return this.promises[experimentId];
       } else {
         // Behövs else?
 
@@ -134,14 +133,14 @@ const cover: CoverType = {
         if (abtestFlag == 'true' || abtestFlag == 'dev') {
           setTimeout(() => {
             console.log('Experiments activated');
-            this.promises[id] = true;
+            this.promises[experimentId] = true;
             return true;
           }, 200);
         }
 
         if (abtestFlag == 'false') {
           console.log('Experiments disabled');
-          this.promises[id] = false;
+          this.promises[experimentId] = false;
           return false;
         }
 
@@ -162,7 +161,7 @@ const cover: CoverType = {
                 // dyid: cover.dynamicYieldId,
               },
               selector: {
-                names: [id],
+                names: [experimentId],
               },
               context: {
                 page: {
@@ -185,7 +184,7 @@ const cover: CoverType = {
               dataLayer.push({
                 event: 'DY Event',
                 eventCategory: 'DY Smart Action',
-                eventAction: id,
+                eventAction: experimentId,
                 eventLabel: 'Variation 1',
               });
               return true;
@@ -193,7 +192,7 @@ const cover: CoverType = {
               dataLayer.push({
                 event: 'DY Event',
                 eventCategory: 'DY Smart Action',
-                eventAction: id,
+                eventAction: experimentId,
                 eventLabel: 'Control Group',
               });
               return false;
