@@ -31,7 +31,8 @@ const cover: CoverType = {
   checkDynamicYieldABtestConsent: () => {
     return __cmp('getCMPData')?.vendorConsents?.c18593;
   },
-  isInternetExplorer: !!(document as any).documentMode,
+  // @ts-ignore
+  isInternetExplorer: !!document.documentMode,
   dynamicYieldId: localStorage.getItem('_dyid'),
   waitFor: (selector, callback, options = {}) => {
     let wrapperElement = document.body;
