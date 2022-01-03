@@ -216,7 +216,13 @@ const cover: CoverType = {
         '.ItemTeaser',
         async (element) => {
           console.log('loading - opacity 0');
+
           element.style.opacity = '0.5';
+
+          const timeout = setTimeout(() => {
+            console.log('Timeout, show original while waiting');
+            element.style.opacity = '1';
+          }, 1000);
 
           cover.choose.promises['T1337'] = cover.choose.experiment('T1337');
 
@@ -227,9 +233,11 @@ const cover: CoverType = {
             console.log('variant1 - remove');
             element.style.opacity = '0.1';
             //element.remove();
+            clearTimeout(timeout);
           } else {
             console.log('original - opacity 1');
             element.style.opacity = '0.8';
+            clearTimeout(timeout);
           }
         },
         {
