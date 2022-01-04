@@ -212,6 +212,49 @@ const cover: CoverType = {
     });
 
     function pageview() {
+      if (window.location.pathname.startsWith('/handla/')) {
+        cover.waitFor(
+          '.SidebarNav--online',
+          (element) => {
+            const selectedItems = element.querySelectorAll(
+              '[data-id="91162"], [data-id="90738"], [data-id="162750"]'
+            );
+
+            const observer = new IntersectionObserver((entries, observer) => {
+              entries.forEach(async (entry) => {
+                if (entry.isIntersecting) {
+                  observer.disconnect();
+
+                  const firstList: HTMLStyleElement =
+                    element.querySelector('.SidebarNav-list');
+
+                  firstList.style.opacity = '0';
+
+                  const timeout = setTimeout(() => {
+                    firstList.style.opacity = 'unset';
+                  }, 1000);
+
+                  cover.choose.promises['T86'] = cover.choose.experiment('T86');
+
+                  if (await cover.choose.promises['T86']) {
+                    selectedItems.forEach((element) => {
+                      element.remove();
+                    });
+                  }
+                  firstList.style.opacity = 'unset';
+                  clearTimeout(timeout);
+                }
+              });
+            });
+            observer.observe(element);
+          },
+          {
+            init: true,
+            disconnect: true,
+          }
+        );
+      }
+
       if (window.location.pathname === '/handla/') {
         cover.waitFor(
           '[data-react-component="DynamicYieldRecommendationsBlock"]',
