@@ -277,6 +277,21 @@ const cover: CoverType = {
         );
       }
     }
+
+    cover.waitFor(
+      '.Swiper-button',
+      async (element) => {
+        cover.choose.promises['T70'] = cover.choose.experiment('T70');
+
+        if (await cover.choose.promises['T70']) {
+          element.style.opacity = '1';
+        }
+      },
+      {
+        init: false,
+        querySelectorAll: true,
+      }
+    );
   },
 };
 
