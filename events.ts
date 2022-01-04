@@ -21,8 +21,6 @@ interface CoverType {
   choose: {
     experiment: (id: string) => object;
     promises: object;
-    // history: object;
-    // pending: Array<string>;
   };
   run: () => void;
 }
