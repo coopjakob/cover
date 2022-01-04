@@ -151,13 +151,11 @@ const cover: CoverType = {
             headers: {
               'Content-type': 'application/json',
               'dy-api-key':
-                '6152c2da8b4b298832dd025a5ae5644ad819dd203482f4add37e3ad3ed848362',
+                'edd0e8031ae4fa2ef95fcc77b93aabe708f8af388e520408eaa2d1a866e9345f',
             },
             body: JSON.stringify({
               user: {
-                dyid: '123456', // return variant
-                // dyid: '1234', // return original
-                // dyid: cover.dynamicYieldId,
+                dyid: cover.dynamicYieldId,
               },
               selector: {
                 names: [experimentId],
