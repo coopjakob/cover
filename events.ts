@@ -212,44 +212,10 @@ const cover: CoverType = {
     });
 
     function pageview() {
-      cover.waitFor(
-        '.ItemTeaser',
-        async (element) => {
-          console.log('loading - opacity 0');
-
-          element.style.opacity = '0.5';
-
-          const timeout = setTimeout(() => {
-            console.log('Timeout, show original while waiting');
-            element.style.opacity = '1';
-          }, 1000);
-
-          cover.choose.promises['T1337'] = cover.choose.experiment('T1337');
-
-          // await cover.choose.promises['T1337'];
-          // console.debug('prom after await', cover.choose.promises['T1337']);
-
-          if (await cover.choose.promises['T1337']) {
-            console.log('variant1 - remove');
-            element.style.opacity = '0.1';
-            //element.remove();
-            clearTimeout(timeout);
-          } else {
-            console.log('original - opacity 1');
-            element.style.opacity = '0.8';
-            clearTimeout(timeout);
-          }
-        },
-        {
-          querySelectorAll: true,
-          init: true,
-        }
-      );
-
       if (window.location.pathname === '/handla/') {
         cover.waitFor(
           '[data-react-component="DynamicYieldRecommendationsBlock"]',
-          (element) => {
+          async (element) => {
             const props = JSON.parse(element.dataset.reactProps);
             const id = props.recommendationId;
 
@@ -259,7 +225,20 @@ const cover: CoverType = {
               id === 'Home_page.horizontal_recs1_b2b' ||
               id === 'home_page.horizontal_recs4_b2b'
             ) {
-              // TODO: Add actions
+              element.style.opacity = '0';
+
+              const timeout = setTimeout(() => {
+                element.style.opacity = 'unset';
+              }, 1000);
+
+              cover.choose.promises['T84'] = cover.choose.experiment('T84');
+
+              if (await cover.choose.promises['T84']) {
+                element.remove();
+              } else {
+                element.style.opacity = 'unset';
+              }
+              clearTimeout(timeout);
             }
           },
           {
@@ -272,11 +251,24 @@ const cover: CoverType = {
       if (cover.isProductPage()) {
         cover.waitFor(
           '[data-list="Complementary Product Recommendation PDP"]',
-          (target) => {
-            const element = target.closest('.Grid-cell');
+          async (target) => {
+            const element: HTMLStyleElement = target.closest('.Grid-cell');
 
             if (element) {
-              // TODO: Add actions
+              element.style.opacity = '0';
+
+              const timeout = setTimeout(() => {
+                element.style.opacity = 'unset';
+              }, 1000);
+
+              cover.choose.promises['T84'] = cover.choose.experiment('T84');
+
+              if (await cover.choose.promises['T84']) {
+                element.remove();
+              } else {
+                element.style.opacity = 'unset';
+              }
+              clearTimeout(timeout);
             }
           },
           {
@@ -311,6 +303,3 @@ const cover: CoverType = {
     );
   }
 })();
-
-// Debug:
-cover.run();
