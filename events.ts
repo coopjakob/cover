@@ -1,4 +1,3 @@
-declare const DY: any;
 declare const __cmp: any;
 declare const dataLayer: any;
 
@@ -123,9 +122,8 @@ const cover: CoverType = {
     async experiment(experimentId) {
       if (typeof this.promises[experimentId] !== 'undefined') {
         return this.promises[experimentId];
+        // TODO: Try if `return await` works, and remove else
       } else {
-        // Behövs else?
-
         const urlParams = new URLSearchParams(window.location.search);
         const abtestFlag: string = urlParams.get('abtest');
 
