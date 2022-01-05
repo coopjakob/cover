@@ -333,8 +333,9 @@ const cover: CoverType = {
     cover.waitFor(
       '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
       async (button) => {
-        const container: HTMLStyleElement =
-          button.closest('.ItemTeaser-button');
+        const container: HTMLStyleElement = button.closest(
+          '.ItemTeaser-button, .ItemInfo-button'
+        );
         const fieldset: HTMLStyleElement =
           container.querySelector('fieldset.AddToCart');
         const input: HTMLFormElement =
@@ -387,9 +388,8 @@ const cover: CoverType = {
                 fieldset.classList.remove('u-hidden');
               }
             }
-          } else {
-            container.style.opacity = 'unset';
           }
+          container.style.opacity = 'unset';
           clearTimeout(timeout);
         }
       },
