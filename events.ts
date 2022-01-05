@@ -362,6 +362,14 @@ const cover: CoverType = {
         if (await cover.choose.promises['T83']) {
           button.classList.remove('u-hidden');
           fieldset.classList.add('u-hidden');
+
+          button.style.textOverflow = 'unset';
+          button.style.paddingLeft = '0';
+          button.style.paddingRight = '0';
+
+          if (container.classList.contains('ItemInfo-button')) {
+            button.style.width = '120px';
+          }
         }
         container.style.opacity = 'unset';
         clearTimeout(timeout);
