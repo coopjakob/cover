@@ -318,7 +318,7 @@ const cover: CoverType = {
     cover.waitFor(
       '.Swiper-button',
       async (element) => {
-        cover.choose.promises['T70'] = cover.choose.experiment('T70');
+        cover.choose.promises['T83'] = cover.choose.experiment('T70');
 
         if (await cover.choose.promises['T70']) {
           element.style.opacity = '1';
@@ -329,6 +329,83 @@ const cover: CoverType = {
         querySelectorAll: true,
       }
     );
+
+    cover.waitFor(
+      '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
+      async (button) => {
+        const container: HTMLStyleElement = button.closest(
+          '.AddToCart-container'
+        );
+        const fieldset: HTMLStyleElement =
+          container.querySelector('fieldset.AddToCart');
+        const input: HTMLFormElement =
+          container.querySelector('.AddToCart-input');
+
+        // Search will include quantity on load
+        if (input.value === '0') {
+          container.style.opacity = '0';
+
+          const timeout = setTimeout(() => {
+            container.style.opacity = 'unset';
+          }, 1000);
+
+          cover.choose.promises['T83'] = cover.choose.experiment('T83');
+
+          if (await cover.choose.promises['T83']) {
+            showButton(true);
+
+            // Reset button after quantity change, for ItemInfo and ItemTeaser
+            // quantityObserver(input);
+
+            // function quantityObserver(targetNode) {
+            //   const config = {
+            //     attributes: true,
+            //     childList: false,
+            //     subtree: false,
+            //   };
+
+            //   const callback = function (mutationsList, observer) {
+            //     for (const mutation of mutationsList) {
+            //       if (
+            //         mutation.type === 'attributes' &&
+            //         mutation.target.value > 0
+            //       ) {
+            //         showButton(false);
+            //       }
+            //     }
+            //   };
+
+            //   const observer = new MutationObserver(callback);
+            //   observer.observe(targetNode, config);
+            // }
+
+            function showButton(flag: Boolean) {
+              if (flag) {
+                button.classList.remove('u-hidden');
+                fieldset.classList.add('u-hidden');
+              } else {
+                button.classList.add('u-hidden');
+                fieldset.classList.remove('u-hidden');
+              }
+            }
+          } else {
+            container.style.opacity = 'unset';
+          }
+          clearTimeout(timeout);
+        }
+      },
+      {
+        init: true,
+        querySelectorAll: true,
+        content: 'Köp',
+      }
+    );
+
+    function T83(button) {
+      if (button.parentElement.querySelector('input').value != '0') {
+        return;
+      }
+    }
   },
 };
 
