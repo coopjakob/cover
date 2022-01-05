@@ -334,7 +334,7 @@ const cover: CoverType = {
       '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
       async (button) => {
         const container: HTMLStyleElement = button.closest(
-          '.ItemTeaser-button, .ItemInfo-button'
+          '.ItemTeaser-button, .ItemInfo-button, .ProductSearch-itemCell'
         );
         const fieldset: HTMLStyleElement =
           container.querySelector('fieldset.AddToCart');
