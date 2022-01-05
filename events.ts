@@ -352,42 +352,8 @@ const cover: CoverType = {
           cover.choose.promises['T83'] = cover.choose.experiment('T83');
 
           if (await cover.choose.promises['T83']) {
-            showButton(true);
-
-            // Reset button after quantity change, for ItemInfo and ItemTeaser
-            // quantityObserver(input);
-
-            // function quantityObserver(targetNode) {
-            //   const config = {
-            //     attributes: true,
-            //     childList: false,
-            //     subtree: false,
-            //   };
-
-            //   const callback = function (mutationsList, observer) {
-            //     for (const mutation of mutationsList) {
-            //       if (
-            //         mutation.type === 'attributes' &&
-            //         mutation.target.value > 0
-            //       ) {
-            //         showButton(false);
-            //       }
-            //     }
-            //   };
-
-            //   const observer = new MutationObserver(callback);
-            //   observer.observe(targetNode, config);
-            // }
-
-            function showButton(flag: Boolean) {
-              if (flag) {
-                button.classList.remove('u-hidden');
-                fieldset.classList.add('u-hidden');
-              } else {
-                button.classList.add('u-hidden');
-                fieldset.classList.remove('u-hidden');
-              }
-            }
+            button.classList.remove('u-hidden');
+            fieldset.classList.add('u-hidden');
           }
           container.style.opacity = 'unset';
           clearTimeout(timeout);
