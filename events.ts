@@ -363,6 +363,7 @@ const cover: CoverType = {
           button.classList.remove('u-hidden');
           fieldset.classList.add('u-hidden');
 
+          button.style.minWidth = '120px';
           button.style.textOverflow = 'unset';
           button.style.paddingLeft = '0';
           button.style.paddingRight = '0';
