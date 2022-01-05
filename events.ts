@@ -177,7 +177,7 @@ const cover: CoverType = {
 
             if (!!payload) {
               dataLayer.push({
-                event: 'DY Event',
+                event: 'DY event',
                 eventCategory: 'DY Smart Action',
                 eventAction: experimentId,
                 eventLabel: 'Variation 1',
@@ -185,7 +185,7 @@ const cover: CoverType = {
               return true;
             } else {
               dataLayer.push({
-                event: 'DY Event',
+                event: 'DY event',
                 eventCategory: 'DY Smart Action',
                 eventAction: experimentId,
                 eventLabel: 'Control Group',
