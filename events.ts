@@ -336,28 +336,35 @@ const cover: CoverType = {
         const container: HTMLStyleElement = button.closest(
           '.ItemTeaser-button, .ItemInfo-button, .ProductSearch-itemCell'
         );
+
+        if (!container) {
+          return;
+        }
+
         const fieldset: HTMLStyleElement =
           container.querySelector('fieldset.AddToCart');
         const input: HTMLFormElement =
           container.querySelector('.AddToCart-input');
 
         // Search will include quantity on load
-        if (input.value === '0') {
-          container.style.opacity = '0';
-
-          const timeout = setTimeout(() => {
-            container.style.opacity = 'unset';
-          }, 1000);
-
-          cover.choose.promises['T83'] = cover.choose.experiment('T83');
-
-          if (await cover.choose.promises['T83']) {
-            button.classList.remove('u-hidden');
-            fieldset.classList.add('u-hidden');
-          }
-          container.style.opacity = 'unset';
-          clearTimeout(timeout);
+        if (input.value !== '0') {
+          return;
         }
+
+        container.style.opacity = '0';
+
+        const timeout = setTimeout(() => {
+          container.style.opacity = 'unset';
+        }, 1000);
+
+        cover.choose.promises['T83'] = cover.choose.experiment('T83');
+
+        if (await cover.choose.promises['T83']) {
+          button.classList.remove('u-hidden');
+          fieldset.classList.add('u-hidden');
+        }
+        container.style.opacity = 'unset';
+        clearTimeout(timeout);
       },
       {
         init: true,
