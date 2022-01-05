@@ -333,9 +333,8 @@ const cover: CoverType = {
     cover.waitFor(
       '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
       async (button) => {
-        const container: HTMLStyleElement = button.closest(
-          '.AddToCart-container'
-        );
+        const container: HTMLStyleElement =
+          button.closest('.ItemTeaser-button');
         const fieldset: HTMLStyleElement =
           container.querySelector('fieldset.AddToCart');
         const input: HTMLFormElement =
