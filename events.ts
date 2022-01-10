@@ -334,7 +334,7 @@ const cover: CoverType = {
         }
       },
       {
-        init: false,
+        init: true,
         querySelectorAll: true,
       }
     );
