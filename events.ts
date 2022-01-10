@@ -26,7 +26,7 @@ interface CoverType {
 
 const cover: CoverType = {
   checkDynamicYieldABtestConsent: () => {
-    return __cmp('getCMPData')?.vendorConsents?.c18593;
+    return __cmp('getCMPData')?.vendorConsents?.c18593 || false;
   },
   // @ts-ignore
   isInternetExplorer: !!document.documentMode,
@@ -160,6 +160,7 @@ const cover: CoverType = {
               user: {
                 dyid: cover.getCookieValue('_dyid'),
                 dyid_server: cover.getCookieValue('_dyid_server'),
+                active_consent_accepted: cover.checkDynamicYieldABtestConsent(),
               },
               session: {
                 dy: cover.getCookieValue('_dyjsession'),
