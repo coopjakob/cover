@@ -4,7 +4,7 @@ declare const dataLayer: any;
 interface CoverType {
   checkDynamicYieldABtestConsent: () => boolean;
   isInternetExplorer: boolean;
-  dynamicYieldId: string;
+  getCookieValue: (string) => string;
   waitFor: (
     selector: string,
     callback: (element: HTMLElement) => void,
@@ -30,7 +30,12 @@ const cover: CoverType = {
   },
   // @ts-ignore
   isInternetExplorer: !!document.documentMode,
-  dynamicYieldId: localStorage.getItem('_dyid'),
+  getCookieValue: (name) => {
+    return (
+      document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() ||
+      ''
+    );
+  },
   waitFor: (selector, callback, options = {}) => {
     let wrapperElement = document.body;
     let observer: MutationObserver;
@@ -153,7 +158,11 @@ const cover: CoverType = {
             },
             body: JSON.stringify({
               user: {
-                dyid: cover.dynamicYieldId,
+                dyid: cover.getCookieValue('_dyid'),
+                dyid_server: cover.getCookieValue('_dyid_server'),
+              },
+              session: {
+                dy: cover.getCookieValue('_dyjsession'),
               },
               selector: {
                 names: [experimentId],
