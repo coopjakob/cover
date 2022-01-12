@@ -133,6 +133,7 @@ const cover: CoverType = {
     async experiment(experimentId) {
       if (cover.abtestFlag()) {
         console.log('abtest=' + cover.abtestFlag());
+        console.log(`Experiment ${experimentId} = TRUE`);
         this.promises[experimentId] = true;
         return true;
       }
