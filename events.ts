@@ -391,12 +391,6 @@ const cover: CoverType = {
         content: 'Köp',
       }
     );
-
-    function T83(button) {
-      if (button.parentElement.querySelector('input').value != '0') {
-        return;
-      }
-    }
   },
 };
 
