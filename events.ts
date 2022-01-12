@@ -4,6 +4,8 @@ declare const dataLayer: any;
 interface CoverType {
   checkDynamicYieldABtestConsent: () => boolean;
   isInternetExplorer: boolean;
+  urlParams: URLSearchParams;
+  abtestFlag: string;
   getCookieValue: (string) => string;
   waitFor: (
     selector: string,
@@ -30,6 +32,8 @@ const cover: CoverType = {
   },
   // @ts-ignore
   isInternetExplorer: !!document.documentMode,
+  urlParams: new URLSearchParams(window.location.search),
+  abtestFlag: this.urlParams.get('abtest'),
   getCookieValue: (name) => {
     return (
       document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() ||
@@ -125,28 +129,16 @@ const cover: CoverType = {
   },
   choose: {
     async experiment(experimentId) {
+      if (cover.abtestFlag == 'true' || cover.abtestFlag == 'dev') {
+        console.log('abtest=' + cover.abtestFlag);
+        this.promises[experimentId] = true;
+        return true;
+      }
+
       if (typeof this.promises[experimentId] !== 'undefined') {
         return this.promises[experimentId];
-        // TODO: Try if `return await` works, and remove else
+        // TODO: Check if we can remove else here
       } else {
-        const urlParams = new URLSearchParams(window.location.search);
-        const abtestFlag: string = urlParams.get('abtest');
-
-        if (abtestFlag == 'true' || abtestFlag == 'dev') {
-          setTimeout(() => {
-            console.log('Experiments activated');
-            this.promises[experimentId] = true;
-            return true;
-          }, 200);
-        }
-
-        if (abtestFlag == 'false') {
-          console.log('Experiments disabled');
-          this.promises[experimentId] = false;
-          return false;
-        }
-
-        // This will also run on abtest=true to notice errors
         const response = await fetch(
           'https://direct.dy-api.eu/v2/serve/user/choose',
           {
@@ -176,7 +168,7 @@ const cover: CoverType = {
                 },
               },
               options: {
-                isImplicitPageview: false,
+                isImplicitPageview: false, //default in web mode
               },
             }),
           }
@@ -190,7 +182,7 @@ const cover: CoverType = {
                 event: 'DY event',
                 eventCategory: 'DY Smart Action',
                 eventAction: experimentId,
-                eventLabel: 'Variation 1',
+                eventLabel: 'AB (Variation 1)',
               });
               return true;
             } else {
@@ -198,7 +190,7 @@ const cover: CoverType = {
                 event: 'DY event',
                 eventCategory: 'DY Smart Action',
                 eventAction: experimentId,
-                eventLabel: 'Control Group',
+                eventLabel: 'AB (Control Group: No Action)',
               });
               return false;
             }
@@ -396,6 +388,11 @@ const cover: CoverType = {
 
 (() => {
   if (cover.isInternetExplorer) {
+    return;
+  }
+
+  if (cover.abtestFlag == 'false') {
+    console.log('Experiments disabled');
     return;
   }
 
