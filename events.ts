@@ -4,8 +4,7 @@ declare const dataLayer: any;
 interface CoverType {
   checkDynamicYieldABtestConsent: () => boolean;
   isInternetExplorer: boolean;
-  urlParams: URLSearchParams;
-  abtestFlag: string;
+  abtestFlag: () => string | null;
   getCookieValue: (string) => string;
   waitFor: (
     selector: string,
@@ -32,8 +31,11 @@ const cover: CoverType = {
   },
   // @ts-ignore
   isInternetExplorer: !!document.documentMode,
-  urlParams: new URLSearchParams(window.location.search),
-  abtestFlag: this.urlParams.get('abtest'),
+  abtestFlag: () => {
+    //TODO: Change to constant if possible
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('abtest');
+  },
   getCookieValue: (name) => {
     return (
       document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() ||
@@ -129,8 +131,8 @@ const cover: CoverType = {
   },
   choose: {
     async experiment(experimentId) {
-      if (cover.abtestFlag == 'true' || cover.abtestFlag == 'dev') {
-        console.log('abtest=' + cover.abtestFlag);
+      if (cover.abtestFlag()) {
+        console.log('abtest=' + cover.abtestFlag());
         this.promises[experimentId] = true;
         return true;
       }
@@ -391,7 +393,7 @@ const cover: CoverType = {
     return;
   }
 
-  if (cover.abtestFlag == 'false') {
+  if (cover.abtestFlag() == 'false') {
     console.log('Experiments disabled');
     return;
   }
