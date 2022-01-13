@@ -1,3 +1,5 @@
+declare const DY: any;
+declare const DYO: any;
 declare const __cmp: any;
 declare const dataLayer: any;
 
@@ -22,6 +24,10 @@ interface CoverType {
     experiment: (id: string) => object;
     promises: object;
   };
+  ready: (element: Element, id: string) => void;
+  readyHistory: Array<string>;
+  addIdentifierClasses: (element: Element, id: string) => void;
+  groups: () => any;
   run: () => void;
 }
 
@@ -204,7 +210,96 @@ const cover: CoverType = {
     },
     promises: {},
   },
+  ready: (element, id) => {
+    element.dispatchEvent(new Event(`cover.ready ${id}`, { bubbles: true }));
+
+    if (!cover.readyHistory.includes(id)) {
+      DY.API('event', {
+        name: `cover.ready ${id}`,
+      });
+
+      cover.readyHistory.push(id);
+    }
+  },
+  readyHistory: [],
+  addIdentifierClasses: (element, id) => {
+    element.classList.add('Experiment', id);
+  },
+  groups: () => {
+    DYO.getUserObjectsAndVariations();
+  },
   run: () => {
+    cover.waitFor(
+      '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
+      (element) => {
+        // search will include quantity on load
+        if (element.parentElement.querySelector('input').value === '0') {
+          cover.addIdentifierClasses(element, 'T83');
+          cover.ready(element, 'T83');
+        }
+      },
+      {
+        init: true,
+        querySelectorAll: true,
+        content: 'Köp',
+        disconnect: false,
+      }
+    );
+
+    cover.waitFor('.js-page', (element) => {
+      if (window.location.pathname === '/handla/') {
+        cover.waitFor(
+          '[data-react-component="DynamicYieldRecommendationsBlock"]',
+          (element) => {
+            const props = JSON.parse(element.dataset.reactProps);
+            const id = props.recommendationId;
+
+            if (
+              id === 'P04.favourite-products.handla-startpage' ||
+              id === 'P03.popular-products.handla-startpage' ||
+              id === 'Home_page.horizontal_recs1_b2b' ||
+              id === 'home_page.horizontal_recs4_b2b'
+            ) {
+              cover.addIdentifierClasses(element, 'T84');
+              cover.ready(element, 'T84');
+            }
+          },
+          {
+            querySelectorAll: true,
+            init: true,
+          }
+        );
+      }
+
+      if (cover.isProductPage()) {
+        cover.waitFor(
+          '[data-list="Complementary Product Recommendation PDP"]',
+          (target) => {
+            element = target.closest('.Grid-cell');
+            if (element) {
+              cover.addIdentifierClasses(element, 'T84');
+              cover.ready(element, 'T84');
+            }
+          },
+          {
+            init: true,
+          }
+        );
+      }
+    });
+
+    cover.waitFor(
+      '.Swiper-button',
+      (element) => {
+        cover.addIdentifierClasses(element, 'T70');
+        cover.ready(element, 'T70');
+      },
+      {
+        init: false,
+        querySelectorAll: true,
+      }
+    );
+
     cover.choose.promises['AA'] = cover.choose.experiment('AA');
 
     pageview();
@@ -226,24 +321,29 @@ const cover: CoverType = {
                 if (entry.isIntersecting) {
                   observer.disconnect();
 
-                  const firstList: HTMLStyleElement =
-                    element.querySelector('.SidebarNav-list');
+                  selectedItems.forEach((element) => {
+                    cover.addIdentifierClasses(element, 'T86');
+                    cover.ready(element, 'T86');
+                  });
 
-                  firstList.style.opacity = '0';
+                  // const firstList: HTMLStyleElement =
+                  //   element.querySelector('.SidebarNav-list');
 
-                  const timeout = setTimeout(() => {
-                    firstList.style.opacity = 'unset';
-                  }, 1000);
+                  // firstList.style.opacity = '0';
 
-                  cover.choose.promises['T86'] = cover.choose.experiment('T86');
+                  // const timeout = setTimeout(() => {
+                  //   firstList.style.opacity = 'unset';
+                  // }, 1000);
 
-                  if (await cover.choose.promises['T86']) {
-                    selectedItems.forEach((element) => {
-                      element.remove();
-                    });
-                  }
-                  firstList.style.opacity = 'unset';
-                  clearTimeout(timeout);
+                  // cover.choose.promises['T86'] = cover.choose.experiment('T86');
+
+                  // if (await cover.choose.promises['T86']) {
+                  //   selectedItems.forEach((element) => {
+                  //     element.remove();
+                  //   });
+                  // }
+                  // firstList.style.opacity = 'unset';
+                  // clearTimeout(timeout);
                 }
               });
             });
@@ -256,138 +356,138 @@ const cover: CoverType = {
         );
       }
 
-      if (window.location.pathname === '/handla/') {
-        cover.waitFor(
-          '[data-react-component="DynamicYieldRecommendationsBlock"]',
-          async (element) => {
-            const props = JSON.parse(element.dataset.reactProps);
-            const id = props.recommendationId;
+      // if (window.location.pathname === '/handla/') {
+      //   cover.waitFor(
+      //     '[data-react-component="DynamicYieldRecommendationsBlock"]',
+      //     async (element) => {
+      //       const props = JSON.parse(element.dataset.reactProps);
+      //       const id = props.recommendationId;
 
-            if (
-              id === 'P04.favourite-products.handla-startpage' ||
-              id === 'P03.popular-products.handla-startpage' ||
-              id === 'Home_page.horizontal_recs1_b2b' ||
-              id === 'home_page.horizontal_recs4_b2b'
-            ) {
-              element.style.opacity = '0';
+      //       if (
+      //         id === 'P04.favourite-products.handla-startpage' ||
+      //         id === 'P03.popular-products.handla-startpage' ||
+      //         id === 'Home_page.horizontal_recs1_b2b' ||
+      //         id === 'home_page.horizontal_recs4_b2b'
+      //       ) {
+      //         element.style.opacity = '0';
 
-              const timeout = setTimeout(() => {
-                element.style.opacity = 'unset';
-              }, 1000);
+      //         const timeout = setTimeout(() => {
+      //           element.style.opacity = 'unset';
+      //         }, 1000);
 
-              cover.choose.promises['T84'] = cover.choose.experiment('T84');
+      //         cover.choose.promises['T84'] = cover.choose.experiment('T84');
 
-              if (await cover.choose.promises['T84']) {
-                element.remove();
-              } else {
-                element.style.opacity = 'unset';
-              }
-              clearTimeout(timeout);
-            }
-          },
-          {
-            querySelectorAll: true,
-            init: true,
-          }
-        );
-      }
+      //         if (await cover.choose.promises['T84']) {
+      //           element.remove();
+      //         } else {
+      //           element.style.opacity = 'unset';
+      //         }
+      //         clearTimeout(timeout);
+      //       }
+      //     },
+      //     {
+      //       querySelectorAll: true,
+      //       init: true,
+      //     }
+      //   );
+      // }
 
-      if (cover.isProductPage()) {
-        cover.waitFor(
-          '[data-list="Complementary Product Recommendation PDP"]',
-          async (target) => {
-            const element: HTMLStyleElement = target.closest('.Grid-cell');
+      // if (cover.isProductPage()) {
+      //   cover.waitFor(
+      //     '[data-list="Complementary Product Recommendation PDP"]',
+      //     async (target) => {
+      //       const element: HTMLStyleElement = target.closest('.Grid-cell');
 
-            if (element) {
-              element.style.opacity = '0';
+      //       if (element) {
+      //         element.style.opacity = '0';
 
-              const timeout = setTimeout(() => {
-                element.style.opacity = 'unset';
-              }, 1000);
+      //         const timeout = setTimeout(() => {
+      //           element.style.opacity = 'unset';
+      //         }, 1000);
 
-              cover.choose.promises['T84'] = cover.choose.experiment('T84');
+      //         cover.choose.promises['T84'] = cover.choose.experiment('T84');
 
-              if (await cover.choose.promises['T84']) {
-                element.remove();
-              } else {
-                element.style.opacity = 'unset';
-              }
-              clearTimeout(timeout);
-            }
-          },
-          {
-            init: true,
-          }
-        );
-      }
+      //         if (await cover.choose.promises['T84']) {
+      //           element.remove();
+      //         } else {
+      //           element.style.opacity = 'unset';
+      //         }
+      //         clearTimeout(timeout);
+      //       }
+      //     },
+      //     {
+      //       init: true,
+      //     }
+      //   );
+      // }
     }
 
-    cover.waitFor(
-      '.Swiper-button',
-      async (element) => {
-        cover.choose.promises['T70'] = cover.choose.experiment('T70');
+    // cover.waitFor(
+    //   '.Swiper-button',
+    //   async (element) => {
+    //     cover.choose.promises['T70'] = cover.choose.experiment('T70');
 
-        if (await cover.choose.promises['T70']) {
-          element.style.opacity = '1';
-        }
-      },
-      {
-        init: true,
-        querySelectorAll: true,
-      }
-    );
+    //     if (await cover.choose.promises['T70']) {
+    //       element.style.opacity = '1';
+    //     }
+    //   },
+    //   {
+    //     init: true,
+    //     querySelectorAll: true,
+    //   }
+    // );
 
-    cover.waitFor(
-      '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
-      async (button) => {
-        const container: HTMLStyleElement = button.closest(
-          '.ItemTeaser-button, .ItemInfo-button, .ProductSearch-itemCell'
-        );
+    // cover.waitFor(
+    //   '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
+    //   async (button) => {
+    //     const container: HTMLStyleElement = button.closest(
+    //       '.ItemTeaser-button, .ItemInfo-button, .ProductSearch-itemCell'
+    //     );
 
-        if (!container) {
-          return;
-        }
+    //     if (!container) {
+    //       return;
+    //     }
 
-        const fieldset: HTMLStyleElement =
-          container.querySelector('fieldset.AddToCart');
-        const input: HTMLFormElement =
-          container.querySelector('.AddToCart-input');
+    //     const fieldset: HTMLStyleElement =
+    //       container.querySelector('fieldset.AddToCart');
+    //     const input: HTMLFormElement =
+    //       container.querySelector('.AddToCart-input');
 
-        // Search will include quantity on load
-        if (input.value !== '0') {
-          return;
-        }
+    //     // Search will include quantity on load
+    //     if (input.value !== '0') {
+    //       return;
+    //     }
 
-        container.style.opacity = '0';
+    //     container.style.opacity = '0';
 
-        const timeout = setTimeout(() => {
-          container.style.opacity = 'unset';
-        }, 1000);
+    //     const timeout = setTimeout(() => {
+    //       container.style.opacity = 'unset';
+    //     }, 1000);
 
-        cover.choose.promises['T83'] = cover.choose.experiment('T83');
+    //     cover.choose.promises['T83'] = cover.choose.experiment('T83');
 
-        if (await cover.choose.promises['T83']) {
-          button.classList.remove('u-hidden');
-          fieldset.classList.add('u-hidden');
+    //     if (await cover.choose.promises['T83']) {
+    //       button.classList.remove('u-hidden');
+    //       fieldset.classList.add('u-hidden');
 
-          button.style.minWidth = '120px';
-          button.style.textOverflow = 'unset';
-          button.style.paddingLeft = '0';
-          button.style.paddingRight = '0';
+    //       button.style.minWidth = '120px';
+    //       button.style.textOverflow = 'unset';
+    //       button.style.paddingLeft = '0';
+    //       button.style.paddingRight = '0';
 
-          if (container.classList.contains('ItemInfo-button')) {
-            button.style.width = '120px';
-          }
-        }
-        container.style.opacity = 'unset';
-        clearTimeout(timeout);
-      },
-      {
-        init: true,
-        querySelectorAll: true,
-        content: 'Köp',
-      }
-    );
+    //       if (container.classList.contains('ItemInfo-button')) {
+    //         button.style.width = '120px';
+    //       }
+    //     }
+    //     container.style.opacity = 'unset';
+    //     clearTimeout(timeout);
+    //   },
+    //   {
+    //     init: true,
+    //     querySelectorAll: true,
+    //     content: 'Köp',
+    //   }
+    // );
   },
 };
 
