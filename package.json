@@ -1,14 +1,14 @@
 {
   "name": "cover",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "ab-testing",
   "main": "events.ts",
   "devDependencies": {
-    "@babel/cli": "^7.15.7",
-    "@babel/core": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
-    "@babel/preset-typescript": "^7.15.0",
-    "prettier": "2.3.2"
+    "@babel/cli": "^7.16.7",
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
+    "prettier": "^2.5.1"
   },
   "scripts": {
     "build": "babel . --extensions .ts --ignore node_modules --out-dir public"
@@ -23,5 +23,6 @@
     "url": "https://github.com/coopjakob/cover/issues"
   },
   "homepage": "https://github.com/coopjakob/cover#readme",
-  "browserslist": "> 2% in SV, last 2 versions, not dead"
+  "browserslist": "> 2% in SV, last 2 versions, not dead, not IE 11",
+  "dependencies": {}
 }
