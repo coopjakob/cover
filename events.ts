@@ -300,7 +300,7 @@ const cover: CoverType = {
       }
     );
 
-    cover.choose.promises['AA'] = cover.choose.experiment('AA');
+    // cover.choose.promises['AA'] = cover.choose.experiment('AA');
 
     pageview();
     cover.waitFor('.js-page', () => {
