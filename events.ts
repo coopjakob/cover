@@ -246,47 +246,53 @@ const cover: CoverType = {
       }
     );
 
-    cover.waitFor('.js-page', (element) => {
-      if (window.location.pathname === '/handla/') {
-        cover.waitFor(
-          '[data-react-component="DynamicYieldRecommendationsBlock"]',
-          (element) => {
-            const props = JSON.parse(element.dataset.reactProps);
-            const id = props.recommendationId;
+    cover.waitFor(
+      '.js-page',
+      (element) => {
+        if (window.location.pathname === '/handla/') {
+          cover.waitFor(
+            '[data-react-component="DynamicYieldRecommendationsBlock"]',
+            (element) => {
+              const props = JSON.parse(element.dataset.reactProps);
+              const id = props.recommendationId;
 
-            if (
-              id === 'P04.favourite-products.handla-startpage' ||
-              id === 'P03.popular-products.handla-startpage' ||
-              id === 'Home_page.horizontal_recs1_b2b' ||
-              id === 'home_page.horizontal_recs4_b2b'
-            ) {
-              cover.addIdentifierClasses(element, 'T84');
-              cover.ready(element, 'T84');
+              if (
+                id === 'P04.favourite-products.handla-startpage' ||
+                id === 'P03.popular-products.handla-startpage' ||
+                id === 'Home_page.horizontal_recs1_b2b' ||
+                id === 'home_page.horizontal_recs4_b2b'
+              ) {
+                cover.addIdentifierClasses(element, 'T84');
+                cover.ready(element, 'T84');
+              }
+            },
+            {
+              querySelectorAll: true,
+              init: true,
             }
-          },
-          {
-            querySelectorAll: true,
-            init: true,
-          }
-        );
-      }
+          );
+        }
 
-      if (cover.isProductPage()) {
-        cover.waitFor(
-          '[data-list="Complementary Product Recommendation PDP"]',
-          (target) => {
-            element = target.closest('.Grid-cell');
-            if (element) {
-              cover.addIdentifierClasses(element, 'T84');
-              cover.ready(element, 'T84');
+        if (cover.isProductPage()) {
+          cover.waitFor(
+            '[data-list="Complementary Product Recommendation PDP"]',
+            (target) => {
+              element = target.closest('.Grid-cell');
+              if (element) {
+                cover.addIdentifierClasses(element, 'T84');
+                cover.ready(element, 'T84');
+              }
+            },
+            {
+              init: true,
             }
-          },
-          {
-            init: true,
-          }
-        );
+          );
+        }
+      },
+      {
+        init: true,
       }
-    });
+    );
 
     cover.waitFor(
       '.Swiper-button',
