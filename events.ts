@@ -99,7 +99,8 @@ const cover: CoverType = {
       }
     }
 
-    if (options.init) {
+    // default true
+    if (options.init != false) {
       matchElementSelector(wrapperElement);
     }
 
@@ -239,60 +240,49 @@ const cover: CoverType = {
         }
       },
       {
-        init: true,
         querySelectorAll: true,
         content: 'Köp',
         disconnect: false,
       }
     );
 
-    cover.waitFor(
-      '.js-page',
-      (element) => {
-        if (window.location.pathname === '/handla/') {
-          cover.waitFor(
-            '[data-react-component="DynamicYieldRecommendationsBlock"]',
-            (element) => {
-              const props = JSON.parse(element.dataset.reactProps);
-              const id = props.recommendationId;
+    cover.waitFor('.js-page', (element) => {
+      if (window.location.pathname === '/handla/') {
+        cover.waitFor(
+          '[data-react-component="DynamicYieldRecommendationsBlock"]',
+          (element) => {
+            const props = JSON.parse(element.dataset.reactProps);
+            const id = props.recommendationId;
 
-              if (
-                id === 'P04.favourite-products.handla-startpage' ||
-                id === 'P03.popular-products.handla-startpage' ||
-                id === 'Home_page.horizontal_recs1_b2b' ||
-                id === 'home_page.horizontal_recs4_b2b'
-              ) {
-                cover.addIdentifierClasses(element, 'T84');
-                cover.ready(element, 'T84');
-              }
-            },
-            {
-              querySelectorAll: true,
-              init: true,
+            if (
+              id === 'P04.favourite-products.handla-startpage' ||
+              id === 'P03.popular-products.handla-startpage' ||
+              id === 'Home_page.horizontal_recs1_b2b' ||
+              id === 'home_page.horizontal_recs4_b2b'
+            ) {
+              cover.addIdentifierClasses(element, 'T84');
+              cover.ready(element, 'T84');
             }
-          );
-        }
-
-        if (cover.isProductPage()) {
-          cover.waitFor(
-            '[data-list="Complementary Product Recommendation PDP"]',
-            (target) => {
-              element = target.closest('.Grid-cell');
-              if (element) {
-                cover.addIdentifierClasses(element, 'T84');
-                cover.ready(element, 'T84');
-              }
-            },
-            {
-              init: true,
-            }
-          );
-        }
-      },
-      {
-        init: true,
+          },
+          {
+            querySelectorAll: true,
+          }
+        );
       }
-    );
+
+      if (cover.isProductPage()) {
+        cover.waitFor(
+          '[data-list="Complementary Product Recommendation PDP"]',
+          (target) => {
+            element = target.closest('.Grid-cell');
+            if (element) {
+              cover.addIdentifierClasses(element, 'T84');
+              cover.ready(element, 'T84');
+            }
+          }
+        );
+      }
+    });
 
     cover.waitFor(
       '.Swiper-button',
@@ -356,7 +346,6 @@ const cover: CoverType = {
             observer.observe(element);
           },
           {
-            init: true,
             disconnect: true,
           }
         );
@@ -393,7 +382,6 @@ const cover: CoverType = {
       //     },
       //     {
       //       querySelectorAll: true,
-      //       init: true,
       //     }
       //   );
       // }
@@ -420,9 +408,6 @@ const cover: CoverType = {
       //         }
       //         clearTimeout(timeout);
       //       }
-      //     },
-      //     {
-      //       init: true,
       //     }
       //   );
       // }
@@ -438,7 +423,6 @@ const cover: CoverType = {
     //     }
     //   },
     //   {
-    //     init: true,
     //     querySelectorAll: true,
     //   }
     // );
@@ -489,7 +473,6 @@ const cover: CoverType = {
     //     clearTimeout(timeout);
     //   },
     //   {
-    //     init: true,
     //     querySelectorAll: true,
     //     content: 'Köp',
     //   }
