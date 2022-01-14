@@ -291,7 +291,6 @@ const cover: CoverType = {
         cover.ready(element, 'T70');
       },
       {
-        init: false,
         querySelectorAll: true,
       }
     );
