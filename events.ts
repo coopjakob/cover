@@ -29,6 +29,7 @@ interface CoverType {
   addIdentifierClasses: (element: Element, id: string) => void;
   groups: () => any;
   run: () => void;
+  variant: [];
 }
 
 const cover: CoverType = {
@@ -488,6 +489,7 @@ const cover: CoverType = {
     //   }
     // );
   },
+  variant: [],
 };
 
 (() => {
