@@ -303,6 +303,18 @@ const cover: CoverType = {
     });
 
     function pageview() {
+      cover.waitFor(
+        '._hj-1uQd9__MinimizedWidgetMiddle__text',
+        (element) => {
+          element.textContent = 'Tyck till';
+        },
+        {
+          init: false,
+          content: 'Feedback',
+          disconnect: true,
+        }
+      );
+
       if (window.location.pathname.startsWith('/handla/')) {
         cover.waitFor(
           '.SidebarNav--online',
