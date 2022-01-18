@@ -1,1 +1,0 @@
-cover.variant.T70();
