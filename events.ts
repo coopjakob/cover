@@ -155,8 +155,7 @@ const cover: CoverType = {
             method: 'POST',
             headers: {
               'Content-type': 'application/json',
-              'dy-api-key':
-                'edd0e8031ae4fa2ef95fcc77b93aabe708f8af388e520408eaa2d1a866e9345f',
+              'dy-api-key': '',
             },
             body: JSON.stringify({
               user: {
