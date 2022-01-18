@@ -195,8 +195,16 @@ const cover: CoverType = {
     cover.waitFor(
       '.Swiper-button',
       (element) => {
-        cover.addIdentifierClasses(element, 'T70');
         cover.ready(element, 'T70');
+
+        cover.variant['T70'] = () => {
+          const css = document.createElement('style');
+          css.innerHTML = `
+            .Swiper-button {
+              opacity: 1;
+            }`;
+          document.body.append(css);
+        };
       },
       {
         querySelectorAll: true,
