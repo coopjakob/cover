@@ -315,6 +315,16 @@ const cover: CoverType = {
         }
       );
 
+      if (window.location.pathname === '/handla/') {
+        cover.waitFor('.banner_wrapper, .banner_div', (element) => {
+          cover.ready(element, 'T81');
+
+          cover.variant['T81'] = () => {
+            element.style.display = 'none';
+          };
+        });
+      }
+
       if (window.location.pathname.startsWith('/handla/')) {
         cover.waitFor(
           '.SidebarNav--online',
