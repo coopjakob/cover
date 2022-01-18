@@ -188,43 +188,12 @@ const cover: CoverType = {
       }
     });
 
-    cover.waitFor(
-      '.Swiper-button',
-      (element) => {
-        cover.ready(element, 'T70');
-
-        cover.variant['T70'] = () => {
-          const css = document.createElement('style');
-          css.innerHTML = `
-            .Swiper-button {
-              opacity: 1;
-            }`;
-          document.body.append(css);
-        };
-      },
-      {
-        querySelectorAll: true,
-      }
-    );
-
     pageview();
     cover.waitFor('.js-page', () => {
       pageview();
     });
 
     function pageview() {
-      cover.waitFor(
-        '._hj-1uQd9__MinimizedWidgetMiddle__text',
-        (element) => {
-          element.textContent = 'Tyck till';
-        },
-        {
-          init: false,
-          content: 'Feedback',
-          disconnect: true,
-        }
-      );
-
       if (window.location.pathname === '/handla/') {
         cover.waitFor('.banner_wrapper, .banner_div', (element) => {
           cover.ready(element, 'T81');
@@ -233,23 +202,6 @@ const cover: CoverType = {
             element.style.display = 'none';
           };
         });
-      }
-
-      if (window.location.pathname === '/handla/betala/') {
-        cover.waitFor(
-          'h1',
-          (element) => {
-            cover.ready(element, 'T80');
-
-            cover.variant['T80'] = () => {
-              element.textContent = 'Passa på att fylla på...';
-              element.parentElement.lastChild.remove();
-            };
-          },
-          {
-            content: 'Psst! Du har väl inte glömt någonting?',
-          }
-        );
       }
 
       if (window.location.pathname.startsWith('/handla/')) {
@@ -279,7 +231,55 @@ const cover: CoverType = {
           }
         );
       }
-    }
+
+      if (window.location.pathname === '/handla/betala/') {
+        cover.waitFor(
+          'h1',
+          (element) => {
+            cover.ready(element, 'T80');
+
+            cover.variant['T80'] = () => {
+              element.textContent = 'Passa på att fylla på...';
+              element.parentElement.lastChild.remove();
+            };
+          },
+          {
+            content: 'Psst! Du har väl inte glömt någonting?',
+          }
+        );
+      }
+    } // pageview();
+
+    cover.waitFor(
+      '._hj-1uQd9__MinimizedWidgetMiddle__text',
+      (element) => {
+        element.textContent = 'Tyck till';
+      },
+      {
+        init: false,
+        content: 'Feedback',
+        disconnect: true,
+      }
+    );
+
+    cover.waitFor(
+      '.Swiper-button',
+      (element) => {
+        cover.ready(element, 'T70');
+
+        cover.variant['T70'] = () => {
+          const css = document.createElement('style');
+          css.innerHTML = `
+            .Swiper-button {
+              opacity: 1;
+            }`;
+          document.body.append(css);
+        };
+      },
+      {
+        querySelectorAll: true,
+      }
+    );
   },
   variant: [],
 };
