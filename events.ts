@@ -131,7 +131,7 @@ const cover: CoverType = {
     element.classList.add('Experiment', id);
   },
   groups: () => {
-    DYO.getUserObjectsAndVariations();
+    return DYO.getUserObjectsAndVariations();
   },
   run: () => {
     cover.waitFor(
