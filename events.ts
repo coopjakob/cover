@@ -2,6 +2,7 @@ declare const DY: any;
 declare const DYO: any;
 declare const __cmp: any;
 declare const dataLayer: any;
+declare const coopUserSettings: any;
 
 interface CoverType {
   checkDynamicYieldABtestConsent: () => boolean;
@@ -206,6 +207,82 @@ const cover: CoverType = {
       }
 
       if (window.location.pathname.startsWith('/handla/')) {
+        cover.waitFor('span.SidebarNav-headingLink', (element) => {
+          if (element.textContent.includes('Byt till')) {
+            const preheader = document.createElement('div');
+            preheader.classList.add('Preheader');
+            preheader.innerHTML = `
+              <div
+                class="Preheader--container Main-container Main-container--padding Main-container--full"
+                style="margin-left: -8px"
+              >
+                <a class="Preheader--private">Privat</a>
+                <div class="Preheader--divider">|</div>
+                <a class="Preheader--company">Företag</a>
+              </div>
+              `;
+            const wrapper = document.querySelector('header');
+            document.body.prepend(preheader);
+
+            const css = document.createElement('style');
+            css.innerHTML = `
+              .Preheader {
+                height: 36px;
+                background: #f9f8f4;
+                font-size: 10px;
+                color: #333333;
+              }
+              .Preheader--container {
+                display: flex;
+                align-items: center;
+              }
+              .Preheader a {
+                position: relative;
+                padding: 12px 8px;
+              }
+              .Preheader a:hover {
+                color: black;
+                cursor: pointer;
+              }
+              .Preheader--divider {
+                color: rgba(0, 0, 0, 0.2);
+              }
+              .Preheader.is-private a:first-of-type,
+              .Preheader.is-company a:last-of-type {
+                font-weight: bold;
+              }
+              .Preheader.is-private a:first-of-type:after,
+              .Preheader.is-company a:last-of-type:after {
+                background: #005537;
+                content: '';
+                height: 2px;
+                left: 0;
+                margin: 0 8px;
+                position: absolute;
+                bottom: 8px;
+                visibility: visible;
+                width: calc(100% - 16px);
+              }`;
+            document.body.append(css);
+
+            if (element.textContent.includes('Byt till privatkund')) {
+              preheader.classList.add('is-company');
+            } else {
+              preheader.classList.add('is-private');
+            }
+
+            preheader.addEventListener('click', () => {
+              dataLayer.push({
+                event: 'interaction',
+                eventCategory: 'Experiment',
+                eventAction: 'T92-click',
+                eventLabel: '',
+              });
+              element.click();
+            });
+          }
+        });
+
         cover.waitFor(
           '.SidebarNav--online',
           (element) => {
