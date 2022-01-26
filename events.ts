@@ -418,3 +418,15 @@ const cover: CoverType = {
     );
   }
 })();
+
+// Run without specific A/B-test consent (c18593)
+cover.waitFor(
+  '._hj-1uQd9__MinimizedWidgetMiddle__text',
+  (element) => {
+    element.textContent = 'Tyck till';
+  },
+  {
+    content: 'Feedback',
+    disconnect: true,
+  }
+);
