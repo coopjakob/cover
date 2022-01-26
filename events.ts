@@ -1,6 +1,7 @@
 declare const DY: any;
 declare const DYO: any;
 declare const __cmp: any;
+declare const dataLayer: any;
 
 interface CoverType {
   checkDynamicYieldABtestConsent: () => boolean;
@@ -268,6 +269,53 @@ const cover: CoverType = {
         querySelectorAll: true,
       }
     );
+
+    cover.waitFor('[data-test=mobileCategoryTrigger]', (element) => {
+      cover.ready(element, 'T80');
+
+      cover.variant['T80'] = () => {
+        element.style.display = 'none';
+        const wrapper = element.closest(
+          '[data-react-component="EcommerceExtendedHeader"]'
+        );
+        const html = document.createElement('div');
+        html.innerHTML = `
+          <div
+            class="Bar Bar--global Bar--green"
+            style="height: unset; padding-top: 0; padding-left: 1.25rem"
+          >
+            <button class="Button Button--greenLight2 Button--small Button--radius">
+              Kategorier
+              <svg
+                style="vertical-align: middle"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12.6665 6L7.99984 10.6667L3.33317 6"
+                  stroke="#005537"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>`;
+        wrapper.append(html);
+        html.addEventListener('click', () => {
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'Experiment',
+            eventAction: 'T80-click',
+            eventLabel: '',
+          });
+          element.click();
+        });
+      };
+    });
   },
   variant: [],
 };
