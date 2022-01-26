@@ -348,9 +348,9 @@ const cover: CoverType = {
     );
 
     cover.waitFor('[data-test=mobileCategoryTrigger]', (element) => {
-      cover.ready(element, 'T80');
+      cover.ready(element, 'T90');
 
-      cover.variant['T80'] = () => {
+      cover.variant['T90'] = () => {
         element.style.display = 'none';
         const wrapper = element.closest(
           '[data-react-component="EcommerceExtendedHeader"]'
@@ -386,7 +386,7 @@ const cover: CoverType = {
           dataLayer.push({
             event: 'interaction',
             eventCategory: 'Experiment',
-            eventAction: 'T80-click',
+            eventAction: 'T90-click',
             eventLabel: '',
           });
           element.click();
