@@ -419,6 +419,9 @@ const cover: CoverType = {
             eventAction: 'T90-click',
             eventLabel: '',
           });
+          DY.API('event', {
+            name: `T90-click`,
+          });
           element.click();
         });
       };
