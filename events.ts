@@ -352,8 +352,8 @@ const cover: CoverType = {
             (target) => {
               const element = target.closest('.Grid-cell');
               if (element) {
-                cover.ready(element, 'P05');
-                cover.variant['P05'] = () => {
+                cover.ready(element, 'P05.3');
+                cover.variant['P05.3'] = () => {
                   element.remove();
                 };
               }
