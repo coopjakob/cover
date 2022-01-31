@@ -152,23 +152,6 @@ const cover: CoverType = {
       }
     );
 
-    cover.waitFor('.js-page', (element) => {
-      if (cover.isProductPage()) {
-        cover.waitFor(
-          '[data-list="Complementary Product Recommendation PDP"]',
-          (target) => {
-            element = target.closest('.Grid-cell');
-            if (element) {
-              cover.ready(element, 'P05');
-              cover.variant['P05'] = () => {
-                element.remove();
-              };
-            }
-          }
-        );
-      }
-    });
-
     pageview();
     cover.waitFor('.js-page', () => {
       pageview();
@@ -317,6 +300,21 @@ const cover: CoverType = {
             disconnect: true,
           }
         );
+
+        if (cover.isProductPage()) {
+          cover.waitFor(
+            '[data-list="Complementary Product Recommendation PDP"]',
+            (target) => {
+              const element = target.closest('.Grid-cell');
+              if (element) {
+                cover.ready(element, 'P05');
+                cover.variant['P05'] = () => {
+                  element.remove();
+                };
+              }
+            }
+          );
+        }
       }
 
       if (window.location.pathname === '/handla/betala/') {
