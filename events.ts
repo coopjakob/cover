@@ -1,6 +1,8 @@
 declare const DY: any;
 declare const DYO: any;
 declare const __cmp: any;
+declare const dataLayer: any;
+declare const coopUserSettings: any;
 
 interface CoverType {
   checkDynamicYieldABtestConsent: () => boolean;
@@ -150,44 +152,6 @@ const cover: CoverType = {
       }
     );
 
-    cover.waitFor('.js-page', (element) => {
-      if (window.location.pathname === '/handla/') {
-        cover.waitFor(
-          '[data-react-component="DynamicYieldRecommendationsBlock"]',
-          (element) => {
-            const props = JSON.parse(element.dataset.reactProps);
-            const id = props.recommendationId;
-
-            if (
-              id === 'P04.favourite-products.handla-startpage' ||
-              id === 'P03.popular-products.handla-startpage' ||
-              id === 'Home_page.horizontal_recs1_b2b' ||
-              id === 'home_page.horizontal_recs4_b2b'
-            ) {
-              cover.addIdentifierClasses(element, 'T84');
-              cover.ready(element, 'T84');
-            }
-          },
-          {
-            querySelectorAll: true,
-          }
-        );
-      }
-
-      if (cover.isProductPage()) {
-        cover.waitFor(
-          '[data-list="Complementary Product Recommendation PDP"]',
-          (target) => {
-            element = target.closest('.Grid-cell');
-            if (element) {
-              cover.addIdentifierClasses(element, 'T84');
-              cover.ready(element, 'T84');
-            }
-          }
-        );
-      }
-    });
-
     pageview();
     cover.waitFor('.js-page', () => {
       pageview();
@@ -205,6 +169,157 @@ const cover: CoverType = {
       }
 
       if (window.location.pathname.startsWith('/handla/')) {
+        cover.waitFor('.Bar--extendedHeader', (element) => {
+          cover.ready(element, 'T91');
+
+          cover.variant['T91'] = () => {
+            const css = document.createElement('style');
+            css.innerHTML = `
+              .Bar--extendedHeader {
+                background: #f5f3eb!important;
+                display: flex;
+                align-items: center;
+                height: 88px!important;
+              }
+              @media (min-width: 1025px) {
+                .Bar--extendedHeader {
+                  height: 140px!important;
+                }
+              }
+              .Bar-search {
+                filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.05));
+              }
+              .Search-content {
+                border: 0;
+                max-width: 600px;
+                margin: 0 auto;
+              }
+              .Bar-button--visibleOnlyWhenFixed .CartButton-icon {
+                background: #005537;
+                margin-left: 10px;
+              }
+              .js-sidebarTrigger {
+                background: #e0efdd;
+              }
+              .TimeslotPreview-button {
+                background: white;
+              }
+              .TimeslotPreview-info--text,
+              .TimeslotPreview-info--date {
+                color: #005537;
+              }
+            `;
+
+            document.body.append(css);
+          };
+        });
+
+        if (!coopUserSettings.isAuthenticated) {
+          cover.waitFor('span.SidebarNav-headingLink', (element) => {
+            if (element.textContent.includes('Byt till')) {
+              const preheader = document.createElement('div');
+              preheader.classList.add('Preheader');
+              preheader.innerHTML = `
+                <div class="Preheader--container Main-container Main-container--padding Main-container--full">
+                  <a class="Preheader--private">Privat</a>
+                  <div class="Preheader--divider">|</div>
+                  <a class="Preheader--company">Företag</a>
+                </div>`;
+              const wrapper = document.querySelector('header');
+              document.body.prepend(preheader);
+
+              const css = document.createElement('style');
+              css.innerHTML = `
+                .Preheader {
+                  height: 36px;
+                  background: #f9f8f4;
+                  font-size: 10px;
+                  color: #333333;
+                }
+                .Preheader--container {
+                  display: flex;
+                  align-items: center;
+                  margin-left: -8px
+                }
+                .Preheader a {
+                  position: relative;
+                  padding: 12px 8px;
+                }
+                .Preheader a:hover {
+                  color: black;
+                  cursor: pointer;
+                }
+                .Preheader--divider {
+                  color: rgba(0, 0, 0, 0.2);
+                }
+                .Preheader.is-private a:first-of-type,
+                .Preheader.is-company a:last-of-type {
+                  font-weight: bold;
+                }
+                .Preheader.is-private a:first-of-type:after,
+                .Preheader.is-company a:last-of-type:after {
+                  background: #005537;
+                  content: '';
+                  height: 2px;
+                  left: 0;
+                  margin: 0 8px;
+                  position: absolute;
+                  bottom: 8px;
+                  visibility: visible;
+                  width: calc(100% - 16px);
+                }`;
+              document.body.append(css);
+
+              if (element.textContent.includes('Byt till privatkund')) {
+                preheader.classList.add('is-company');
+              } else {
+                preheader.classList.add('is-private');
+              }
+
+              preheader.addEventListener('click', () => {
+                dataLayer.push({
+                  event: 'interaction',
+                  eventCategory: 'Experiment',
+                  eventAction: 'T92-click',
+                  eventLabel: '',
+                });
+                element.click();
+              });
+            }
+          });
+        }
+
+        if (
+          window.innerWidth >= 1025 &&
+          (cover.isCategoryPage() ||
+            window.location.pathname.startsWith('/handla/sok/'))
+        ) {
+          cover.waitFor(
+            '.ItemTeaser',
+            (element) => {
+              // clientWidth = card width
+              if (element.clientWidth < 200) {
+                cover.ready(element, 'T87');
+
+                cover.variant['T87'] = () => {
+                  const css = document.createElement('style');
+                  css.innerHTML = `
+                    .Grid--product>.Grid-cell {
+                      flex-basis: 198px;
+                      flex-grow: 1;
+                    }`;
+
+                  document.body.append(css);
+                };
+              }
+            },
+            {
+              // only one element is needed, change is added as css
+              disconnect: true,
+            }
+          );
+        }
+
         cover.waitFor(
           '.SidebarNav--online',
           (element) => {
@@ -230,6 +345,21 @@ const cover: CoverType = {
             disconnect: true,
           }
         );
+
+        if (cover.isProductPage()) {
+          cover.waitFor(
+            '[data-list="P05_B2C_Complementary_Products_PDP"]',
+            (target) => {
+              const element = target.closest('.Grid-cell');
+              if (element) {
+                cover.ready(element, 'P05.3');
+                cover.variant['P05.3'] = () => {
+                  element.remove();
+                };
+              }
+            }
+          );
+        }
       }
 
       if (window.location.pathname === '/handla/betala/') {
@@ -239,7 +369,7 @@ const cover: CoverType = {
             cover.ready(element, 'T80');
 
             cover.variant['T80'] = () => {
-              element.textContent = 'Passa på att fylla på...';
+              element.textContent = 'Behöver du fylla på?';
               element.parentElement.lastChild.remove();
             };
           },
@@ -268,6 +398,56 @@ const cover: CoverType = {
         querySelectorAll: true,
       }
     );
+
+    cover.waitFor('[data-test=mobileCategoryTrigger]', (element) => {
+      cover.ready(element, 'T90');
+
+      cover.variant['T90'] = () => {
+        element.style.display = 'none';
+        const wrapper = element.closest(
+          '[data-react-component="EcommerceExtendedHeader"]'
+        );
+        const html = document.createElement('div');
+        html.innerHTML = `
+          <div
+            class="Bar Bar--global Bar--green"
+            style="height: unset; padding-top: 0; padding-left: 1.25rem"
+          >
+            <button class="Button Button--greenLight2 Button--small Button--radius">
+              Kategorier
+              <svg
+                style="vertical-align: middle"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12.6665 6L7.99984 10.6667L3.33317 6"
+                  stroke="#005537"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>`;
+        wrapper.append(html);
+        html.addEventListener('click', () => {
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'Experiment',
+            eventAction: 'T90-click',
+            eventLabel: '',
+          });
+          DY.API('event', {
+            name: `T90-click`,
+          });
+          element.click();
+        });
+      };
+    });
   },
   variant: [],
 };
@@ -295,3 +475,16 @@ const cover: CoverType = {
     );
   }
 })();
+
+// Run without specific A/B-test consent (c18593)
+const css = document.createElement('style');
+css.innerHTML = `
+  ._hj-1uQd9__MinimizedWidgetMiddle__text {
+    visibility: hidden;
+  }
+  ._hj-1uQd9__MinimizedWidgetMiddle__text::after {
+    content: 'Tyck till';
+    visibility: visible;
+    display: block;
+  }`;
+document.body.append(css);
