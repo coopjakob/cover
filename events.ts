@@ -324,7 +324,7 @@ const cover: CoverType = {
             cover.ready(element, 'T80');
 
             cover.variant['T80'] = () => {
-              element.textContent = 'Passa på att fylla på...';
+              element.textContent = 'Behöver du fylla på?';
               element.parentElement.lastChild.remove();
             };
           },
