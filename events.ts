@@ -348,7 +348,7 @@ const cover: CoverType = {
 
         if (cover.isProductPage()) {
           cover.waitFor(
-            '[data-list="Complementary Product Recommendation PDP"]',
+            '[data-list="P05_B2C_Complementary_Products_PDP"]',
             (target) => {
               const element = target.closest('.Grid-cell');
               if (element) {
