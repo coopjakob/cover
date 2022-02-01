@@ -136,22 +136,6 @@ const cover: CoverType = {
     return DYO.getUserObjectsAndVariations();
   },
   run: () => {
-    cover.waitFor(
-      '.Button.Button--green.Button--medium.Button--full.Button--radius.u-hidden',
-      (element) => {
-        // search will include quantity on load
-        if (element.parentElement.querySelector('input').value === '0') {
-          cover.addIdentifierClasses(element, 'T83');
-          cover.ready(element, 'T83');
-        }
-      },
-      {
-        querySelectorAll: true,
-        content: 'Köp',
-        disconnect: false,
-      }
-    );
-
     pageview();
     cover.waitFor('.js-page', () => {
       pageview();
