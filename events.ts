@@ -258,14 +258,14 @@ const cover: CoverType = {
         if (cover.isProductPage()) {
           cover.waitFor(
             '[data-list="P05_B2C_Complementary_Products_PDP"]',
-            (target) => {
-              const element = target.closest('.Grid-cell');
-              if (element) {
-                cover.ready(element, 'P05.3');
-                cover.variant['P05.3'] = () => {
-                  element.remove();
-                };
-              }
+            (element) => {
+              cover.ready(element, 'P05.3');
+              cover.variant['P05.3'] = () => {
+                const title = element.previousElementSibling;
+
+                element.remove();
+                title.remove();
+              };
             }
           );
         }
