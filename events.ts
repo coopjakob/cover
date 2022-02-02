@@ -207,7 +207,7 @@ const cover: CoverType = {
             '.ItemTeaser',
             (element) => {
               // clientWidth = card width
-              if (element.clientWidth < 200) {
+              if (element.clientWidth < 198) {
                 cover.ready(element, 'T87');
 
                 cover.variant['T87'] = () => {
