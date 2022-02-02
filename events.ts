@@ -263,8 +263,8 @@ const cover: CoverType = {
               cover.variant['P05.3'] = () => {
                 const title = element.previousElementSibling;
 
-                element.remove();
-                title.remove();
+                element.style.display = 'none';
+                title.style.display = 'none';
               };
             }
           );
