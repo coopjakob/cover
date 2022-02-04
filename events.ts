@@ -260,20 +260,21 @@ const cover: CoverType = {
           cover.waitFor(
             '[data-list="P05_B2C_Complementary_Products_PDP"]',
             (element) => {
+              cover.ready(element, 'P05.3');
+
+              // Always reset with current element
+              cover.variant['P05.3'] = () => {
+                cover.variantHistory.push('P05.3');
+
+                element.classList.add('u-hidden');
+
+                const title = element.previousElementSibling;
+                title.classList.remove('u-flex');
+                title.classList.add('u-hidden');
+              };
+
               if (cover.variantHistory.includes('P05.3')) {
                 cover.variant['P05.3']();
-              } else {
-                cover.ready(element, 'P05.3');
-
-                cover.variant['P05.3'] = () => {
-                  cover.variantHistory.push('P05.3');
-
-                  element.classList.add('u-hidden');
-
-                  const title = element.previousElementSibling;
-                  title.classList.remove('u-flex');
-                  title.classList.add('u-hidden');
-                };
               }
             }
           );
