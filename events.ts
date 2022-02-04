@@ -263,8 +263,10 @@ const cover: CoverType = {
               cover.variant['P05.3'] = () => {
                 const title = element.previousElementSibling;
 
-                element.remove();
-                title.remove();
+                element.classList.add('u-hidden');
+
+                title.classList.remove('u-flex');
+                title.classList.add('u-hidden');
               };
             }
           );
