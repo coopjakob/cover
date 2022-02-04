@@ -25,6 +25,7 @@ interface CoverType {
   groups: () => any;
   run: () => void;
   variant: [];
+  variantHistory: Array<string>;
 }
 
 const cover: CoverType = {
@@ -259,15 +260,21 @@ const cover: CoverType = {
           cover.waitFor(
             '[data-list="P05_B2C_Complementary_Products_PDP"]',
             (element) => {
-              cover.ready(element, 'P05.3');
-              cover.variant['P05.3'] = () => {
-                const title = element.previousElementSibling;
+              if (cover.variantHistory.includes('P05.3')) {
+                cover.variant['P05.3']();
+              } else {
+                cover.ready(element, 'P05.3');
 
-                element.classList.add('u-hidden');
+                cover.variant['P05.3'] = () => {
+                  cover.variantHistory.push('P05.3');
 
-                title.classList.remove('u-flex');
-                title.classList.add('u-hidden');
-              };
+                  element.classList.add('u-hidden');
+
+                  const title = element.previousElementSibling;
+                  title.classList.remove('u-flex');
+                  title.classList.add('u-hidden');
+                };
+              }
             }
           );
         }
@@ -361,6 +368,7 @@ const cover: CoverType = {
     });
   },
   variant: [],
+  variantHistory: [],
 };
 
 (() => {
