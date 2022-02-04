@@ -19,6 +19,7 @@ interface CoverType {
   ) => void;
   isCategoryPage: () => boolean;
   isProductPage: (path?: string) => boolean;
+  variantReady: (id: string, callback: () => void) => void;
   ready: (element: Element, id: string) => void;
   readyHistory: Array<string>;
   addIdentifierClasses: (element: Element, id: string) => void;
@@ -116,6 +117,26 @@ const cover: CoverType = {
       Number.isInteger(parseFloat(path.split('-').pop()))
     ) {
       return true;
+    }
+  },
+  variantReady: (id, callback) => {
+    // Always reset with current element
+    cover.variant[id] = () => {
+      callback();
+
+      cover.variantHistory.push(id);
+    };
+
+    if (!cover.readyHistory.includes(id)) {
+      DY.API('event', {
+        name: `cover.ready ${id}`,
+      });
+
+      cover.readyHistory.push(id);
+    }
+
+    if (cover.variantHistory.includes(id)) {
+      cover.variant[id]();
     }
   },
   ready: (element, id) => {
@@ -260,22 +281,13 @@ const cover: CoverType = {
           cover.waitFor(
             '[data-list="P05_B2C_Complementary_Products_PDP"]',
             (element) => {
-              cover.ready(element, 'P05.3');
-
-              // Always reset with current element
-              cover.variant['P05.3'] = () => {
-                cover.variantHistory.push('P05.3');
-
+              cover.variantReady('P05.3', () => {
                 element.classList.add('u-hidden');
 
                 const title = element.previousElementSibling;
                 title.classList.remove('u-flex');
                 title.classList.add('u-hidden');
-              };
-
-              if (cover.variantHistory.includes('P05.3')) {
-                cover.variant['P05.3']();
-              }
+              });
             }
           );
         }
