@@ -233,6 +233,7 @@ const cover: CoverType = {
                     .Grid--product>.Grid-cell {
                       flex-basis: 198px;
                       flex-grow: 1;
+                      max-width: 264px;
                     }`;
 
                   document.body.append(css);
