@@ -187,11 +187,6 @@ const cover: CoverType = {
                 align-items: center;
                 height: 88px!important;
               }
-              @media (min-width: 1025px) {
-                .Bar--extendedHeader {
-                  height: 140px!important;
-                }
-              }
               .Bar-search {
                 filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.05));
               }
@@ -238,6 +233,7 @@ const cover: CoverType = {
                     .Grid--product>.Grid-cell {
                       flex-basis: 198px;
                       flex-grow: 1;
+                      max-width: 264px;
                     }`;
 
                   document.body.append(css);
