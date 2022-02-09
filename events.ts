@@ -163,7 +163,7 @@ const cover: CoverType = {
         '.SidebarNav--online',
         (element) => {
           const selectedItems = element.querySelectorAll(
-            '[data-id="195873"], [data-id="199770"], [data-id="203149"]'
+            '[data-id="91162"], [data-id="90738"], [data-id="162750"], [data-id="195873"], [data-id="199770"], [data-id="203149"]'
           );
 
           const observer = new IntersectionObserver((entries, observer) => {
@@ -329,55 +329,58 @@ const cover: CoverType = {
       }
     );
 
-    cover.waitFor('[data-test=mobileCategoryTrigger]', (element) => {
-      cover.ready(element, 'T90');
+    if (window.location.pathname == '/') {
+      cover.waitFor(
+        '[data-react-component="DynamicYieldRecommendationsBlock"]',
+        (element) => {
+          const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(async (entry) => {
+              if (entry.isIntersecting) {
+                observer.disconnect();
 
-      cover.variant['T90'] = () => {
-        element.style.display = 'none';
-        const wrapper = element.closest(
-          '[data-react-component="EcommerceExtendedHeader"]'
-        );
-        const html = document.createElement('div');
-        html.innerHTML = `
-          <div
-            class="Bar Bar--global Bar--green"
-            style="height: unset; padding-top: 0; padding-left: 1.25rem"
-          >
-            <button class="Button Button--greenLight2 Button--small Button--radius">
-              Kategorier
-              <svg
-                style="vertical-align: middle"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12.6665 6L7.99984 10.6667L3.33317 6"
-                  stroke="#005537"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
-          </div>`;
-        wrapper.append(html);
-        html.addEventListener('click', () => {
-          dataLayer.push({
-            event: 'interaction',
-            eventCategory: 'Experiment',
-            eventAction: 'T90-click',
-            eventLabel: '',
+                cover.variantReady('T88', () => {
+                  const html = document.createElement('div');
+                  html.innerHTML = `
+                    <form action="https://www.coop.se/handla/sok/" method="get">
+                      <div
+                        class="Search-content"
+                        style="border-radius: 25px; max-width: 600px; margin: 15px auto 0 auto"
+                      >
+                        <button
+                          type="submit"
+                          class="Search-icon u-outlineSolidBase2 u-outlineInside"
+                          aria-label="Sök"
+                        >
+                          <svg role="img" title="Sök">
+                            <use
+                              xmlns:xlink="http://www.w3.org/1999/xlink"
+                              xlink:href="/assets/build/sprite.svg?v=220203.1347#search-rounded"
+                            ></use>
+                          </svg>
+                        </button>
+                        <input
+                          name="q"
+                          class="Search-input"
+                          type="search"
+                          placeholder="Sök bland tusentals varor"
+                        />
+                      </div>
+                    </form>
+                  `;
+
+                  const wrapper = element.closest('.Section');
+                  wrapper.append(html);
+                });
+              }
+            });
           });
-          DY.API('event', {
-            name: `T90-click`,
-          });
-          element.click();
-        });
-      };
-    });
+          observer.observe(element);
+        },
+        {
+          disconnect: true,
+        }
+      );
+    }
   },
   variant: [],
   variantHistory: [],
