@@ -163,7 +163,7 @@ const cover: CoverType = {
         '.SidebarNav--online',
         (element) => {
           const selectedItems = element.querySelectorAll(
-            '[data-id="195873"], [data-id="199770"], [data-id="203149"]'
+            '[data-id="91162"], [data-id="90738"], [data-id="162750"], [data-id="195873"], [data-id="199770"], [data-id="203149"]'
           );
 
           const observer = new IntersectionObserver((entries, observer) => {
