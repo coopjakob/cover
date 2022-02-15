@@ -158,19 +158,28 @@ const cover: CoverType = {
     return DYO.getUserObjectsAndVariations();
   },
   run: () => {
-    if (window.innerWidth >= 1078) {
-      cover.waitFor(
-        '[data-test="mainnav-handla"]',
-        (element) => {
-          cover.variantReady('T102', () => {
-            element.firstElementChild.textContent = 'Handla Online';
-          });
-        },
-        {
-          disconnect: true,
-        }
-      );
-    }
+    cover.waitFor(
+      '[data-test="mainnav-handla"]',
+      (element) => {
+        cover.variantReady('T102', () => {
+          const css = document.createElement('style');
+          css.innerHTML = `
+              @media only screen and (min-width: 1025px) and (max-width: 1078px) {
+                .Navigation--primaryGreen .Navigation-item a {
+                  padding: 0 1rem;
+                }
+              }
+            `;
+          document.body.append(css);
+
+          element.firstElementChild.textContent = 'Handla Online';
+        });
+      },
+      {
+        disconnect: true,
+      }
+    );
+
     if (window.location.pathname.startsWith('/handla/')) {
       cover.waitFor(
         '.SidebarNav--online',
