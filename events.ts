@@ -172,7 +172,7 @@ const cover: CoverType = {
             `;
           document.body.append(css);
 
-          element.firstElementChild.textContent = 'Handla Online';
+          element.firstElementChild.textContent = 'Handla online';
         });
       },
       {
