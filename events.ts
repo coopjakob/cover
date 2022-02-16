@@ -432,9 +432,10 @@ const cover: CoverType = {
   }
 })();
 
-// Run without specific A/B-test consent (c18593)
-const css = document.createElement('style');
-css.innerHTML = `
+(() => {
+  // Run without specific A/B-test consent (c18593)
+  const css = document.createElement('style');
+  css.innerHTML = `
   ._hj-1uQd9__MinimizedWidgetMiddle__text {
     visibility: hidden;
   }
@@ -443,4 +444,5 @@ css.innerHTML = `
     visibility: visible;
     display: block;
   }`;
-document.body.append(css);
+  document.body.append(css);
+})();
