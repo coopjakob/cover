@@ -405,12 +405,11 @@ const cover: CoverType = {
     }
 
     if (window.location.pathname === '/handla/betala/') {
-      // [data-component-id="EditOrderModeNotice"]
       cover.waitFor(
-        '.u-textCenter.u-textSmall.u-colorGreenDark.u-bgYellowLight.u-paddingVxsm.u-paddingHxsm.u-posRelative.u-lineHeightLg',
+        '[data-component-id="EditOrderModeNotice"]',
         () => {
           cover.waitFor(
-            '.Grid-cell.u-md-size1of4.u-lg-size1of3',
+            '[data-component-id="Step2RecommendationsGrid"]',
             () => {
               cover.variantReady('P09', () => {
                 const css = document.createElement('style');
