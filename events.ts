@@ -158,6 +158,28 @@ const cover: CoverType = {
     return DYO.getUserObjectsAndVariations();
   },
   run: () => {
+    cover.waitFor(
+      '[data-test="mainnav-handla"]',
+      (element) => {
+        cover.variantReady('T102', () => {
+          const css = document.createElement('style');
+          css.innerHTML = `
+              @media only screen and (min-width: 1025px) and (max-width: 1078px) {
+                .Navigation--primaryGreen .Navigation-item a {
+                  padding: 0 1rem;
+                }
+              }
+            `;
+          document.body.append(css);
+
+          element.firstElementChild.textContent = 'Handla online';
+        });
+      },
+      {
+        disconnect: true,
+      }
+    );
+
     if (window.location.pathname.startsWith('/handla/')) {
       cover.waitFor(
         '.SidebarNav--online',
@@ -381,6 +403,34 @@ const cover: CoverType = {
         }
       );
     }
+
+    if (window.location.pathname === '/handla/betala/') {
+      cover.waitFor(
+        '[data-component-id="EditOrderModeNotice"]',
+        () => {
+          cover.waitFor(
+            '[data-component-id="Step2RecommendationsGrid"]',
+            () => {
+              cover.variantReady('P09', () => {
+                const css = document.createElement('style');
+                css.innerHTML = `
+                  [data-component-id="Step2RecommendationsGrid"] {
+                    display: none;
+                  }
+                `;
+                document.body.append(css);
+              });
+            },
+            {
+              disconnect: true,
+            }
+          );
+        },
+        {
+          disconnect: true,
+        }
+      );
+    }
   },
   variant: [],
   variantHistory: [],
@@ -410,9 +460,10 @@ const cover: CoverType = {
   }
 })();
 
-// Run without specific A/B-test consent (c18593)
-const css = document.createElement('style');
-css.innerHTML = `
+(() => {
+  // Run without specific A/B-test consent (c18593)
+  const css = document.createElement('style');
+  css.innerHTML = `
   ._hj-1uQd9__MinimizedWidgetMiddle__text {
     visibility: hidden;
   }
@@ -421,4 +472,5 @@ css.innerHTML = `
     visibility: visible;
     display: block;
   }`;
-document.body.append(css);
+  document.body.append(css);
+})();
