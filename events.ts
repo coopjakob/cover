@@ -414,7 +414,7 @@ const cover: CoverType = {
               cover.variantReady('P09', () => {
                 const css = document.createElement('style');
                 css.innerHTML = `
-                  .Grid-cell.u-md-size1of4.u-lg-size1of3 {
+                  [data-component-id="Step2RecommendationsGrid"] {
                     display: none;
                   }
                 `;
