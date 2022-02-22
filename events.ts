@@ -436,7 +436,7 @@ const cover: CoverType = {
       cover.waitFor(
         '.Card-text',
         (target) => {
-          const element = target.closest('.Card--myCoopBanner');
+          const element: HTMLElement = target.closest('.Card--myCoopBanner');
 
           if (element) {
             cover.variantReady('T82', () => {
@@ -480,8 +480,8 @@ const cover: CoverType = {
                   name: 'T82-click',
                 });
                 setTimeout(() => {
-                  location.href = event.currentTarget.getAttribute('href');
-                }, 200);
+                  location.href = (<HTMLAnchorElement>event.currentTarget).href;
+                }, 100);
               });
           }
         },
