@@ -430,6 +430,12 @@ const cover: CoverType = {
           disconnect: true,
         }
       );
+      cover.waitFor('.SubscriptionWidget-text', (element) => {
+        cover.variantReady('T101', () => {
+          element.innerText =
+            'Effektivisera vardagen! Prenumerera på din varukorg och få tid över till annat.';
+        });
+      });
     }
 
     if (window.location.pathname === '/mitt-coop/') {
