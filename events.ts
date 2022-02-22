@@ -467,9 +467,9 @@ const cover: CoverType = {
             });
 
             element
-              .querySelector('.Button')
+              .querySelector('a.Button')
               .addEventListener('click', (event) => {
-                event.preventDefault;
+                event.preventDefault();
                 dataLayer.push({
                   event: 'interaction',
                   eventCategory: 'Experiment',
@@ -480,7 +480,7 @@ const cover: CoverType = {
                   name: 'T82-click',
                 });
                 setTimeout(() => {
-                  location.href = (<HTMLAnchorElement>event.currentTarget).href;
+                  location.href = (<HTMLAnchorElement>event.target).href;
                 }, 100);
               });
           }
