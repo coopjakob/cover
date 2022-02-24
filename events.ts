@@ -440,7 +440,7 @@ const cover: CoverType = {
         '.Button',
         (element) => {
           if (location.hash === '#/varukorg') {
-            cover.variantReady('P100', () => {
+            cover.variantReady('T100', () => {
               element.click();
 
               const container = element.closest(
