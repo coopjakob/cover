@@ -436,6 +436,38 @@ const cover: CoverType = {
             'Effektivisera vardagen! Prenumerera på din varukorg och få tid över till annat.';
         });
       });
+      cover.waitFor(
+        '.Button',
+        (element) => {
+          if (location.hash === '#/varukorg') {
+            cover.variantReady('P100', () => {
+              element.click();
+
+              const container = element.closest(
+                '.u-paddingAmd.u-borderBottom.u-flex'
+              );
+              element.remove();
+              const wrapper = container.parentElement;
+              const cart = document.querySelector('.Cart-group');
+
+              wrapper.insertBefore(container, cart);
+
+              const css = document.createElement('style');
+              css.innerHTML = `
+                .Checkbox label:before {
+                  border-radius: 0;
+                  transition: none;
+                }
+              `;
+              document.body.append(css);
+            });
+          }
+        },
+        {
+          querySelectorAll: true,
+          content: 'Ändra',
+        }
+      );
     }
 
     if (window.location.pathname === '/mitt-coop/') {
