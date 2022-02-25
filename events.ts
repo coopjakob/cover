@@ -313,23 +313,6 @@ const cover: CoverType = {
           );
         }
       }
-
-      if (window.location.pathname === '/handla/betala/') {
-        cover.waitFor(
-          'h1',
-          (element) => {
-            cover.ready(element, 'T80');
-
-            cover.variant['T80'] = () => {
-              element.textContent = 'Behöver du fylla på?';
-              element.parentElement.lastChild.remove();
-            };
-          },
-          {
-            content: 'Psst! Du har väl inte glömt någonting?',
-          }
-        );
-      }
     } // pageview();
 
     cover.waitFor(
