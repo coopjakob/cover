@@ -181,9 +181,9 @@ const cover: CoverType = {
           event.preventDefault();
           dataLayer.push({
             event: 'interaction',
-            eventCategory: 'Experiment',
-            eventAction: 'T102-click',
-            eventLabel: '',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'handla-online',
           });
           DY.API('event', {
             name: 'T102-click',
