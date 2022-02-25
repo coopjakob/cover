@@ -316,6 +316,30 @@ const cover: CoverType = {
           );
         }
 
+        if (
+          cover.isCategoryPage ||
+          window.location.pathname === '/handla/sok/'
+        ) {
+          cover.waitFor(
+            '.FilterView-filterToggler',
+            () => {
+              cover.variant['T103'] = () => {
+                const css = document.createElement('style');
+                css.innerHTML = `
+                  .FilterView-filterToggler {
+                    display: none;
+                  }
+                `;
+                document.body.append(css);
+              };
+            },
+            {
+              // only one element is needed, change is added as css
+              disconnect: true,
+            }
+          );
+        }
+
         if (cover.isProductPage()) {
           cover.waitFor(
             '[data-list="P05_B2C_Complementary_Products_PDP"]',
