@@ -161,6 +161,8 @@ const cover: CoverType = {
     cover.waitFor(
       '[data-test="mainnav-handla"]',
       (element) => {
+        const link = element.firstElementChild;
+
         cover.variantReady('T102', () => {
           const css = document.createElement('style');
           css.innerHTML = `
@@ -172,7 +174,23 @@ const cover: CoverType = {
             `;
           document.body.append(css);
 
-          element.firstElementChild.textContent = 'Handla online';
+          link.textContent = 'Handla online';
+        });
+
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'Experiment',
+            eventAction: 'T102-click',
+            eventLabel: '',
+          });
+          DY.API('event', {
+            name: 'T102-click',
+          });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
         });
       },
       {
