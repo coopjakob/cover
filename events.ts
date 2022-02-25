@@ -185,9 +185,6 @@ const cover: CoverType = {
             eventAction: 'click',
             eventLabel: 'handla-online',
           });
-          DY.API('event', {
-            name: 'T102-click',
-          });
           setTimeout(() => {
             location.href = (<HTMLAnchorElement>event.target).href;
           }, 100);
