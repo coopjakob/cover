@@ -453,14 +453,44 @@ const cover: CoverType = {
 
               wrapper.insertBefore(container, cart);
 
+              // Will be added again if you go back and forth
               const css = document.createElement('style');
               css.innerHTML = `
                 .Checkbox label:before {
                   border-radius: 0;
                   transition: none;
                 }
+                div.Grid-cell.u-md-size3of4.u-lg-size2of3 p.u-marginVz.u-lineHeightLarge {
+                  display: none;
+                }
+                .Checkbox-label {
+                  font-weight: normal;
+                }
               `;
               document.body.append(css);
+
+              const checkbox = wrapper.querySelector('div.Checkbox');
+
+              const header = document.createElement('div');
+              header.innerHTML = 'Om en vara är tillfälligt slut';
+              header.style.fontWeight = 'bold';
+              header.style.paddingBottom = '8px';
+
+              checkbox.parentElement.insertBefore(header, checkbox);
+
+              const label = checkbox.querySelector('.Checkbox-label');
+              label.innerHTML = 'Tillåt ersättningsvaror för alla varor';
+
+              cover.waitFor(
+                '.Checkbox-label',
+                (element) => {
+                  element.innerText = 'Ersätt vara';
+                },
+                {
+                  querySelectorAll: true,
+                  content: 'Ersätt varan om den tar slut',
+                }
+              );
             });
           }
         },
