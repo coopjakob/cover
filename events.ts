@@ -323,7 +323,7 @@ const cover: CoverType = {
           cover.waitFor(
             '.FilterView-filterToggler',
             () => {
-              cover.variant['T103'] = () => {
+              cover.variantReady('T103', () => {
                 const css = document.createElement('style');
                 css.innerHTML = `
                   .FilterView-filterToggler {
@@ -331,7 +331,7 @@ const cover: CoverType = {
                   }
                 `;
                 document.body.append(css);
-              };
+              });
             },
             {
               // only one element is needed, change is added as css
