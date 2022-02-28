@@ -465,6 +465,42 @@ const cover: CoverType = {
         '.Button',
         (element) => {
           if (location.hash === '#/varukorg') {
+            element.addEventListener(
+              'click',
+              () => {
+                console.log('datalayer');
+                dataLayer.push({
+                  event: 'interaction',
+                  eventCategory: 'experiment',
+                  eventAction: 'click',
+                  eventLabel: 'replacement-change',
+                });
+
+                const checkboxes = document.querySelectorAll('.Checkbox-input');
+
+                checkboxes.forEach((checkbox) => {
+                  console.log('add', checkbox);
+                  checkbox.addEventListener('click', pushStats);
+                });
+
+                function pushStats() {
+                  console.log('datalayer');
+                  dataLayer.push({
+                    event: 'interaction',
+                    eventCategory: 'experiment',
+                    eventAction: 'click',
+                    eventLabel: 'replacement-items',
+                  });
+
+                  checkboxes.forEach((checkbox) => {
+                    console.log('remove', checkbox);
+                    checkbox.removeEventListener('click', pushStats);
+                  });
+                }
+              },
+              { once: true }
+            );
+
             cover.variantReady('T100', () => {
               element.click();
 
