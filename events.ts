@@ -161,6 +161,8 @@ const cover: CoverType = {
     cover.waitFor(
       '[data-test="mainnav-handla"]',
       (element) => {
+        const link = element.firstElementChild;
+
         cover.variantReady('T102', () => {
           const css = document.createElement('style');
           css.innerHTML = `
@@ -172,7 +174,23 @@ const cover: CoverType = {
             `;
           document.body.append(css);
 
-          element.firstElementChild.textContent = 'Handla online';
+          link.textContent = 'Handla online';
+        });
+
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'handla-online',
+          });
+          DY.API('event', {
+            name: 'T102-click',
+          });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
         });
       },
       {
@@ -298,6 +316,30 @@ const cover: CoverType = {
           );
         }
 
+        if (
+          cover.isCategoryPage ||
+          window.location.pathname === '/handla/sok/'
+        ) {
+          cover.waitFor(
+            '.FilterView-filterToggler',
+            () => {
+              cover.variantReady('T103', () => {
+                const css = document.createElement('style');
+                css.innerHTML = `
+                  .FilterView-filterToggler {
+                    display: none;
+                  }
+                `;
+                document.body.append(css);
+              });
+            },
+            {
+              // only one element is needed, change is added as css
+              disconnect: true,
+            }
+          );
+        }
+
         if (cover.isProductPage()) {
           cover.waitFor(
             '[data-list="P05_B2C_Complementary_Products_PDP"]',
@@ -312,23 +354,6 @@ const cover: CoverType = {
             }
           );
         }
-      }
-
-      if (window.location.pathname === '/handla/betala/') {
-        cover.waitFor(
-          'h1',
-          (element) => {
-            cover.ready(element, 'T80');
-
-            cover.variant['T80'] = () => {
-              element.textContent = 'Behöver du fylla på?';
-              element.parentElement.lastChild.remove();
-            };
-          },
-          {
-            content: 'Psst! Du har väl inte glömt någonting?',
-          }
-        );
       }
     } // pageview();
 
@@ -436,6 +461,104 @@ const cover: CoverType = {
             'Effektivisera vardagen! Prenumerera på din varukorg och få tid över till annat.';
         });
       });
+      cover.waitFor(
+        '.Button',
+        (element) => {
+          if (location.hash === '#/varukorg') {
+            element.addEventListener(
+              'click',
+              () => {
+                console.log('datalayer');
+                dataLayer.push({
+                  event: 'interaction',
+                  eventCategory: 'experiment',
+                  eventAction: 'click',
+                  eventLabel: 'replacement-change',
+                });
+
+                const checkboxes = document.querySelectorAll('.Checkbox-input');
+
+                checkboxes.forEach((checkbox) => {
+                  console.log('add', checkbox);
+                  checkbox.addEventListener('click', pushStats);
+                });
+
+                function pushStats() {
+                  console.log('datalayer');
+                  dataLayer.push({
+                    event: 'interaction',
+                    eventCategory: 'experiment',
+                    eventAction: 'click',
+                    eventLabel: 'replacement-items',
+                  });
+
+                  checkboxes.forEach((checkbox) => {
+                    console.log('remove', checkbox);
+                    checkbox.removeEventListener('click', pushStats);
+                  });
+                }
+              },
+              { once: true }
+            );
+
+            cover.variantReady('T100', () => {
+              element.click();
+
+              const container = element.closest(
+                '.u-paddingAmd.u-borderBottom.u-flex'
+              );
+              element.remove();
+              const wrapper = container.parentElement;
+              const cart = document.querySelector('.Cart-group');
+
+              wrapper.insertBefore(container, cart);
+
+              // Will be added again if you go back and forth
+              const css = document.createElement('style');
+              css.innerHTML = `
+                .Checkbox label:before {
+                  border-radius: 0;
+                  transition: none;
+                }
+                div.Grid-cell.u-md-size3of4.u-lg-size2of3 p.u-marginVz.u-lineHeightLarge {
+                  display: none;
+                }
+                .Checkbox-label {
+                  font-weight: normal;
+                }
+              `;
+              document.body.append(css);
+
+              const checkbox = wrapper.querySelector('div.Checkbox');
+
+              const header = document.createElement('div');
+              header.innerHTML = 'Om en vara är tillfälligt slut';
+              header.style.fontWeight = 'bold';
+              header.style.paddingBottom = '8px';
+
+              checkbox.parentElement.insertBefore(header, checkbox);
+
+              const label = checkbox.querySelector('.Checkbox-label');
+              label.innerHTML = 'Tillåt ersättningsvaror för alla varor';
+
+              cover.waitFor(
+                '.Checkbox-label',
+                (element) => {
+                  element.innerText = 'Ersätt vara';
+                },
+                {
+                  querySelectorAll: true,
+                  content: 'Ersätt varan om den tar slut',
+                }
+              );
+            });
+          }
+        },
+        {
+          querySelectorAll: true,
+          content: 'Ändra',
+        }
+      );
     }
 
     if (window.location.pathname === '/mitt-coop/') {
