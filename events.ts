@@ -476,12 +476,15 @@ const cover: CoverType = {
                   eventLabel: 'replacement-change',
                 });
 
-                const checkboxes = document.querySelectorAll('.Checkbox-input');
+                setTimeout(() => {
+                  const checkboxes =
+                    document.querySelectorAll('.Checkbox-input');
 
-                checkboxes.forEach((checkbox) => {
-                  console.log('add', checkbox);
-                  checkbox.addEventListener('click', pushStats);
-                });
+                  checkboxes.forEach((checkbox) => {
+                    console.log('add', checkbox);
+                    checkbox.addEventListener('click', pushStats);
+                  });
+                }, 100);
 
                 function pushStats() {
                   console.log('datalayer');
