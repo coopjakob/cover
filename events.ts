@@ -468,7 +468,6 @@ const cover: CoverType = {
             element.addEventListener(
               'click',
               () => {
-                console.log('datalayer');
                 dataLayer.push({
                   event: 'interaction',
                   eventCategory: 'experiment',
@@ -482,13 +481,11 @@ const cover: CoverType = {
                   checkboxes = document.querySelectorAll('.Checkbox-input');
 
                   checkboxes.forEach((checkbox) => {
-                    console.log('add', checkbox);
                     checkbox.addEventListener('click', pushStats);
                   });
                 }, 100);
 
                 function pushStats() {
-                  console.log('datalayer');
                   dataLayer.push({
                     event: 'interaction',
                     eventCategory: 'experiment',
@@ -497,7 +494,6 @@ const cover: CoverType = {
                   });
 
                   checkboxes.forEach((checkbox) => {
-                    console.log('remove', checkbox);
                     checkbox.removeEventListener('click', pushStats);
                   });
                 }
