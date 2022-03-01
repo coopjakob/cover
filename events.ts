@@ -476,9 +476,10 @@ const cover: CoverType = {
                   eventLabel: 'replacement-change',
                 });
 
+                let checkboxes;
+
                 setTimeout(() => {
-                  const checkboxes =
-                    document.querySelectorAll('.Checkbox-input');
+                  checkboxes = document.querySelectorAll('.Checkbox-input');
 
                   checkboxes.forEach((checkbox) => {
                     console.log('add', checkbox);
