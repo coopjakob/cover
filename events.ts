@@ -233,16 +233,6 @@ const cover: CoverType = {
     });
 
     function pageview() {
-      if (window.location.pathname === '/handla/') {
-        cover.waitFor('.banner_wrapper, .banner_div', (element) => {
-          cover.ready(element, 'T81');
-
-          cover.variant['T81'] = () => {
-            element.style.display = 'none';
-          };
-        });
-      }
-
       if (window.location.pathname.startsWith('/handla/')) {
         cover.waitFor('.Bar--extendedHeader', (element) => {
           cover.ready(element, 'T91');
