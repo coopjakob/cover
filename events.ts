@@ -347,25 +347,6 @@ const cover: CoverType = {
       }
     } // pageview();
 
-    cover.waitFor(
-      '.Swiper-button',
-      (element) => {
-        cover.ready(element, 'T70');
-
-        cover.variant['T70'] = () => {
-          const css = document.createElement('style');
-          css.innerHTML = `
-            .Swiper-button {
-              opacity: 1;
-            }`;
-          document.body.append(css);
-        };
-      },
-      {
-        querySelectorAll: true,
-      }
-    );
-
     if (window.location.pathname === '/handla/betala/') {
       cover.waitFor(
         '[data-component-id="EditOrderModeNotice"]',
