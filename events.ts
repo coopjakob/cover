@@ -366,59 +366,6 @@ const cover: CoverType = {
       }
     );
 
-    if (window.location.pathname == '/') {
-      cover.waitFor(
-        '[data-react-component="DynamicYieldRecommendationsBlock"]',
-        (element) => {
-          const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(async (entry) => {
-              if (entry.isIntersecting) {
-                observer.disconnect();
-
-                cover.variantReady('T88', () => {
-                  const html = document.createElement('div');
-                  html.innerHTML = `
-                    <form action="https://www.coop.se/handla/sok/" method="get">
-                      <div
-                        class="Search-content"
-                        style="border-radius: 25px; max-width: 600px; margin: 15px auto 0 auto"
-                      >
-                        <button
-                          type="submit"
-                          class="Search-icon u-outlineSolidBase2 u-outlineInside"
-                          aria-label="Sök"
-                        >
-                          <svg role="img" title="Sök">
-                            <use
-                              xmlns:xlink="http://www.w3.org/1999/xlink"
-                              xlink:href="/assets/build/sprite.svg?v=220203.1347#search-rounded"
-                            ></use>
-                          </svg>
-                        </button>
-                        <input
-                          name="q"
-                          class="Search-input"
-                          type="search"
-                          placeholder="Sök bland tusentals varor"
-                        />
-                      </div>
-                    </form>
-                  `;
-
-                  const wrapper = element.closest('.Section');
-                  wrapper.append(html);
-                });
-              }
-            });
-          });
-          observer.observe(element);
-        },
-        {
-          disconnect: true,
-        }
-      );
-    }
-
     if (window.location.pathname === '/handla/betala/') {
       cover.waitFor(
         '[data-component-id="EditOrderModeNotice"]',
