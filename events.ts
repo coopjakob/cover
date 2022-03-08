@@ -275,38 +275,6 @@ const cover: CoverType = {
         });
 
         if (
-          window.innerWidth >= 1025 &&
-          (cover.isCategoryPage() ||
-            window.location.pathname.startsWith('/handla/sok/'))
-        ) {
-          cover.waitFor(
-            '.ItemTeaser',
-            (element) => {
-              // clientWidth = card width
-              if (element.clientWidth < 198) {
-                cover.ready(element, 'T87');
-
-                cover.variant['T87'] = () => {
-                  const css = document.createElement('style');
-                  css.innerHTML = `
-                    .Grid--product>.Grid-cell {
-                      flex-basis: 198px;
-                      flex-grow: 1;
-                      max-width: 264px;
-                    }`;
-
-                  document.body.append(css);
-                };
-              }
-            },
-            {
-              // only one element is needed, change is added as css
-              disconnect: true,
-            }
-          );
-        }
-
-        if (
           cover.isCategoryPage ||
           window.location.pathname === '/handla/sok/'
         ) {
