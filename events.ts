@@ -509,7 +509,38 @@ const cover: CoverType = {
     if (window.location.pathname === '/mitt-coop/mina-poang/') {
       cover.waitFor('.TransactionTable-footer', (loaded) => {
         cover.variantReady('T98', () => {
-          console.log('element', loaded);
+          const component = loaded.closest(
+            '[data-react-component="MyPointsTransactions"]'
+          );
+
+          const section = component.querySelector('.Section'); // HTMLElement
+          section.style.height = '400px';
+          section.style.overflow = 'hidden';
+          section.style.marginBottom = 'unset';
+
+          const container = document.createElement('div');
+          container.classList.add('Section', 'Section--margin', 'u-bgWhite');
+
+          const wrapper = document.createElement('div');
+          wrapper.classList.add('u-textCenter', 'u-paddingA', 'u-borderTop');
+
+          const link = document.createElement('a');
+          link.classList.add('Link', 'Link--green');
+          link.innerText = 'Visa alla rader';
+          link.style.cursor = 'pointer';
+
+          wrapper.append(link);
+          container.append(wrapper);
+          component.append(container);
+
+          const mainContainer = component.closest('.Main-container');
+          mainContainer.prepend(component);
+
+          link.addEventListener('click', () => {
+            container.remove();
+            section.style.height = 'unset';
+            section.style.marginBottom = '20px';
+          });
         });
       });
     }
