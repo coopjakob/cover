@@ -198,35 +198,6 @@ const cover: CoverType = {
       }
     );
 
-    if (window.location.pathname.startsWith('/handla/')) {
-      cover.waitFor(
-        '.SidebarNav--online',
-        (element) => {
-          const selectedItems = element.querySelectorAll(
-            '[data-id="91162"], [data-id="90738"], [data-id="162750"], [data-id="195873"], [data-id="199770"], [data-id="203149"]'
-          );
-
-          const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(async (entry) => {
-              if (entry.isIntersecting) {
-                observer.disconnect();
-
-                cover.variantReady('T89', () => {
-                  selectedItems.forEach((item) => {
-                    item.remove();
-                  });
-                });
-              }
-            });
-          });
-          observer.observe(element);
-        },
-        {
-          disconnect: true,
-        }
-      );
-    }
-
     pageview();
     cover.waitFor('.js-page', () => {
       pageview();
