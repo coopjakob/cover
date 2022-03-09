@@ -499,7 +499,7 @@ const cover: CoverType = {
 
             const link = document.createElement('a');
             link.classList.add('Link', 'Link--green');
-            link.innerText = 'Visa alla rader';
+            link.innerText = 'Visa mer';
             link.style.cursor = 'pointer';
 
             wrapper.append(link);
