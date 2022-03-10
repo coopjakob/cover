@@ -513,6 +513,17 @@ const cover: CoverType = {
               container.remove();
               section.style.height = 'unset';
               section.style.marginBottom = '20px';
+
+              dataLayer.push({
+                event: 'interaction',
+                eventCategory: 'experiment',
+                eventAction: 'click',
+                eventLabel: 'show-all',
+              });
+
+              DY.API('event', {
+                name: 'T98-click',
+              });
             });
           });
         },
