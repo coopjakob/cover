@@ -486,7 +486,7 @@ const cover: CoverType = {
               '[data-react-component="MyPointsTransactions"]'
             );
 
-            const section: HTMLElement = component.querySelector('.Section');
+            const section = component.querySelector('.Section');
             section.style.height = '400px';
             section.style.overflow = 'hidden';
             section.style.marginBottom = 'unset';
@@ -499,8 +499,9 @@ const cover: CoverType = {
 
             const link = document.createElement('a');
             link.classList.add('Link', 'Link--green');
-            link.innerText = 'Visa mer';
             link.style.cursor = 'pointer';
+            link.innerText = 'Visa mer';
+            let toggle = 'show';
 
             wrapper.append(link);
             container.append(wrapper);
@@ -510,20 +511,28 @@ const cover: CoverType = {
             mainContainer.prepend(component);
 
             link.addEventListener('click', () => {
-              container.remove();
-              section.style.height = 'unset';
-              section.style.marginBottom = '20px';
+              if (toggle == 'show') {
+                section.style.height = 'unset';
 
-              dataLayer.push({
-                event: 'interaction',
-                eventCategory: 'experiment',
-                eventAction: 'click',
-                eventLabel: 'show-all',
-              });
+                dataLayer.push({
+                  event: 'interaction',
+                  eventCategory: 'experiment',
+                  eventAction: 'click',
+                  eventLabel: 'show',
+                });
 
-              DY.API('event', {
-                name: 'T98-click',
-              });
+                DY.API('event', {
+                  name: 'T98-click',
+                });
+
+                link.innerText = 'Visa mindre';
+                toggle = 'hide';
+              } else {
+                section.style.height = '400px';
+
+                link.innerText = 'Visa mer';
+                toggle = 'show';
+              }
             });
           });
         },
