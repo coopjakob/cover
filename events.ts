@@ -198,51 +198,12 @@ const cover: CoverType = {
       }
     );
 
-    if (window.location.pathname.startsWith('/handla/')) {
-      cover.waitFor(
-        '.SidebarNav--online',
-        (element) => {
-          const selectedItems = element.querySelectorAll(
-            '[data-id="91162"], [data-id="90738"], [data-id="162750"], [data-id="195873"], [data-id="199770"], [data-id="203149"]'
-          );
-
-          const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(async (entry) => {
-              if (entry.isIntersecting) {
-                observer.disconnect();
-
-                cover.variantReady('T89', () => {
-                  selectedItems.forEach((item) => {
-                    item.remove();
-                  });
-                });
-              }
-            });
-          });
-          observer.observe(element);
-        },
-        {
-          disconnect: true,
-        }
-      );
-    }
-
     pageview();
     cover.waitFor('.js-page', () => {
       pageview();
     });
 
     function pageview() {
-      if (window.location.pathname === '/handla/') {
-        cover.waitFor('.banner_wrapper, .banner_div', (element) => {
-          cover.ready(element, 'T81');
-
-          cover.variant['T81'] = () => {
-            element.style.display = 'none';
-          };
-        });
-      }
-
       if (window.location.pathname.startsWith('/handla/')) {
         cover.waitFor('.Bar--extendedHeader', (element) => {
           cover.ready(element, 'T91');
@@ -285,38 +246,6 @@ const cover: CoverType = {
         });
 
         if (
-          window.innerWidth >= 1025 &&
-          (cover.isCategoryPage() ||
-            window.location.pathname.startsWith('/handla/sok/'))
-        ) {
-          cover.waitFor(
-            '.ItemTeaser',
-            (element) => {
-              // clientWidth = card width
-              if (element.clientWidth < 198) {
-                cover.ready(element, 'T87');
-
-                cover.variant['T87'] = () => {
-                  const css = document.createElement('style');
-                  css.innerHTML = `
-                    .Grid--product>.Grid-cell {
-                      flex-basis: 198px;
-                      flex-grow: 1;
-                      max-width: 264px;
-                    }`;
-
-                  document.body.append(css);
-                };
-              }
-            },
-            {
-              // only one element is needed, change is added as css
-              disconnect: true,
-            }
-          );
-        }
-
-        if (
           cover.isCategoryPage ||
           window.location.pathname === '/handla/sok/'
         ) {
@@ -356,78 +285,6 @@ const cover: CoverType = {
         }
       }
     } // pageview();
-
-    cover.waitFor(
-      '.Swiper-button',
-      (element) => {
-        cover.ready(element, 'T70');
-
-        cover.variant['T70'] = () => {
-          const css = document.createElement('style');
-          css.innerHTML = `
-            .Swiper-button {
-              opacity: 1;
-            }`;
-          document.body.append(css);
-        };
-      },
-      {
-        querySelectorAll: true,
-      }
-    );
-
-    if (window.location.pathname == '/') {
-      cover.waitFor(
-        '[data-react-component="DynamicYieldRecommendationsBlock"]',
-        (element) => {
-          const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(async (entry) => {
-              if (entry.isIntersecting) {
-                observer.disconnect();
-
-                cover.variantReady('T88', () => {
-                  const html = document.createElement('div');
-                  html.innerHTML = `
-                    <form action="https://www.coop.se/handla/sok/" method="get">
-                      <div
-                        class="Search-content"
-                        style="border-radius: 25px; max-width: 600px; margin: 15px auto 0 auto"
-                      >
-                        <button
-                          type="submit"
-                          class="Search-icon u-outlineSolidBase2 u-outlineInside"
-                          aria-label="Sök"
-                        >
-                          <svg role="img" title="Sök">
-                            <use
-                              xmlns:xlink="http://www.w3.org/1999/xlink"
-                              xlink:href="/assets/build/sprite.svg?v=220203.1347#search-rounded"
-                            ></use>
-                          </svg>
-                        </button>
-                        <input
-                          name="q"
-                          class="Search-input"
-                          type="search"
-                          placeholder="Sök bland tusentals varor"
-                        />
-                      </div>
-                    </form>
-                  `;
-
-                  const wrapper = element.closest('.Section');
-                  wrapper.append(html);
-                });
-              }
-            });
-          });
-          observer.observe(element);
-        },
-        {
-          disconnect: true,
-        }
-      );
-    }
 
     if (window.location.pathname === '/handla/betala/') {
       cover.waitFor(
@@ -616,6 +473,71 @@ const cover: CoverType = {
         },
         {
           content: 'Är du medlem – anslut ditt medlemskap!',
+        }
+      );
+    }
+
+    if (window.location.pathname === '/mitt-coop/mina-poang/') {
+      cover.waitFor(
+        '.TransactionTable-footer',
+        (loaded) => {
+          cover.variantReady('T98', () => {
+            const component = loaded.closest(
+              '[data-react-component="MyPointsTransactions"]'
+            );
+
+            const section = component.querySelector('.Section');
+            section.style.height = '400px';
+            section.style.overflow = 'hidden';
+            section.style.marginBottom = 'unset';
+
+            const container = document.createElement('div');
+            container.classList.add('Section', 'Section--margin', 'u-bgWhite');
+
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('u-textCenter', 'u-paddingA', 'u-borderTop');
+
+            const link = document.createElement('a');
+            link.classList.add('Link', 'Link--green');
+            link.style.cursor = 'pointer';
+            link.innerText = 'Visa mer';
+            let toggle = 'show';
+
+            wrapper.append(link);
+            container.append(wrapper);
+            component.append(container);
+
+            const mainContainer = component.closest('.Main-container');
+            mainContainer.prepend(component);
+
+            link.addEventListener('click', () => {
+              if (toggle == 'show') {
+                section.style.height = 'unset';
+
+                dataLayer.push({
+                  event: 'interaction',
+                  eventCategory: 'experiment',
+                  eventAction: 'click',
+                  eventLabel: 'show',
+                });
+
+                DY.API('event', {
+                  name: 'T98-click',
+                });
+
+                link.innerText = 'Visa mindre';
+                toggle = 'hide';
+              } else {
+                section.style.height = '400px';
+
+                link.innerText = 'Visa mer';
+                toggle = 'show';
+              }
+            });
+          });
+        },
+        {
+          disconnect: true,
         }
       );
     }
