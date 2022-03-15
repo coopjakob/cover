@@ -286,6 +286,20 @@ const cover: CoverType = {
       }
     } // pageview();
 
+    if (window.location.pathname.startsWith('/recept/')) {
+      cover.waitFor(
+        '.js-buyRecipeItem',
+        (element) => {
+          cover.variantReady('T109', () => {
+            element.innerText = 'Handla varor';
+          });
+        },
+        {
+          querySelectorAll: true,
+        }
+      );
+    }
+
     if (window.location.pathname === '/handla/betala/') {
       cover.waitFor(
         '[data-component-id="EditOrderModeNotice"]',
