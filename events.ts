@@ -283,6 +283,53 @@ const cover: CoverType = {
       }
     } // pageview();
 
+    if (window.location.pathname === '/') {
+      cover.waitFor('.mixinScroll', (element) => {
+        cover.variantReady('T97', () => {
+          const data = element.querySelectorAll(
+            'h2 + p.u-marginVz .Link2-text'
+          );
+
+          let labels = [];
+          data.forEach((element) => {
+            const label = element.closest('div').firstChild;
+            labels.push(label.textContent);
+          });
+
+          let quantitys = [];
+          let links = [];
+          data.forEach((element) => {
+            const link = element.closest('a').href;
+            links.push(link);
+
+            const quantity = element.textContent.replace(' träffar', '');
+            quantitys.push(quantity);
+          });
+
+          const bar = document.querySelector(
+            '.Bar-search .u-paddingVsm.u-paddingHsm.u-textSmall.u-bgGrayLight.u-colorBlack'
+          );
+
+          labels.forEach((label, index) => {
+            const pill = document.createElement('a');
+            pill.classList.add(
+              'Button',
+              'Button--white',
+              'Button--small',
+              'Button--radius',
+              'Button--invertedGreen',
+              'u-marginHxxsm',
+              'u-flexShrinkNone'
+            );
+            pill.href = links[index];
+            pill.innerText = label + ' (' + quantitys[index] + ')';
+
+            bar.append(pill);
+          });
+        });
+      });
+    }
+
     if (window.location.pathname.startsWith('/recept/')) {
       cover.waitFor(
         '.js-buyRecipeItem',
