@@ -245,10 +245,7 @@ const cover: CoverType = {
           };
         });
 
-        if (
-          cover.isCategoryPage ||
-          window.location.pathname === '/handla/sok/'
-        ) {
+        if (window.location.pathname === '/handla/sok/') {
           cover.waitFor(
             '.FilterView-filterToggler',
             () => {
