@@ -334,6 +334,15 @@ const cover: CoverType = {
       cover.waitFor(
         '.js-buyRecipeItem',
         (element) => {
+          element.addEventListener('click', () => {
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'recept-buy-cta',
+            });
+          });
+
           cover.variantReady('T109', () => {
             element.innerText = 'Handla varor';
           });
