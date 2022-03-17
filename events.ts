@@ -344,7 +344,7 @@ const cover: CoverType = {
           });
 
           cover.variantReady('T109', () => {
-            element.innerText = 'Handla varor';
+            element.innerHTML = 'Handla varor';
           });
         },
         {
