@@ -284,64 +284,73 @@ const cover: CoverType = {
     } // pageview();
 
     if (window.location.pathname === '/') {
-      cover.waitFor('.mixinScroll', (element) => {
+      cover.waitFor('.mixinScroll div', (element) => {
         cover.variantReady('T97', () => {
-          const data = element.querySelectorAll(
-            'h2 + p.u-marginVz .Link2-text'
-          );
-
-          let labels = [];
-          data.forEach((element) => {
-            const label = element.closest('div').firstChild;
-            labels.push(label.textContent);
-          });
-
-          let quantitys = [];
-          let links = [];
-          data.forEach((element) => {
-            const link = element.closest('a').href;
-            links.push(link);
-
-            const quantity = element.textContent.replace(' träffar', '');
-            quantitys.push(quantity);
-          });
-
           const bar = document.querySelector(
             '.Bar-search .u-paddingVsm.u-paddingHsm.u-textSmall.u-bgGrayLight.u-colorBlack'
           );
 
-          labels.forEach((label, index) => {
-            const pill = document.createElement('a');
-            pill.classList.add(
-              'Button',
-              'Button--white',
-              'Button--small',
-              'Button--radius',
-              'Button--invertedGreen',
-              'u-marginHxxsm',
-              'u-flexShrinkNone'
+          const pillbar = document.createElement('span');
+          pillbar.classList.add('pillbar');
+          bar.append(pillbar);
+
+          const input = document.querySelector('.Search-input');
+          input.addEventListener('change', () => {
+            pillbar.innerHTML = '';
+
+            const data = document.querySelectorAll(
+              '.mixinScroll h2 + p.u-marginVz .Link2-text'
             );
-            pill.href = links[index];
-            pill.innerText = label + ' (' + quantitys[index] + ')';
 
-            bar.append(pill);
-
-            pill.addEventListener('click', (event) => {
-              event.preventDefault();
-              dataLayer.push({
-                event: 'interaction',
-                eventCategory: 'experiment',
-                eventAction: 'click',
-                eventLabel: 'section-pills',
-              });
-              setTimeout(() => {
-                location.href = (<HTMLAnchorElement>event.target).href;
-              }, 100);
+            let labels = [];
+            data.forEach((element) => {
+              const label = element.closest('div').firstChild;
+              labels.push(label.textContent);
             });
-          });
+
+            let quantitys = [];
+            let links = [];
+            data.forEach((element) => {
+              const link = element.closest('a').href;
+              links.push(link);
+
+              const quantity = element.textContent.replace(' träffar', '');
+              quantitys.push(quantity);
+            });
+
+            labels.forEach((label, index) => {
+              const pill = document.createElement('a');
+              pill.classList.add(
+                'Button',
+                'Button--white',
+                'Button--small',
+                'Button--radius',
+                'Button--invertedGreen',
+                'u-marginHxxsm',
+                'u-flexShrinkNone'
+              );
+              pill.href = links[index];
+              pill.innerText = label + ' (' + quantitys[index] + ')';
+
+              pillbar.append(pill);
+
+              pill.addEventListener('click', (event) => {
+                event.preventDefault();
+                dataLayer.push({
+                  event: 'interaction',
+                  eventCategory: 'experiment',
+                  eventAction: 'click',
+                  eventLabel: 'section-pills',
+                });
+                setTimeout(() => {
+                  location.href = event.target.href;
+                }, 100);
+              });
+            });
+          }); // event
         });
-      });
-    }
+      }); // waitFor
+    } // if
 
     if (window.location.pathname.startsWith('/recept/')) {
       cover.waitFor(
