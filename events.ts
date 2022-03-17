@@ -344,7 +344,10 @@ const cover: CoverType = {
           });
 
           cover.variantReady('T109', () => {
-            element.innerHTML = 'Handla varor';
+            let buttons = document.querySelectorAll('.js-buyRecipeItem');
+            buttons.forEach((button) => {
+              button.innerHTML = 'Handla varor';
+            });
           });
         },
         {
