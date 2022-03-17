@@ -295,7 +295,7 @@ const cover: CoverType = {
           bar.append(pillbar);
 
           const input = document.querySelector('.Search-input');
-          input.addEventListener('change', () => {
+          input.addEventListener('input', () => {
             pillbar.innerHTML = '';
 
             const data = document.querySelectorAll(
