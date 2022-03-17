@@ -325,6 +325,19 @@ const cover: CoverType = {
             pill.innerText = label + ' (' + quantitys[index] + ')';
 
             bar.append(pill);
+
+            pill.addEventListener('click', (event) => {
+              event.preventDefault();
+              dataLayer.push({
+                event: 'interaction',
+                eventCategory: 'experiment',
+                eventAction: 'click',
+                eventLabel: 'section-pills',
+              });
+              setTimeout(() => {
+                location.href = (<HTMLAnchorElement>event.target).href;
+              }, 100);
+            });
           });
         });
       });
