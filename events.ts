@@ -212,7 +212,7 @@ const cover: CoverType = {
             const css = document.createElement('style');
             css.innerHTML = `
               .Bar--extendedHeader {
-                background: #f5f3eb!important;
+                background: #F5F5F5!important;
                 display: flex;
                 align-items: center;
                 height: 88px!important;
