@@ -240,6 +240,9 @@ const cover: CoverType = {
               .TimeslotPreview-info--date {
                 color: #005537;
               }
+              .Bar--withDropdown button {
+                color: #005537!important;
+              }
             `;
 
             document.body.append(css);
