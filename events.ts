@@ -236,6 +236,7 @@ const cover: CoverType = {
                 background: white;
               }
               .TimeslotPreview-info--text,
+              .EditOrderTimeout-info--text,
               .TimeslotPreview-info--date {
                 color: #005537;
               }
