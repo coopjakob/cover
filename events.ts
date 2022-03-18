@@ -284,72 +284,93 @@ const cover: CoverType = {
     } // pageview();
 
     if (window.location.pathname === '/') {
-      cover.waitFor('.mixinScroll div', (element) => {
-        cover.variantReady('T97', () => {
-          const bar = document.querySelector(
-            '.Bar-search .u-paddingVsm.u-paddingHsm.u-textSmall.u-bgGrayLight.u-colorBlack'
-          );
+      let experimentListenOnSearchInputOnce = false;
+      cover.waitFor(
+        '.u-paddingVsm.u-paddingHsm.u-textSmall.u-bgGrayLight.u-colorBlack',
+        (element) => {
+          cover.variantReady('T97', () => {
+            // const bar = document.querySelector(
+            //   '.u-paddingVsm.u-paddingHsm.u-textSmall.u-bgGrayLight.u-colorBlack'
+            // );
 
-          const pillbar = document.createElement('span');
-          pillbar.classList.add('pillbar');
-          bar.append(pillbar);
+            const bar = element;
 
-          const input = document.querySelector('.Search-input');
-          input.addEventListener('input', () => {
-            pillbar.innerHTML = '';
+            // in .Bar-search ?
 
-            const data = document.querySelectorAll(
-              '.mixinScroll h2 + p.u-marginVz .Link2-text'
-            );
+            const pillbar = document.createElement('span');
+            pillbar.classList.add('pillbar');
+            bar.append(pillbar);
 
-            let labels = [];
-            data.forEach((element) => {
-              const label = element.closest('div').firstChild;
-              labels.push(label.textContent);
-            });
+            function addPills() {
+              let pillbar = document.querySelector('.pillbar');
 
-            let quantitys = [];
-            let links = [];
-            data.forEach((element) => {
-              const link = element.closest('a').href;
-              links.push(link);
-
-              const quantity = element.textContent.replace(' träffar', '');
-              quantitys.push(quantity);
-            });
-
-            labels.forEach((label, index) => {
-              const pill = document.createElement('a');
-              pill.classList.add(
-                'Button',
-                'Button--white',
-                'Button--small',
-                'Button--radius',
-                'Button--invertedGreen',
-                'u-marginHxxsm',
-                'u-flexShrinkNone'
+              const data = document.querySelectorAll(
+                '.mixinScroll h2 + p.u-marginVz .Link2-text'
               );
-              pill.href = links[index];
-              pill.innerText = label + ' (' + quantitys[index] + ')';
 
-              pillbar.append(pill);
-
-              pill.addEventListener('click', (event) => {
-                event.preventDefault();
-                dataLayer.push({
-                  event: 'interaction',
-                  eventCategory: 'experiment',
-                  eventAction: 'click',
-                  eventLabel: 'section-pills',
-                });
-                setTimeout(() => {
-                  location.href = event.target.href;
-                }, 100);
+              let labels = [];
+              data.forEach((element) => {
+                const label = element.closest('div').firstChild;
+                labels.push(label.textContent);
               });
-            });
-          }); // event
-        });
-      }); // waitFor
+
+              let quantitys = [];
+              let links = [];
+              data.forEach((element) => {
+                const link = element.closest('a').href;
+                links.push(link);
+
+                const quantity = element.textContent.replace(' träffar', '');
+                quantitys.push(quantity);
+              });
+
+              pillbar.innerHTML = '';
+              labels.forEach((label, index) => {
+                const pill = document.createElement('a');
+                pill.classList.add(
+                  'Button',
+                  'Button--white',
+                  'Button--small',
+                  'Button--radius',
+                  'Button--invertedGreen',
+                  'u-marginHxxsm',
+                  'u-flexShrinkNone'
+                );
+                pill.href = links[index];
+                pill.innerText = label + ' (' + quantitys[index] + ')';
+
+                pillbar.append(pill);
+
+                pill.addEventListener('click', (event) => {
+                  event.preventDefault();
+                  dataLayer.push({
+                    event: 'interaction',
+                    eventCategory: 'experiment',
+                    eventAction: 'click',
+                    eventLabel: 'section-pills',
+                  });
+                  setTimeout(() => {
+                    location.href = event.target.href;
+                  }, 100);
+                });
+              });
+            }
+
+            addPills();
+
+            if (!experimentListenOnSearchInputOnce) {
+              experimentListenOnSearchInputOnce = true;
+
+              const input = document.querySelector('.Search-input');
+              input.addEventListener('input', () => {
+                setTimeout(() => {
+                  addPills();
+                }, 1000); //delay
+              }); // input
+            }
+          });
+        }
+      ); // waitFor
     } // if
 
     if (window.location.pathname.startsWith('/recept/')) {
