@@ -217,7 +217,7 @@ const cover: CoverType = {
                 align-items: center;
                 height: 88px!important;
               }
-              .Bar-search {
+              .Bar-search .Search {
                 filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.05));
               }
               .Search-content {
