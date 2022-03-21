@@ -203,52 +203,52 @@ const cover: CoverType = {
       pageview();
     });
 
-    function pageview() {
-      if (window.location.pathname.startsWith('/handla/')) {
-        cover.waitFor('.Bar--extendedHeader', (element) => {
-          cover.ready(element, 'T91');
+    if (window.location.pathname.startsWith('/handla/')) {
+      cover.waitFor('.Bar--extendedHeader', (element) => {
+        cover.ready(element, 'T91');
 
-          cover.variant['T91'] = () => {
-            const css = document.createElement('style');
-            css.innerHTML = `
-              .Bar--extendedHeader {
-                background: #F5F5F5!important;
-                display: flex;
-                align-items: center;
-                height: 88px!important;
-              }
-              .Bar-search .Search {
-                filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.05));
-              }
-              .Search-content {
-                border: 0;
-                max-width: 600px;
-                margin: 0 auto;
-              }
-              .Bar-button--visibleOnlyWhenFixed .CartButton-icon {
-                background: #005537;
-                margin-left: 10px;
-              }
-              .js-sidebarTrigger {
-                background: #e0efdd;
-              }
-              .TimeslotPreview-button {
-                background: white;
-              }
-              .TimeslotPreview-info--text,
-              .EditOrderTimeout-info--text,
-              .TimeslotPreview-info--date {
-                color: #005537;
-              }
-              .Bar--withDropdown button {
-                color: #005537!important;
-              }
-            `;
+        cover.variant['T91'] = () => {
+          const css = document.createElement('style');
+          css.innerHTML = `
+            .Bar--extendedHeader {
+              background: #F5F5F5!important;
+              display: flex;
+              align-items: center;
+              height: 88px!important;
+            }
+            .Bar-search .Search {
+              filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.05));
+            }
+            .Search-content {
+              border: 0;
+              max-width: 600px;
+              margin: 0 auto;
+            }
+            .Bar-button--visibleOnlyWhenFixed .CartButton-icon {
+              background: #005537;
+              margin-left: 10px;
+            }
+            .js-sidebarTrigger {
+              background: #e0efdd;
+            }
+            .TimeslotPreview-button {
+              background: white;
+            }
+            .TimeslotPreview-info--text,
+            .EditOrderTimeout-info--text,
+            .TimeslotPreview-info--date {
+              color: #005537;
+            }
+            .Bar--withDropdown button {
+              color: #005537!important;
+            }
+          `;
 
-            document.body.append(css);
-          };
-        });
+          document.body.append(css);
+        };
+      });
 
+      function pageview() {
         if (window.location.pathname === '/handla/sok/') {
           cover.waitFor(
             '.FilterView-filterToggler',
