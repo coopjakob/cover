@@ -257,15 +257,12 @@ const cover: CoverType = {
 
         if (cover.isProductPage()) {
           cover.waitFor(
-            '[data-list="P05_B2C_Complementary_Products_PDP"]',
+            '[data-list="Varor som ingår i erbjudandet"]',
             (element) => {
-              cover.variantReady('P05.3', () => {
-                element.classList.add('u-hidden');
+              const header = element.previousSibling;
+              header.remove();
 
-                const title = element.previousElementSibling;
-                title.classList.remove('u-flex');
-                title.classList.add('u-hidden');
-              });
+              element.remove();
             }
           );
         }
@@ -569,18 +566,6 @@ const cover: CoverType = {
         },
         {
           content: 'Är du medlem – anslut ditt medlemskap!',
-        }
-      );
-    }
-
-    if (cover.isProductPage()) {
-      cover.waitFor(
-        '[data-list="Varor som ingår i erbjudandet"]',
-        (element) => {
-          const header = element.previousSibling;
-          header.remove();
-
-          element.remove();
         }
       );
     }
