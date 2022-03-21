@@ -594,6 +594,18 @@ const cover: CoverType = {
       );
     }
 
+    if (cover.isProductPage()) {
+      cover.waitFor(
+        '[data-list="Varor som ingår i erbjudandet"]',
+        (element) => {
+          const header = element.previousSibling;
+          header.remove();
+
+          element.remove();
+        }
+      );
+    }
+
     if (window.location.pathname === '/mitt-coop/mina-poang/') {
       cover.waitFor(
         '.TransactionTable-footer',
