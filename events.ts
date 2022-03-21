@@ -248,6 +248,31 @@ const cover: CoverType = {
         };
       });
 
+      if (window.location.pathname.startsWith('/handla/')) {
+        cover.waitFor(
+          '.SidebarNav--online',
+          (element) => {
+            const item = element.querySelector('[data-id="81293"]');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+              entries.forEach(async (entry) => {
+                if (entry.isIntersecting) {
+                  observer.disconnect();
+
+                  cover.variantReady('T108', () => {
+                    item.remove();
+                  });
+                }
+              });
+            });
+            observer.observe(element);
+          },
+          {
+            disconnect: true,
+          }
+        );
+      }
+
       function pageview() {
         if (window.location.pathname === '/handla/sok/') {
           cover.waitFor(
