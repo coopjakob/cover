@@ -259,10 +259,11 @@ const cover: CoverType = {
           cover.waitFor(
             '[data-list="Varor som ingår i erbjudandet"]',
             (element) => {
-              const header = element.previousSibling;
-              header.remove();
+              element.classList.add('u-hidden');
 
-              element.remove();
+              const title = element.previousElementSibling;
+              title.classList.remove('u-flex');
+              title.classList.add('u-hidden');
             }
           );
         }
