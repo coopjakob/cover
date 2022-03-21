@@ -158,46 +158,6 @@ const cover: CoverType = {
     return DYO.getUserObjectsAndVariations();
   },
   run: () => {
-    cover.waitFor(
-      '[data-test="mainnav-handla"]',
-      (element) => {
-        const link = element.firstElementChild;
-
-        cover.variantReady('T102', () => {
-          const css = document.createElement('style');
-          css.innerHTML = `
-              @media only screen and (min-width: 1025px) and (max-width: 1078px) {
-                .Navigation--primaryGreen .Navigation-item a {
-                  padding: 0 1rem;
-                }
-              }
-            `;
-          document.body.append(css);
-
-          link.textContent = 'Handla online';
-        });
-
-        link.addEventListener('click', (event) => {
-          event.preventDefault();
-          dataLayer.push({
-            event: 'interaction',
-            eventCategory: 'experiment',
-            eventAction: 'click',
-            eventLabel: 'handla-online',
-          });
-          DY.API('event', {
-            name: 'T102-click',
-          });
-          setTimeout(() => {
-            location.href = (<HTMLAnchorElement>event.target).href;
-          }, 100);
-        });
-      },
-      {
-        disconnect: true,
-      }
-    );
-
     pageview();
     cover.waitFor('.js-page', () => {
       pageview();
