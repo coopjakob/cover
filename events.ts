@@ -158,11 +158,6 @@ const cover: CoverType = {
     return DYO.getUserObjectsAndVariations();
   },
   run: () => {
-    pageview();
-    cover.waitFor('.js-page', () => {
-      pageview();
-    });
-
     if (window.location.pathname.startsWith('/handla/')) {
       cover.waitFor('.Bar--extendedHeader', (element) => {
         cover.ready(element, 'T91');
@@ -208,65 +203,67 @@ const cover: CoverType = {
         };
       });
 
-      if (window.location.pathname.startsWith('/handla/')) {
-        cover.waitFor(
-          '.SidebarNav--online',
-          (element) => {
-            const item = element.querySelector('[data-id="81293"]');
+      cover.waitFor(
+        '.SidebarNav--online',
+        (element) => {
+          const item = element.querySelector('[data-id="81293"]');
 
-            const observer = new IntersectionObserver((entries, observer) => {
-              entries.forEach(async (entry) => {
-                if (entry.isIntersecting) {
-                  observer.disconnect();
+          const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(async (entry) => {
+              if (entry.isIntersecting) {
+                observer.disconnect();
 
-                  cover.variantReady('T108', () => {
-                    item.remove();
-                  });
-                }
-              });
+                cover.variantReady('T108', () => {
+                  item.remove();
+                });
+              }
             });
-            observer.observe(element);
+          });
+          observer.observe(element);
+        },
+        {
+          disconnect: true,
+        }
+      );
+    }
+
+    pageview();
+    cover.waitFor('.js-page', () => {
+      pageview();
+    });
+    function pageview() {
+      if (window.location.pathname === '/handla/sok/') {
+        cover.waitFor(
+          '.FilterView-filterToggler',
+          () => {
+            cover.variantReady('T103', () => {
+              const css = document.createElement('style');
+              css.innerHTML = `
+                  .FilterView-filterToggler {
+                    display: none;
+                  }
+                `;
+              document.body.append(css);
+            });
           },
           {
+            // only one element is needed, change is added as css
             disconnect: true,
           }
         );
       }
 
-      function pageview() {
-        if (window.location.pathname === '/handla/sok/') {
-          cover.waitFor(
-            '.FilterView-filterToggler',
-            () => {
-              cover.variantReady('T103', () => {
-                const css = document.createElement('style');
-                css.innerHTML = `
-                  .FilterView-filterToggler {
-                    display: none;
-                  }
-                `;
-                document.body.append(css);
-              });
-            },
-            {
-              // only one element is needed, change is added as css
-              disconnect: true,
-            }
-          );
-        }
+      if (cover.isProductPage()) {
+        cover.waitFor(
+          '[data-list="Varor som ingår i erbjudandet"]',
+          (element) => {
+            element.classList.add('u-hidden');
 
-        if (cover.isProductPage()) {
-          cover.waitFor(
-            '[data-list="Varor som ingår i erbjudandet"]',
-            (element) => {
-              element.classList.add('u-hidden');
-
-              const title = element.previousElementSibling;
-              title.classList.remove('u-flex');
-              title.classList.add('u-hidden');
-            }
-          );
-        }
+            const title = element.previousElementSibling;
+            title.classList.remove('u-flex');
+            title.classList.add('u-hidden');
+          }
+        );
       }
     } // pageview();
 
