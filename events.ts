@@ -318,13 +318,7 @@ const cover: CoverType = {
         '.u-paddingVsm.u-paddingHsm.u-textSmall.u-bgGrayLight.u-colorBlack',
         (element) => {
           cover.variantReady('T97', () => {
-            // const bar = document.querySelector(
-            //   '.u-paddingVsm.u-paddingHsm.u-textSmall.u-bgGrayLight.u-colorBlack'
-            // );
-
             const bar = element;
-
-            // in .Bar-search ?
 
             const pillbar = document.createElement('span');
             pillbar.classList.add('pillbar');
