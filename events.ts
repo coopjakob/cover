@@ -162,6 +162,19 @@ const cover: CoverType = {
       cover.waitFor('.Bar--extendedHeader', (element) => {
         cover.ready(element, 'T91');
 
+        const searchInput = document.querySelector('.Search-input');
+        searchInput.addEventListener('click', () => {
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'prominent-search',
+          });
+          DY.API('event', {
+            name: 'T91-click',
+          });
+        });
+
         cover.variant['T91'] = () => {
           const css = document.createElement('style');
           css.innerHTML = `
