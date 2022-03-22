@@ -505,7 +505,7 @@ const cover: CoverType = {
               cover.waitFor(
                 '.Checkbox-label',
                 (element) => {
-                  element.innerText = 'Ersätt vara';
+                  element.innerText = 'Ersätt med likvärdig vara om slut';
                 },
                 {
                   querySelectorAll: true,
