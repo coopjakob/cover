@@ -189,8 +189,6 @@ const cover: CoverType = {
             }
             .Search-content {
               border: 0;
-              max-width: 600px;
-              margin: 0 auto;
             }
             .Bar-button--visibleOnlyWhenFixed .CartButton-icon {
               background: #005537;
