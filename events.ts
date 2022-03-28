@@ -364,25 +364,32 @@ const cover: CoverType = {
 
     if (window.location.pathname.startsWith('/recept/')) {
       cover.waitFor(
-        '.js-buyRecipeItem',
+        '.Button.Button--green.Button--medium.Button--radius',
         (element) => {
-          element.addEventListener('click', () => {
-            dataLayer.push({
-              event: 'interaction',
-              eventCategory: 'experiment',
-              eventAction: 'click',
-              eventLabel: 'recept-buy-cta',
-            });
-          });
+          const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(async (entry) => {
+              if (entry.isIntersecting) {
+                observer.disconnect();
 
-          cover.variantReady('T109', () => {
-            let buttons = document.querySelectorAll('.js-buyRecipeItem');
-            buttons.forEach((button) => {
-              button.innerHTML = 'Handla varor';
+                cover.variantReady('T109', () => {
+                  element.innerHTML = 'Handla varor';
+
+                  element.addEventListener('click', () => {
+                    dataLayer.push({
+                      event: 'interaction',
+                      eventCategory: 'experiment',
+                      eventAction: 'click',
+                      eventLabel: 'recept-buy-cta',
+                    });
+                  });
+                });
+              }
             });
           });
+          observer.observe(element);
         },
         {
+          content: 'Köp varor',
           querySelectorAll: true,
         }
       );
