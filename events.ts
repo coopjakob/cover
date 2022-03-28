@@ -362,6 +362,303 @@ const cover: CoverType = {
       ); // waitFor
     } // if
 
+    if (
+      window.location.pathname.startsWith('/butiker-erbjudanden/') &&
+      !coopUserSettings.isAuthenticated
+    ) {
+      cover.variantReady('T96', () => {
+        const container = document.createElement('div');
+        container.classList.add('Main-container', 'Main-container--padding');
+        container.innerHTML = `
+        
+          <div class="Section Section--margin">
+            <div class="Grid Grid--gutterA2xsm Grid--gutterH2xsm js-drOffersBlock">
+              <div
+                class="Grid-cell u-sizeFull u-paddingTmd u-lg-paddingBxsm u-lg-paddingTxlg u-bgWhite"
+              >
+                <h2
+                  class="u-textXLarge u-md-text2XLarge u-marginHsm u-lg-marginHxlg u-marginBz"
+                >
+                  Veckans medlemserbjudanden
+                </h2>
+                <p class="u-marginHsm u-lg-marginHxlg u-marginVxxxsm">
+                  Gäller samtliga Coop-butiker och online t.o.m. 2022-01-01
+                </p>
+              </div>
+        
+              <div
+                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
+              >
+                <article class="ItemTeaser">
+                  <div class="ItemTeaser-content">
+                    <div class="ItemTeaser-media">
+                      <div class="ItemTeaser-image">
+                        <img
+                          class="u-posAbsoluteCenter"
+                          src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1530068910/307651.png"
+                          alt="Kaffe Classic"
+                        />
+                      </div>
+                      <div class="ItemTeaser-promos">
+                        <div class="ItemTeaser-splash">
+                          <p class="Splash">
+                            <svg role="presentation" class="Splash-bg">
+                              <use
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                xlink:href="/assets/build/sprite.svg?v=220322.1340#splash"
+                              ></use>
+                            </svg>
+                            <span class="Splash-content">
+                              <span class="Splash-pricePre">2 för</span>
+                              <span class="Splash-priceLarge">75:-</span>
+                              <span class="Splash-pricePre"></span>
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ItemTeaser-info">
+                      <h3 class="ItemTeaser-heading" data-id="7310760012315">
+                        Kaffe Classic
+                      </h3>
+                      <p class="ItemTeaser-description">
+                        <span class="ItemTeaser-brand">Arvid Nordquist.</span>
+                        500 g. Välj mellan olika sorter. Gäller ej Amigas, Reko, Solid
+                        eller ekologiskt. Jfr-pris 75:-/kg.
+                      </p>
+                      <div class="ItemTeaser-cta">
+                        <span class="ItemTeaser-tag ItemTeaser-tag--medlem"
+                          >Medlemspris</span
+                        >
+                      </div>
+                      <p class="ItemTeaser-priceRules">
+                        Handla andra varor för 200:- så får du köpa:
+                      </p>
+                      <p class="ItemTeaser-priceRules">Max 1 köp/hushåll</p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+        
+              <div
+                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
+              >
+                <article class="ItemTeaser">
+                  <div class="ItemTeaser-content">
+                    <div class="ItemTeaser-media">
+                      <div class="ItemTeaser-image">
+                        <img
+                          class="u-posAbsoluteCenter"
+                          src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1530068910/307651.png"
+                          alt="Kaffe Classic"
+                        />
+                      </div>
+                      <div class="ItemTeaser-promos">
+                        <div class="ItemTeaser-splash">
+                          <p class="Splash">
+                            <svg role="presentation" class="Splash-bg">
+                              <use
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                xlink:href="/assets/build/sprite.svg?v=220322.1340#splash"
+                              ></use>
+                            </svg>
+                            <span class="Splash-content">
+                              <span class="Splash-pricePre">2 för</span>
+                              <span class="Splash-priceLarge">75:-</span>
+                              <span class="Splash-pricePre"></span>
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ItemTeaser-info">
+                      <h3 class="ItemTeaser-heading" data-id="7310760012315">
+                        Kaffe Classic
+                      </h3>
+                      <p class="ItemTeaser-description">
+                        <span class="ItemTeaser-brand">Arvid Nordquist.</span>
+                        500 g. Välj mellan olika sorter. Gäller ej Amigas, Reko, Solid
+                        eller ekologiskt. Jfr-pris 75:-/kg.
+                      </p>
+                      <div class="ItemTeaser-cta">
+                        <span class="ItemTeaser-tag ItemTeaser-tag--medlem"
+                          >Medlemspris</span
+                        >
+                      </div>
+                      <p class="ItemTeaser-priceRules">
+                        Handla andra varor för 200:- så får du köpa:
+                      </p>
+                      <p class="ItemTeaser-priceRules">Max 1 köp/hushåll</p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+        
+              <div
+                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
+              >
+                <article class="ItemTeaser">
+                  <div class="ItemTeaser-content">
+                    <div class="ItemTeaser-media">
+                      <div class="ItemTeaser-image">
+                        <img
+                          class="u-posAbsoluteCenter"
+                          src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1530068910/307651.png"
+                          alt="Kaffe Classic"
+                        />
+                      </div>
+                      <div class="ItemTeaser-promos">
+                        <div class="ItemTeaser-splash">
+                          <p class="Splash">
+                            <svg role="presentation" class="Splash-bg">
+                              <use
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                xlink:href="/assets/build/sprite.svg?v=220322.1340#splash"
+                              ></use>
+                            </svg>
+                            <span class="Splash-content">
+                              <span class="Splash-pricePre">2 för</span>
+                              <span class="Splash-priceLarge">75:-</span>
+                              <span class="Splash-pricePre"></span>
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ItemTeaser-info">
+                      <h3 class="ItemTeaser-heading" data-id="7310760012315">
+                        Kaffe Classic
+                      </h3>
+                      <p class="ItemTeaser-description">
+                        <span class="ItemTeaser-brand">Arvid Nordquist.</span>
+                        500 g. Välj mellan olika sorter. Gäller ej Amigas, Reko, Solid
+                        eller ekologiskt. Jfr-pris 75:-/kg.
+                      </p>
+                      <div class="ItemTeaser-cta">
+                        <span class="ItemTeaser-tag ItemTeaser-tag--medlem"
+                          >Medlemspris</span
+                        >
+                      </div>
+                      <p class="ItemTeaser-priceRules">
+                        Handla andra varor för 200:- så får du köpa:
+                      </p>
+                      <p class="ItemTeaser-priceRules">Max 1 köp/hushåll</p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+        
+              <div
+                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
+              >
+                <article class="ItemTeaser">
+                  <div class="ItemTeaser-content">
+                    <div class="ItemTeaser-media">
+                      <div class="ItemTeaser-image">
+                        <img
+                          class="u-posAbsoluteCenter"
+                          src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1530068910/307651.png"
+                          alt="Kaffe Classic"
+                        />
+                      </div>
+                      <div class="ItemTeaser-promos">
+                        <div class="ItemTeaser-splash">
+                          <p class="Splash">
+                            <svg role="presentation" class="Splash-bg">
+                              <use
+                                xmlns:xlink="http://www.w3.org/1999/xlink"
+                                xlink:href="/assets/build/sprite.svg?v=220322.1340#splash"
+                              ></use>
+                            </svg>
+                            <span class="Splash-content">
+                              <span class="Splash-pricePre">2 för</span>
+                              <span class="Splash-priceLarge">75:-</span>
+                              <span class="Splash-pricePre"></span>
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ItemTeaser-info">
+                      <h3 class="ItemTeaser-heading" data-id="7310760012315">
+                        Kaffe Classic
+                      </h3>
+                      <p class="ItemTeaser-description">
+                        <span class="ItemTeaser-brand">Arvid Nordquist.</span>
+                        500 g. Välj mellan olika sorter. Gäller ej Amigas, Reko, Solid
+                        eller ekologiskt. Jfr-pris 75:-/kg.
+                      </p>
+                      <div class="ItemTeaser-cta">
+                        <span class="ItemTeaser-tag ItemTeaser-tag--medlem"
+                          >Medlemspris</span
+                        >
+                      </div>
+                      <p class="ItemTeaser-priceRules">
+                        Handla andra varor för 200:- så får du köpa:
+                      </p>
+                      <p class="ItemTeaser-priceRules">Max 1 köp/hushåll</p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+        
+              <div class="Grid-cell u-lg-size2of6 Banner-cell u-bgGreen">
+                  <a
+                    class="Banner-link"
+                    href="https://www.coop.se/logga-in/?returnUrl=%2Fbutiker-erbjudanden%2F"
+                  ></a>
+                  <div
+                    class="Banner-content u-textCenter Banner-content--VerticalCenter"
+                  >
+                    <div class="Banner-text">
+                      <h2 class="Banner-heading u-textFamilySecondary u-colorWhite">
+                        Ännu fler erbjudanden och lättare att hitta
+                      </h2>
+        
+                      <div class="Editorial-no-top-margin u-colorWhite">
+                        <p></p>
+                        <p class="p1">
+                          När du är inloggad kan du spara dina favoritbutiker och får
+                          dessutom personliga erbjudanden.
+                        </p>
+                        <p></p>
+                      </div>
+                    </div>
+                    <div class="Banner-button">
+                      <a
+                        class="u-zIndex4 Button Button--greenDark Button--radius"
+                        href="https://www.coop.se/logga-in/?returnUrl=%2Fbutiker-erbjudanden%2F"
+                        >Logga in</a
+                      >
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.querySelectorAll('a').forEach((element) => {
+          element.addEventListener('click', (event) => {
+            event.preventDefault();
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'login',
+            });
+            setTimeout(() => {
+              location.href = event.target.href;
+            }, 100);
+          });
+        });
+
+        const header = document.querySelector('h1');
+        const element = header.closest('.Section').parentNode;
+
+        element.parentNode.insertBefore(container, element.nextSibling);
+      });
+    }
+
     if (window.location.pathname.startsWith('/recept/')) {
       cover.waitFor(
         '.Button.Button--green.Button--medium.Button--radius',
