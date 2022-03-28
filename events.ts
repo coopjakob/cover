@@ -90,7 +90,9 @@ const cover: CoverType = {
     if (!(options.disconnect && isCallbackSent)) {
       observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
+          console.debug(mutation);
           mutation.addedNodes.forEach((node) => {
+            console.debug(node);
             if (node instanceof Element) {
               matchElementSelector(node);
             }
@@ -659,50 +661,38 @@ const cover: CoverType = {
       });
     }
 
-    (() => {
-      function run() {
-        if (window.location.pathname.startsWith('/recept/')) {
-          cover.waitFor(
-            '.Button.Button--green.Button--medium.Button--radius',
-            (element) => {
-              const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(async (entry) => {
-                  if (entry.isIntersecting) {
-                    observer.disconnect();
+    if (window.location.pathname.startsWith('/recept/')) {
+      cover.waitFor(
+        '.Button.Button--green.Button--medium.Button--radius',
+        (element) => {
+          const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(async (entry) => {
+              if (entry.isIntersecting) {
+                observer.disconnect();
 
-                    cover.variantReady('T109', () => {
-                      element.innerHTML = 'Handla varor';
+                cover.variantReady('T109', () => {
+                  element.innerHTML = 'Handla varor';
 
-                      element.addEventListener('click', () => {
-                        dataLayer.push({
-                          event: 'interaction',
-                          eventCategory: 'experiment',
-                          eventAction: 'click',
-                          eventLabel: 'recept-buy-cta',
-                        });
-                      });
+                  element.addEventListener('click', () => {
+                    dataLayer.push({
+                      event: 'interaction',
+                      eventCategory: 'experiment',
+                      eventAction: 'click',
+                      eventLabel: 'recept-buy-cta',
                     });
-                  }
+                  });
                 });
-              });
-              observer.observe(element);
-            },
-            {
-              content: 'Köp varor',
-              querySelectorAll: true,
-            }
-          );
+              }
+            });
+          });
+          observer.observe(element);
+        },
+        {
+          content: 'Köp varor',
+          querySelectorAll: true,
         }
-      }
-
-      if (document.readyState === 'complete') {
-        run();
-      } else {
-        window.addEventListener('load', (event) => {
-          run();
-        });
-      }
-    })();
+      );
+    }
 
     if (window.location.pathname === '/handla/betala/') {
       cover.waitFor(
