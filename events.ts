@@ -69,6 +69,8 @@ const cover: CoverType = {
           continue;
         }
 
+        console.debug('match', selector, element);
+
         callback(element);
         isCallbackSent = true;
 
@@ -94,7 +96,6 @@ const cover: CoverType = {
           mutation.addedNodes.forEach((node) => {
             console.debug(node);
             if (node instanceof Element) {
-              console.debug('match');
               matchElementSelector(node);
             }
           });
