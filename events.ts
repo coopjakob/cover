@@ -51,10 +51,6 @@ const cover: CoverType = {
     function matchElementSelector(wrapper: Element) {
       let elements = [];
 
-      if (wrapper.matches(selector)) {
-        elements.push(wrapper);
-      }
-
       if (options.querySelectorAll) {
         elements = [...wrapper.querySelectorAll(selector)];
       } else {
@@ -64,12 +60,14 @@ const cover: CoverType = {
         }
       }
 
+      if (wrapper.matches(selector)) {
+        elements.push(wrapper);
+      }
+
       for (let element of elements) {
         if (!okContent(element)) {
           continue;
         }
-
-        console.debug('match', selector, element);
 
         callback(element);
         isCallbackSent = true;
@@ -84,7 +82,7 @@ const cover: CoverType = {
       }
     }
 
-    // default true
+    // init == undefined or true (default true)
     if (options.init != false) {
       matchElementSelector(wrapperElement);
     }
@@ -92,10 +90,9 @@ const cover: CoverType = {
     if (!(options.disconnect && isCallbackSent)) {
       observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
-          console.debug(mutation);
           mutation.addedNodes.forEach((node) => {
-            console.debug(node);
-            if (node instanceof Element) {
+            // Alternative to `node instanceof Element`
+            if (node.nodeType === 1) {
               matchElementSelector(node);
             }
           });
