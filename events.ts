@@ -20,7 +20,6 @@ interface CoverType {
   isCategoryPage: () => boolean;
   isProductPage: (path?: string) => boolean;
   variantReady: (id: string, callback: () => void) => void;
-  ready: (element: Element, id: string) => void;
   readyHistory: Array<string>;
   addIdentifierClasses: (element: Element, id: string) => void;
   groups: () => any;
@@ -140,17 +139,6 @@ const cover: CoverType = {
       cover.variant[id]();
     }
   },
-  ready: (element, id) => {
-    element.dispatchEvent(new Event(`cover.ready ${id}`, { bubbles: true }));
-
-    if (!cover.readyHistory.includes(id)) {
-      DY.API('event', {
-        name: `cover.ready ${id}`,
-      });
-
-      cover.readyHistory.push(id);
-    }
-  },
   readyHistory: [],
   addIdentifierClasses: (element, id) => {
     element.classList.add('Experiment', id);
@@ -161,8 +149,6 @@ const cover: CoverType = {
   run: () => {
     if (window.location.pathname.startsWith('/handla/')) {
       cover.waitFor('.Bar--extendedHeader', (element) => {
-        cover.ready(element, 'T91');
-
         const searchInput = document.querySelector('.Search-input');
         searchInput.addEventListener('click', () => {
           dataLayer.push({
@@ -176,7 +162,7 @@ const cover: CoverType = {
           });
         });
 
-        cover.variant['T91'] = () => {
+        cover.variantReady('T91', () => {
           const css = document.createElement('style');
           css.innerHTML = `
             .Bar--extendedHeader {
@@ -212,7 +198,7 @@ const cover: CoverType = {
           `;
 
           document.body.append(css);
-        };
+        });
       });
 
       cover.waitFor(
