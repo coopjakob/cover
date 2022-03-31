@@ -326,7 +326,7 @@ const cover: CoverType = {
                     eventLabel: 'section-pills',
                   });
                   setTimeout(() => {
-                    location.href = event.target.href;
+                    location.href = (<HTMLAnchorElement>event.target).href;
                   }, 100);
                 });
               });
@@ -633,7 +633,7 @@ const cover: CoverType = {
               eventLabel: 'login',
             });
             setTimeout(() => {
-              location.href = event.target.href;
+              location.href = (<HTMLAnchorElement>event.target).href;
             }, 100);
           });
         });
@@ -898,7 +898,7 @@ const cover: CoverType = {
               '[data-react-component="MyPointsTransactions"]'
             );
 
-            const section = component.querySelector('.Section');
+            const section = component.querySelector<HTMLElement>('.Section');
             section.style.height = '400px';
             section.style.overflow = 'hidden';
             section.style.marginBottom = 'unset';
