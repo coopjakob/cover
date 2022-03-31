@@ -90,8 +90,8 @@ const cover: CoverType = {
       observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
           mutation.addedNodes.forEach((node) => {
-            // Alternative to `node instanceof Element`
-            if (node.nodeType === 1) {
+            // Alternative to `node.nodeType === 1`
+            if (node instanceof Element) {
               matchElementSelector(node);
             }
           });
