@@ -721,14 +721,11 @@ const cover: CoverType = {
               break;
             }
 
-            if (text.startsWith('Frakt') && !text.endsWith('0:00 kr')) {
-              // t ex Reservera en tid
-              content = true; // #F5F3EB
+            if (text.startsWith('Frakt')) {
+              content = true;
             }
 
             if (text === 'Fri frakt vid köp över 2000kr') {
-              //skriver över tidigare data vid behov
-
               block.querySelector<HTMLElement>(
                 '.InformationBox'
               ).style.backgroundColor = '#e0efdd';
