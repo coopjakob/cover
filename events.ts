@@ -679,84 +679,85 @@ const cover: CoverType = {
     }
 
     if (window.location.pathname === '/handla/betala/') {
-      cover.waitFor('.CheckoutCartSummary', (element) => {
-        cover.variantReady('T113', () => {
-          (function run() {
-            const items = element.querySelectorAll('li');
+      if (!coopUserSettings.isCompany) {
+        cover.waitFor('.CheckoutCartSummary', (element) => {
+          cover.variantReady('T113', () => {
+            (function run() {
+              const items = element.querySelectorAll('li');
 
-            let content = false;
+              let content = false;
 
-            const block = document.createElement('li');
-            block.classList.add(
-              'T113',
-              'u-paddingVxxsm',
-              'u-textMedium',
-              'u-paddingHmd'
-            );
-            block.innerHTML = `
-              <section
-                class="InformationBox"
-                style="background-color: #F5F3EB"
-                aria-label=""
-              >
-                <svg
-                  role="img"
-                  class="InformationBox-icon u-fillGreen"
-                  style="height: 1rem; width: 1rem; margin-left: 5px"
+              const block = document.createElement('li');
+              block.classList.add(
+                'T113',
+                'u-paddingVxxsm',
+                'u-textMedium',
+                'u-paddingHmd'
+              );
+              block.innerHTML = `
+                <section
+                  class="InformationBox"
+                  style="background-color: #F5F3EB"
+                  aria-label=""
                 >
-                  <use
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                    xlink:href="/assets/build/sprite.svg?v=220329.1219#info2"
-                  ></use>
-                </svg>
-                <p class="InformationBox-text u-textSmall">
-                  <strong>Fri frakt</strong> vid köp över 2000 kr
-                </p>
-              </section>
-            `;
+                  <svg
+                    role="img"
+                    class="InformationBox-icon u-fillGreen"
+                    style="height: 1rem; width: 1rem; margin-left: 5px"
+                  >
+                    <use
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      xlink:href="/assets/build/sprite.svg?v=220329.1219#info2"
+                    ></use>
+                  </svg>
+                  <p class="InformationBox-text u-textSmall">
+                    <strong>Fri frakt</strong> vid köp över 2000 kr
+                  </p>
+                </section>
+              `;
 
-            for (const item of items) {
-              const text = item.textContent;
+              for (const item of items) {
+                const text = item.textContent;
 
-              if (text.startsWith('Plockavgift')) {
-                break;
+                if (text.startsWith('Plockavgift')) {
+                  break;
+                }
+
+                if (text.startsWith('Frakt')) {
+                  content = true;
+                }
+
+                if (text === 'Fri frakt vid köp över 2000kr') {
+                  block.querySelector<HTMLElement>(
+                    '.InformationBox'
+                  ).style.backgroundColor = '#e0efdd';
+                  block.querySelector('.InformationBox-icon').innerHTML =
+                    '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check2"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check"></use></use>';
+
+                  item.classList.remove('u-flex');
+                  item.style.display = 'none';
+                }
               }
 
-              if (text.startsWith('Frakt')) {
-                content = true;
+              if (content) {
+                element.querySelector('.T113')?.remove();
+                element.firstElementChild.append(block);
               }
 
-              if (text === 'Fri frakt vid köp över 2000kr') {
-                block.querySelector<HTMLElement>(
-                  '.InformationBox'
-                ).style.backgroundColor = '#e0efdd';
-                block.querySelector('.InformationBox-icon').innerHTML =
-                  '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check2"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check"></use></use>';
-
-                item.classList.remove('u-flex');
-                item.style.display = 'none';
-              }
-            }
-
-            if (content) {
-              element.querySelector('.T113')?.remove();
-              element.firstElementChild.append(block);
-            }
-
-            let observer = new MutationObserver((mutations) => {
-              mutations.forEach((mutation) => {
-                observer.disconnect();
-                run();
+              let observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                  observer.disconnect();
+                  run();
+                });
               });
-            });
 
-            observer.observe(element.querySelector('div.u-paddingLsm'), {
-              childList: true,
-            });
-          })();
+              observer.observe(element.querySelector('div.u-paddingLsm'), {
+                childList: true,
+              });
+            })();
+          });
         });
-      });
-
+      }
       cover.waitFor(
         '[data-component-id="EditOrderModeNotice"]',
         () => {
