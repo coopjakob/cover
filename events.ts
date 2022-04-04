@@ -377,215 +377,224 @@ const cover: CoverType = {
                 class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
               >
               <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
-              <div class="ItemTeaser-content">
-                  <div class="ItemTeaser-media">
-                      <div class="ItemTeaser-image">
-                          
-      
-                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1625092168/cloud/230148.png" alt="Mjukt bröd">
-                      </div>
-                          <div class="ItemTeaser-promos">
-      
-                                  <div class="ItemTeaser-splash">
-                                      <p class="Splash">
-                                          
-                                          <svg role="presentation" class="Splash-bg">
-                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220328.1144#splash"></use>
-                                          </svg>
-                                          <span class="Splash-content ">
-                                                  <span class="Splash-pricePre">2 för</span>
-                                                  <span class="Splash-priceLarge">32:-</span>
-                                                  <span class="Splash-pricePre"></span>
-      
-      
-                                          </span>
-                                      </p>
-                                  </div>
-      
-                          </div>
-                  </div>
-                  <div class="ItemTeaser-info">
-                      <h3 class="ItemTeaser-heading" data-id="7311070330328">Mjukt bröd</h3>
-                      <p class="ItemTeaser-description">
-                              <span class="ItemTeaser-brand">Pågen.</span>
-                          500 g. Välj mellan lingongrova, lingongrova special och guldkorn. Jfr-pris 32:-/kg.
-                      </p>
-                          <div class="ItemTeaser-cta">
-                                  <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
-                          </div>
-                                                          <p class="ItemTeaser-priceRules">Max 1 köp/medlem</p>
-                                                          
-                      <p style="display: none">
-                          ItemID: 7311070330328<br>
-                          EAGID: 2379<br>
-                          Vecka: 13
-                      </p>
-                  </div>
-              </div>
-          </article>
-              </div>
-        
-              <div
-                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
-              >
-              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
-              <div class="ItemTeaser-content">
-                  <div class="ItemTeaser-media">
-                      <div class="ItemTeaser-image">
-                          
-      
-                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1624273240/220048.png" alt="Juice">
-                      </div>
-                          <div class="ItemTeaser-promos">
-      
-                                  <div class="ItemTeaser-splash">
-                                      <p class="Splash">
-                                          
-                                          <svg role="presentation" class="Splash-bg">
-                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220328.1144#splash"></use>
-                                          </svg>
-                                          <span class="Splash-content ">
-                                                  <span class="Splash-pricePre"></span>
-                                                  <span class="Splash-priceLarge">12</span>
-                                                      <span class="Splash-priceSupSub">
-      
-                                                              <span class="Splash-priceSup">90</span>
-                                                              <span class="Splash-priceSub Splash-priceUnit ">/st</span>
-                                                      </span>
-                                                  <span class="Splash-pricePre"></span>
-      
-      
-                                          </span>
-                                      </p>
-                                  </div>
-      
-                          </div>
-                  </div>
-                  <div class="ItemTeaser-info">
-                      <h3 class="ItemTeaser-heading" data-id="7310860007372">Juice</h3>
-                      <p class="ItemTeaser-description">
-                              <span class="ItemTeaser-brand">God Morgon.</span>
-                          1 liter. Välj mellan apelsin och apelsin/röd grapefrukt. Jfr-pris 12:90/lit.
-                      </p>
-                          <div class="ItemTeaser-cta">
-                                  <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
-                          </div>
-                                                          <p class="ItemTeaser-priceRules">Max 2 köp/medlem</p>
-                      <p style="display: none">
-                          ItemID: 7310860007372<br>
-                          EAGID: 7842<br>
-                          Vecka: 13
-                      </p>
-                  </div>
-              </div>
-          </article>
+        <div class="ItemTeaser-content">
+            <div class="ItemTeaser-media">
+                <div class="ItemTeaser-image">
+                    
+
+                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1553696556/368856.png" alt="Påsklilja/Vårlilja">
+                </div>
+                    <div class="ItemTeaser-promos">
+
+                            <div class="ItemTeaser-splash">
+                                <p class="Splash">
+                                    
+                                    <svg role="presentation" class="Splash-bg">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220401.0833#splash"></use>
+                                    </svg>
+                                    <span class="Splash-content ">
+                                            <span class="Splash-pricePre"></span>
+                                            <span class="Splash-priceLarge">25:-</span>
+                                                <span class="Splash-priceSupSub">
+
+                                                        <span class="Splash-priceSup Splash-priceNoDecimal">&nbsp;</span>
+                                                        <span class="Splash-priceSub Splash-priceUnitNoDecimal ">/st</span>
+                                                </span>
+                                            <span class="Splash-pricePre"></span>
+
+
+                                    </span>
+                                </p>
+                            </div>
+
+                    </div>
+            </div>
+            <div class="ItemTeaser-info">
+                <h3 class="ItemTeaser-heading" data-id="7315800822336">Påsklilja/Vårlilja</h3>
+                <p class="ItemTeaser-description">
+                        <span class="ItemTeaser-brand">Sverige/Spira.</span>
+                    Odlade i Sverige. 13 cm kruka. Välj mellan stor- och småblommig påsklilja Carlton/Tête-à-tête. Jfr-pris 25:-/st. Latin: Narcissus Tetate.
+                </p>
+                    <div class="ItemTeaser-cta">
+                            <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
+                    </div>
+                                                                                <p style="display: none">
+                    ItemID: 7315800822336<br>
+                    EAGID: 13886<br>
+                    Vecka: 14
+                </p>
+            </div>
+        </div>
+    </article>
               </div>
         
               <div
                 class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
               >
               <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
-              <div class="ItemTeaser-content">
-                  <div class="ItemTeaser-media">
-                      <div class="ItemTeaser-image">
-                          
-      
-                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1605887215/412682.png" alt="Läsk">
-                      </div>
-                          <div class="ItemTeaser-promos">
-      
-                                  <div class="ItemTeaser-splash">
-                                      <p class="Splash">
-                                          
-                                          <svg role="presentation" class="Splash-bg">
-                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220328.1144#splash"></use>
-                                          </svg>
-                                          <span class="Splash-content ">
-                                                  <span class="Splash-pricePre"></span>
-                                                  <span class="Splash-priceLarge">10:-</span>
-                                                      <span class="Splash-priceSupSub">
-      
-                                                              <span class="Splash-priceSup Splash-priceNoDecimal">&nbsp;</span>
-                                                              <span class="Splash-priceSub Splash-priceUnitNoDecimal ">/st</span>
-                                                      </span>
-                                                  <span class="Splash-pricePre"></span>
-      
-      
-                                          </span>
-                                      </p>
-                                  </div>
-      
-                          </div>
-                  </div>
-                  <div class="ItemTeaser-info">
-                      <h3 class="ItemTeaser-heading" data-id="7310070004505">Läsk</h3>
-                      <p class="ItemTeaser-description">
-                              <span class="ItemTeaser-brand">Pepsi/Zingo/7Up/Pommac.</span>
-                          140-150 cl. Välj mellan olika sorter. Jfr-pris 6:67/lit.
-                      </p>
-                          <div class="ItemTeaser-cta">
-                                  <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
-                          </div>
-                                                          <p class="ItemTeaser-priceRules">Max 3 köp/medlem</p>
-                                          <p class="ItemTeaser-priceRules">Pant tillkommer.</p>
-                      <p style="display: none">
-                          ItemID: 7310070004505<br>
-                          EAGID: 2189<br>
-                          Vecka: 13
-                      </p>
-                  </div>
-              </div>
-          </article>
+        <div class="ItemTeaser-content">
+            <div class="ItemTeaser-media">
+                <div class="ItemTeaser-image">
+                    
+
+                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1529974034/302744.png" alt="Juice">
+                </div>
+                    <div class="ItemTeaser-promos">
+
+                            <div class="ItemTeaser-splash">
+                                <p class="Splash">
+                                    
+                                    <svg role="presentation" class="Splash-bg">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220401.0833#splash"></use>
+                                    </svg>
+                                    <span class="Splash-content ">
+                                            <span class="Splash-pricePre"></span>
+                                            <span class="Splash-priceLarge">19</span>
+                                                <span class="Splash-priceSupSub">
+
+                                                        <span class="Splash-priceSup">90</span>
+                                                        <span class="Splash-priceSub Splash-priceUnit ">/st</span>
+                                                </span>
+                                            <span class="Splash-pricePre"></span>
+
+
+                                    </span>
+                                </p>
+                            </div>
+
+                    </div>
+            </div>
+            <div class="ItemTeaser-info">
+                <h3 class="ItemTeaser-heading" data-id="7310867561006">Juice</h3>
+                <p class="ItemTeaser-description">
+                        <span class="ItemTeaser-brand">Bravo.</span>
+                    2 liter. Välj mellan olika sorter. Jfr-pris 9:95/lit.
+                </p>
+                    <div class="ItemTeaser-cta">
+                            <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
+                    </div>
+                                                    <p class="ItemTeaser-priceRules">Max 2 köp/medlem</p>
+                <p style="display: none">
+                    ItemID: 7310867561006<br>
+                    EAGID: 167<br>
+                    Vecka: 14
+                </p>
+            </div>
+        </div>
+    </article>
               </div>
         
               <div
                 class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
               >
               <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
-              <div class="ItemTeaser-content">
-                  <div class="ItemTeaser-media">
-                      <div class="ItemTeaser-image">
-                          
-      
-                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1628670846/cloud/231887.png" alt="Tvättmedel">
-                      </div>
-                          <div class="ItemTeaser-promos">
-      
-                                  <div class="ItemTeaser-splash">
-                                      <p class="Splash">
-                                          
-                                          <svg role="presentation" class="Splash-bg">
-                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220328.1144#splash"></use>
-                                          </svg>
-                                          <span class="Splash-content ">
-                                                  <span class="Splash-pricePre">3 för</span>
-                                                  <span class="Splash-priceLarge">89:-</span>
-                                                  <span class="Splash-pricePre"></span>
-      
-      
-                                          </span>
-                                      </p>
-                                  </div>
-      
-                          </div>
-                  </div>
-                  <div class="ItemTeaser-info">
-                      <h3 class="ItemTeaser-heading" data-id="8435495810667">Tvättmedel</h3>
-                      <p class="ItemTeaser-description">
-                              <span class="ItemTeaser-brand">A+.</span>
-                          Välj mellan flytande tvättmedel och refill. 880–920 ml. Jfr-pris 1:35/tvätt/disk.
-                      </p>
-                          <div class="ItemTeaser-cta">
-                                  <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
-                          </div>
-                      <p style="display: none">
-                          ItemID: 8435495810667<br>
-                          EAGID: 29603<br>
-                          Vecka: 13
-                      </p>
-                  </div>
+        <div class="ItemTeaser-content">
+            <div class="ItemTeaser-media">
+                <div class="ItemTeaser-image">
+                    
+
+                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1631118057/cloud/233879.png" alt="Cheddarost i bit 32%">
+                </div>
+                    <div class="ItemTeaser-promos">
+
+                            <div class="ItemTeaser-splash">
+                                <p class="Splash">
+                                    
+                                    <svg role="presentation" class="Splash-bg">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220401.0833#splash"></use>
+                                    </svg>
+                                    <span class="Splash-content ">
+                                            <span class="Splash-pricePre"></span>
+                                            <span class="Splash-priceLarge">79:-</span>
+                                                <span class="Splash-priceSupSub">
+
+                                                        <span class="Splash-priceSup Splash-priceNoDecimal">&nbsp;</span>
+                                                        <span class="Splash-priceSub Splash-priceUnitNoDecimal ">/kg</span>
+                                                </span>
+                                            <span class="Splash-pricePre"></span>
+
+
+                                    </span>
+                                </p>
+                            </div>
+
+                    </div>
+            </div>
+            <div class="ItemTeaser-info">
+                <h3 class="ItemTeaser-heading" data-id="2340302100007">Cheddarost i bit 32%</h3>
+                <p class="ItemTeaser-description">
+                        <span class="ItemTeaser-brand">Kvibille.</span>
+                    Ca 500-1400 g. I bit. Lagrad 6 månader. Välj mellan olika sorter. Jfr-pris 79:-/kg.
+                </p>
+                    <div class="ItemTeaser-cta">
+                            <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
+                    </div>
+                                                    <p class="ItemTeaser-priceRules">Max 2 köp/medlem</p>
+                                                    <button class="Button Button--transparentGreen Button--full Button--radius js-clustered-offers-trigger">Visa varor</button>
+                <p style="display: none">
+                    ItemID: 2340302100007<br>
+                    EAGID: 5208<br>
+                    Vecka: 14
+                </p>
+            </div>
+        </div>
+    </article>
               </div>
-          </article>
+        
+              <div
+                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
+              >
+              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
+        <div class="ItemTeaser-content">
+            <div class="ItemTeaser-media">
+                <div class="ItemTeaser-image">
+                    
+
+                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1633367161/cloud/235418.png" alt="Vetemjöl 2 kg">
+                </div>
+                    <div class="ItemTeaser-promos">
+
+                            <div class="ItemTeaser-splash">
+                                <p class="Splash">
+                                    
+                                    <svg role="presentation" class="Splash-bg">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220401.0833#splash"></use>
+                                    </svg>
+                                    <span class="Splash-content ">
+                                            <span class="Splash-pricePre"></span>
+                                            <span class="Splash-priceLarge">14</span>
+                                                <span class="Splash-priceSupSub">
+
+                                                        <span class="Splash-priceSup">90</span>
+                                                        <span class="Splash-priceSub Splash-priceUnit ">/st</span>
+                                                </span>
+                                            <span class="Splash-pricePre"></span>
+
+
+                                    </span>
+                                </p>
+                            </div>
+
+                    </div>
+            </div>
+            <div class="ItemTeaser-info">
+                <h3 class="ItemTeaser-heading" data-id="7310130006029">Vetemjöl 2 kg</h3>
+                <p class="ItemTeaser-description">
+                        <span class="ItemTeaser-brand">Kungsörnen.</span>
+                    2 kg. Jfr-pris 7:45/kg.
+                </p>
+                    <div class="ItemTeaser-cta">
+                            <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
+                    </div>
+                                                    <p class="ItemTeaser-priceRules">Max 2 köp/medlem</p>
+                <p style="display: none">
+                    ItemID: 7310130006029<br>
+                    EAGID: 5152<br>
+                    Vecka: 14
+                </p>
+            </div>
+        </div>
+    </article>
               </div>
         
               <div class="Grid-cell u-lg-size2of6 Banner-cell u-bgGreen">
