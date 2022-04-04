@@ -1,0 +1,17 @@
+ProfileMenu ProfileMenu--dropdown js-profileMenu
+nav.ProfileMenu
+
+    width: 375px;
+    padding: 20px;
+    background: white;
+
+ProfileMenu ProfileMenu--dropdown js-mobileProfile
+
+class="ProfileMenu-header"
+
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220404.1124#close">
+                    <title>Dölj</title>
+                </use>
+.Navigation-icon js-loginLink
+
+            
