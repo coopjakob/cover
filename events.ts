@@ -705,7 +705,7 @@ const cover: CoverType = {
               block.innerHTML = `
                 <section
                   class="InformationBox"
-                  style="background-color: #F5F3EB"
+                  style="background-color: #F5F3EB; padding: 11px"
                   aria-label=""
                 >
                   <svg
