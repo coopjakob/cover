@@ -687,7 +687,7 @@ const cover: CoverType = {
     }
 
     cover.waitFor(
-      '.ProfileMenu',
+      '.ProfileMenu--dropdown',
       (element) => {
         const observer = new IntersectionObserver((entries, observer) => {
           entries.forEach(async (entry) => {
