@@ -530,7 +530,6 @@ const cover: CoverType = {
                             <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
                     </div>
                                                     <p class="ItemTeaser-priceRules">Max 2 köp/medlem</p>
-                                                    <button class="Button Button--transparentGreen Button--full Button--radius js-clustered-offers-trigger">Visa varor</button>
                 <p style="display: none">
                     ItemID: 2340302100007<br>
                     EAGID: 5208<br>
