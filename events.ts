@@ -369,7 +369,7 @@ const cover: CoverType = {
                   Veckans medlemserbjudanden
                 </h2>
                 <p class="u-marginHsm u-lg-marginHxlg u-marginVxxxsm">
-                Gäller samtliga Coop-butiker t.o.m. 2022-04-03
+                Gäller samtliga Coop-butiker t.o.m. 2022-04-10
                 </p>
               </div>
         
