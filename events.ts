@@ -813,9 +813,8 @@ const cover: CoverType = {
                 `;
                 close.addEventListener('click', () => {
                   document
-                    .querySelector<HTMLAnchorElement>('a.js-loginLink')
+                    .querySelector<HTMLElement>('.js-profileMenuTrigger')
                     ?.click();
-                  // document.querySelector('a.js-loginLink').click();
                 });
                 element.prepend(close);
               });
