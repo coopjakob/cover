@@ -880,21 +880,22 @@ const cover: CoverType = {
         cover.waitFor('.CheckoutCartSummary', (element) => {
           cover.variantReady('T113', () => {
             (function run() {
-              const items = element.querySelectorAll('li');
-
-              let content = false;
-
               // reset
               window.removeEventListener('ga:modifyCart', run);
 
-              const block = document.createElement('li');
-              block.classList.add(
-                'T113',
-                'u-paddingVxxsm',
-                'u-textMedium',
-                'u-paddingHmd'
-              );
-              block.innerHTML = `
+              setTimeout(() => {
+                const items = element.querySelectorAll('li');
+
+                let content = false;
+
+                const block = document.createElement('li');
+                block.classList.add(
+                  'T113',
+                  'u-paddingVxxsm',
+                  'u-textMedium',
+                  'u-paddingHmd'
+                );
+                block.innerHTML = `
                 <section
                   class="InformationBox"
                   style="background-color: #F5F3EB; padding: 11px"
@@ -916,35 +917,36 @@ const cover: CoverType = {
                 </section>
               `;
 
-              for (const item of items) {
-                const text = item.textContent;
+                for (const item of items) {
+                  const text = item.textContent;
 
-                if (text.startsWith('Plockavgift')) {
-                  break;
+                  if (text.startsWith('Plockavgift')) {
+                    break;
+                  }
+
+                  if (text.startsWith('Frakt')) {
+                    content = true;
+                  }
+
+                  if (text === 'Fri frakt vid köp över 2000kr') {
+                    block.querySelector<HTMLElement>(
+                      '.InformationBox'
+                    ).style.backgroundColor = '#e0efdd';
+                    block.querySelector('.InformationBox-icon').innerHTML =
+                      '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check2"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check"></use></use>';
+
+                    item.classList.remove('u-flex');
+                    item.style.display = 'none';
+                  }
                 }
 
-                if (text.startsWith('Frakt')) {
-                  content = true;
+                if (content) {
+                  element.querySelector('.T113')?.remove();
+                  element.firstElementChild.append(block);
                 }
 
-                if (text === 'Fri frakt vid köp över 2000kr') {
-                  block.querySelector<HTMLElement>(
-                    '.InformationBox'
-                  ).style.backgroundColor = '#e0efdd';
-                  block.querySelector('.InformationBox-icon').innerHTML =
-                    '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check2"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check"></use></use>';
-
-                  item.classList.remove('u-flex');
-                  item.style.display = 'none';
-                }
-              }
-
-              if (content) {
-                element.querySelector('.T113')?.remove();
-                element.firstElementChild.append(block);
-              }
-
-              window.addEventListener('ga:modifyCart', run);
+                window.addEventListener('ga:modifyCart', run);
+              }, 1000);
             })();
           });
         });
