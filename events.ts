@@ -884,6 +884,9 @@ const cover: CoverType = {
 
               let content = false;
 
+              // reset
+              window.removeEventListener('ga:modifyCart', run);
+
               const block = document.createElement('li');
               block.classList.add(
                 'T113',
@@ -941,16 +944,7 @@ const cover: CoverType = {
                 element.firstElementChild.append(block);
               }
 
-              let observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                  observer.disconnect();
-                  run();
-                });
-              });
-
-              observer.observe(element.querySelector('div.u-paddingLsm'), {
-                childList: true,
-              });
+              window.addEventListener('ga:modifyCart', run);
             })();
           });
         });
