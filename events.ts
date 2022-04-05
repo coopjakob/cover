@@ -831,6 +831,52 @@ const cover: CoverType = {
 
     if (window.location.pathname === '/handla/betala/') {
       if (!coopUserSettings.isCompany) {
+        cover.waitFor(
+          '.Checkout h1.Heading',
+          (element) => {
+            let experimentCartDataProductSum = 0;
+
+            function updateText() {
+              let amountLeft = 2000 - Math.floor(experimentCartDataProductSum);
+
+              if (amountLeft < 0) {
+                amountLeft = 0;
+              }
+
+              if (amountLeft <= 500 && amountLeft >= 0) {
+                cover.variantReady('T111', () => {
+                  element.textContent = `Psst! Du har ${amountLeft} kr kvar till fri frakt.`;
+                  document.querySelector(
+                    '.Checkout h1.Heading + p'
+                  ).textContent =
+                    'Vill du lägga något mer i varukorgen? Nedan finner du några förslag på populära varor.';
+                });
+              }
+            }
+
+            function handleModifyCart() {
+              if (window.location.hash === '#/') {
+                fetch('https://www.coop.se/api/hybris/carts/current').then(
+                  (response) => {
+                    response.json().then((data) => {
+                      experimentCartDataProductSum = data.cartData.productSum;
+                      updateText();
+                    });
+                  }
+                );
+              } else {
+                window.removeEventListener('ga:modifyCart', handleModifyCart);
+              }
+            }
+
+            handleModifyCart();
+            window.addEventListener('ga:modifyCart', handleModifyCart);
+          },
+          {
+            content: 'Psst! Du har väl inte glömt någonting?',
+          }
+        );
+
         cover.waitFor('.CheckoutCartSummary', (element) => {
           cover.variantReady('T113', () => {
             (function run() {
