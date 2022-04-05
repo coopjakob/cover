@@ -706,7 +706,8 @@ const cover: CoverType = {
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
-                    margin: 12px;
+                    margin: 12px 12px 0 12px;
+                    height: 125px;
                     gap: 5px;
                     color: #333333;
                     font-size: 12px;
