@@ -843,7 +843,7 @@ const cover: CoverType = {
                 amountLeft = 0;
               }
 
-              if (amountLeft <= 500 && amountLeft >= 0) {
+              if (amountLeft <= 500 && amountLeft > 0) {
                 cover.variantReady('T111', () => {
                   element.textContent = `Psst! Du har ${amountLeft} kr kvar till fri frakt.`;
                   document.querySelector(
@@ -851,6 +851,13 @@ const cover: CoverType = {
                   ).textContent =
                     'Vill du lägga något mer i varukorgen? Nedan finner du några förslag på populära varor.';
                 });
+              } else if (
+                amountLeft === 0 &&
+                cover.variantHistory.includes('T111')
+              ) {
+                element.textContent = `Psst! Du har 0 kr kvar till fri frakt.`;
+                document.querySelector('.Checkout h1.Heading + p').textContent =
+                  'Vill du lägga något mer i varukorgen? Nedan finner du några förslag på populära varor.';
               }
             }
 
