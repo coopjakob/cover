@@ -233,30 +233,7 @@ const cover: CoverType = {
           document.body.append(css);
         });
       });
-
-      cover.waitFor(
-        '.SidebarNav--online',
-        (element) => {
-          const item = element.querySelector('[data-id="81293"]');
-
-          const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(async (entry) => {
-              if (entry.isIntersecting) {
-                observer.disconnect();
-
-                cover.variantReady('T108', () => {
-                  item.remove();
-                });
-              }
-            });
-          });
-          observer.observe(element);
-        },
-        {
-          disconnect: true,
-        }
-      );
-    }
+    } // handla/*
 
     pageview();
     cover.waitFor('.js-page', () => {
