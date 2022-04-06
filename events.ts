@@ -147,6 +147,21 @@ const cover: CoverType = {
     return DYO.getUserObjectsAndVariations();
   },
   run: () => {
+    cover.waitFor('.js-navTrigger', (element) => {
+      cover.variantReady('T94', () => {
+        const item = element.closest('.Navigation-item');
+
+        const wrapper = document.createElement('ul');
+        wrapper.classList.add('Navigation-list');
+        wrapper.style.marginRight = '16px';
+
+        wrapper.append(item);
+
+        const container = document.querySelector('.Header .Main-container');
+        container.prepend(wrapper);
+      });
+    });
+
     if (window.location.pathname.startsWith('/handla/')) {
       cover.waitFor('.Bar--extendedHeader', (element) => {
         const searchInput = document.querySelector('.Search-input');
