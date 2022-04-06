@@ -149,18 +149,17 @@ const cover: CoverType = {
   run: () => {
     if (window.innerWidth < 1024) {
       cover.waitFor('.js-navTrigger', (element) => {
-        cover.variantReady('T94', () => {
-          const item = element.closest('.Navigation-item');
+        // cover.variantReady('T94', () => {
+        const wrapper = document.createElement('ul');
+        wrapper.classList.add('Navigation-list');
+        wrapper.style.marginRight = '16px';
 
-          const wrapper = document.createElement('ul');
-          wrapper.classList.add('Navigation-list');
-          wrapper.style.marginRight = '16px';
+        const container = document.querySelector('.Header .Main-container');
+        container.prepend(wrapper);
 
-          wrapper.append(item);
-
-          const container = document.querySelector('.Header .Main-container');
-          container.prepend(wrapper);
-        });
+        const item = element.parentElement;
+        wrapper.append(item);
+        // });
       });
     }
 
