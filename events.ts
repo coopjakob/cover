@@ -148,19 +148,36 @@ const cover: CoverType = {
   },
   run: () => {
     if (window.innerWidth < 1024) {
-      cover.waitFor('.js-navTrigger', (element) => {
-        // cover.variantReady('T94', () => {
-        const wrapper = document.createElement('ul');
-        wrapper.classList.add('Navigation-list');
-        wrapper.style.marginRight = '16px';
+      cover.waitFor(
+        '.js-navTrigger',
+        (element) => {
+          cover.variantReady('T94', () => {
+            const container = document.querySelector('.Header .Main-container');
+            const logo = container.querySelector('.Header-logo');
 
-        const container = document.querySelector('.Header .Main-container');
-        container.prepend(wrapper);
+            const item = element.parentElement;
+            item.remove();
 
-        const item = element.parentElement;
-        wrapper.append(item);
-        // });
-      });
+            const list = document.createElement('ul');
+            list.classList.add('Navigation-list');
+            list.style.marginRight = '16px';
+            list.innerHTML = `
+              <li class="Navigation-item u-lg-hidden">
+                <button type="button" class="MenuButton MenuButton--white js-navTrigger" aria-label="Meny">
+                  <div class="MenuButton-icon">
+                    <span></span>
+                  </div>
+                </button>
+              </li>
+            `;
+
+            container.insertBefore(list, logo);
+          });
+        },
+        {
+          disconnect: true,
+        }
+      );
     }
 
     if (window.location.pathname.startsWith('/handla/')) {
