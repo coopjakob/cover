@@ -974,7 +974,9 @@ const cover: CoverType = {
                 }
 
                 if (discountLines === 0) {
-                  discountHeader.classList.remove('u-flex');
+                  if (discountHeader.classList.contains('u-flex')) {
+                    discountHeader.classList.remove('u-flex');
+                  }
                   discountHeader.style.display = 'none';
                 } else {
                   discountHeader.classList.add('u-flex');
