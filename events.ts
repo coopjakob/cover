@@ -835,7 +835,9 @@ const cover: CoverType = {
                       eventLabel: 'profile-menu_icons',
                     });
                     setTimeout(() => {
-                      location.href = (<HTMLAnchorElement>event.target).href;
+                      location.href = (<HTMLAnchorElement>(
+                        event.currentTarget
+                      )).href;
                     }, 100);
                   });
                 });
