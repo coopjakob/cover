@@ -904,6 +904,8 @@ const cover: CoverType = {
                 const items = element.querySelectorAll('li');
 
                 let content = false;
+                let discountHeader = undefined;
+                let discountLines = 0;
 
                 const block = document.createElement('li');
                 block.classList.add(
@@ -945,21 +947,38 @@ const cover: CoverType = {
                     content = true;
                   }
 
-                  if (text === 'Fri frakt vid köp över 2000kr') {
-                    block.querySelector<HTMLElement>(
-                      '.InformationBox'
-                    ).style.backgroundColor = '#e0efdd';
-                    block.querySelector('.InformationBox-icon').innerHTML =
-                      '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check2"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check"></use></use>';
+                  if (text.startsWith('Total rabatt')) {
+                    discountHeader = item;
+                  }
 
-                    item.classList.remove('u-flex');
-                    item.style.display = 'none';
+                  // Discounts
+                  if (item.classList.contains('u-textXSmall')) {
+                    if (text === 'Fri frakt vid köp över 2000kr') {
+                      block.querySelector<HTMLElement>(
+                        '.InformationBox'
+                      ).style.backgroundColor = '#e0efdd';
+                      block.querySelector('.InformationBox-icon').innerHTML =
+                        '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check2"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220329.1219#check"></use></use>';
+
+                      item.classList.remove('u-flex');
+                      item.style.display = 'none';
+                    } else {
+                      discountLines += 1;
+                    }
                   }
                 }
 
                 if (content) {
                   element.querySelector('.T113')?.remove();
                   element.firstElementChild.append(block);
+                }
+
+                if (discountLines === 0) {
+                  discountHeader.classList.remove('u-flex');
+                  discountHeader.style.display = 'none';
+                } else {
+                  discountHeader.classList.add('u-flex');
+                  discountHeader.style.display = 'unset';
                 }
 
                 window.addEventListener('ga:modifyCart', run);
