@@ -696,6 +696,19 @@ const cover: CoverType = {
       );
     }
 
+    document.querySelector('.js-profileMenuTrigger').addEventListener(
+      'click',
+      () => {
+        dataLayer.push({
+          event: 'interaction',
+          eventCategory: 'experiment',
+          eventAction: 'click',
+          eventLabel: 'profile-menu',
+        });
+      },
+      { once: true }
+    );
+
     cover.waitFor(
       '.ProfileMenu--dropdown',
       (element) => {
@@ -811,6 +824,21 @@ const cover: CoverType = {
                   </a>
                 `;
                 element.prepend(icons);
+
+                icons.querySelectorAll('a').forEach((element) => {
+                  element.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    dataLayer.push({
+                      event: 'interaction',
+                      eventCategory: 'experiment',
+                      eventAction: 'click',
+                      eventLabel: 'profile-menu_icons',
+                    });
+                    setTimeout(() => {
+                      location.href = (<HTMLAnchorElement>event.target).href;
+                    }, 100);
+                  });
+                });
 
                 const close = document.createElement('button');
                 close.type = 'button';
