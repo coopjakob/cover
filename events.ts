@@ -973,14 +973,16 @@ const cover: CoverType = {
                   element.firstElementChild.append(block);
                 }
 
-                if (discountLines === 0) {
-                  if (discountHeader.classList.contains('u-flex')) {
-                    discountHeader.classList.remove('u-flex');
+                if (discountHeader) {
+                  if (discountLines === 0) {
+                    if (discountHeader.classList.contains('u-flex')) {
+                      discountHeader.classList.remove('u-flex');
+                    }
+                    discountHeader.style.display = 'none';
+                  } else {
+                    discountHeader.classList.add('u-flex');
+                    discountHeader.style.display = 'unset';
                   }
-                  discountHeader.style.display = 'none';
-                } else {
-                  discountHeader.classList.add('u-flex');
-                  discountHeader.style.display = 'unset';
                 }
 
                 window.addEventListener('ga:modifyCart', run);
