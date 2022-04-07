@@ -837,7 +837,7 @@ const cover: CoverType = {
                     setTimeout(() => {
                       location.href = (<HTMLAnchorElement>(
                         event.currentTarget
-                      )).href;
+                      )).getAttribute('href');
                     }, 100);
                   });
                 });
