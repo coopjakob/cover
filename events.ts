@@ -825,6 +825,14 @@ const cover: CoverType = {
                 `;
                 element.prepend(icons);
 
+                const removeElements = element.querySelectorAll(
+                  '[data-test="profilenav-mina-bestallningar"], [data-test="profilenav-sparade-varukorgar"], [data-test="profilenav-mina-inkopslistor"]'
+                );
+
+                removeElements.forEach((element) => {
+                  element.parentElement.remove();
+                });
+
                 const close = document.createElement('button');
                 close.type = 'button';
                 close.classList.add('ProfileMenu-close');
