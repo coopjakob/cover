@@ -276,16 +276,16 @@ const cover: CoverType = {
     } // pageview();
 
     cover.waitFor('.Cart.Cart--mini.is-visible', (element) => {
-      cover.variantReady('T116', () => {
-        const inputs =
-          element.querySelectorAll<HTMLInputElement>('.AddToCart-input');
+      const inputs =
+        element.querySelectorAll<HTMLInputElement>('.AddToCart-input');
 
-        const is50 = (input: HTMLInputElement) => {
-          return parseInt(input.value) >= 50;
-        };
+      const is50 = (input: HTMLInputElement) => {
+        return parseInt(input.value) >= 50;
+      };
 
-        for (const input of inputs) {
-          if (is50(input)) {
+      for (const input of inputs) {
+        if (is50(input)) {
+          cover.variantReady('T116', () => {
             const cartItem = document.createElement('div');
             cartItem.className = 'Cart-item';
             cartItem.innerHTML = `
@@ -296,11 +296,11 @@ const cover: CoverType = {
 
             const container = element.querySelector('.Cart-container ul');
             container.prepend(cartItem);
+          });
 
-            break;
-          }
+          break;
         }
-      });
+      }
     });
 
     if (window.location.pathname === '/') {
