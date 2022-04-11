@@ -316,6 +316,19 @@ const cover: CoverType = {
 
             const container = element.querySelector('.Cart-container ul');
             container.prepend(cartItem);
+
+            cartItem.querySelector('a').addEventListener('click', (event) => {
+              event.preventDefault();
+              dataLayer.push({
+                event: 'interaction',
+                eventCategory: 'experiment',
+                eventAction: 'click',
+                eventLabel: 'contact-ks',
+              });
+              setTimeout(() => {
+                location.href = (<HTMLAnchorElement>event.target).href;
+              }, 100);
+            });
           });
 
           break;
