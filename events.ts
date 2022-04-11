@@ -275,6 +275,34 @@ const cover: CoverType = {
       }
     } // pageview();
 
+    cover.waitFor('.Cart.Cart--mini.is-visible', (element) => {
+      cover.variantReady('T116', () => {
+        const inputs =
+          element.querySelectorAll<HTMLInputElement>('.AddToCart-input');
+
+        const is50 = (input: HTMLInputElement) => {
+          return parseInt(input.value) >= 50;
+        };
+
+        for (const input of inputs) {
+          if (is50(input)) {
+            const cartItem = document.createElement('div');
+            cartItem.className = 'Cart-item';
+            cartItem.innerHTML = `
+              <p>
+                <a href="https://www.coop.se/Globala-sidor/coop-kundservice/" class="Link Link--green">Kontakta kundservice</a> för att säkerställa att vi har allt på lager. När man beställer många av samma vara är det risk att det tar slut för dig eller för andra kunder.
+              </p>
+            `;
+
+            const container = element.querySelector('.Cart-container ul');
+            container.prepend(cartItem);
+
+            break;
+          }
+        }
+      });
+    });
+
     if (window.location.pathname === '/') {
       let experimentListenOnSearchInputOnce = false;
       cover.waitFor(
