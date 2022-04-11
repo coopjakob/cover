@@ -151,6 +151,15 @@ const cover: CoverType = {
       cover.waitFor(
         '.js-navTrigger',
         (element) => {
+          element.addEventListener('click', () => {
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'hamburger-menu',
+            });
+          });
+
           cover.variantReady('T94', () => {
             const container = document.querySelector('.Header .Main-container');
             const logo = container.querySelector('.Header-logo');
@@ -170,6 +179,17 @@ const cover: CoverType = {
                 </button>
               </li>
             `;
+
+            list
+              .querySelector('.js-navTrigger')
+              .addEventListener('click', () => {
+                dataLayer.push({
+                  event: 'interaction',
+                  eventCategory: 'experiment',
+                  eventAction: 'click',
+                  eventLabel: 'hamburger-menu',
+                });
+              });
 
             container.insertBefore(list, logo);
           });
