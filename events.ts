@@ -430,7 +430,7 @@ const cover: CoverType = {
     } // if
 
     if (
-      window.location.pathname.startsWith('/butiker-erbjudanden/') &&
+      window.location.pathname === '/butiker-erbjudanden/' &&
       !coopUserSettings.isAuthenticated
     ) {
       cover.variantReady('T96', () => {
