@@ -379,8 +379,59 @@ const cover: CoverType = {
                   Veckans medlemserbjudanden
                 </h2>
                 <p class="u-marginHsm u-lg-marginHxlg u-marginVxxxsm">
-                Gäller samtliga Coop-butiker t.o.m. 2022-04-10
+                Gäller samtliga Coop-butiker t.o.m. 2022-04-17
                 </p>
+              </div>
+        
+              <div
+                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
+              >
+              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
+              <div class="ItemTeaser-content">
+                  <div class="ItemTeaser-media">
+                      <div class="ItemTeaser-image">
+                          
+      
+                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1594976142/403907.png" alt="Sill i glas">
+                      </div>
+                          <div class="ItemTeaser-promos">
+                                      <img class="ItemTeaser-badge" src="/assets/icons/badge-msc.svg" alt="MSC - Marine Stewardship Council">
+      
+                                  <div class="ItemTeaser-splash">
+                                      <p class="Splash">
+                                          
+                                          <svg role="presentation" class="Splash-bg">
+                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220408.0852#splash"></use>
+                                          </svg>
+                                          <span class="Splash-content ">
+                                                  <span class="Splash-pricePre">2 för</span>
+                                                  <span class="Splash-priceLarge">25:-</span>
+                                                  <span class="Splash-pricePre"></span>
+      
+      
+                                          </span>
+                                      </p>
+                                  </div>
+      
+                          </div>
+                  </div>
+                  <div class="ItemTeaser-info">
+                      <h3 class="ItemTeaser-heading" data-id="7311171004050">Sill i glas</h3>
+                      <p class="ItemTeaser-description">
+                              <span class="ItemTeaser-brand">Abba.</span>
+                          220-240 g. Välj mellan olika sorter. Jfr-pris 104:17/kg utan sås/spad.
+                      </p>
+                          <div class="ItemTeaser-cta">
+                                  <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
+                          </div>
+                      <p style="display: none">
+                          ItemID: 7311171004050<br>
+                          EAGID: 28461<br>
+                          Vecka: 15
+                      </p>
+                  </div>
+              </div>
+          </article>
               </div>
         
               <div
@@ -392,130 +443,20 @@ const cover: CoverType = {
                 <div class="ItemTeaser-image">
                     
 
-                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1553696556/368856.png" alt="Påsklilja/Vårlilja">
+                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1580775841/392332.png" alt="Färsk kycklingfilé">
                 </div>
                     <div class="ItemTeaser-promos">
+                                <img class="ItemTeaser-badge" src="/assets/icons/badge-svensk-fagel.svg" alt="Svensk fågel">
 
                             <div class="ItemTeaser-splash">
                                 <p class="Splash">
                                     
                                     <svg role="presentation" class="Splash-bg">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220401.0833#splash"></use>
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220408.0852#splash"></use>
                                     </svg>
                                     <span class="Splash-content ">
                                             <span class="Splash-pricePre"></span>
-                                            <span class="Splash-priceLarge">25:-</span>
-                                                <span class="Splash-priceSupSub">
-
-                                                        <span class="Splash-priceSup Splash-priceNoDecimal">&nbsp;</span>
-                                                        <span class="Splash-priceSub Splash-priceUnitNoDecimal ">/st</span>
-                                                </span>
-                                            <span class="Splash-pricePre"></span>
-
-
-                                    </span>
-                                </p>
-                            </div>
-
-                    </div>
-            </div>
-            <div class="ItemTeaser-info">
-                <h3 class="ItemTeaser-heading" data-id="7315800822336">Påsklilja/Vårlilja</h3>
-                <p class="ItemTeaser-description">
-                        <span class="ItemTeaser-brand">Sverige/Spira.</span>
-                    Odlade i Sverige. 13 cm kruka. Välj mellan stor- och småblommig påsklilja Carlton/Tête-à-tête. Jfr-pris 25:-/st. Latin: Narcissus Tetate.
-                </p>
-                    <div class="ItemTeaser-cta">
-                            <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
-                    </div>
-                                                                                <p style="display: none">
-                    ItemID: 7315800822336<br>
-                    EAGID: 13886<br>
-                    Vecka: 14
-                </p>
-            </div>
-        </div>
-    </article>
-              </div>
-        
-              <div
-                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
-              >
-              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
-        <div class="ItemTeaser-content">
-            <div class="ItemTeaser-media">
-                <div class="ItemTeaser-image">
-                    
-
-                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1529974034/302744.png" alt="Juice">
-                </div>
-                    <div class="ItemTeaser-promos">
-
-                            <div class="ItemTeaser-splash">
-                                <p class="Splash">
-                                    
-                                    <svg role="presentation" class="Splash-bg">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220401.0833#splash"></use>
-                                    </svg>
-                                    <span class="Splash-content ">
-                                            <span class="Splash-pricePre"></span>
-                                            <span class="Splash-priceLarge">19</span>
-                                                <span class="Splash-priceSupSub">
-
-                                                        <span class="Splash-priceSup">90</span>
-                                                        <span class="Splash-priceSub Splash-priceUnit ">/st</span>
-                                                </span>
-                                            <span class="Splash-pricePre"></span>
-
-
-                                    </span>
-                                </p>
-                            </div>
-
-                    </div>
-            </div>
-            <div class="ItemTeaser-info">
-                <h3 class="ItemTeaser-heading" data-id="7310867561006">Juice</h3>
-                <p class="ItemTeaser-description">
-                        <span class="ItemTeaser-brand">Bravo.</span>
-                    2 liter. Välj mellan olika sorter. Jfr-pris 9:95/lit.
-                </p>
-                    <div class="ItemTeaser-cta">
-                            <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
-                    </div>
-                                                    <p class="ItemTeaser-priceRules">Max 2 köp/medlem</p>
-                <p style="display: none">
-                    ItemID: 7310867561006<br>
-                    EAGID: 167<br>
-                    Vecka: 14
-                </p>
-            </div>
-        </div>
-    </article>
-              </div>
-        
-              <div
-                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
-              >
-              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
-        <div class="ItemTeaser-content">
-            <div class="ItemTeaser-media">
-                <div class="ItemTeaser-image">
-                    
-
-                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1631118057/cloud/233879.png" alt="Cheddarost i bit 32%">
-                </div>
-                    <div class="ItemTeaser-promos">
-
-                            <div class="ItemTeaser-splash">
-                                <p class="Splash">
-                                    
-                                    <svg role="presentation" class="Splash-bg">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220401.0833#splash"></use>
-                                    </svg>
-                                    <span class="Splash-content ">
-                                            <span class="Splash-pricePre"></span>
-                                            <span class="Splash-priceLarge">79:-</span>
+                                            <span class="Splash-priceLarge">99:-</span>
                                                 <span class="Splash-priceSupSub">
 
                                                         <span class="Splash-priceSup Splash-priceNoDecimal">&nbsp;</span>
@@ -531,23 +472,78 @@ const cover: CoverType = {
                     </div>
             </div>
             <div class="ItemTeaser-info">
-                <h3 class="ItemTeaser-heading" data-id="2340302100007">Cheddarost i bit 32%</h3>
+                <h3 class="ItemTeaser-heading" data-id="2307116100005">Färsk kycklingfilé</h3>
                 <p class="ItemTeaser-description">
-                        <span class="ItemTeaser-brand">Kvibille.</span>
-                    Ca 500-1400 g. I bit. Lagrad 6 månader. Välj mellan olika sorter. Jfr-pris 79:-/kg.
+                        <span class="ItemTeaser-brand">Sverige/Guldfågeln.</span>
+                    Ca 900 g. Välj mellan kycklingbröstfilé och kycklinglårfilé. Jfr-pris 99:-/kg.
                 </p>
                     <div class="ItemTeaser-cta">
                             <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
                     </div>
                                                     <p class="ItemTeaser-priceRules">Max 2 köp/medlem</p>
                 <p style="display: none">
-                    ItemID: 2340302100007<br>
-                    EAGID: 5208<br>
-                    Vecka: 14
+                    ItemID: 2307116100005<br>
+                    EAGID: 22880<br>
+                    Vecka: 15
                 </p>
             </div>
         </div>
     </article>
+              </div>
+        
+              <div
+                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
+              >
+              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
+              <div class="ItemTeaser-content">
+                  <div class="ItemTeaser-media">
+                      <div class="ItemTeaser-image">
+                          
+      
+                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1623365419/131876.png" alt="Smör">
+                      </div>
+                          <div class="ItemTeaser-promos">
+      
+                                  <div class="ItemTeaser-splash">
+                                      <p class="Splash">
+                                          
+                                          <svg role="presentation" class="Splash-bg">
+                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220408.0852#splash"></use>
+                                          </svg>
+                                          <span class="Splash-content ">
+                                                  <span class="Splash-pricePre"></span>
+                                                  <span class="Splash-priceLarge">29</span>
+                                                      <span class="Splash-priceSupSub">
+      
+                                                              <span class="Splash-priceSup">90</span>
+                                                              <span class="Splash-priceSub Splash-priceUnit ">/st</span>
+                                                      </span>
+                                                  <span class="Splash-pricePre"></span>
+      
+      
+                                          </span>
+                                      </p>
+                                  </div>
+      
+                          </div>
+                  </div>
+                  <div class="ItemTeaser-info">
+                      <h3 class="ItemTeaser-heading" data-id="7310865005168">Smör</h3>
+                      <p class="ItemTeaser-description">
+                              <span class="ItemTeaser-brand">Svenskt Smör.</span>
+                          500 g. Välj mellan olika sorter. Gäller ej ekologisk och laktosfri. Jfr-pris 59:80/kg.
+                      </p>
+                          <div class="ItemTeaser-cta">
+                                  <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
+                          </div>
+                      <p style="display: none">
+                          ItemID: 7310865005168<br>
+                          EAGID: 667<br>
+                          Vecka: 15
+                      </p>
+                  </div>
+              </div>
+          </article>
               </div>
         
               <div
@@ -559,7 +555,7 @@ const cover: CoverType = {
                 <div class="ItemTeaser-image">
                     
 
-                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1633367161/cloud/235418.png" alt="Vetemjöl 2 kg">
+                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1548848678/361173.png" alt="Påskmust">
                 </div>
                     <div class="ItemTeaser-promos">
 
@@ -567,16 +563,11 @@ const cover: CoverType = {
                                 <p class="Splash">
                                     
                                     <svg role="presentation" class="Splash-bg">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220401.0833#splash"></use>
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220408.0852#splash"></use>
                                     </svg>
                                     <span class="Splash-content ">
-                                            <span class="Splash-pricePre"></span>
-                                            <span class="Splash-priceLarge">14</span>
-                                                <span class="Splash-priceSupSub">
-
-                                                        <span class="Splash-priceSup">90</span>
-                                                        <span class="Splash-priceSub Splash-priceUnit ">/st</span>
-                                                </span>
+                                            <span class="Splash-pricePre">3 för</span>
+                                            <span class="Splash-priceLarge">25:-</span>
                                             <span class="Splash-pricePre"></span>
 
 
@@ -587,18 +578,18 @@ const cover: CoverType = {
                     </div>
             </div>
             <div class="ItemTeaser-info">
-                <h3 class="ItemTeaser-heading" data-id="7310130006029">Vetemjöl 2 kg</h3>
+                <h3 class="ItemTeaser-heading" data-id="7310070154101">Påskmust</h3>
                 <p class="ItemTeaser-description">
-                        <span class="ItemTeaser-brand">Kungsörnen.</span>
-                    2 kg. Jfr-pris 7:45/kg.
+                        <span class="ItemTeaser-brand">Apotekarnes.</span>
+                    140 cl Välj mellan original och sockerfri. Jfr-pris 5:95/lit.
                 </p>
                     <div class="ItemTeaser-cta">
                             <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
                     </div>
-                                                    <p class="ItemTeaser-priceRules">Max 2 köp/medlem</p>
+                                                                    <p class="ItemTeaser-priceRules">Pant tillkommer.</p>
                 <p style="display: none">
-                    ItemID: 7310130006029<br>
-                    EAGID: 5152<br>
+                    ItemID: 7310070154101<br>
+                    EAGID: 31609<br>
                     Vecka: 14
                 </p>
             </div>
