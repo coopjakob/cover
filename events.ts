@@ -346,7 +346,7 @@ const cover: CoverType = {
         element.innerHTML = 'Fri frakt från 2000 kr';
 
         element.style.padding = '9px 0 9px 0';
-        element.style.backgroundColor = '#00AA46';
+        element.style.backgroundColor = '#00A142';
         element.style.fontSize = '0.75em';
         element.style.textAlign = 'center';
         element.style.color = 'white';
