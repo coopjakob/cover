@@ -151,6 +151,15 @@ const cover: CoverType = {
       cover.waitFor(
         '.js-navTrigger',
         (element) => {
+          element.addEventListener('click', () => {
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'hamburger-menu',
+            });
+          });
+
           cover.variantReady('T94', () => {
             const container = document.querySelector('.Header .Main-container');
             const logo = container.querySelector('.Header-logo');
@@ -170,6 +179,17 @@ const cover: CoverType = {
                 </button>
               </li>
             `;
+
+            list
+              .querySelector('.js-navTrigger')
+              .addEventListener('click', () => {
+                dataLayer.push({
+                  event: 'interaction',
+                  eventCategory: 'experiment',
+                  eventAction: 'click',
+                  eventLabel: 'hamburger-menu',
+                });
+              });
 
             container.insertBefore(list, logo);
           });
@@ -275,7 +295,70 @@ const cover: CoverType = {
       }
     } // pageview();
 
+    cover.waitFor('.Cart.Cart--mini.is-visible', (element) => {
+      const inputs =
+        element.querySelectorAll<HTMLInputElement>('.AddToCart-input');
+
+      const is50 = (input: HTMLInputElement) => {
+        return parseInt(input.value) >= 50;
+      };
+
+      for (const input of inputs) {
+        if (is50(input)) {
+          cover.variantReady('T116', () => {
+            const cartItem = document.createElement('div');
+            cartItem.className = 'Cart-item';
+            cartItem.innerHTML = `
+              <p>
+                <a href="https://www.coop.se/Globala-sidor/coop-kundservice/" class="Link Link--green">Kontakta kundservice</a> för att säkerställa att vi har allt på lager. När man beställer många av samma vara är det risk att det tar slut för dig eller för andra kunder.
+              </p>
+            `;
+
+            const container = element.querySelector('.Cart-container ul');
+            container.prepend(cartItem);
+
+            cartItem.querySelector('a').addEventListener('click', (event) => {
+              event.preventDefault();
+              dataLayer.push({
+                event: 'interaction',
+                eventCategory: 'experiment',
+                eventAction: 'click',
+                eventLabel: 'contact-ks',
+              });
+              setTimeout(() => {
+                location.href = (<HTMLAnchorElement>event.target).href;
+              }, 100);
+            });
+          });
+
+          break;
+        }
+      }
+    });
+
     if (window.location.pathname === '/') {
+      cover.variantReady('T112', () => {
+        let wrapper = document.querySelector('.js-page');
+
+        let element = document.createElement('div');
+        element.classList.add('Grid-cell', 'u-sizeFull');
+
+        element.innerHTML = 'Fri frakt från 2000 kr';
+
+        element.style.padding = '9px 0 9px 0';
+        element.style.backgroundColor = '#00A142';
+        element.style.fontSize = '0.75em';
+        element.style.textAlign = 'center';
+        element.style.color = 'white';
+        element.style.marginBottom = '1.25em';
+        element.style.fontWeight = 'bold';
+
+        wrapper.prepend(element);
+
+        let container = document.querySelector('.js-childLayoutContainer');
+        container.classList.remove('u-marginTmd');
+      });
+
       let experimentListenOnSearchInputOnce = false;
       cover.waitFor(
         '.u-paddingVsm.u-paddingHsm.u-textSmall.u-bgGrayLight.u-colorBlack',
