@@ -899,12 +899,18 @@ const cover: CoverType = {
                 `;
                 element.prepend(icons);
 
-                const removeElements = element.querySelectorAll(
-                  '[data-test="profilenav-mina-bestallningar"], [data-test="profilenav-sparade-varukorgar"], [data-test="profilenav-mina-inkopslistor"]'
+                const listItems = element.querySelectorAll<HTMLLIElement>(
+                  'ul.ProfileMenu-list li'
                 );
 
-                removeElements.forEach((element) => {
-                  element.parentElement.remove();
+                listItems.forEach((item) => {
+                  if (
+                    item.innerText === ' Mina beställningar' ||
+                    item.innerText === ' Sparade varukorgar' ||
+                    item.innerText === ' Mina inköpslistor'
+                  ) {
+                    item.remove();
+                  }
                 });
 
                 const close = document.createElement('button');
