@@ -905,9 +905,9 @@ const cover: CoverType = {
 
                 listItems.forEach((item) => {
                   if (
-                    item.innerText === ' Mina beställningar' ||
-                    item.innerText === ' Sparade varukorgar' ||
-                    item.innerText === ' Mina inköpslistor'
+                    item.innerText.includes('Mina beställningar') ||
+                    item.innerText.includes('Sparade varukorgar') ||
+                    item.innerText.includes('Mina inköpslistor')
                   ) {
                     item.remove();
                   }
