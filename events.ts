@@ -337,27 +337,29 @@ const cover: CoverType = {
     });
 
     if (window.location.pathname === '/') {
-      cover.variantReady('T112', () => {
-        let wrapper = document.querySelector('.js-page');
+      if (!coopUserSettings.isCompany) {
+        cover.variantReady('T112', () => {
+          let wrapper = document.querySelector('.js-page');
 
-        let element = document.createElement('div');
-        element.classList.add('Grid-cell', 'u-sizeFull');
+          let element = document.createElement('div');
+          element.classList.add('Grid-cell', 'u-sizeFull');
 
-        element.innerHTML = 'Fri frakt från 2000 kr';
+          element.innerHTML = 'Fri frakt från 2000 kr';
 
-        element.style.padding = '9px 0 9px 0';
-        element.style.backgroundColor = '#00A142';
-        element.style.fontSize = '0.75em';
-        element.style.textAlign = 'center';
-        element.style.color = 'white';
-        element.style.marginBottom = '1.25em';
-        element.style.fontWeight = 'bold';
+          element.style.padding = '9px 0 9px 0';
+          element.style.backgroundColor = '#00A142';
+          element.style.fontSize = '0.75em';
+          element.style.textAlign = 'center';
+          element.style.color = 'white';
+          element.style.marginBottom = '1.25em';
+          element.style.fontWeight = 'bold';
 
-        wrapper.prepend(element);
+          wrapper.prepend(element);
 
-        let container = document.querySelector('.js-childLayoutContainer');
-        container.classList.remove('u-marginTmd');
-      });
+          let container = document.querySelector('.js-childLayoutContainer');
+          container.classList.remove('u-marginTmd');
+        });
+      }
 
       let experimentListenOnSearchInputOnce = false;
       cover.waitFor(
