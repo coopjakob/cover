@@ -299,40 +299,54 @@ const cover: CoverType = {
       const inputs =
         element.querySelectorAll<HTMLInputElement>('.AddToCart-input');
 
-      const is50 = (input: HTMLInputElement) => {
-        return parseInt(input.value) >= 50;
-      };
+      let selectedItems = [];
 
       for (const input of inputs) {
-        if (is50(input)) {
-          cover.variantReady('T116', () => {
-            const cartItem = document.createElement('div');
-            cartItem.className = 'Cart-item';
-            cartItem.innerHTML = `
-              <p>
-                <a href="https://www.coop.se/Globala-sidor/coop-kundservice/" class="Link Link--green">Kontakta kundservice</a> för att säkerställa att vi har allt på lager. När man beställer många av samma vara är det risk att det tar slut för dig eller för andra kunder.
-              </p>
-            `;
+        if (parseInt(input.value) >= 50) {
+          const item = input.closest('.Cart-item');
 
-            const container = element.querySelector('.Cart-container ul');
-            container.prepend(cartItem);
-
-            cartItem.querySelector('a').addEventListener('click', (event) => {
-              event.preventDefault();
-              dataLayer.push({
-                event: 'interaction',
-                eventCategory: 'experiment',
-                eventAction: 'click',
-                eventLabel: 'contact-ks',
-              });
-              setTimeout(() => {
-                location.href = (<HTMLAnchorElement>event.target).href;
-              }, 100);
-            });
-          });
-
-          break;
+          selectedItems.push(item);
         }
+      }
+
+      if (selectedItems) {
+        cover.variantReady('T116', () => {
+          for (const item of selectedItems) {
+            let itemDetails = item.querySelector(
+              '.Cart-itemWrapperDetail .u-flexAlignSelfCenter'
+            );
+
+            const notification = document.createElement('p');
+            notification.classList.add('Cart-itemSubtitle');
+            notification.innerText = 'Stort antal av denna vara';
+
+            itemDetails.append(notification);
+          }
+
+          const cartItem = document.createElement('div');
+          cartItem.className = 'Cart-item';
+          cartItem.innerHTML = `
+            <p>
+              <a href="https://www.coop.se/Globala-sidor/coop-kundservice/" class="Link Link--green">Kontakta kundservice</a> för att säkerställa att vi har allt på lager. När man beställer många av samma vara är det risk att det tar slut för dig eller för andra kunder.
+            </p>
+          `;
+
+          const container = element.querySelector('.Cart-container ul');
+          container.prepend(cartItem);
+
+          cartItem.querySelector('a').addEventListener('click', (event) => {
+            event.preventDefault();
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'contact-ks',
+            });
+            setTimeout(() => {
+              location.href = (<HTMLAnchorElement>event.target).href;
+            }, 100);
+          });
+        });
       }
     });
 
