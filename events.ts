@@ -151,14 +151,14 @@ const cover: CoverType = {
       cover.waitFor(
         '.js-navTrigger',
         (element) => {
-          // element.addEventListener('click', () => {
-          //   dataLayer.push({
-          //     event: 'interaction',
-          //     eventCategory: 'experiment',
-          //     eventAction: 'click',
-          //     eventLabel: 'hamburger-menu',
-          //   });
-          // });
+          element.addEventListener('click', () => {
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'hamburger-menu',
+            });
+          });
 
           cover.variantReady('T94', () => {
             const container = document.querySelector('.Header .Main-container');
