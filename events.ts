@@ -478,8 +478,63 @@ const cover: CoverType = {
                   Veckans medlemserbjudanden
                 </h2>
                 <p class="u-marginHsm u-lg-marginHxlg u-marginVxxxsm">
-                Gäller samtliga Coop-butiker t.o.m. 2022-04-17
+                Gäller samtliga Coop-butiker t.o.m. 2022-04-24
                 </p>
+              </div>
+        
+              <div
+                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
+              >
+              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
+        <div class="ItemTeaser-content">
+            <div class="ItemTeaser-media">
+                <div class="ItemTeaser-image">
+                    
+
+                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1583103845/394860.png" alt="Smörgåspålägg">
+                </div>
+                    <div class="ItemTeaser-promos">
+
+                            <div class="ItemTeaser-splash">
+                                <p class="Splash">
+                                    
+                                    <svg role="presentation" class="Splash-bg">
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220411.0906#splash"></use>
+                                    </svg>
+                                    <span class="Splash-content ">
+                                            <span class="Splash-pricePre"></span>
+                                            <span class="Splash-priceLarge">15:-</span>
+                                                <span class="Splash-priceSupSub">
+
+                                                        <span class="Splash-priceSup Splash-priceNoDecimal">&nbsp;</span>
+                                                        <span class="Splash-priceSub Splash-priceUnitNoDecimal ">/st</span>
+                                                </span>
+                                            <span class="Splash-pricePre"></span>
+
+
+                                    </span>
+                                </p>
+                            </div>
+
+                    </div>
+            </div>
+            <div class="ItemTeaser-info">
+                <h3 class="ItemTeaser-heading" data-id="7312331808204">Smörgåspålägg</h3>
+                <p class="ItemTeaser-description">
+                        <span class="ItemTeaser-brand">Sverige/Lönneberga.</span>
+                    120 g. Välj mellan olika sorter. Jfr-pris 125:-/kg.
+                </p>
+                    <div class="ItemTeaser-cta">
+                            <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
+                    </div>
+                <p style="display: none">
+                    ItemID: 7312331808204<br>
+                    EAGID: 591<br>
+                    Vecka: 16
+                </p>
+            </div>
+        </div>
+    </article>
               </div>
         
               <div
@@ -491,16 +546,70 @@ const cover: CoverType = {
                       <div class="ItemTeaser-image">
                           
       
-                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1594976142/403907.png" alt="Sill i glas">
+                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1636245761/cloud/210650.png" alt="Ost - Familjefavoriter">
                       </div>
                           <div class="ItemTeaser-promos">
-                                      <img class="ItemTeaser-badge" src="/assets/icons/badge-msc.svg" alt="MSC - Marine Stewardship Council">
       
                                   <div class="ItemTeaser-splash">
                                       <p class="Splash">
                                           
                                           <svg role="presentation" class="Splash-bg">
-                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220408.0852#splash"></use>
+                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220411.0906#splash"></use>
+                                          </svg>
+                                          <span class="Splash-content ">
+                                                  <span class="Splash-pricePre"></span>
+                                                  <span class="Splash-priceLarge">49</span>
+                                                      <span class="Splash-priceSupSub">
+      
+                                                              <span class="Splash-priceSup">90</span>
+                                                              <span class="Splash-priceSub Splash-priceUnit ">/kg</span>
+                                                      </span>
+                                                  <span class="Splash-pricePre"></span>
+      
+      
+                                          </span>
+                                      </p>
+                                  </div>
+      
+                          </div>
+                  </div>
+                  <div class="ItemTeaser-info">
+                      <h3 class="ItemTeaser-heading" data-id="2340379300003">Ost - Familjefavoriter</h3>
+                      <p class="ItemTeaser-description">
+                              <span class="ItemTeaser-brand">Arla.</span>
+                          Ca 375-1200 g. I bit. Välj mellan olika sorter. Jfr-pris 49:90/kg.
+                      </p>
+                          <div class="ItemTeaser-cta">
+                                  <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
+                          </div>
+                      <p style="display: none">
+                          ItemID: 2340379300003<br>
+                          EAGID: 29556<br>
+                          Vecka: 16
+                      </p>
+                  </div>
+              </div>
+          </article>
+              </div>
+        
+              <div
+                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
+              >
+              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
+              <div class="ItemTeaser-content">
+                  <div class="ItemTeaser-media">
+                      <div class="ItemTeaser-image">
+                          
+      
+                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1648563793/cloud/182322.png" alt="Fetaost">
+                      </div>
+                          <div class="ItemTeaser-promos">
+      
+                                  <div class="ItemTeaser-splash">
+                                      <p class="Splash">
+                                          
+                                          <svg role="presentation" class="Splash-bg">
+                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220411.0906#splash"></use>
                                           </svg>
                                           <span class="Splash-content ">
                                                   <span class="Splash-pricePre">2 för</span>
@@ -515,79 +624,23 @@ const cover: CoverType = {
                           </div>
                   </div>
                   <div class="ItemTeaser-info">
-                      <h3 class="ItemTeaser-heading" data-id="7311171004050">Sill i glas</h3>
+                      <h3 class="ItemTeaser-heading" data-id="7316150970340">Fetaost</h3>
                       <p class="ItemTeaser-description">
-                              <span class="ItemTeaser-brand">Abba.</span>
-                          220-240 g. Välj mellan olika sorter. Jfr-pris 104:17/kg utan sås/spad.
+                              <span class="ItemTeaser-brand">Fontana.</span>
+                          150 g. Original. Jfr-pris 83:33/kg.
                       </p>
                           <div class="ItemTeaser-cta">
                                   <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
                           </div>
-                      <p style="display: none">
-                          ItemID: 7311171004050<br>
-                          EAGID: 28461<br>
-                          Vecka: 15
+                                                          <p class="ItemTeaser-priceRules">Max 1 köp/medlem</p>
+                                                      <p style="display: none">
+                          ItemID: 7316150970340<br>
+                          EAGID: 7283<br>
+                          Vecka: 16
                       </p>
                   </div>
               </div>
           </article>
-              </div>
-        
-              <div
-                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
-              >
-              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
-        <div class="ItemTeaser-content">
-            <div class="ItemTeaser-media">
-                <div class="ItemTeaser-image">
-                    
-
-                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1580775841/392332.png" alt="Färsk kycklingfilé">
-                </div>
-                    <div class="ItemTeaser-promos">
-                                <img class="ItemTeaser-badge" src="/assets/icons/badge-svensk-fagel.svg" alt="Svensk fågel">
-
-                            <div class="ItemTeaser-splash">
-                                <p class="Splash">
-                                    
-                                    <svg role="presentation" class="Splash-bg">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220408.0852#splash"></use>
-                                    </svg>
-                                    <span class="Splash-content ">
-                                            <span class="Splash-pricePre"></span>
-                                            <span class="Splash-priceLarge">99:-</span>
-                                                <span class="Splash-priceSupSub">
-
-                                                        <span class="Splash-priceSup Splash-priceNoDecimal">&nbsp;</span>
-                                                        <span class="Splash-priceSub Splash-priceUnitNoDecimal ">/kg</span>
-                                                </span>
-                                            <span class="Splash-pricePre"></span>
-
-
-                                    </span>
-                                </p>
-                            </div>
-
-                    </div>
-            </div>
-            <div class="ItemTeaser-info">
-                <h3 class="ItemTeaser-heading" data-id="2307116100005">Färsk kycklingfilé</h3>
-                <p class="ItemTeaser-description">
-                        <span class="ItemTeaser-brand">Sverige/Guldfågeln.</span>
-                    Ca 900 g. Välj mellan kycklingbröstfilé och kycklinglårfilé. Jfr-pris 99:-/kg.
-                </p>
-                    <div class="ItemTeaser-cta">
-                            <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
-                    </div>
-                                                    <p class="ItemTeaser-priceRules">Max 2 köp/medlem</p>
-                <p style="display: none">
-                    ItemID: 2307116100005<br>
-                    EAGID: 22880<br>
-                    Vecka: 15
-                </p>
-            </div>
-        </div>
-    </article>
               </div>
         
               <div
@@ -599,7 +652,7 @@ const cover: CoverType = {
                       <div class="ItemTeaser-image">
                           
       
-                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1623365419/131876.png" alt="Smör">
+                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1617882587/426788.png" alt="Matpajer">
                       </div>
                           <div class="ItemTeaser-promos">
       
@@ -607,15 +660,15 @@ const cover: CoverType = {
                                       <p class="Splash">
                                           
                                           <svg role="presentation" class="Splash-bg">
-                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220408.0852#splash"></use>
+                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220411.0906#splash"></use>
                                           </svg>
                                           <span class="Splash-content ">
                                                   <span class="Splash-pricePre"></span>
-                                                  <span class="Splash-priceLarge">29</span>
+                                                  <span class="Splash-priceLarge">20:-</span>
                                                       <span class="Splash-priceSupSub">
       
-                                                              <span class="Splash-priceSup">90</span>
-                                                              <span class="Splash-priceSub Splash-priceUnit ">/st</span>
+                                                              <span class="Splash-priceSup Splash-priceNoDecimal">&nbsp;</span>
+                                                              <span class="Splash-priceSub Splash-priceUnitNoDecimal ">/st</span>
                                                       </span>
                                                   <span class="Splash-pricePre"></span>
       
@@ -627,73 +680,22 @@ const cover: CoverType = {
                           </div>
                   </div>
                   <div class="ItemTeaser-info">
-                      <h3 class="ItemTeaser-heading" data-id="7310865005168">Smör</h3>
+                      <h3 class="ItemTeaser-heading" data-id="7310240079555">Matpajer</h3>
                       <p class="ItemTeaser-description">
-                              <span class="ItemTeaser-brand">Svenskt Smör.</span>
-                          500 g. Välj mellan olika sorter. Gäller ej ekologisk och laktosfri. Jfr-pris 59:80/kg.
+                              <span class="ItemTeaser-brand">Felix.</span>
+                          210-220 g. Frysta. Välj mellan olika sorters originalpaj och veggie. Gäller ej Västerbottensostpaj. Jfr-pris 90:91/kg.
                       </p>
                           <div class="ItemTeaser-cta">
                                   <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
                           </div>
                       <p style="display: none">
-                          ItemID: 7310865005168<br>
-                          EAGID: 667<br>
-                          Vecka: 15
+                          ItemID: 7310240079555<br>
+                          EAGID: 3797<br>
+                          Vecka: 16
                       </p>
                   </div>
               </div>
           </article>
-              </div>
-        
-              <div
-                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
-              >
-              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
-        <div class="ItemTeaser-content">
-            <div class="ItemTeaser-media">
-                <div class="ItemTeaser-image">
-                    
-
-                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1548848678/361173.png" alt="Påskmust">
-                </div>
-                    <div class="ItemTeaser-promos">
-
-                            <div class="ItemTeaser-splash">
-                                <p class="Splash">
-                                    
-                                    <svg role="presentation" class="Splash-bg">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220408.0852#splash"></use>
-                                    </svg>
-                                    <span class="Splash-content ">
-                                            <span class="Splash-pricePre">3 för</span>
-                                            <span class="Splash-priceLarge">25:-</span>
-                                            <span class="Splash-pricePre"></span>
-
-
-                                    </span>
-                                </p>
-                            </div>
-
-                    </div>
-            </div>
-            <div class="ItemTeaser-info">
-                <h3 class="ItemTeaser-heading" data-id="7310070154101">Påskmust</h3>
-                <p class="ItemTeaser-description">
-                        <span class="ItemTeaser-brand">Apotekarnes.</span>
-                    140 cl Välj mellan original och sockerfri. Jfr-pris 5:95/lit.
-                </p>
-                    <div class="ItemTeaser-cta">
-                            <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
-                    </div>
-                                                                    <p class="ItemTeaser-priceRules">Pant tillkommer.</p>
-                <p style="display: none">
-                    ItemID: 7310070154101<br>
-                    EAGID: 31609<br>
-                    Vecka: 14
-                </p>
-            </div>
-        </div>
-    </article>
               </div>
         
               <div class="Grid-cell u-lg-size2of6 Banner-cell u-bgGreen">
