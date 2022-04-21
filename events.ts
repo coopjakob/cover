@@ -972,7 +972,7 @@ const cover: CoverType = {
                 amountLeft = 0;
               }
 
-              if (amountLeft <= 500 && amountLeft > 0) {
+              if (amountLeft <= 1000 && amountLeft > 0) {
                 cover.variantReady('T111', () => {
                   element.textContent = `${amountLeft} kr kvar till fri frakt!`;
                   document.querySelector(
@@ -984,7 +984,7 @@ const cover: CoverType = {
                 amountLeft === 0 &&
                 cover.variantHistory.includes('T111')
               ) {
-                element.textContent = '0 kr kvar till fri frakt!';
+                element.textContent = 'Du har nu fri frakt!';
                 document.querySelector('.Checkout h1.Heading + p').textContent =
                   'Behöver du något mer? Här är några förslag på populära varor.';
               }
