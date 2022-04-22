@@ -440,7 +440,8 @@ const cover: CoverType = {
 
           const header = document.createElement('p');
           header.style.fontSize = '16px';
-          header.style.margin = '3px 0';
+          header.style.margin = '0';
+          header.style.marginBottom = '3px';
           header.style.fontWeight = 'bold';
           header.innerText = 'Stort antal av vissa varor i din varukorg';
           content.append(header);
