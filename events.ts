@@ -406,6 +406,88 @@ const cover: CoverType = {
               }
             });
           }
+
+          const container = element.querySelector('.Cart-container ul');
+
+          const messageItem = document.createElement('div');
+          messageItem.style.borderBottom = '1px solid #ededed';
+          container.prepend(messageItem);
+
+          const notification = document.createElement('div');
+          notification.setAttribute('role', 'button');
+          notification.style.display = 'flex';
+          notification.style.backgroundColor = '#FFFBDB';
+          notification.style.alignItems = 'flex-start';
+          notification.style.padding = '16px';
+          notification.style.borderRadius = '16px';
+          notification.style.margin = '16px';
+          messageItem.append(notification);
+
+          const icon = document.createElement('div');
+          icon.style.marginRight = '16px';
+          icon.innerHTML = `
+              <svg style="display:block" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 24C18.6275 24 24 18.6275 24 12C24 5.37258 18.6275 0 12 0C5.37255 0 0 5.37258 0 12C0 18.6275 5.37255 24 12 24Z" fill="#FF6565"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9999 6C12.7539 6 13.3651 6.61121 13.3651 7.36517V13.4326C13.3651 14.1865 12.7539 14.7978 11.9999 14.7978C11.2459 14.7978 10.6347 14.1865 10.6347 13.4326V7.36517C10.6347 6.61121 11.2459 6 11.9999 6Z" fill="white"/>
+                <path d="M13.8201 17.6798C13.8201 18.6851 13.0052 19.5 11.9999 19.5C10.9946 19.5 10.1797 18.6851 10.1797 17.6798C10.1797 16.6745 10.9946 15.8596 11.9999 15.8596C13.0052 15.8596 13.8201 16.6745 13.8201 17.6798Z" fill="white"/>
+              </svg>
+            `;
+          notification.append(icon);
+
+          const content = document.createElement('div');
+          content.style.alignSelf = 'center';
+          content.style.flexGrow = '1';
+
+          const header = document.createElement('p');
+          header.style.fontSize = '16px';
+          header.style.margin = '3px 0';
+          header.style.fontWeight = 'bold';
+          header.innerText = 'Stort antal av vissa varor i din varukorg';
+          content.append(header);
+
+          const moreInfo = document.createElement('p');
+          moreInfo.classList.add('u-hidden');
+          moreInfo.style.fontSize = '14px';
+          moreInfo.style.margin = '0';
+          moreInfo.innerHTML =
+            'Vid en större beställning av en vara kan du kontakta <a href="https://www.coop.se/Globala-sidor/coop-kundservice/" class="Link Link--green">Coop kundservice</a> först så säkerställer vi att önskat antal finns i lager.';
+          content.append(moreInfo);
+
+          moreInfo.querySelector('a').addEventListener('click', (event) => {
+            event.preventDefault();
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'contact-ks',
+            });
+            setTimeout(() => {
+              location.href = (<HTMLAnchorElement>event.target).href;
+            }, 100);
+          });
+
+          notification.append(content);
+
+          const door = document.createElement('div');
+          door.style.width = '24px';
+          door.innerHTML = `
+              <svg style="display:block" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 9L12 16L5 9" stroke="#0A893D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            `;
+          notification.append(door);
+
+          notification.addEventListener('click', (event) => {
+            moreInfo.classList.toggle('u-hidden');
+
+            if (!door.classList.contains('is-rotated')) {
+              door.style.transform = 'rotate(180deg)';
+              door.classList.add('is-rotated');
+            } else {
+              door.style.transform = 'unset';
+              door.classList.remove('is-rotated');
+            }
+          });
         });
       }
     });
