@@ -1160,7 +1160,7 @@ const cover: CoverType = {
 
               const icon = item.querySelector('.DeliveryItem-icon');
               icon.classList.remove('u-hidden');
-              icon.parentElement.querySelector('svg').remove();
+              icon.parentElement.querySelector('svg')?.remove(); // TODO: Only remove if it exists
             }
           }
         });
