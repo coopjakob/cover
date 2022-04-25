@@ -260,27 +260,6 @@ const cover: CoverType = {
       pageview();
     });
     function pageview() {
-      if (window.location.pathname === '/handla/sok/') {
-        cover.waitFor(
-          '.FilterView-filterToggler',
-          () => {
-            cover.variantReady('T103', () => {
-              const css = document.createElement('style');
-              css.innerHTML = `
-                  .FilterView-filterToggler {
-                    display: none;
-                  }
-                `;
-              document.body.append(css);
-            });
-          },
-          {
-            // only one element is needed, change is added as css
-            disconnect: true,
-          }
-        );
-      }
-
       if (cover.isProductPage()) {
         cover.waitFor(
           '[data-list="Varor som ingår i erbjudandet"]',
