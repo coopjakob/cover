@@ -1257,6 +1257,159 @@ const cover: CoverType = {
             })();
           });
         });
+
+        cover.waitFor('.Loader', (element) => {
+          if (window.location.hash === '#/leverans') {
+            const item = element.closest('.DeliveryItem');
+            if (item) {
+              item.style.gap = 'unset';
+
+              const itemInfo = item.querySelector('.DeliveryItem-info');
+              itemInfo.classList.remove('u-hidden');
+
+              const icon = item.querySelector('.DeliveryItem-icon');
+              icon.classList.remove('u-hidden');
+              icon.parentElement.querySelector('svg').remove();
+            }
+          }
+        });
+
+        const DATA = {
+          ADRESS: {
+            label: 'Välj adress',
+            icon: `<svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M20 43C31.0457 43 40 34.0457 40 23C40 11.9543 31.0457 3 20 3C8.9543 3 0 11.9543 0 23C0 34.0457 8.9543 43 20 43Z" fill="#F5F5F5"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M18.8148 24.7255H21.1852C21.5125 24.7255 21.7778 25.0064 21.7778 25.3529V29.7451H18.2222V25.3529C18.2222 25.0064 18.4875 24.7255 18.8148 24.7255Z" stroke="#333333" stroke-linecap="round" stroke-linejoin="round"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M24.4446 20.2706V17.1961C24.4446 17.0228 24.312 16.8824 24.1483 16.8824H22.9631C22.7995 16.8824 22.6668 17.0228 22.6668 17.1961V18.5389L20.2005 16.1363C20.087 16.0255 19.9122 16.0255 19.7987 16.1363L13.2802 22.6123C13.1902 22.6999 13.1603 22.8371 13.2049 22.9576C13.2495 23.0781 13.3594 23.1573 13.4817 23.1569H14.9631V29.1177C14.9631 29.4642 15.2284 29.7451 15.5557 29.7451H24.4446C24.7719 29.7451 25.0372 29.4642 25.0372 29.1177V23.1569H26.5187C26.6408 23.157 26.7505 23.0778 26.795 22.9573C26.8394 22.8368 26.8095 22.6998 26.7196 22.6123L24.4446 20.2706Z" stroke="#333333" stroke-linecap="round" stroke-linejoin="round"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M35 16C39.4183 16 43 12.4183 43 8C43 3.58172 39.4183 0 35 0C30.5817 0 27 3.58172 27 8C27 12.4183 30.5817 16 35 16Z" fill="#FF6565"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M35.2135 4C35.7161 4 36.1236 4.40747 36.1236 4.91011V8.95506C36.1236 9.4577 35.7161 9.86517 35.2135 9.86517C34.7108 9.86517 34.3034 9.4577 34.3034 8.95506V4.91011C34.3034 4.40747 34.7108 4 35.2135 4Z" fill="white"/>
+            <path d="M36.427 11.7865C36.427 12.4567 35.8837 13 35.2135 13C34.5433 13 34 12.4567 34 11.7865C34 11.1163 34.5433 10.573 35.2135 10.573C35.8837 10.573 36.427 11.1163 36.427 11.7865Z" fill="white"/>
+            </svg>`,
+          },
+          LEVERANSTID: {
+            label: 'Välj leveransstid',
+            icon: `<svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect y="1" width="40" height="40" rx="20" fill="#F5F5F5"/>
+            <path d="M20 15.9996V20.9996L16.5 24.4996M30 20.9996C30 26.5225 25.5228 30.9996 20 30.9996C14.4772 30.9996 10 26.5225 10 20.9996C10 15.4768 14.4772 10.9996 20 10.9996C25.5228 10.9996 30 15.4768 30 20.9996Z" stroke="#0A893D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="23" width="16" height="16" rx="8" fill="#FF6565"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M31 3.5C31.5026 3.5 31.9101 3.90747 31.9101 4.41011V8.45506C31.9101 8.9577 31.5026 9.36517 31 9.36517C30.4973 9.36517 30.0899 8.9577 30.0899 8.45506V4.41011C30.0899 3.90747 30.4973 3.5 31 3.5Z" fill="white"/>
+            <path d="M32.2135 11.2865C32.2135 11.9567 31.6702 12.5 31 12.5C30.3298 12.5 29.7865 11.9567 29.7865 11.2865C29.7865 10.6163 30.3298 10.073 31 10.073C31.6702 10.073 32.2135 10.6163 32.2135 11.2865Z" fill="white"/>
+            </svg>`,
+          },
+          'HÄMTAS PÅ': {
+            label: 'Välj butik',
+            icon: `<svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M20 43C31.0457 43 40 34.0457 40 23C40 11.9543 31.0457 3 20 3C8.9543 3 0 11.9543 0 23C0 34.0457 8.9543 43 20 43Z" fill="#F5F5F5"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M18.8148 24.7255H21.1852C21.5125 24.7255 21.7778 25.0064 21.7778 25.3529V29.7451H18.2222V25.3529C18.2222 25.0064 18.4875 24.7255 18.8148 24.7255Z" stroke="#333333" stroke-linecap="round" stroke-linejoin="round"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M24.4446 20.2706V17.1961C24.4446 17.0228 24.312 16.8824 24.1483 16.8824H22.9631C22.7995 16.8824 22.6668 17.0228 22.6668 17.1961V18.5389L20.2005 16.1363C20.087 16.0255 19.9122 16.0255 19.7987 16.1363L13.2802 22.6123C13.1902 22.6999 13.1603 22.8371 13.2049 22.9576C13.2495 23.0781 13.3594 23.1573 13.4817 23.1569H14.9631V29.1177C14.9631 29.4642 15.2284 29.7451 15.5557 29.7451H24.4446C24.7719 29.7451 25.0372 29.4642 25.0372 29.1177V23.1569H26.5187C26.6408 23.157 26.7505 23.0778 26.795 22.9573C26.8394 22.8368 26.8095 22.6998 26.7196 22.6123L24.4446 20.2706Z" stroke="#333333" stroke-linecap="round" stroke-linejoin="round"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M35 16C39.4183 16 43 12.4183 43 8C43 3.58172 39.4183 0 35 0C30.5817 0 27 3.58172 27 8C27 12.4183 30.5817 16 35 16Z" fill="#FF6565"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M35.2135 4C35.7161 4 36.1236 4.40747 36.1236 4.91011V8.95506C36.1236 9.4577 35.7161 9.86517 35.2135 9.86517C34.7108 9.86517 34.3034 9.4577 34.3034 8.95506V4.91011C34.3034 4.40747 34.7108 4 35.2135 4Z" fill="white"/>
+            <path d="M36.427 11.7865C36.427 12.4567 35.8837 13 35.2135 13C34.5433 13 34 12.4567 34 11.7865C34 11.1163 34.5433 10.573 35.2135 10.573C35.8837 10.573 36.427 11.1163 36.427 11.7865Z" fill="white"/>
+            </svg>`,
+          },
+          KONTAKTUPPGIFTER: {
+            label: 'Fyll i mina uppgifter',
+            icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="20" fill="#F5F5F5"/>
+            <path d="M11 27.4996C11 25.0144 13.0147 22.9996 15.5 22.9996H24.5C26.9853 22.9996 29 25.0144 29 27.4996C29 28.3281 28.3284 28.9996 27.5 28.9996H12.5C11.6716 28.9996 11 28.3281 11 27.4996Z" stroke="#0A893D" stroke-width="2"/>
+            <path d="M24 14.9996C24 17.2088 22.2091 18.9996 20 18.9996C17.7909 18.9996 16 17.2088 16 14.9996C16 12.7905 17.7909 10.9996 20 10.9996C22.2091 10.9996 24 12.7905 24 14.9996Z" stroke="#0A893D" stroke-width="2"/>
+            <rect x="24" width="16" height="16" rx="8" fill="#FF6565"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3.5C32.5026 3.5 32.9101 3.90747 32.9101 4.41011V8.45506C32.9101 8.9577 32.5026 9.36517 32 9.36517C31.4973 9.36517 31.0899 8.9577 31.0899 8.45506V4.41011C31.0899 3.90747 31.4973 3.5 32 3.5Z" fill="white"/>
+            <path d="M33.2135 11.2865C33.2135 11.9567 32.6702 12.5 32 12.5C31.3298 12.5 30.7865 11.9567 30.7865 11.2865C30.7865 10.6163 31.3298 10.073 32 10.073C32.6702 10.073 33.2135 10.6163 33.2135 11.2865Z" fill="white"/>
+            </svg>`,
+          },
+          AVHÄMTNINGSTID: {
+            label: 'Välj avhämtningsstid',
+            icon: `<svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect y="1" width="40" height="40" rx="20" fill="#F5F5F5"/>
+            <path d="M20 15.9996V20.9996L16.5 24.4996M30 20.9996C30 26.5225 25.5228 30.9996 20 30.9996C14.4772 30.9996 10 26.5225 10 20.9996C10 15.4768 14.4772 10.9996 20 10.9996C25.5228 10.9996 30 15.4768 30 20.9996Z" stroke="#0A893D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="23" width="16" height="16" rx="8" fill="#FF6565"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M31 3.5C31.5026 3.5 31.9101 3.90747 31.9101 4.41011V8.45506C31.9101 8.9577 31.5026 9.36517 31 9.36517C30.4973 9.36517 30.0899 8.9577 30.0899 8.45506V4.41011C30.0899 3.90747 30.4973 3.5 31 3.5Z" fill="white"/>
+            <path d="M32.2135 11.2865C32.2135 11.9567 31.6702 12.5 31 12.5C30.3298 12.5 29.7865 11.9567 29.7865 11.2865C29.7865 10.6163 30.3298 10.073 31 10.073C31.6702 10.073 32.2135 10.6163 32.2135 11.2865Z" fill="white"/>
+            </svg>`,
+          },
+        };
+
+        cover.waitFor(
+          'button',
+          (button) => {
+            // https://www.coop.se/handla/betala/#/leverans/dialog/hemleverans
+            if (window.location.hash.startsWith('#/leverans')) {
+              const item = button.closest('.DeliveryItem');
+              const itemInfo = item.querySelector('.DeliveryItem-info');
+              const header = itemInfo.querySelector('h3');
+              const text = itemInfo.querySelector('p');
+              const icon = item.querySelector('.DeliveryItem-icon');
+
+              if (text.textContent === 'Saknas') {
+                cover.variantReady('T114', () => {
+                  item.style.justifyContent = 'unset';
+                  item.style.gap = '15px';
+
+                  itemInfo.classList.add('u-hidden');
+
+                  button.classList.add('Button--grayGreenToDarkGreen');
+
+                  const data = DATA[header.textContent];
+                  button.innerText = data['label'];
+
+                  icon.classList.add('u-hidden');
+
+                  const newIconExist = icon.parentElement.querySelector('svg');
+                  if (!newIconExist) {
+                    icon.insertAdjacentHTML('afterend', data['icon']);
+                  }
+
+                  button.addEventListener(
+                    'click',
+                    () => {
+                      if (header.textContent === 'HÄMTAS PÅ') {
+                        const tooMuchHiddenFix = document.querySelector(
+                          '[data-test="pickupdelivery-contact"] .DeliveryItem-info.u-hidden'
+                        );
+                        if (tooMuchHiddenFix) {
+                          tooMuchHiddenFix.classList.remove('u-hidden');
+
+                          const tooMuchHiddenFixGap = document.querySelector(
+                            '[data-test="pickupdelivery-contact"] .DeliveryItem'
+                          );
+
+                          if (tooMuchHiddenFixGap) {
+                            tooMuchHiddenFixGap.style.gap = 'unset';
+                          }
+
+                          const nextIcon = document.querySelector(
+                            '[data-test="pickupdelivery-contact"] .DeliveryItem-icon'
+                          );
+
+                          nextIcon.classList.remove('u-hidden');
+                          nextIcon.parentElement.querySelector('svg').remove();
+                        }
+                      }
+
+                      // Need to reset for React to act
+                      button.innerText = 'Lägg till';
+
+                      item.style.justifyContent = 'space-between';
+                      item.style.gap = 'unset';
+
+                      button.classList.remove('Button--grayGreenToDarkGreen');
+
+                      icon.classList.remove('u-hidden');
+                      icon.parentElement.querySelector('svg').remove();
+
+                      itemInfo.classList.remove('u-hidden');
+                    },
+                    { once: true }
+                  );
+                });
+              }
+            }
+          },
+          {
+            content: 'Lägg till',
+          }
+        );
       }
       cover.waitFor(
         '[data-component-id="EditOrderModeNotice"]',
