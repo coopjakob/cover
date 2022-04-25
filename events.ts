@@ -200,61 +200,6 @@ const cover: CoverType = {
       );
     }
 
-    if (window.location.pathname.startsWith('/handla/')) {
-      cover.waitFor('.Bar--extendedHeader', (element) => {
-        const searchInput = document.querySelector('.Search-input');
-        searchInput.addEventListener('click', () => {
-          dataLayer.push({
-            event: 'interaction',
-            eventCategory: 'experiment',
-            eventAction: 'click',
-            eventLabel: 'prominent-search',
-          });
-          DY.API('event', {
-            name: 'T91-click',
-          });
-        });
-
-        cover.variantReady('T91', () => {
-          const css = document.createElement('style');
-          css.innerHTML = `
-            .Bar--extendedHeader {
-              background: #F5F5F5!important;
-              display: flex;
-              align-items: center;
-              height: 88px!important;
-            }
-            .Bar-search .Search {
-              filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.05));
-            }
-            .Search-content {
-              border: 0;
-            }
-            .Bar-button--visibleOnlyWhenFixed .CartButton-icon {
-              background: #005537;
-              margin-left: 10px;
-            }
-            .js-sidebarTrigger {
-              background: #e0efdd;
-            }
-            .TimeslotPreview-button {
-              background: white;
-            }
-            .TimeslotPreview-info--text,
-            .EditOrderTimeout-info--text,
-            .TimeslotPreview-info--date {
-              color: #005537;
-            }
-            .Bar--withDropdown button {
-              color: #005537!important;
-            }
-          `;
-
-          document.body.append(css);
-        });
-      });
-    } // handla/*
-
     pageview();
     cover.waitFor('.js-page', () => {
       pageview();
