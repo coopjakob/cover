@@ -784,16 +784,18 @@ const cover: CoverType = {
           });
         });
 
-        cover.variantReady('T118', () => {
-          const parent = element.closest('.ProductSearch-item');
-          const link = parent.querySelector('a');
+        element.addEventListener('mouseover', () => {
+          cover.variantReady('T118', () => {
+            const parent = element.closest('.ProductSearch-item');
+            const link = parent.querySelector('a');
 
-          element.addEventListener('click', () => {
-            setTimeout(() => {
-              link.click();
-            }, 100);
+            element.addEventListener('click', () => {
+              setTimeout(() => {
+                link.click();
+              }, 100);
+            });
+            element.style.cursor = 'pointer';
           });
-          element.style.cursor = 'pointer';
         });
       },
       {
