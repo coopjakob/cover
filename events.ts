@@ -149,10 +149,23 @@ const cover: CoverType = {
   run: () => {
     const container = document.querySelector('.js-navPrimary ul');
     if (container && window.innerWidth >= 1024) {
+      const recept = container.querySelector('li[data-test="mainnav-recept"]');
+      const receptLink = recept.querySelector('a');
+
+      receptLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        dataLayer.push({
+          event: 'interaction',
+          eventCategory: 'experiment',
+          eventAction: 'click',
+          eventLabel: 'recept-nav',
+        });
+        setTimeout(() => {
+          location.href = (<HTMLAnchorElement>event.target).href;
+        }, 100);
+      });
+
       cover.variantReady('T121', () => {
-        const recept = container.querySelector(
-          'li[data-test="mainnav-recept"]'
-        );
         const erbjudanden = container.querySelector(
           'li[data-test="mainnav-butiker-erbjudanden"]'
         );
