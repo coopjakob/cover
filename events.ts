@@ -260,7 +260,7 @@ const cover: CoverType = {
         }
       }
 
-      if (selectedItems) {
+      if (selectedItems.length > 0) {
         cover.variantReady('T116', () => {
           for (const item of selectedItems) {
             const wrapper = item.querySelector('.Cart-itemWrapperDetail');
