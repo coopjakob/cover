@@ -147,6 +147,20 @@ const cover: CoverType = {
     return DYO.getUserObjectsAndVariations();
   },
   run: () => {
+    const container = document.querySelector('.js-navPrimary ul');
+    if (container && window.innerWidth >= 1024) {
+      cover.variantReady('T121', () => {
+        const recept = container.querySelector(
+          'li[data-test="mainnav-recept"]'
+        );
+        const erbjudanden = container.querySelector(
+          'li[data-test="mainnav-butiker-erbjudanden"]'
+        );
+
+        container.insertBefore(recept, erbjudanden);
+      });
+    }
+
     if (window.innerWidth < 1024) {
       cover.waitFor(
         '.js-navTrigger',
