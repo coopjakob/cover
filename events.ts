@@ -775,28 +775,32 @@ const cover: CoverType = {
     cover.waitFor(
       '.ProductSearch-itemGroup--image',
       (element) => {
-        element.addEventListener('click', () => {
-          dataLayer.push({
-            event: 'interaction',
-            eventCategory: 'experiment',
-            eventAction: 'click',
-            eventLabel: 'search-image',
-          });
-        });
-
-        element.addEventListener('mouseover', () => {
-          cover.variantReady('T118', () => {
-            const parent = element.closest('.ProductSearch-item');
-            const link = parent.querySelector('a');
-
+        element.addEventListener(
+          'mouseover',
+          () => {
             element.addEventListener('click', () => {
-              setTimeout(() => {
-                link.click();
-              }, 100);
+              dataLayer.push({
+                event: 'interaction',
+                eventCategory: 'experiment',
+                eventAction: 'click',
+                eventLabel: 'search-image',
+              });
             });
-            element.style.cursor = 'pointer';
-          });
-        });
+
+            cover.variantReady('T118', () => {
+              const parent = element.closest('.ProductSearch-item');
+              const link = parent.querySelector('a');
+
+              element.addEventListener('click', () => {
+                setTimeout(() => {
+                  link.click();
+                }, 100);
+              });
+              element.style.cursor = 'pointer';
+            });
+          },
+          { once: true }
+        );
       },
       {
         querySelectorAll: true,
