@@ -772,6 +772,33 @@ const cover: CoverType = {
       });
     }
 
+    cover.waitFor(
+      '.ProductSearch-itemGroup--image',
+      (element) => {
+        element.addEventListener('click', () => {
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'search-image',
+          });
+        });
+
+        cover.variantReady('T118', () => {
+          const parent = element.closest('.ProductSearch-item');
+          const link = parent.querySelector('a');
+
+          element.addEventListener('click', () => {
+            link.click();
+          });
+          element.style.cursor = 'pointer';
+        });
+      },
+      {
+        querySelectorAll: true,
+      }
+    );
+
     document.querySelector('.js-profileMenuTrigger').addEventListener(
       'click',
       () => {
