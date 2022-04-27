@@ -1069,7 +1069,7 @@ const cover: CoverType = {
 
         cover.waitFor('.Loader', (element) => {
           if (window.location.hash === '#/leverans') {
-            const item = element.closest('.DeliveryItem');
+            const item: HTMLElement = element.closest('.DeliveryItem');
             if (item) {
               item.style.gap = 'unset';
 
@@ -1144,7 +1144,7 @@ const cover: CoverType = {
           (button) => {
             // https://www.coop.se/handla/betala/#/leverans/dialog/hemleverans
             if (window.location.hash.startsWith('#/leverans')) {
-              const item = button.closest('.DeliveryItem');
+              const item: HTMLElement = button.closest('.DeliveryItem');
               const itemInfo = item.querySelector('.DeliveryItem-info');
               const header = itemInfo.querySelector('h3');
               const text = itemInfo.querySelector('p');
@@ -1179,9 +1179,10 @@ const cover: CoverType = {
                         if (tooMuchHiddenFix) {
                           tooMuchHiddenFix.classList.remove('u-hidden');
 
-                          const tooMuchHiddenFixGap = document.querySelector(
-                            '[data-test="pickupdelivery-contact"] .DeliveryItem'
-                          );
+                          const tooMuchHiddenFixGap: HTMLElement =
+                            document.querySelector(
+                              '[data-test="pickupdelivery-contact"] .DeliveryItem'
+                            );
 
                           if (tooMuchHiddenFixGap) {
                             tooMuchHiddenFixGap.style.gap = 'unset';
