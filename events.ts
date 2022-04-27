@@ -784,15 +784,17 @@ const cover: CoverType = {
           });
         });
 
-        cover.variantReady('T118', () => {
-          const parent = element.closest('.ProductSearch-item');
-          const link = parent.querySelector('a');
+        // cover.variantReady('T118', () => {
+        const parent = element.closest('.ProductSearch-item');
+        const link = parent.querySelector('a');
 
-          element.addEventListener('click', () => {
+        element.addEventListener('click', () => {
+          setTimeout(() => {
             link.click();
-          });
-          element.style.cursor = 'pointer';
+          }, 100);
         });
+        element.style.cursor = 'pointer';
+        // });
       },
       {
         querySelectorAll: true,
