@@ -148,7 +148,7 @@ const cover: CoverType = {
   },
   run: () => {
     const container = document.querySelector('.js-navPrimary ul');
-    if (container && window.innerWidth >= 1024) {
+    if (container) {
       const recept = container.querySelector('li[data-test="mainnav-recept"]');
       const receptLink = recept.querySelector('a');
 
