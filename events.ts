@@ -1284,31 +1284,6 @@ const cover: CoverType = {
           }
         );
       }
-      cover.waitFor(
-        '[data-component-id="EditOrderModeNotice"]',
-        () => {
-          cover.waitFor(
-            '[data-component-id="Step2RecommendationsGrid"]',
-            () => {
-              cover.variantReady('P09', () => {
-                const css = document.createElement('style');
-                css.innerHTML = `
-                  [data-component-id="Step2RecommendationsGrid"] {
-                    display: none;
-                  }
-                `;
-                document.body.append(css);
-              });
-            },
-            {
-              disconnect: true,
-            }
-          );
-        },
-        {
-          disconnect: true,
-        }
-      );
     }
   },
   variant: [],
