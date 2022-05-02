@@ -446,6 +446,32 @@ const cover: CoverType = {
 
     if (window.location.pathname === '/') {
       if (!coopUserSettings.isCompany) {
+        cover.variantReady('T117', () => {
+          let wrapper = document.querySelector('.js-page');
+
+          let element = document.createElement('div');
+          element.classList.add('Grid-cell', 'u-sizeFull');
+
+          element.innerHTML = 'Medlemmar får 5% tillbaka - vi ger mest bonus';
+
+          element.style.padding = '9px 0 9px 0';
+          element.style.backgroundColor = '#00A142';
+          element.style.fontSize = '0.75em';
+          element.style.textAlign = 'center';
+          element.style.color = 'white';
+          element.style.marginBottom = '1.25em';
+          element.style.fontWeight = 'bold';
+
+          wrapper.prepend(element);
+
+          let container = document.querySelector('.js-childLayoutContainer');
+          container.classList.remove('u-marginTmd');
+        });
+      }
+    }
+
+    if (window.location.pathname === '/') {
+      if (!coopUserSettings.isCompany) {
         cover.variantReady('T112', () => {
           let wrapper = document.querySelector('.js-page');
 
