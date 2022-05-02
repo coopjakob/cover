@@ -1002,6 +1002,20 @@ const cover: CoverType = {
     );
 
     if (window.location.pathname === '/handla/betala/') {
+      cover.waitFor('button[data-test="footernav-nextButton"]', (element) => {
+        cover.variantReady('T119', () => {
+          element.innerText = 'Fortsätt';
+        });
+      });
+
+      cover.waitFor('.u-hidden.u-md-block button', (element) => {
+        if (window.location.hash === '#/' && window.innerWidth >= 768) {
+          cover.variantReady('T119', () => {
+            element.innerText = 'Fortsätt';
+          });
+        }
+      });
+
       if (!coopUserSettings.isCompany) {
         cover.waitFor(
           '.Checkout h1.Heading',
