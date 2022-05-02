@@ -490,7 +490,7 @@ const cover: CoverType = {
                   Veckans medlemserbjudanden
                 </h2>
                 <p class="u-marginHsm u-lg-marginHxlg u-marginVxxxsm">
-                Gäller samtliga Coop-butiker t.o.m. 2022-05-01
+                Gäller samtliga Coop-butiker t.o.m. 2022-05-08
                 </p>
               </div>
         
@@ -498,12 +498,68 @@ const cover: CoverType = {
                 class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
               >
               <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
+              <div class="ItemTeaser-content">
+                  <div class="ItemTeaser-media">
+                      <div class="ItemTeaser-image">
+                          
+      
+                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1633382063/cloud/235580.png" alt="Ost">
+                      </div>
+                          <div class="ItemTeaser-promos">
+      
+                                  <div class="ItemTeaser-splash">
+                                      <p class="Splash">
+                                          
+                                          <svg role="presentation" class="Splash-bg">
+                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220428.0705#splash"></use>
+                                          </svg>
+                                          <span class="Splash-content ">
+                                                  <span class="Splash-pricePre"></span>
+                                                  <span class="Splash-priceLarge">79</span>
+                                                      <span class="Splash-priceSupSub">
+      
+                                                              <span class="Splash-priceSup">90</span>
+                                                              <span class="Splash-priceSub Splash-priceUnit ">/kg</span>
+                                                      </span>
+                                                  <span class="Splash-pricePre"></span>
+      
+      
+                                          </span>
+                                      </p>
+                                  </div>
+      
+                          </div>
+                  </div>
+                  <div class="ItemTeaser-info">
+                      <h3 class="ItemTeaser-heading" data-id="2340415200007">Ost</h3>
+                      <p class="ItemTeaser-description">
+                              <span class="ItemTeaser-brand">Arla.</span>
+                          Ca 667-1500 g. I bit. Välj mellan Herrgård 28%, Grevé 28% och Präst 31%. Jfr-pris 79:90/kg.
+                      </p>
+                          <div class="ItemTeaser-cta">
+                                  <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
+                          </div>
+                      <p style="display: none">
+                          ItemID: 2340415200007<br>
+                          EAGID: 26366<br>
+                          Vecka: 18
+                      </p>
+                  </div>
+              </div>
+          </article>
+              </div>
+        
+              <div
+                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
+              >
+              
+              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
         <div class="ItemTeaser-content">
             <div class="ItemTeaser-media">
                 <div class="ItemTeaser-image">
                     
 
-                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1639032984/cloud/240782.png" alt="Lantbröd">
+                        <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1633088241/cloud/202200.png" alt="Pasta">
                 </div>
                     <div class="ItemTeaser-promos">
 
@@ -511,11 +567,11 @@ const cover: CoverType = {
                                 <p class="Splash">
                                     
                                     <svg role="presentation" class="Splash-bg">
-                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220422.0812#splash"></use>
+                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220428.0705#splash"></use>
                                     </svg>
                                     <span class="Splash-content ">
                                             <span class="Splash-pricePre"></span>
-                                            <span class="Splash-priceLarge">20:-</span>
+                                            <span class="Splash-priceLarge">12:-</span>
                                                 <span class="Splash-priceSupSub">
 
                                                         <span class="Splash-priceSup Splash-priceNoDecimal">&nbsp;</span>
@@ -531,35 +587,37 @@ const cover: CoverType = {
                     </div>
             </div>
             <div class="ItemTeaser-info">
-                <h3 class="ItemTeaser-heading" data-id="7314873552010">Lantbröd</h3>
+                <h3 class="ItemTeaser-heading" data-id="7310130003547">Pasta</h3>
                 <p class="ItemTeaser-description">
-                        <span class="ItemTeaser-brand">Fazer.</span>
-                    600 g. Välj mellan olika Bistro, Havssalt och Lantfranska. Jfr-pris 33:33/kg.
+                        <span class="ItemTeaser-brand">Kungsörnen.</span>
+                    500-1000 g. Välj mellan olika sorter. Gäller ej Fullkornsmakaroner 800 g. Jfr-pris 16:-/kg.
                 </p>
                     <div class="ItemTeaser-cta">
                             <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
                     </div>
+                                                    <p class="ItemTeaser-priceRules">Max 2 köp/medlem</p>
                 <p style="display: none">
-                    ItemID: 7314873552010<br>
-                    EAGID: 31926<br>
-                    Vecka: 17
+                    ItemID: 7310130003547<br>
+                    EAGID: 24546<br>
+                    Vecka: 18
                 </p>
             </div>
         </div>
     </article>
+
               </div>
         
               <div
                 class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
               >
-              
+             
               <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
               <div class="ItemTeaser-content">
                   <div class="ItemTeaser-media">
                       <div class="ItemTeaser-image">
                           
       
-                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1621895583/429515.png" alt="Bregott/Ekologiskt bregott">
+                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1630148389/cloud/208992.png" alt="Godispåsar">
                       </div>
                           <div class="ItemTeaser-promos">
       
@@ -567,16 +625,11 @@ const cover: CoverType = {
                                       <p class="Splash">
                                           
                                           <svg role="presentation" class="Splash-bg">
-                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220422.0812#splash"></use>
+                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220428.0705#splash"></use>
                                           </svg>
                                           <span class="Splash-content ">
-                                                  <span class="Splash-pricePre"></span>
-                                                  <span class="Splash-priceLarge">29</span>
-                                                      <span class="Splash-priceSupSub">
-      
-                                                              <span class="Splash-priceSup">90</span>
-                                                              <span class="Splash-priceSub Splash-priceUnit ">/st</span>
-                                                      </span>
+                                                  <span class="Splash-pricePre">2 för</span>
+                                                  <span class="Splash-priceLarge">25:-</span>
                                                   <span class="Splash-pricePre"></span>
       
       
@@ -587,18 +640,18 @@ const cover: CoverType = {
                           </div>
                   </div>
                   <div class="ItemTeaser-info">
-                      <h3 class="ItemTeaser-heading" data-id="7310860005842">Bregott/Ekologiskt bregott</h3>
+                      <h3 class="ItemTeaser-heading" data-id="7310350106844">Godispåsar</h3>
                       <p class="ItemTeaser-description">
-                              <span class="ItemTeaser-brand">Bregott.</span>
-                          600 g. Välj mellan olika sorter. Gäller ej laktosfri. Jfr-pris 49:83/kg.
+                              <span class="ItemTeaser-brand">Malaco.</span>
+                          130-210 g. Välj mellan olika sorter. Jfr-pris 59:52/kg.
                       </p>
                           <div class="ItemTeaser-cta">
                                   <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
                           </div>
                       <p style="display: none">
-                          ItemID: 7310860005842<br>
-                          EAGID: 30745<br>
-                          Vecka: 17
+                          ItemID: 7310350106844<br>
+                          EAGID: 26813<br>
+                          Vecka: 18
                       </p>
                   </div>
               </div>
@@ -609,14 +662,13 @@ const cover: CoverType = {
               <div
                 class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
               >
-             
               <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
               <div class="ItemTeaser-content">
                   <div class="ItemTeaser-media">
                       <div class="ItemTeaser-image">
                           
       
-                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1551294610/364941.png" alt="Glass klassikerlåda 18-pack">
+                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1612136399/419314.png" alt="Hushållspapper/toalettpapper">
                       </div>
                           <div class="ItemTeaser-promos">
       
@@ -624,67 +676,10 @@ const cover: CoverType = {
                                       <p class="Splash">
                                           
                                           <svg role="presentation" class="Splash-bg">
-                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220422.0812#splash"></use>
+                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220428.0705#splash"></use>
                                           </svg>
                                           <span class="Splash-content ">
-                                                  <span class="Splash-pricePre"></span>
-                                                  <span class="Splash-priceLarge">79</span>
-                                                      <span class="Splash-priceSupSub">
-      
-                                                              <span class="Splash-priceSup">90</span>
-                                                              <span class="Splash-priceSub Splash-priceUnit ">/förp</span>
-                                                      </span>
-                                                  <span class="Splash-pricePre"></span>
-      
-      
-                                          </span>
-                                      </p>
-                                  </div>
-      
-                          </div>
-                  </div>
-                  <div class="ItemTeaser-info">
-                      <h3 class="ItemTeaser-heading" data-id="8711327343573">Glass klassikerlåda 18-pack</h3>
-                      <p class="ItemTeaser-description">
-                              <span class="ItemTeaser-brand">Gb Glace.</span>
-                          Jfr-pris 56:55/lit.
-                      </p>
-                          <div class="ItemTeaser-cta">
-                                  <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
-                          </div>
-                                                                                      <p style="display: none">
-                          ItemID: 8711327343573<br>
-                          EAGID: 24310<br>
-                          Vecka: 17
-                      </p>
-                  </div>
-              </div>
-          </article>
-
-              </div>
-        
-              <div
-                class="Grid-cell u-size1of2 u-xsm-size1of2 u-md-size1of4 u-lg-size1of6"
-              >
-             
-              <article class="ItemTeaser" itemscope="" itemtype="http://schema.org/Product">
-              <div class="ItemTeaser-content">
-                  <div class="ItemTeaser-media">
-                      <div class="ItemTeaser-image">
-                          
-      
-                              <img class="u-posAbsoluteCenter" src="//res.cloudinary.com/coopsverige/image/upload//t_200x200_png/v1601372577/409132.png" alt="Tvättmedel/Sköljmedel">
-                      </div>
-                          <div class="ItemTeaser-promos">
-      
-                                  <div class="ItemTeaser-splash">
-                                      <p class="Splash">
-                                          
-                                          <svg role="presentation" class="Splash-bg">
-                                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg?v=220422.0812#splash"></use>
-                                          </svg>
-                                          <span class="Splash-content ">
-                                                  <span class="Splash-pricePre">4 för</span>
+                                                  <span class="Splash-pricePre">5 för</span>
                                                   <span class="Splash-priceLarge">99:-</span>
                                                   <span class="Splash-pricePre"></span>
       
@@ -696,18 +691,18 @@ const cover: CoverType = {
                           </div>
                   </div>
                   <div class="ItemTeaser-info">
-                      <h3 class="ItemTeaser-heading" data-id="7310610015794">Tvättmedel/Sköljmedel</h3>
+                      <h3 class="ItemTeaser-heading" data-id="6414301049707">Hushållspapper/toalettpapper</h3>
                       <p class="ItemTeaser-description">
-                              <span class="ItemTeaser-brand">Grumme.</span>
-                          Välj mellan olika sorter flytande tvättmedel 750-800 ml och sköljmedel 600 ml. Jfr-pris 0:92/tvätt/disk.
+                              <span class="ItemTeaser-brand">Lambi.</span>
+                          568-832 g. Välj mellan 4-pack hushållspapper och 8-pack toalettpapper. Jfr-pris 34:86/kg.
                       </p>
                           <div class="ItemTeaser-cta">
                                   <span class="ItemTeaser-tag ItemTeaser-tag--medlem">Medlemspris</span>
                           </div>
                       <p style="display: none">
-                          ItemID: 7310610015794<br>
-                          EAGID: 29542<br>
-                          Vecka: 17
+                          ItemID: 6414301049707<br>
+                          EAGID: 3602<br>
+                          Vecka: 18
                       </p>
                   </div>
               </div>
