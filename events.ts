@@ -444,29 +444,31 @@ const cover: CoverType = {
       }
     });
 
-    if (window.location.pathname === '/') {
+    if (window.location.pathname.startsWith('/handla/')) {
       if (!coopUserSettings.isCompany) {
-        cover.variantReady('T117', () => {
-          let wrapper = document.querySelector('.js-page');
+        let wrapper = document.querySelector('[data-child-layout="ecommerce"]');
 
-          let element = document.createElement('div');
-          element.classList.add('Grid-cell', 'u-sizeFull');
+        if (wrapper) {
+          cover.variantReady('T117', () => {
+            let element = document.createElement('div');
+            element.classList.add('Grid-cell', 'u-sizeFull');
 
-          element.innerHTML = 'Medlemmar får 5% tillbaka - vi ger mest bonus';
+            element.innerHTML = 'Medlemmar får 5% tillbaka - vi ger mest bonus';
 
-          element.style.padding = '9px 0 9px 0';
-          element.style.backgroundColor = '#00A142';
-          element.style.fontSize = '0.75em';
-          element.style.textAlign = 'center';
-          element.style.color = 'white';
-          element.style.marginBottom = '1.25em';
-          element.style.fontWeight = 'bold';
+            element.style.padding = '9px 0 9px 0';
+            element.style.backgroundColor = '#00A142';
+            element.style.fontSize = '0.75em';
+            element.style.textAlign = 'center';
+            element.style.color = 'white';
+            element.style.marginBottom = '1.25em';
+            element.style.fontWeight = 'bold';
 
-          wrapper.prepend(element);
+            wrapper.prepend(element);
 
-          let container = document.querySelector('.js-childLayoutContainer');
-          container.classList.remove('u-marginTmd');
-        });
+            let container = document.querySelector('.js-childLayoutContainer');
+            container.classList.remove('u-marginTmd');
+          });
+        }
       }
     }
 
