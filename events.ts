@@ -232,6 +232,39 @@ const cover: CoverType = {
       pageview();
     });
     function pageview() {
+      cover.waitFor(
+        '.Splash-pricePre',
+        (element) => {
+          const quantity = parseInt(element.textContent);
+          if (quantity && quantity > 1) {
+            const parent = element.closest('.ItemTeaser');
+            if (parent) {
+              const button = parent.querySelector('.AddToCart-button--add');
+              const input = parent.querySelector('.AddToCart-input');
+
+              if (input && input.value === '0') {
+                button.addEventListener(
+                  'click',
+                  (event) => {
+                    cover.variantReady('T120', () => {
+                      setTimeout(() => {
+                        for (var i = 1; i < quantity; i++) {
+                          button.click();
+                        }
+                      }, 50);
+                    });
+                  },
+                  { once: true }
+                );
+              }
+            }
+          }
+        },
+        {
+          querySelectorAll: true,
+        }
+      );
+
       if (cover.isProductPage()) {
         cover.waitFor(
           '[data-list="Varor som ingår i erbjudandet"]',
