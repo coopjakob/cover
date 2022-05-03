@@ -264,6 +264,10 @@ const cover: CoverType = {
               cover.variantReady('T122', () => {
                 button.style.marginRight = '5px';
 
+                if (window.innerWidth <= 390) {
+                  button.parentElement.classList.remove('u-flex');
+                }
+
                 const container = document.createElement('div');
                 container.innerHTML = `<button type="button" class="FilterView-filterButton Button Button--radius Button--small Button--compact u-outlineSolidBase2 Button--greenLight2NoHover" aria-label="Filtrera på ekologiskt" title="Filtrera på ekologiskt" style="background: white;border: unset;margin-left: 0;font-size: 12px; padding: 0px 10px 0 8px;"><img src="/contentassets/37af8083f694424fbf99726f2ce6339e/treklovern.png" width="19" height="15" style="vertical-align: bottom"> Eko&shy;logiskt</button>`;
 
