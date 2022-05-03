@@ -232,6 +232,43 @@ const cover: CoverType = {
       pageview();
     });
     function pageview() {
+      if (
+        cover.isCategoryPage() ||
+        window.location.pathname === '/handla/sok/'
+      ) {
+        let urlParams = new URLSearchParams(window.location.search);
+        if (
+          !(urlParams.has('filter') && urlParams.get('filter') === 'Ekologiskt')
+        ) {
+          cover.waitFor(
+            '.FilterView-filterToggler',
+            (button) => {
+              button.style.marginRight = '5px';
+
+              const wrapper = button.parentElement;
+
+              cover.variantReady('T122', () => {
+                const container = document.createElement('div');
+                container.innerHTML = `<button type="button" class="FilterView-filterButton Button Button--radius Button--small Button--compact u-outlineSolidBase2 Button--greenLight2NoHover" aria-label="Filtrera på ekologiskt" title="Filtrera på ekologiskt" style="background: white;border: unset;margin-left: 0;font-size: 12px; padding: 0px 10px 0 8px;"><img src="/contentassets/37af8083f694424fbf99726f2ce6339e/treklovern.png" width="19" height="15" style="vertical-align: bottom"> Eko&shy;logiskt</button>`;
+
+                wrapper.append(container);
+
+                container.addEventListener('click', function () {
+                  //reset
+                  urlParams = new URLSearchParams(window.location.search);
+
+                  urlParams.set('filter', 'Ekologiskt');
+                  window.location.search = urlParams;
+                });
+              });
+            },
+            {
+              disconnect: true,
+            }
+          );
+        }
+      }
+
       cover.waitFor(
         '.Splash-pricePre',
         (element) => {
