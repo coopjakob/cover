@@ -238,6 +238,17 @@ const cover: CoverType = {
           const quantity = parseInt(element.textContent);
           if (quantity && quantity > 1) {
             const parent = element.closest('.ItemTeaser');
+
+            const grid = element.closest('.Grid-cell');
+            if (grid) {
+              const h2 = grid.querySelector('h2');
+              if (h2) {
+                if (h2.textContent === 'Varor som ingår i erbjudandet') {
+                  return;
+                }
+              }
+            }
+
             if (parent) {
               const button = parent.querySelector('.AddToCart-button--add');
               const input = parent.querySelector('.AddToCart-input');
@@ -246,9 +257,13 @@ const cover: CoverType = {
                 button.addEventListener(
                   'click',
                   (event) => {
+                    console.debug('variant?');
                     cover.variantReady('T120', () => {
+                      console.debug('variant run');
                       setTimeout(() => {
+                        console.debug('timeout done');
                         for (var i = 1; i < quantity; i++) {
+                          console.debug('click');
                           // can't be button.click()
                           parent
                             .querySelector('.AddToCart-button--add')
