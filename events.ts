@@ -249,7 +249,10 @@ const cover: CoverType = {
                     cover.variantReady('T120', () => {
                       setTimeout(() => {
                         for (var i = 1; i < quantity; i++) {
-                          button.click();
+                          // can't be button.click()
+                          parent
+                            .querySelector('.AddToCart-button--add')
+                            .click();
                         }
                       }, 50);
                     });
