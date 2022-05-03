@@ -301,7 +301,8 @@ const cover: CoverType = {
 
             if (parent) {
               const button = parent.querySelector('.AddToCart-button--add');
-              const input = parent.querySelector('.AddToCart-input');
+              const input =
+                parent.querySelector<HTMLInputElement>('.AddToCart-input');
 
               if (input && input.value === '0') {
                 button.addEventListener(
@@ -316,7 +317,9 @@ const cover: CoverType = {
                           console.debug('click');
                           // can't be button.click()
                           parent
-                            .querySelector('.AddToCart-button--add')
+                            .querySelector<HTMLButtonElement>(
+                              '.AddToCart-button--add'
+                            )
                             .click();
                         }
                       }, 50);
