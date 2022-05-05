@@ -174,6 +174,168 @@ const cover: CoverType = {
       });
     }
 
+    if (window.innerWidth >= 1024) {
+      cover.variantReady('T93', () => {
+        document.querySelector('[data-test="mainnav-recept"]').remove();
+        document.querySelector('[data-test="mainnav-hållbarhet"]').remove();
+        document.querySelector('[data-test="mainnav-bank-betalkort"]').remove();
+
+        const css = document.createElement('style');
+        css.innerHTML = `
+      
+      
+      .t93 .background {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.4);
+        z-index: 100;
+      }
+      
+      .t93 .navigation {
+        width: 100%;
+        max-width: 375px;
+        height: 100%;
+        background-color: white;
+        border-radius: 0 20px 20px 0;
+      }
+      
+      .t93 .head {
+        text-align: right;
+      }
+      .t93 .close {
+        margin: 0;
+        padding: 16px;
+        cursor: pointer;
+        
+        background: none!important;
+        border: none;
+      }
+      
+      .t93 ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        padding-left: 24px;
+        font-family: Akkurat,sans-serif;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 22px;
+        color: #00A142;
+      }
+      
+      .t93 li {
+        border-bottom: 1px solid #E0DED6;
+      }
+      
+      .t93 li:first-child {
+        border-top: 1px solid #E0DED6;
+      }
+      
+      .t93 li a {
+        box-sizing: border-box;
+        display: block;
+        padding: 17px;
+        padding-left: 0;
+        margin-right: 13px;
+        
+      text-decoration: none;
+        color: #0A893D;
+      
+        background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 5.5L16 12.5L9 19.5' stroke='%23B6B4AD' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+        
+        background-repeat: no-repeat;
+        background-position: right;
+      } 
+      
+      .t93 a:hover {
+        color: #00A142;
+      }
+      `;
+        document.body.append(css);
+
+        const t93 = document.createElement('div');
+        t93.classList.add('t93', 'u-hidden');
+        t93.innerHTML = `
+        <div class="background">
+          <div class="navigation">
+            <div class="head"><button aria-label="Close navigation" class="close"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 19L19 5M19 19L5 5" stroke="#0A893D" stroke-width="2" stroke-linecap="round"/>
+              </svg></button></div>
+              <ul class="">
+                  <li class="Navigation-item">
+                      <a href="/handla/">Handla online</a>
+                  </li>
+                  <li class="Navigation-item">
+                      <a href="/recept/">Recept</a>
+                  </li><li class="Navigation-item">
+                      <a href="/butiker-erbjudanden/">Butiker &amp; erbjudanden</a>
+                  </li>
+                  <li class="Navigation-item">
+                      <a href="/hallbarhet/">Hållbarhet</a>
+                  </li>
+                  
+                  <li class="Navigation-item">
+                      <a href="/medlem/">Medlem</a>
+                  </li>
+                  <li class="Navigation-item">
+                      <a href="/bank-och-betalkort/">Bank &amp; betalkort</a>
+                  </li>
+              </ul>
+          </div>
+        </div>
+      `;
+        document.body.append(t93);
+
+        const container = document.querySelector('.Header .Main-container');
+        const logo = container.querySelector('.Header-logo');
+
+        const hamburger = document.createElement('ul');
+        hamburger.classList.add('Navigation-list');
+        hamburger.style.marginRight = '16px';
+        hamburger.style.zIndex = '1';
+        hamburger.innerHTML = `
+              <li class="Navigation-item">
+                <button type="button" class="MenuButton MenuButton--white" aria-label="Meny">
+                  <div class="MenuButton-icon">
+                    <span></span>
+                  </div>
+                </button>
+              </li>
+            `;
+
+        container.insertBefore(hamburger, logo);
+
+        document.querySelector('.t93 .close').addEventListener('click', (e) => {
+          close();
+        });
+
+        document
+          .querySelector('.t93 .background')
+          .addEventListener('click', (e) => {
+            if (e.target !== e.currentTarget) return;
+            close();
+          });
+
+        function close() {
+          t93.classList.add('u-hidden');
+        }
+
+        hamburger.addEventListener('click', () => {
+          t93.classList.remove('u-hidden');
+
+          // dataLayer.push({
+          //   event: 'interaction',
+          //   eventCategory: 'experiment',
+          //   eventAction: 'click',
+          //   eventLabel: 'hamburger-menu',
+          // });
+        });
+      });
+    }
+
     if (window.innerWidth < 1024) {
       cover.waitFor(
         '.js-navTrigger',
