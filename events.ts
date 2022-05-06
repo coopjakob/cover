@@ -714,7 +714,37 @@ const cover: CoverType = {
       }
     });
 
-    if (window.location.pathname.startsWith('/handla/')) {
+    if (
+      window.location.pathname.startsWith('/handla/') &&
+      window.location.pathname !== '/handla/betala/'
+    ) {
+      if (window.innerWidth < 1024) {
+        cover.waitFor('[data-test="ecommerceSearchHeader"]', (element) => {
+          cover.variantReady('T90', () => {
+            element.style.height = 'auto';
+
+            const container = element.querySelector('.Main-container');
+
+            container.style.flexWrap = 'wrap';
+
+            const trigger = container.querySelector(
+              '[data-test="mobileCategoryTrigger"]'
+            );
+
+            trigger.style.display = 'none';
+
+            const button = document.createElement('div');
+            button.innerHTML = `<button type="button" class="Button Button--radius Button--small Button--compact u-outlineSolidBase2 Button--greenLight2NoHover" style="border: unset;margin-left: 0;font-size: 12px; margin-top: 6px;">Kategorier</button>`;
+
+            container.append(button);
+
+            button.addEventListener('click', () => {
+              trigger.click();
+            });
+          });
+        });
+      }
+
       if (!coopUserSettings.isCompany) {
         let wrapper = document.querySelector('[data-child-layout="ecommerce"]');
 
