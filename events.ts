@@ -174,7 +174,10 @@ const cover: CoverType = {
       });
     }
 
-    if (window.innerWidth >= 1024) {
+    if (
+      window.innerWidth >= 1024 &&
+      window.location.pathname !== '/handla/betala/'
+    ) {
       cover.variantReady('T93', () => {
         document.querySelector('[data-test="mainnav-recept"]').remove();
         document.querySelector('[data-test="mainnav-hållbarhet"]').remove();
