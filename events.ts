@@ -477,13 +477,9 @@ const cover: CoverType = {
                 button.addEventListener(
                   'click',
                   (event) => {
-                    console.debug('variant?');
                     cover.variantReady('T120', () => {
-                      console.debug('variant run');
                       setTimeout(() => {
-                        console.debug('timeout done');
                         for (var i = 1; i < quantity; i++) {
-                          console.debug('click');
                           // can't be button.click()
                           parent
                             .querySelector<HTMLButtonElement>(
@@ -726,11 +722,12 @@ const cover: CoverType = {
           cover.variantReady('T90', () => {
             element.style.height = 'auto';
 
-            const container = element.querySelector('.Main-container');
+            const container =
+              element.querySelector<HTMLElement>('.Main-container');
 
             container.style.flexWrap = 'wrap';
 
-            const trigger = container.querySelector(
+            const trigger = container.querySelector<HTMLElement>(
               '[data-test="mobileCategoryTrigger"]'
             );
 
