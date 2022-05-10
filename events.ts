@@ -268,29 +268,121 @@ const cover: CoverType = {
         <path d="M5 19L19 5M19 19L5 5" stroke="#0A893D" stroke-width="2" stroke-linecap="round"/>
               </svg></button></div>
               <ul class="">
-                  <li class="Navigation-item">
+                  <li class="Navigation-item link1">
                       <a href="/handla/">Handla online</a>
                   </li>
-                  <li class="Navigation-item">
+                  <li class="Navigation-item link2">
                       <a href="/recept/">Recept</a>
-                  </li><li class="Navigation-item">
+                  </li>
+                  <li class="Navigation-item link3">
                       <a href="/butiker-erbjudanden/">Butiker &amp; erbjudanden</a>
                   </li>
-                  <li class="Navigation-item">
+                  <li class="Navigation-item link4">
                       <a href="/hallbarhet/">Hållbarhet</a>
                   </li>
-                  
-                  <li class="Navigation-item">
+                  <li class="Navigation-item link5">
                       <a href="/medlem/">Medlem</a>
                   </li>
-                  <li class="Navigation-item">
+                  <li class="Navigation-item link6">
                       <a href="/bank-och-betalkort/">Bank &amp; betalkort</a>
                   </li>
               </ul>
           </div>
         </div>
       `;
+
         document.body.append(t93);
+
+        t93.querySelector('link1').addEventListener('click', (event) => {
+          event.preventDefault();
+          // dataLayer.push({
+          //   event: 'interaction',
+          //   eventCategory: 'experiment',
+          //   eventAction: 'click',
+          //   eventLabel: 'contact-ks',
+          // });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
+
+        t93.querySelector('link1').addEventListener('click', (event) => {
+          event.preventDefault();
+          // dataLayer.push({
+          //   event: 'interaction',
+          //   eventCategory: 'experiment',
+          //   eventAction: 'click',
+          //   eventLabel: 'contact-ks',
+          // });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
+
+        t93.querySelector('link2').addEventListener('click', (event) => {
+          event.preventDefault();
+          // dataLayer.push({
+          //   event: 'interaction',
+          //   eventCategory: 'experiment',
+          //   eventAction: 'click',
+          //   eventLabel: 'contact-ks',
+          // });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
+
+        t93.querySelector('link3').addEventListener('click', (event) => {
+          event.preventDefault();
+          // dataLayer.push({
+          //   event: 'interaction',
+          //   eventCategory: 'experiment',
+          //   eventAction: 'click',
+          //   eventLabel: 'contact-ks',
+          // });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
+
+        t93.querySelector('link4').addEventListener('click', (event) => {
+          event.preventDefault();
+          // dataLayer.push({
+          //   event: 'interaction',
+          //   eventCategory: 'experiment',
+          //   eventAction: 'click',
+          //   eventLabel: 'contact-ks',
+          // });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
+
+        t93.querySelector('link5').addEventListener('click', (event) => {
+          event.preventDefault();
+          // dataLayer.push({
+          //   event: 'interaction',
+          //   eventCategory: 'experiment',
+          //   eventAction: 'click',
+          //   eventLabel: 'contact-ks',
+          // });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
+
+        t93.querySelector('link6').addEventListener('click', (event) => {
+          event.preventDefault();
+          // dataLayer.push({
+          //   event: 'interaction',
+          //   eventCategory: 'experiment',
+          //   eventAction: 'click',
+          //   eventLabel: 'contact-ks',
+          // });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
 
         const container = document.querySelector('.Header .Main-container');
         const logo = container.querySelector('.Header-logo');
