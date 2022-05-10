@@ -451,56 +451,6 @@ const cover: CoverType = {
         });
       }
 
-      cover.waitFor(
-        '.Splash-pricePre',
-        (element) => {
-          const quantity = parseInt(element.textContent);
-          if (quantity && quantity > 1) {
-            const parent = element.closest('.ItemTeaser');
-
-            const grid = element.closest('.Grid-cell');
-            if (grid) {
-              const h2 = grid.querySelector('h2');
-              if (h2) {
-                if (h2.textContent === 'Varor som ingår i erbjudandet') {
-                  return;
-                }
-              }
-            }
-
-            if (parent) {
-              const button = parent.querySelector('.AddToCart-button--add');
-              const input =
-                parent.querySelector<HTMLInputElement>('.AddToCart-input');
-
-              if (input && input.value === '0') {
-                button.addEventListener(
-                  'click',
-                  (event) => {
-                    cover.variantReady('T120', () => {
-                      setTimeout(() => {
-                        for (var i = 1; i < quantity; i++) {
-                          // can't be button.click()
-                          parent
-                            .querySelector<HTMLButtonElement>(
-                              '.AddToCart-button--add'
-                            )
-                            .click();
-                        }
-                      }, 50);
-                    });
-                  },
-                  { once: true }
-                );
-              }
-            }
-          }
-        },
-        {
-          querySelectorAll: true,
-        }
-      );
-
       if (cover.isProductPage()) {
         cover.waitFor(
           '[data-list="Varor som ingår i erbjudandet"]',
@@ -514,6 +464,56 @@ const cover: CoverType = {
         );
       }
     } // pageview();
+
+    cover.waitFor(
+      '.Splash-pricePre',
+      (element) => {
+        const quantity = parseInt(element.textContent);
+        if (quantity && quantity > 1) {
+          const parent = element.closest('.ItemTeaser');
+
+          const grid = element.closest('.Grid-cell');
+          if (grid) {
+            const h2 = grid.querySelector('h2');
+            if (h2) {
+              if (h2.textContent === 'Varor som ingår i erbjudandet') {
+                return;
+              }
+            }
+          }
+
+          if (parent) {
+            const button = parent.querySelector('.AddToCart-button--add');
+            const input =
+              parent.querySelector<HTMLInputElement>('.AddToCart-input');
+
+            if (input && input.value === '0') {
+              button.addEventListener(
+                'click',
+                (event) => {
+                  cover.variantReady('T120', () => {
+                    setTimeout(() => {
+                      for (var i = 1; i < quantity; i++) {
+                        // can't be button.click()
+                        parent
+                          .querySelector<HTMLButtonElement>(
+                            '.AddToCart-button--add'
+                          )
+                          .click();
+                      }
+                    }, 50);
+                  });
+                },
+                { once: true }
+              );
+            }
+          }
+        }
+      },
+      {
+        querySelectorAll: true,
+      }
+    );
 
     cover.waitFor('.Cart.Cart--mini.is-visible', (element) => {
       const inputs =
