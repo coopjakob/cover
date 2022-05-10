@@ -186,7 +186,6 @@ const cover: CoverType = {
         const css = document.createElement('style');
         css.innerHTML = `
       
-      
       .t93 .background {
         position: fixed;
         top: 0;
@@ -1259,7 +1258,7 @@ const cover: CoverType = {
 
               const icon = item.querySelector('.DeliveryItem-icon');
               icon.classList.remove('u-hidden');
-              icon.parentElement.querySelector('svg')?.remove(); // TODO: Only remove if it exists
+              icon.parentElement.querySelector('svg')?.remove();
             }
           }
         });
