@@ -955,7 +955,7 @@ const cover: CoverType = {
       }
     );
 
-    document.querySelector('.js-profileMenuTrigger').addEventListener(
+    document.querySelector('.js-profileMenuTrigger')?.addEventListener(
       'click',
       () => {
         dataLayer.push({
