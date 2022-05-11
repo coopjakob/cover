@@ -183,6 +183,51 @@ const cover: CoverType = {
         document.querySelector('[data-test="mainnav-hållbarhet"]').remove();
         document.querySelector('[data-test="mainnav-bank-betalkort"]').remove();
 
+        document
+          .querySelector('[data-test="mainnav-handla online"]')
+          ?.addEventListener('click', (event) => {
+            event.preventDefault();
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'handla-online',
+            });
+            setTimeout(() => {
+              location.href = (<HTMLAnchorElement>event.target).href;
+            }, 100);
+          });
+
+        document
+          .querySelector('[data-test="mainnav-butiker-erbjudanden"]')
+          ?.addEventListener('click', (event) => {
+            event.preventDefault();
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'store-offers',
+            });
+            setTimeout(() => {
+              location.href = (<HTMLAnchorElement>event.target).href;
+            }, 100);
+          });
+
+        document
+          .querySelector('[data-test="mainnav-medlem"]')
+          ?.addEventListener('click', (event) => {
+            event.preventDefault();
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'member',
+            });
+            setTimeout(() => {
+              location.href = (<HTMLAnchorElement>event.target).href;
+            }, 100);
+          });
+
         const css = document.createElement('style');
         css.innerHTML = `
           .t93 .background {
@@ -269,9 +314,6 @@ const cover: CoverType = {
                     <li class="Navigation-item link1">
                         <a href="/handla/">Handla online</a>
                     </li>
-                    <li class="Navigation-item link2">
-                        <a href="/recept/">Recept</a>
-                    </li>
                     <li class="Navigation-item link3">
                         <a href="/butiker-erbjudanden/">Butiker &amp; erbjudanden</a>
                     </li>
@@ -293,25 +335,12 @@ const cover: CoverType = {
 
         t93.querySelector('.link1').addEventListener('click', (event) => {
           event.preventDefault();
-          // dataLayer.push({
-          //   event: 'interaction',
-          //   eventCategory: 'experiment',
-          //   eventAction: 'click',
-          //   eventLabel: 'contact-ks',
-          // });
-          setTimeout(() => {
-            location.href = (<HTMLAnchorElement>event.target).href;
-          }, 100);
-        });
-
-        t93.querySelector('.link1').addEventListener('click', (event) => {
-          event.preventDefault();
-          // dataLayer.push({
-          //   event: 'interaction',
-          //   eventCategory: 'experiment',
-          //   eventAction: 'click',
-          //   eventLabel: 'contact-ks',
-          // });
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'handla-hamburger',
+          });
           setTimeout(() => {
             location.href = (<HTMLAnchorElement>event.target).href;
           }, 100);
@@ -319,12 +348,12 @@ const cover: CoverType = {
 
         t93.querySelector('.link2').addEventListener('click', (event) => {
           event.preventDefault();
-          // dataLayer.push({
-          //   event: 'interaction',
-          //   eventCategory: 'experiment',
-          //   eventAction: 'click',
-          //   eventLabel: 'contact-ks',
-          // });
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'recept-hamburger',
+          });
           setTimeout(() => {
             location.href = (<HTMLAnchorElement>event.target).href;
           }, 100);
@@ -332,12 +361,12 @@ const cover: CoverType = {
 
         t93.querySelector('.link3').addEventListener('click', (event) => {
           event.preventDefault();
-          // dataLayer.push({
-          //   event: 'interaction',
-          //   eventCategory: 'experiment',
-          //   eventAction: 'click',
-          //   eventLabel: 'contact-ks',
-          // });
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'store-hamburger',
+          });
           setTimeout(() => {
             location.href = (<HTMLAnchorElement>event.target).href;
           }, 100);
@@ -345,12 +374,12 @@ const cover: CoverType = {
 
         t93.querySelector('.link4').addEventListener('click', (event) => {
           event.preventDefault();
-          // dataLayer.push({
-          //   event: 'interaction',
-          //   eventCategory: 'experiment',
-          //   eventAction: 'click',
-          //   eventLabel: 'contact-ks',
-          // });
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'sustainability-hamburger',
+          });
           setTimeout(() => {
             location.href = (<HTMLAnchorElement>event.target).href;
           }, 100);
@@ -358,12 +387,12 @@ const cover: CoverType = {
 
         t93.querySelector('.link5').addEventListener('click', (event) => {
           event.preventDefault();
-          // dataLayer.push({
-          //   event: 'interaction',
-          //   eventCategory: 'experiment',
-          //   eventAction: 'click',
-          //   eventLabel: 'contact-ks',
-          // });
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'member-hamburger',
+          });
           setTimeout(() => {
             location.href = (<HTMLAnchorElement>event.target).href;
           }, 100);
@@ -371,12 +400,12 @@ const cover: CoverType = {
 
         t93.querySelector('.link6').addEventListener('click', (event) => {
           event.preventDefault();
-          // dataLayer.push({
-          //   event: 'interaction',
-          //   eventCategory: 'experiment',
-          //   eventAction: 'click',
-          //   eventLabel: 'contact-ks',
-          // });
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'bank-hamburger',
+          });
           setTimeout(() => {
             location.href = (<HTMLAnchorElement>event.target).href;
           }, 100);
@@ -414,17 +443,24 @@ const cover: CoverType = {
 
         function close() {
           t93.classList.add('u-hidden');
+
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'close-hamburger',
+          });
         }
 
         hamburger.addEventListener('click', () => {
           t93.classList.remove('u-hidden');
 
-          // dataLayer.push({
-          //   event: 'interaction',
-          //   eventCategory: 'experiment',
-          //   eventAction: 'click',
-          //   eventLabel: 'hamburger-menu',
-          // });
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'open-hamburger',
+          });
         });
       });
     }
