@@ -314,6 +314,9 @@ const cover: CoverType = {
                     <li class="Navigation-item link1">
                         <a href="/handla/">Handla online</a>
                     </li>
+                    <li class="Navigation-item link2">
+                        <a href="/recept/">Recept</a>
+                    </li>
                     <li class="Navigation-item link3">
                         <a href="/butiker-erbjudanden/">Butiker &amp; erbjudanden</a>
                     </li>
