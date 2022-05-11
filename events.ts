@@ -845,6 +845,19 @@ const cover: CoverType = {
     ) {
       if (window.innerWidth < 1024) {
         cover.waitFor('[data-test="ecommerceSearchHeader"]', (element) => {
+          const trigger = container.querySelector<HTMLElement>(
+            '[data-test="mobileCategoryTrigger"]'
+          );
+
+          trigger?.addEventListener('click', () => {
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'category-icon',
+            });
+          });
+
           cover.variantReady('T90', () => {
             element.style.height = 'auto';
 
@@ -853,10 +866,6 @@ const cover: CoverType = {
 
             container.style.flexWrap = 'wrap';
 
-            const trigger = container.querySelector<HTMLElement>(
-              '[data-test="mobileCategoryTrigger"]'
-            );
-
             trigger.style.display = 'none';
 
             const button = document.createElement('div');
@@ -864,20 +873,17 @@ const cover: CoverType = {
             <path d="M12.6663 6.00001L7.99959 10.6667L3.33293 6.00001" stroke="#005537" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg></button>`;
 
-            //TODO: Mätning
-            //TODO: Browsertest
-
             container.append(button);
 
             button.addEventListener('click', () => {
               trigger.click();
 
-              // dataLayer.push({
-              //   event: 'interaction',
-              //   eventCategory: 'experiment',
-              //   eventAction: 'click',
-              //   eventLabel: 'hamburger-menu',
-              // });
+              dataLayer.push({
+                event: 'interaction',
+                eventCategory: 'experiment',
+                eventAction: 'click',
+                eventLabel: 'category-icon',
+              });
             });
           });
         });
