@@ -184,7 +184,7 @@ const cover: CoverType = {
         document.querySelector('[data-test="mainnav-bank-betalkort"]').remove();
 
         document
-          .querySelector('[data-test="mainnav-handla online"]')
+          .querySelector('[data-test="mainnav-handla online"] a')
           ?.addEventListener('click', (event) => {
             event.preventDefault();
             dataLayer.push({
@@ -199,7 +199,7 @@ const cover: CoverType = {
           });
 
         document
-          .querySelector('[data-test="mainnav-butiker-erbjudanden"]')
+          .querySelector('[data-test="mainnav-butiker-erbjudanden"] a')
           ?.addEventListener('click', (event) => {
             event.preventDefault();
             dataLayer.push({
@@ -214,7 +214,7 @@ const cover: CoverType = {
           });
 
         document
-          .querySelector('[data-test="mainnav-medlem"]')
+          .querySelector('[data-test="mainnav-medlem"] a')
           ?.addEventListener('click', (event) => {
             event.preventDefault();
             dataLayer.push({
@@ -333,7 +333,7 @@ const cover: CoverType = {
 
         document.body.append(t93);
 
-        t93.querySelector('.link1').addEventListener('click', (event) => {
+        t93.querySelector('.link1 a').addEventListener('click', (event) => {
           event.preventDefault();
           dataLayer.push({
             event: 'interaction',
@@ -346,7 +346,7 @@ const cover: CoverType = {
           }, 100);
         });
 
-        t93.querySelector('.link2').addEventListener('click', (event) => {
+        t93.querySelector('.link2 a').addEventListener('click', (event) => {
           event.preventDefault();
           dataLayer.push({
             event: 'interaction',
@@ -359,7 +359,7 @@ const cover: CoverType = {
           }, 100);
         });
 
-        t93.querySelector('.link3').addEventListener('click', (event) => {
+        t93.querySelector('.link3 a').addEventListener('click', (event) => {
           event.preventDefault();
           dataLayer.push({
             event: 'interaction',
@@ -372,7 +372,7 @@ const cover: CoverType = {
           }, 100);
         });
 
-        t93.querySelector('.link4').addEventListener('click', (event) => {
+        t93.querySelector('.link4 a').addEventListener('click', (event) => {
           event.preventDefault();
           dataLayer.push({
             event: 'interaction',
@@ -385,7 +385,7 @@ const cover: CoverType = {
           }, 100);
         });
 
-        t93.querySelector('.link5').addEventListener('click', (event) => {
+        t93.querySelector('.link5 a').addEventListener('click', (event) => {
           event.preventDefault();
           dataLayer.push({
             event: 'interaction',
@@ -398,7 +398,7 @@ const cover: CoverType = {
           }, 100);
         });
 
-        t93.querySelector('.link6').addEventListener('click', (event) => {
+        t93.querySelector('.link6 a').addEventListener('click', (event) => {
           event.preventDefault();
           dataLayer.push({
             event: 'interaction',
