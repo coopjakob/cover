@@ -4,237 +4,232 @@ declare const __cmp: any;
 declare const dataLayer: any;
 declare const coopUserSettings: any;
 
-if (typeof cover == 'undefined') {
-  interface CoverType {
-    checkDynamicYieldABtestConsent: () => boolean;
-    isInternetExplorer: boolean;
-    waitFor: (
-      selector: string,
-      callback: (element: HTMLElement) => void,
-      options?: {
-        init?: boolean;
-        querySelectorAll?: boolean;
-        content?: string;
-        disconnect?: boolean;
-      }
-    ) => void;
-    isCategoryPage: () => boolean;
-    isProductPage: (path?: string) => boolean;
-    variantReady: (id: string, callback: () => void) => void;
-    readyHistory: Array<string>;
-    addIdentifierClasses: (element: Element, id: string) => void;
-    groups: () => any;
-    run: () => void;
-    variant: [];
-    variantHistory: Array<string>;
-  }
+interface CoverType {
+  checkDynamicYieldABtestConsent: () => boolean;
+  isInternetExplorer: boolean;
+  waitFor: (
+    selector: string,
+    callback: (element: HTMLElement) => void,
+    options?: {
+      init?: boolean;
+      querySelectorAll?: boolean;
+      content?: string;
+      disconnect?: boolean;
+    }
+  ) => void;
+  isCategoryPage: () => boolean;
+  isProductPage: (path?: string) => boolean;
+  variantReady: (id: string, callback: () => void) => void;
+  readyHistory: Array<string>;
+  addIdentifierClasses: (element: Element, id: string) => void;
+  groups: () => any;
+  run: () => void;
+  variant: [];
+  variantHistory: Array<string>;
+}
 
-  const cover: CoverType = {
-    checkDynamicYieldABtestConsent: () => {
-      return __cmp('getCMPData')?.vendorConsents?.c18593 || false;
-    },
-    // @ts-ignore
-    isInternetExplorer: !!document.documentMode,
-    waitFor: (selector, callback, options = {}) => {
-      let wrapperElement = document.body;
-      let observer: MutationObserver;
-      let isCallbackSent = false;
+const cover: CoverType = {
+  checkDynamicYieldABtestConsent: () => {
+    return __cmp('getCMPData')?.vendorConsents?.c18593 || false;
+  },
+  // @ts-ignore
+  isInternetExplorer: !!document.documentMode,
+  waitFor: (selector, callback, options = {}) => {
+    let wrapperElement = document.body;
+    let observer: MutationObserver;
+    let isCallbackSent = false;
 
-      function okContent(element) {
-        if (!options.content) {
-          return true;
-        }
-
-        return element.textContent === options.content;
+    function okContent(element) {
+      if (!options.content) {
+        return true;
       }
 
-      function matchElementSelector(wrapper: Element) {
-        let elements = [];
+      return element.textContent === options.content;
+    }
 
-        if (options.querySelectorAll) {
-          elements = [...wrapper.querySelectorAll(selector)];
-        } else {
-          const selectorElement = wrapper.querySelector(selector);
-          if (selectorElement) {
-            elements.push(selectorElement);
-          }
-        }
+    function matchElementSelector(wrapper: Element) {
+      let elements = [];
 
-        if (wrapper.matches(selector)) {
-          elements.push(wrapper);
-        }
-
-        for (let element of elements) {
-          if (!okContent(element)) {
-            continue;
-          }
-
-          callback(element);
-          isCallbackSent = true;
-
-          if (options.disconnect) {
-            try {
-              observer.disconnect();
-            } catch {}
-
-            break;
-          }
+      if (options.querySelectorAll) {
+        elements = [...wrapper.querySelectorAll(selector)];
+      } else {
+        const selectorElement = wrapper.querySelector(selector);
+        if (selectorElement) {
+          elements.push(selectorElement);
         }
       }
 
-      // init == undefined or true (default true)
-      if (options.init != false) {
-        matchElementSelector(wrapperElement);
+      if (wrapper.matches(selector)) {
+        elements.push(wrapper);
       }
 
-      if (!(options.disconnect && isCallbackSent)) {
-        observer = new MutationObserver((mutations) => {
-          mutations.forEach((mutation) => {
-            mutation.addedNodes.forEach((node) => {
-              // Alternative to `node.nodeType === 1`
-              if (node instanceof Element) {
-                matchElementSelector(node);
-              }
-            });
+      for (let element of elements) {
+        if (!okContent(element)) {
+          continue;
+        }
+
+        callback(element);
+        isCallbackSent = true;
+
+        if (options.disconnect) {
+          try {
+            observer.disconnect();
+          } catch {}
+
+          break;
+        }
+      }
+    }
+
+    // init == undefined or true (default true)
+    if (options.init != false) {
+      matchElementSelector(wrapperElement);
+    }
+
+    if (!(options.disconnect && isCallbackSent)) {
+      observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            // Alternative to `node.nodeType === 1`
+            if (node instanceof Element) {
+              matchElementSelector(node);
+            }
           });
         });
+      });
 
-        observer.observe(wrapperElement, {
-          childList: true,
-          subtree: true,
+      observer.observe(wrapperElement, {
+        childList: true,
+        subtree: true,
+      });
+    }
+  },
+  isCategoryPage: () => {
+    const path = window.location.pathname;
+
+    if (path.startsWith('/handla/varor/') && !cover.isProductPage(path)) {
+      return true;
+    }
+  },
+  isProductPage: (path = window.location.pathname) => {
+    if (
+      path.startsWith('/handla/varor/') &&
+      Number.isInteger(parseFloat(path.split('-').pop()))
+    ) {
+      return true;
+    }
+  },
+  variantReady: (id, callback) => {
+    // Always reset with current element
+    cover.variant[id] = () => {
+      callback();
+
+      cover.variantHistory.push(id);
+    };
+
+    if (!cover.readyHistory.includes(id)) {
+      DY.API('event', {
+        name: `cover.ready ${id}`,
+      });
+
+      cover.readyHistory.push(id);
+    }
+
+    if (cover.variantHistory.includes(id)) {
+      cover.variant[id]();
+    }
+  },
+  readyHistory: [],
+  addIdentifierClasses: (element, id) => {
+    element.classList.add('Experiment', id);
+  },
+  groups: () => {
+    return DYO.getUserObjectsAndVariations();
+  },
+  run: () => {
+    const container = document.querySelector('.js-navPrimary ul');
+    if (container) {
+      const recept = container.querySelector('li[data-test="mainnav-recept"]');
+      const receptLink = recept.querySelector('a');
+
+      receptLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        dataLayer.push({
+          event: 'interaction',
+          eventCategory: 'experiment',
+          eventAction: 'click',
+          eventLabel: 'recept-nav',
         });
-      }
-    },
-    isCategoryPage: () => {
-      const path = window.location.pathname;
+        setTimeout(() => {
+          location.href = (<HTMLAnchorElement>event.target).href;
+        }, 100);
+      });
 
-      if (path.startsWith('/handla/varor/') && !cover.isProductPage(path)) {
-        return true;
-      }
-    },
-    isProductPage: (path = window.location.pathname) => {
-      if (
-        path.startsWith('/handla/varor/') &&
-        Number.isInteger(parseFloat(path.split('-').pop()))
-      ) {
-        return true;
-      }
-    },
-    variantReady: (id, callback) => {
-      // Always reset with current element
-      cover.variant[id] = () => {
-        callback();
-
-        cover.variantHistory.push(id);
-      };
-
-      if (!cover.readyHistory.includes(id)) {
-        DY.API('event', {
-          name: `cover.ready ${id}`,
-        });
-
-        cover.readyHistory.push(id);
-      }
-
-      if (cover.variantHistory.includes(id)) {
-        cover.variant[id]();
-      }
-    },
-    readyHistory: [],
-    addIdentifierClasses: (element, id) => {
-      element.classList.add('Experiment', id);
-    },
-    groups: () => {
-      return DYO.getUserObjectsAndVariations();
-    },
-    run: () => {
-      const container = document.querySelector('.js-navPrimary ul');
-      if (container) {
-        const recept = container.querySelector(
-          'li[data-test="mainnav-recept"]'
+      cover.variantReady('T121', () => {
+        const erbjudanden = container.querySelector(
+          'li[data-test="mainnav-butiker-erbjudanden"]'
         );
-        const receptLink = recept.querySelector('a');
 
-        receptLink.addEventListener('click', (event) => {
-          event.preventDefault();
-          dataLayer.push({
-            event: 'interaction',
-            eventCategory: 'experiment',
-            eventAction: 'click',
-            eventLabel: 'recept-nav',
+        container.insertBefore(recept, erbjudanden);
+      });
+    }
+
+    if (
+      window.innerWidth >= 1024 &&
+      window.location.pathname !== '/handla/betala/'
+    ) {
+      cover.variantReady('T93', () => {
+        document.querySelector('[data-test="mainnav-recept"]').remove();
+        document.querySelector('[data-test="mainnav-hållbarhet"]').remove();
+        document.querySelector('[data-test="mainnav-bank-betalkort"]').remove();
+
+        document
+          .querySelector('[data-test="mainnav-handla online"] a')
+          ?.addEventListener('click', (event) => {
+            event.preventDefault();
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'handla-online',
+            });
+            setTimeout(() => {
+              location.href = (<HTMLAnchorElement>event.target).href;
+            }, 100);
           });
-          setTimeout(() => {
-            location.href = (<HTMLAnchorElement>event.target).href;
-          }, 100);
-        });
 
-        cover.variantReady('T121', () => {
-          const erbjudanden = container.querySelector(
-            'li[data-test="mainnav-butiker-erbjudanden"]'
-          );
-
-          container.insertBefore(recept, erbjudanden);
-        });
-      }
-
-      if (
-        window.innerWidth >= 1024 &&
-        window.location.pathname !== '/handla/betala/'
-      ) {
-        cover.variantReady('T93', () => {
-          document.querySelector('[data-test="mainnav-recept"]').remove();
-          document.querySelector('[data-test="mainnav-hållbarhet"]').remove();
-          document
-            .querySelector('[data-test="mainnav-bank-betalkort"]')
-            .remove();
-
-          document
-            .querySelector('[data-test="mainnav-handla online"] a')
-            ?.addEventListener('click', (event) => {
-              event.preventDefault();
-              dataLayer.push({
-                event: 'interaction',
-                eventCategory: 'experiment',
-                eventAction: 'click',
-                eventLabel: 'handla-online',
-              });
-              setTimeout(() => {
-                location.href = (<HTMLAnchorElement>event.target).href;
-              }, 100);
+        document
+          .querySelector('[data-test="mainnav-butiker-erbjudanden"] a')
+          ?.addEventListener('click', (event) => {
+            event.preventDefault();
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'store-offers',
             });
+            setTimeout(() => {
+              location.href = (<HTMLAnchorElement>event.target).href;
+            }, 100);
+          });
 
-          document
-            .querySelector('[data-test="mainnav-butiker-erbjudanden"] a')
-            ?.addEventListener('click', (event) => {
-              event.preventDefault();
-              dataLayer.push({
-                event: 'interaction',
-                eventCategory: 'experiment',
-                eventAction: 'click',
-                eventLabel: 'store-offers',
-              });
-              setTimeout(() => {
-                location.href = (<HTMLAnchorElement>event.target).href;
-              }, 100);
+        document
+          .querySelector('[data-test="mainnav-medlem"] a')
+          ?.addEventListener('click', (event) => {
+            event.preventDefault();
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'member',
             });
+            setTimeout(() => {
+              location.href = (<HTMLAnchorElement>event.target).href;
+            }, 100);
+          });
 
-          document
-            .querySelector('[data-test="mainnav-medlem"] a')
-            ?.addEventListener('click', (event) => {
-              event.preventDefault();
-              dataLayer.push({
-                event: 'interaction',
-                eventCategory: 'experiment',
-                eventAction: 'click',
-                eventLabel: 'member',
-              });
-              setTimeout(() => {
-                location.href = (<HTMLAnchorElement>event.target).href;
-              }, 100);
-            });
-
-          const css = document.createElement('style');
-          css.innerHTML = `
+        const css = document.createElement('style');
+        css.innerHTML = `
           .t93 .background {
             position: fixed;
             top: 0;
@@ -305,11 +300,11 @@ if (typeof cover == 'undefined') {
             color: #00A142;
           }
         `;
-          document.body.append(css);
+        document.body.append(css);
 
-          const t93 = document.createElement('div');
-          t93.classList.add('t93', 'u-hidden');
-          t93.innerHTML = `
+        const t93 = document.createElement('div');
+        t93.classList.add('t93', 'u-hidden');
+        t93.innerHTML = `
           <div class="background">
             <div class="navigation">
               <div class="head"><button aria-label="Close navigation" class="close"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -339,94 +334,94 @@ if (typeof cover == 'undefined') {
           </div>
         `;
 
-          document.body.append(t93);
+        document.body.append(t93);
 
-          t93.querySelector('.link1 a').addEventListener('click', (event) => {
-            event.preventDefault();
-            dataLayer.push({
-              event: 'interaction',
-              eventCategory: 'experiment',
-              eventAction: 'click',
-              eventLabel: 'handla-hamburger',
-            });
-            setTimeout(() => {
-              location.href = (<HTMLAnchorElement>event.target).href;
-            }, 100);
+        t93.querySelector('.link1 a').addEventListener('click', (event) => {
+          event.preventDefault();
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'handla-hamburger',
           });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
 
-          t93.querySelector('.link2 a').addEventListener('click', (event) => {
-            event.preventDefault();
-            dataLayer.push({
-              event: 'interaction',
-              eventCategory: 'experiment',
-              eventAction: 'click',
-              eventLabel: 'recept-hamburger',
-            });
-            setTimeout(() => {
-              location.href = (<HTMLAnchorElement>event.target).href;
-            }, 100);
+        t93.querySelector('.link2 a').addEventListener('click', (event) => {
+          event.preventDefault();
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'recept-hamburger',
           });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
 
-          t93.querySelector('.link3 a').addEventListener('click', (event) => {
-            event.preventDefault();
-            dataLayer.push({
-              event: 'interaction',
-              eventCategory: 'experiment',
-              eventAction: 'click',
-              eventLabel: 'store-hamburger',
-            });
-            setTimeout(() => {
-              location.href = (<HTMLAnchorElement>event.target).href;
-            }, 100);
+        t93.querySelector('.link3 a').addEventListener('click', (event) => {
+          event.preventDefault();
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'store-hamburger',
           });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
 
-          t93.querySelector('.link4 a').addEventListener('click', (event) => {
-            event.preventDefault();
-            dataLayer.push({
-              event: 'interaction',
-              eventCategory: 'experiment',
-              eventAction: 'click',
-              eventLabel: 'sustainability-hamburger',
-            });
-            setTimeout(() => {
-              location.href = (<HTMLAnchorElement>event.target).href;
-            }, 100);
+        t93.querySelector('.link4 a').addEventListener('click', (event) => {
+          event.preventDefault();
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'sustainability-hamburger',
           });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
 
-          t93.querySelector('.link5 a').addEventListener('click', (event) => {
-            event.preventDefault();
-            dataLayer.push({
-              event: 'interaction',
-              eventCategory: 'experiment',
-              eventAction: 'click',
-              eventLabel: 'member-hamburger',
-            });
-            setTimeout(() => {
-              location.href = (<HTMLAnchorElement>event.target).href;
-            }, 100);
+        t93.querySelector('.link5 a').addEventListener('click', (event) => {
+          event.preventDefault();
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'member-hamburger',
           });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
 
-          t93.querySelector('.link6 a').addEventListener('click', (event) => {
-            event.preventDefault();
-            dataLayer.push({
-              event: 'interaction',
-              eventCategory: 'experiment',
-              eventAction: 'click',
-              eventLabel: 'bank-hamburger',
-            });
-            setTimeout(() => {
-              location.href = (<HTMLAnchorElement>event.target).href;
-            }, 100);
+        t93.querySelector('.link6 a').addEventListener('click', (event) => {
+          event.preventDefault();
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'bank-hamburger',
           });
+          setTimeout(() => {
+            location.href = (<HTMLAnchorElement>event.target).href;
+          }, 100);
+        });
 
-          const container = document.querySelector('.Header .Main-container');
-          const logo = container.querySelector('.Header-logo');
+        const container = document.querySelector('.Header .Main-container');
+        const logo = container.querySelector('.Header-logo');
 
-          const hamburger = document.createElement('ul');
-          hamburger.classList.add('Navigation-list');
-          hamburger.style.marginRight = '16px';
-          hamburger.style.zIndex = '1';
-          hamburger.innerHTML = `
+        const hamburger = document.createElement('ul');
+        hamburger.classList.add('Navigation-list');
+        hamburger.style.marginRight = '16px';
+        hamburger.style.zIndex = '1';
+        hamburger.innerHTML = `
               <li class="Navigation-item">
                 <button type="button" class="MenuButton MenuButton--white" aria-label="Meny">
                   <div class="MenuButton-icon">
@@ -436,71 +431,67 @@ if (typeof cover == 'undefined') {
               </li>
             `;
 
-          container.insertBefore(hamburger, logo);
+        container.insertBefore(hamburger, logo);
 
-          document
-            .querySelector('.t93 .close')
-            .addEventListener('click', (e) => {
-              close();
-            });
+        document.querySelector('.t93 .close').addEventListener('click', (e) => {
+          close();
+        });
 
-          document
-            .querySelector('.t93 .background')
-            .addEventListener('click', (e) => {
-              if (e.target !== e.currentTarget) return;
-              close();
-            });
+        document
+          .querySelector('.t93 .background')
+          .addEventListener('click', (e) => {
+            if (e.target !== e.currentTarget) return;
+            close();
+          });
 
-          function close() {
-            t93.classList.add('u-hidden');
+        function close() {
+          t93.classList.add('u-hidden');
 
-            dataLayer.push({
-              event: 'interaction',
-              eventCategory: 'experiment',
-              eventAction: 'click',
-              eventLabel: 'close-hamburger',
-            });
-          }
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'close-hamburger',
+          });
+        }
 
-          hamburger.addEventListener('click', () => {
-            t93.classList.remove('u-hidden');
+        hamburger.addEventListener('click', () => {
+          t93.classList.remove('u-hidden');
 
-            dataLayer.push({
-              event: 'interaction',
-              eventCategory: 'experiment',
-              eventAction: 'click',
-              eventLabel: 'open-hamburger',
-            });
+          dataLayer.push({
+            event: 'interaction',
+            eventCategory: 'experiment',
+            eventAction: 'click',
+            eventLabel: 'open-hamburger',
           });
         });
-      }
+      });
+    }
 
-      if (window.innerWidth < 1024) {
-        cover.waitFor(
-          '.js-navTrigger',
-          (element) => {
-            element.addEventListener('click', () => {
-              dataLayer.push({
-                event: 'interaction',
-                eventCategory: 'experiment',
-                eventAction: 'click',
-                eventLabel: 'hamburger-menu',
-              });
+    if (window.innerWidth < 1024) {
+      cover.waitFor(
+        '.js-navTrigger',
+        (element) => {
+          element.addEventListener('click', () => {
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'hamburger-menu',
             });
+          });
 
-            cover.variantReady('T94', () => {
-              const container = document.querySelector(
-                '.Header .Main-container'
-              );
-              const logo = container.querySelector('.Header-logo');
+          cover.variantReady('T94', () => {
+            const container = document.querySelector('.Header .Main-container');
+            const logo = container.querySelector('.Header-logo');
 
-              const item = element.parentElement;
-              item.remove();
+            const item = element.parentElement;
+            item.remove();
 
-              const list = document.createElement('ul');
-              list.classList.add('Navigation-list');
-              list.style.marginRight = '16px';
-              list.innerHTML = `
+            const list = document.createElement('ul');
+            list.classList.add('Navigation-list');
+            list.style.marginRight = '16px';
+            list.innerHTML = `
               <li class="Navigation-item u-lg-hidden">
                 <button type="button" class="MenuButton MenuButton--white js-navTrigger" aria-label="Meny">
                   <div class="MenuButton-icon">
@@ -510,276 +501,193 @@ if (typeof cover == 'undefined') {
               </li>
             `;
 
-              list
-                .querySelector('.js-navTrigger')
-                .addEventListener('click', () => {
-                  dataLayer.push({
-                    event: 'interaction',
-                    eventCategory: 'experiment',
-                    eventAction: 'click',
-                    eventLabel: 'hamburger-menu',
-                  });
-                });
-
-              container.insertBefore(list, logo);
-            });
-          },
-          {
-            disconnect: true,
-          }
-        );
-      }
-
-      pageview();
-      cover.waitFor('.js-page', () => {
-        pageview();
-      });
-      function pageview() {
-        if (
-          cover.isCategoryPage() ||
-          window.location.pathname === '/handla/sok/'
-        ) {
-          cover.waitFor('.FilterView-filterToggler', (button) => {
-            let urlParams = new URLSearchParams(window.location.search);
-
-            if (urlParams.has('filter')) {
-              cover.waitFor('.FilterView-filterContainer button', (element) => {
-                element.addEventListener('click', () => {
-                  setTimeout(() => {
-                    t122();
-                  }, 50);
-                });
-              });
-            }
-            t122();
-
-            function t122() {
-              //reset
-              urlParams = new URLSearchParams(window.location.search);
-              if (
-                !(
-                  urlParams.has('filter') &&
-                  urlParams.get('filter') === 'Ekologiskt'
-                )
-              ) {
-                const wrapper = button.parentElement;
-
-                cover.variantReady('T122', () => {
-                  button.style.marginRight = '5px';
-
-                  if (window.innerWidth <= 390) {
-                    button.parentElement.classList.remove('u-flex');
-                  }
-
-                  const container = document.createElement('div');
-                  container.innerHTML = `<button type="button" class="FilterView-filterButton Button Button--radius Button--small Button--compact u-outlineSolidBase2 Button--greenLight2NoHover" aria-label="Filtrera på ekologiskt" title="Filtrera på ekologiskt" style="background: white;border: unset;margin-left: 0;font-size: 12px; padding: 0px 10px 0 8px;"><img src="/contentassets/37af8083f694424fbf99726f2ce6339e/treklovern.png" width="19" height="15" style="vertical-align: bottom"> Eko&shy;logiskt</button>`;
-
-                  wrapper.append(container);
-
-                  container.addEventListener('click', function () {
-                    //reset
-                    urlParams = new URLSearchParams(window.location.search);
-
-                    urlParams.set('filter', 'Ekologiskt');
-                    window.location.search = urlParams.toString();
-                  });
-                });
-              }
-            }
-          });
-        }
-
-        if (cover.isProductPage()) {
-          cover.waitFor(
-            '[data-list="Varor som ingår i erbjudandet"]',
-            (element) => {
-              element.classList.add('u-hidden');
-
-              const title = element.previousElementSibling;
-              title.classList.remove('u-flex');
-              title.classList.add('u-hidden');
-            }
-          );
-        }
-      } // pageview();
-
-      cover.waitFor(
-        '.Splash-pricePre',
-        (element) => {
-          const quantity = parseInt(element.textContent);
-          if (quantity && quantity > 1) {
-            const parent = element.closest('.ItemTeaser');
-
-            const grid = element.closest('.Grid-cell');
-            if (grid) {
-              const h2 = grid.querySelector('h2');
-              if (h2) {
-                if (h2.textContent === 'Varor som ingår i erbjudandet') {
-                  return;
-                }
-              }
-            }
-
-            if (parent) {
-              const button = parent.querySelector('.AddToCart-button--add');
-              const input =
-                parent.querySelector<HTMLInputElement>('.AddToCart-input');
-
-              if (input && input.value === '0') {
-                button.addEventListener(
-                  'click',
-                  (event) => {
-                    cover.variantReady('T120', () => {
-                      setTimeout(() => {
-                        for (var i = 1; i < quantity; i++) {
-                          // can't be button.click()
-                          parent
-                            .querySelector<HTMLButtonElement>(
-                              '.AddToCart-button--add'
-                            )
-                            .click();
-                        }
-                      }, 50);
-                    });
-                  },
-                  { once: true }
-                );
-              }
-            }
-          }
-        },
-        {
-          querySelectorAll: true,
-        }
-      );
-
-      cover.waitFor('.Cart.Cart--mini.is-visible', (element) => {
-        const inputs =
-          element.querySelectorAll<HTMLInputElement>('.AddToCart-input');
-
-        let selectedItems = [];
-
-        for (const input of inputs) {
-          if (parseInt(input.value) >= 50) {
-            const item = input.closest('.Cart-item');
-
-            selectedItems.push(item);
-          }
-        }
-
-        if (selectedItems.length > 0) {
-          cover.variantReady('T116', () => {
-            for (const item of selectedItems) {
-              const wrapper = item.querySelector('.Cart-itemWrapperDetail');
-              wrapper.style.width = 'auto';
-              wrapper.style.flexGrow = '1';
-
-              const price = item.querySelector('.Cart-itemWrapperPrice');
-              price.style.order = 'unset';
-
-              const container = item.querySelector('.Cart-itemContainer');
-              container.style.overflow = 'auto';
-              container.style.flexWrap = 'wrap';
-
-              const notification = document.createElement('div');
-              notification.setAttribute('role', 'button');
-              notification.style.display = 'flex';
-              notification.style.width = '100%';
-              notification.style.backgroundColor = '#FFFBDB';
-              notification.style.alignItems = 'flex-start';
-              notification.style.padding = '16px';
-              notification.style.borderRadius = '16px';
-              notification.style.marginLeft = '65px';
-              container.append(notification);
-
-              if (window.innerWidth < 600) {
-                notification.style.marginBottom = '16px';
-              } else {
-                notification.style.marginTop = '16px';
-              }
-
-              const icon = document.createElement('div');
-              icon.style.marginRight = '16px';
-              icon.innerHTML = `
-              <svg style="display:block" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 24C18.6275 24 24 18.6275 24 12C24 5.37258 18.6275 0 12 0C5.37255 0 0 5.37258 0 12C0 18.6275 5.37255 24 12 24Z" fill="#FF6565"/>
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9999 6C12.7539 6 13.3651 6.61121 13.3651 7.36517V13.4326C13.3651 14.1865 12.7539 14.7978 11.9999 14.7978C11.2459 14.7978 10.6347 14.1865 10.6347 13.4326V7.36517C10.6347 6.61121 11.2459 6 11.9999 6Z" fill="white"/>
-                <path d="M13.8201 17.6798C13.8201 18.6851 13.0052 19.5 11.9999 19.5C10.9946 19.5 10.1797 18.6851 10.1797 17.6798C10.1797 16.6745 10.9946 15.8596 11.9999 15.8596C13.0052 15.8596 13.8201 16.6745 13.8201 17.6798Z" fill="white"/>
-              </svg>
-            `;
-              notification.append(icon);
-
-              const content = document.createElement('div');
-              content.style.alignSelf = 'center';
-              content.style.flexGrow = '1';
-
-              const header = document.createElement('p');
-              header.style.fontSize = '14px';
-              header.style.margin = '3px 0';
-              header.style.fontWeight = 'bold';
-              header.innerText = 'Stort antal av denna vara';
-              content.append(header);
-
-              const moreInfo = document.createElement('p');
-              moreInfo.classList.add('u-hidden');
-              moreInfo.style.fontSize = '12px';
-              moreInfo.style.margin = '0';
-              moreInfo.innerHTML =
-                'Vi rekommenderar att du kontaktar <a href="https://www.coop.se/Globala-sidor/coop-kundservice/" class="Link Link--green">Coop kundservice</a> så säkerställer vi att önskat antal finns i lager.';
-              content.append(moreInfo);
-
-              moreInfo.querySelector('a').addEventListener('click', (event) => {
-                event.preventDefault();
+            list
+              .querySelector('.js-navTrigger')
+              .addEventListener('click', () => {
                 dataLayer.push({
                   event: 'interaction',
                   eventCategory: 'experiment',
                   eventAction: 'click',
-                  eventLabel: 'contact-ks',
+                  eventLabel: 'hamburger-menu',
                 });
-                setTimeout(() => {
-                  location.href = (<HTMLAnchorElement>event.target).href;
-                }, 100);
               });
 
-              notification.append(content);
+            container.insertBefore(list, logo);
+          });
+        },
+        {
+          disconnect: true,
+        }
+      );
+    }
 
-              const door = document.createElement('div');
-              door.style.width = '24px';
-              door.innerHTML = `
-              <svg style="display:block" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 9L12 16L5 9" stroke="#0A893D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            `;
-              notification.append(door);
+    pageview();
+    cover.waitFor('.js-page', () => {
+      pageview();
+    });
+    function pageview() {
+      if (
+        cover.isCategoryPage() ||
+        window.location.pathname === '/handla/sok/'
+      ) {
+        cover.waitFor('.FilterView-filterToggler', (button) => {
+          let urlParams = new URLSearchParams(window.location.search);
 
-              notification.addEventListener('click', (event) => {
-                moreInfo.classList.toggle('u-hidden');
+          if (urlParams.has('filter')) {
+            cover.waitFor('.FilterView-filterContainer button', (element) => {
+              element.addEventListener('click', () => {
+                setTimeout(() => {
+                  t122();
+                }, 50);
+              });
+            });
+          }
+          t122();
 
-                if (!door.classList.contains('is-rotated')) {
-                  door.style.transform = 'rotate(180deg)';
-                  door.classList.add('is-rotated');
-                } else {
-                  door.style.transform = 'unset';
-                  door.classList.remove('is-rotated');
+          function t122() {
+            //reset
+            urlParams = new URLSearchParams(window.location.search);
+            if (
+              !(
+                urlParams.has('filter') &&
+                urlParams.get('filter') === 'Ekologiskt'
+              )
+            ) {
+              const wrapper = button.parentElement;
+
+              cover.variantReady('T122', () => {
+                button.style.marginRight = '5px';
+
+                if (window.innerWidth <= 390) {
+                  button.parentElement.classList.remove('u-flex');
                 }
+
+                const container = document.createElement('div');
+                container.innerHTML = `<button type="button" class="FilterView-filterButton Button Button--radius Button--small Button--compact u-outlineSolidBase2 Button--greenLight2NoHover" aria-label="Filtrera på ekologiskt" title="Filtrera på ekologiskt" style="background: white;border: unset;margin-left: 0;font-size: 12px; padding: 0px 10px 0 8px;"><img src="/contentassets/37af8083f694424fbf99726f2ce6339e/treklovern.png" width="19" height="15" style="vertical-align: bottom"> Eko&shy;logiskt</button>`;
+
+                wrapper.append(container);
+
+                container.addEventListener('click', function () {
+                  //reset
+                  urlParams = new URLSearchParams(window.location.search);
+
+                  urlParams.set('filter', 'Ekologiskt');
+                  window.location.search = urlParams.toString();
+                });
               });
             }
+          }
+        });
+      }
 
-            const container = element.querySelector('.Cart-container ul');
+      if (cover.isProductPage()) {
+        cover.waitFor(
+          '[data-list="Varor som ingår i erbjudandet"]',
+          (element) => {
+            element.classList.add('u-hidden');
 
-            const messageItem = document.createElement('div');
-            messageItem.style.borderBottom = '1px solid #ededed';
-            container.prepend(messageItem);
+            const title = element.previousElementSibling;
+            title.classList.remove('u-flex');
+            title.classList.add('u-hidden');
+          }
+        );
+      }
+    } // pageview();
+
+    cover.waitFor(
+      '.Splash-pricePre',
+      (element) => {
+        const quantity = parseInt(element.textContent);
+        if (quantity && quantity > 1) {
+          const parent = element.closest('.ItemTeaser');
+
+          const grid = element.closest('.Grid-cell');
+          if (grid) {
+            const h2 = grid.querySelector('h2');
+            if (h2) {
+              if (h2.textContent === 'Varor som ingår i erbjudandet') {
+                return;
+              }
+            }
+          }
+
+          if (parent) {
+            const button = parent.querySelector('.AddToCart-button--add');
+            const input =
+              parent.querySelector<HTMLInputElement>('.AddToCart-input');
+
+            if (input && input.value === '0') {
+              button.addEventListener(
+                'click',
+                (event) => {
+                  cover.variantReady('T120', () => {
+                    setTimeout(() => {
+                      for (var i = 1; i < quantity; i++) {
+                        // can't be button.click()
+                        parent
+                          .querySelector<HTMLButtonElement>(
+                            '.AddToCart-button--add'
+                          )
+                          .click();
+                      }
+                    }, 50);
+                  });
+                },
+                { once: true }
+              );
+            }
+          }
+        }
+      },
+      {
+        querySelectorAll: true,
+      }
+    );
+
+    cover.waitFor('.Cart.Cart--mini.is-visible', (element) => {
+      const inputs =
+        element.querySelectorAll<HTMLInputElement>('.AddToCart-input');
+
+      let selectedItems = [];
+
+      for (const input of inputs) {
+        if (parseInt(input.value) >= 50) {
+          const item = input.closest('.Cart-item');
+
+          selectedItems.push(item);
+        }
+      }
+
+      if (selectedItems.length > 0) {
+        cover.variantReady('T116', () => {
+          for (const item of selectedItems) {
+            const wrapper = item.querySelector('.Cart-itemWrapperDetail');
+            wrapper.style.width = 'auto';
+            wrapper.style.flexGrow = '1';
+
+            const price = item.querySelector('.Cart-itemWrapperPrice');
+            price.style.order = 'unset';
+
+            const container = item.querySelector('.Cart-itemContainer');
+            container.style.overflow = 'auto';
+            container.style.flexWrap = 'wrap';
 
             const notification = document.createElement('div');
             notification.setAttribute('role', 'button');
             notification.style.display = 'flex';
+            notification.style.width = '100%';
             notification.style.backgroundColor = '#FFFBDB';
             notification.style.alignItems = 'flex-start';
             notification.style.padding = '16px';
             notification.style.borderRadius = '16px';
-            notification.style.margin = '16px';
-            messageItem.append(notification);
+            notification.style.marginLeft = '65px';
+            container.append(notification);
+
+            if (window.innerWidth < 600) {
+              notification.style.marginBottom = '16px';
+            } else {
+              notification.style.marginTop = '16px';
+            }
 
             const icon = document.createElement('div');
             icon.style.marginRight = '16px';
@@ -797,19 +705,18 @@ if (typeof cover == 'undefined') {
             content.style.flexGrow = '1';
 
             const header = document.createElement('p');
-            header.style.fontSize = '16px';
-            header.style.margin = '0';
-            header.style.marginBottom = '3px';
+            header.style.fontSize = '14px';
+            header.style.margin = '3px 0';
             header.style.fontWeight = 'bold';
-            header.innerText = 'Stort antal av vissa varor i din varukorg';
+            header.innerText = 'Stort antal av denna vara';
             content.append(header);
 
             const moreInfo = document.createElement('p');
             moreInfo.classList.add('u-hidden');
-            moreInfo.style.fontSize = '14px';
+            moreInfo.style.fontSize = '12px';
             moreInfo.style.margin = '0';
             moreInfo.innerHTML =
-              'Vid en större beställning av en vara kan du kontakta <a href="https://www.coop.se/Globala-sidor/coop-kundservice/" class="Link Link--green">Coop kundservice</a> först så säkerställer vi att önskat antal finns i lager.';
+              'Vi rekommenderar att du kontaktar <a href="https://www.coop.se/Globala-sidor/coop-kundservice/" class="Link Link--green">Coop kundservice</a> så säkerställer vi att önskat antal finns i lager.';
             content.append(moreInfo);
 
             moreInfo.querySelector('a').addEventListener('click', (event) => {
@@ -847,21 +754,133 @@ if (typeof cover == 'undefined') {
                 door.classList.remove('is-rotated');
               }
             });
+          }
+
+          const container = element.querySelector('.Cart-container ul');
+
+          const messageItem = document.createElement('div');
+          messageItem.style.borderBottom = '1px solid #ededed';
+          container.prepend(messageItem);
+
+          const notification = document.createElement('div');
+          notification.setAttribute('role', 'button');
+          notification.style.display = 'flex';
+          notification.style.backgroundColor = '#FFFBDB';
+          notification.style.alignItems = 'flex-start';
+          notification.style.padding = '16px';
+          notification.style.borderRadius = '16px';
+          notification.style.margin = '16px';
+          messageItem.append(notification);
+
+          const icon = document.createElement('div');
+          icon.style.marginRight = '16px';
+          icon.innerHTML = `
+              <svg style="display:block" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 24C18.6275 24 24 18.6275 24 12C24 5.37258 18.6275 0 12 0C5.37255 0 0 5.37258 0 12C0 18.6275 5.37255 24 12 24Z" fill="#FF6565"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9999 6C12.7539 6 13.3651 6.61121 13.3651 7.36517V13.4326C13.3651 14.1865 12.7539 14.7978 11.9999 14.7978C11.2459 14.7978 10.6347 14.1865 10.6347 13.4326V7.36517C10.6347 6.61121 11.2459 6 11.9999 6Z" fill="white"/>
+                <path d="M13.8201 17.6798C13.8201 18.6851 13.0052 19.5 11.9999 19.5C10.9946 19.5 10.1797 18.6851 10.1797 17.6798C10.1797 16.6745 10.9946 15.8596 11.9999 15.8596C13.0052 15.8596 13.8201 16.6745 13.8201 17.6798Z" fill="white"/>
+              </svg>
+            `;
+          notification.append(icon);
+
+          const content = document.createElement('div');
+          content.style.alignSelf = 'center';
+          content.style.flexGrow = '1';
+
+          const header = document.createElement('p');
+          header.style.fontSize = '16px';
+          header.style.margin = '0';
+          header.style.marginBottom = '3px';
+          header.style.fontWeight = 'bold';
+          header.innerText = 'Stort antal av vissa varor i din varukorg';
+          content.append(header);
+
+          const moreInfo = document.createElement('p');
+          moreInfo.classList.add('u-hidden');
+          moreInfo.style.fontSize = '14px';
+          moreInfo.style.margin = '0';
+          moreInfo.innerHTML =
+            'Vid en större beställning av en vara kan du kontakta <a href="https://www.coop.se/Globala-sidor/coop-kundservice/" class="Link Link--green">Coop kundservice</a> först så säkerställer vi att önskat antal finns i lager.';
+          content.append(moreInfo);
+
+          moreInfo.querySelector('a').addEventListener('click', (event) => {
+            event.preventDefault();
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'contact-ks',
+            });
+            setTimeout(() => {
+              location.href = (<HTMLAnchorElement>event.target).href;
+            }, 100);
           });
-        }
-      });
 
-      if (
-        window.location.pathname.startsWith('/handla/') &&
-        window.location.pathname !== '/handla/betala/'
-      ) {
-        if (window.innerWidth < 1024) {
-          cover.waitFor('[data-test="ecommerceSearchHeader"]', (element) => {
-            const trigger = element.querySelector<HTMLElement>(
-              '[data-test="mobileCategoryTrigger"]'
-            );
+          notification.append(content);
 
-            trigger?.addEventListener('click', () => {
+          const door = document.createElement('div');
+          door.style.width = '24px';
+          door.innerHTML = `
+              <svg style="display:block" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 9L12 16L5 9" stroke="#0A893D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            `;
+          notification.append(door);
+
+          notification.addEventListener('click', (event) => {
+            moreInfo.classList.toggle('u-hidden');
+
+            if (!door.classList.contains('is-rotated')) {
+              door.style.transform = 'rotate(180deg)';
+              door.classList.add('is-rotated');
+            } else {
+              door.style.transform = 'unset';
+              door.classList.remove('is-rotated');
+            }
+          });
+        });
+      }
+    });
+
+    if (
+      window.location.pathname.startsWith('/handla/') &&
+      window.location.pathname !== '/handla/betala/'
+    ) {
+      if (window.innerWidth < 1024) {
+        cover.waitFor('[data-test="ecommerceSearchHeader"]', (element) => {
+          const trigger = element.querySelector<HTMLElement>(
+            '[data-test="mobileCategoryTrigger"]'
+          );
+
+          trigger?.addEventListener('click', () => {
+            dataLayer.push({
+              event: 'interaction',
+              eventCategory: 'experiment',
+              eventAction: 'click',
+              eventLabel: 'category-icon',
+            });
+          });
+
+          cover.variantReady('T90', () => {
+            element.style.height = 'auto';
+
+            const container =
+              element.querySelector<HTMLElement>('.Main-container');
+
+            container.style.flexWrap = 'wrap';
+
+            trigger.style.display = 'none';
+
+            const button = document.createElement('div');
+            button.innerHTML = `<button type="button" class="Button Button--radius Button--small Button--compact u-outlineSolidBase2 Button--greenLight2NoHover" style="border: unset;margin-left: 0;font-size: 12px; margin-top: 6px;padding: 8px 8px 8px 16px">Kategorier<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;margin: 0 4px;">
+            <path d="M12.6663 6.00001L7.99959 10.6667L3.33293 6.00001" stroke="#005537" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg></button>`;
+
+            container.append(button);
+
+            button.addEventListener('click', () => {
+              trigger.click();
+
               dataLayer.push({
                 event: 'interaction',
                 eventCategory: 'experiment',
@@ -869,130 +888,97 @@ if (typeof cover == 'undefined') {
                 eventLabel: 'category-icon',
               });
             });
-
-            cover.variantReady('T90', () => {
-              element.style.height = 'auto';
-
-              const container =
-                element.querySelector<HTMLElement>('.Main-container');
-
-              container.style.flexWrap = 'wrap';
-
-              trigger.style.display = 'none';
-
-              const button = document.createElement('div');
-              button.innerHTML = `<button type="button" class="Button Button--radius Button--small Button--compact u-outlineSolidBase2 Button--greenLight2NoHover" style="border: unset;margin-left: 0;font-size: 12px; margin-top: 6px;padding: 8px 8px 8px 16px">Kategorier<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle;margin: 0 4px;">
-            <path d="M12.6663 6.00001L7.99959 10.6667L3.33293 6.00001" stroke="#005537" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg></button>`;
-
-              container.append(button);
-
-              button.addEventListener('click', () => {
-                trigger.click();
-
-                dataLayer.push({
-                  event: 'interaction',
-                  eventCategory: 'experiment',
-                  eventAction: 'click',
-                  eventLabel: 'category-icon',
-                });
-              });
-            });
           });
-        }
-
-        if (!coopUserSettings.isCompany) {
-          let wrapper = document.querySelector(
-            '[data-child-layout="ecommerce"]'
-          );
-
-          if (wrapper) {
-            cover.variantReady('T117', () => {
-              let element = document.createElement('div');
-              element.classList.add('Grid-cell', 'u-sizeFull');
-
-              element.innerHTML =
-                'Medlemmar får 5% tillbaka - vi ger mest bonus';
-
-              element.style.padding = '9px 0 9px 0';
-              element.style.backgroundColor = '#00A142';
-              element.style.fontSize = '0.75em';
-              element.style.textAlign = 'center';
-              element.style.color = 'white';
-              element.style.marginBottom = '1.25em';
-              element.style.fontWeight = 'bold';
-
-              wrapper.prepend(element);
-
-              let container = document.querySelector(
-                '.js-childLayoutContainer'
-              );
-              container.classList.remove('u-marginTmd');
-            });
-          }
-        }
+        });
       }
 
-      cover.waitFor(
-        '.ProductSearch-itemGroup--image',
-        (element) => {
-          element.addEventListener('click', () => {
-            dataLayer.push({
-              event: 'interaction',
-              eventCategory: 'experiment',
-              eventAction: 'click',
-              eventLabel: 'search-image',
-            });
+      if (!coopUserSettings.isCompany) {
+        let wrapper = document.querySelector('[data-child-layout="ecommerce"]');
 
-            cover.variantReady('T118', () => {
-              const parent = element.closest('.ProductSearch-item');
-              const link = parent.querySelector('a');
+        if (wrapper) {
+          cover.variantReady('T117', () => {
+            let element = document.createElement('div');
+            element.classList.add('Grid-cell', 'u-sizeFull');
 
-              setTimeout(() => {
-                link.click();
-              }, 100);
-            });
+            element.innerHTML = 'Medlemmar får 5% tillbaka - vi ger mest bonus';
+
+            element.style.padding = '9px 0 9px 0';
+            element.style.backgroundColor = '#00A142';
+            element.style.fontSize = '0.75em';
+            element.style.textAlign = 'center';
+            element.style.color = 'white';
+            element.style.marginBottom = '1.25em';
+            element.style.fontWeight = 'bold';
+
+            wrapper.prepend(element);
+
+            let container = document.querySelector('.js-childLayoutContainer');
+            container.classList.remove('u-marginTmd');
           });
-
-          element.addEventListener(
-            'mouseover',
-            () => {
-              cover.variantReady('T118', () => {
-                element.style.cursor = 'pointer';
-              });
-            },
-            { once: true }
-          );
-        },
-        {
-          querySelectorAll: true,
         }
-      );
+      }
+    }
 
-      document.querySelector('.js-profileMenuTrigger')?.addEventListener(
-        'click',
-        () => {
+    cover.waitFor(
+      '.ProductSearch-itemGroup--image',
+      (element) => {
+        element.addEventListener('click', () => {
           dataLayer.push({
             event: 'interaction',
             eventCategory: 'experiment',
             eventAction: 'click',
-            eventLabel: 'profile-menu',
+            eventLabel: 'search-image',
           });
-        },
-        { once: true }
-      );
 
-      cover.waitFor(
-        '.ProfileMenu--dropdown',
-        (element) => {
-          const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(async (entry) => {
-              if (entry.isIntersecting) {
-                observer.disconnect();
+          cover.variantReady('T118', () => {
+            const parent = element.closest('.ProductSearch-item');
+            const link = parent.querySelector('a');
 
-                cover.variantReady('T115', () => {
-                  const style = document.createElement('style');
-                  style.innerHTML = `
+            setTimeout(() => {
+              link.click();
+            }, 100);
+          });
+        });
+
+        element.addEventListener(
+          'mouseover',
+          () => {
+            cover.variantReady('T118', () => {
+              element.style.cursor = 'pointer';
+            });
+          },
+          { once: true }
+        );
+      },
+      {
+        querySelectorAll: true,
+      }
+    );
+
+    document.querySelector('.js-profileMenuTrigger')?.addEventListener(
+      'click',
+      () => {
+        dataLayer.push({
+          event: 'interaction',
+          eventCategory: 'experiment',
+          eventAction: 'click',
+          eventLabel: 'profile-menu',
+        });
+      },
+      { once: true }
+    );
+
+    cover.waitFor(
+      '.ProfileMenu--dropdown',
+      (element) => {
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+              observer.disconnect();
+
+              cover.variantReady('T115', () => {
+                const style = document.createElement('style');
+                style.innerHTML = `
                   .ProfileMenu--dropdown {
                     width: 375px!important;
                     padding: 20px;
@@ -1023,11 +1009,11 @@ if (typeof cover == 'undefined') {
                     stroke: black!important;
                   }
                 `;
-                  document.head.appendChild(style);
+                document.head.appendChild(style);
 
-                  const icons = document.createElement('div');
-                  icons.classList.add('icons');
-                  icons.innerHTML = `
+                const icons = document.createElement('div');
+                icons.classList.add('icons');
+                icons.innerHTML = `
                   <a href="/mitt-coop/mina-bestallningar/">
                     <svg xmlns="http://www.w3.org/2000/svg" width="75" height="75" fill="none"><rect width="72" height="72" x=".798" y=".234" fill="#E0EFDD" rx="36"/><path fill="url(#a)" fill-rule="evenodd" d="M20.48 48.908a19.424 19.424 0 0 0-5.752 2.32 1.787 1.787 0 0 0-.884.92c-.245.798.526 1.5 1.203 1.92 2.565 1.594 5.252 2.956 7.933 4.31 1.57.798 3.177 1.605 4.897 1.804 1.72.2 3.44-.206 5.12-.638a165.489 165.489 0 0 0 17.03-5.378 18.614 18.614 0 0 0 3.96-1.883c.795-.536 2.316-.965 1.89-1.858-.25-.52-4.719-2.388-5.126-2.76-2.66-2.452-.208-2.271-3.231-2.608" clip-rule="evenodd"/><path fill="#00AA46" fill-rule="evenodd" d="M55.342 43.56c.294-1.085.6-2.168.918-3.25l-5.408.816-16.796 4.397-4.918 1.441-11.019-5.684c.218.113.42.698.597 1.431.306 1.291.545 3.036.652 3.453l1.28 5.007c.306 1.226.333 2.854 1.612 3.45 1.463.689 2.85 1.575 4.245 2.388 1.592.92 3.587 2.713 5.51 2.37 1.922-.344 3.978-1.346 5.888-1.953 2.153-.69 4.305-1.371 6.458-2.046 2.513-.79 5.01-1.6 7.514-2.388 2.402-.76 2.234-4.532 2.754-6.656.23-.92.471-1.84.716-2.76l-.003-.015Z" clip-rule="evenodd"/><path fill="#005537" fill-rule="evenodd" d="M29.19 40.804c1.836.267 3.672-.15 5.442-.74 3.807-1.266 7.599-3.347 11.556-2.786a9.373 9.373 0 0 1 5.72 3.164l4.778-1.343-13.684-6.439s-10.317 3.134-18.005 5.52a5.848 5.848 0 0 0 4.193 2.624Z" clip-rule="evenodd"/><path fill="url(#b)" fill-rule="evenodd" d="m28.036 46.41 23.922-6.415a9.419 9.419 0 0 0-5.653-2.977c-3.909-.528-7.652 1.435-11.42 2.63-1.735.555-3.568.951-5.374.7-1.643-.23-3.262-1.086-4.144-2.475-4.156 1.227-7.532 2.257-8.034 2.472l10.703 6.064Z" clip-rule="evenodd"/><path fill="#003D23" fill-rule="evenodd" d="M19.64 42.812a37.05 37.05 0 0 0 15.833-1.361c2.984-.95 6.09-1.607 9.001 0 .171.082.323.2.444.346.575.807-1.346 1.322-1.748 1.742-.887.92-2.111 1.533-3.345 2.023-1.78.709-13.12 3.373-15.027 3.68" clip-rule="evenodd"/><path fill="url(#c)" fill-rule="evenodd" d="m50.852 41.126-16.796 4.397-4.918 1.441-11.019-5.684c.218.113.42.698.597 1.431l1.665.212c1.154-.11 2.103.953 2.608 2.033.505 1.079.802 2.315 1.607 3.176.805.862 2.035 1.227 2.84 2.116 1.148 1.26 1.334 3.443 2.85 4.176 1.413.684 3.032-.383 4.091-1.573 2.008-2.26 3.575-5.332 6.427-6.132 2.56-.706 5.265.723 7.884.325 2.47-.374 4.441-2.29 6.654-3.483.294-1.086.6-2.17.918-3.25l-5.408.815Z" clip-rule="evenodd"/><path fill="#C6C5C4" fill-rule="evenodd" d="M28.953 43.947s.487.122.447.858l-7.48-2.174 1.39-1.744 5.643 3.06Z" clip-rule="evenodd"/><path fill="#007548" fill-rule="evenodd" d="m43.981 34.67 10.25 3.933 1.818-.5c.995-.275 2.562-.46 1.855-1.106-1.638-1.328-3.924-1.972-5.873-2.72a462.691 462.691 0 0 1-6.428-2.523c-1.224-.503-2.448-.767-3.639-.476l-10.592 2.677-7.796 1.742c-1.53.34-3.06.478-4.57.877-.749.196-1.584.328-2.19.83-.469.39-.426.706 0 1.138.483.487 2.772 1.975 3.507 1.781l21.745-5.76a2.676 2.676 0 0 1 1.913.106Z" clip-rule="evenodd"/><path fill="#00AA46" fill-rule="evenodd" d="M16.574 38.21s.839 3.067.988 3.119c.15.052 11.2 6.215 11.35 6.215a5.63 5.63 0 0 0 2.974 0c1.665-.454 24.362-7.224 24.362-7.224l.756-.254 1.04-2.662c-2.843.788-6.02 1.812-8.875 2.6-4.223 1.172-8.591 2.147-12.732 3.554a24.499 24.499 0 0 1-5.885 1.3c-1.727.141-3.367-.981-4.867-1.71l-2.889-1.414-6.222-3.523Z" clip-rule="evenodd"/><path fill="#333" fill-rule="evenodd" d="M43.865 23.25c-.652-.27-1.365-.438-2.02-.677-.78-.282-1.558-.576-2.335-.874a277.433 277.433 0 0 1-4.462-1.763 74.936 74.936 0 0 1-1.822-.742c-2.35-1.005-2.92.92-2.88 1.37a2.1 2.1 0 0 0 0 .44s-.113 14.155-.042 14.716c0 0 0 1.129.612 1.065.869-.086.737-1.478.737-1.478.05-1.84.095-3.689.138-5.547a632.141 632.141 0 0 0 .116-6.295c-.043-.669-.036-1.34.019-2.008a.991.991 0 0 1 1.276-.855c.946.245 1.803.735 2.7 1.113.896.377 1.808.757 2.714 1.13 1.206.504 2.412 1.05 3.651 1.47 1.013.346 1.772 1.06 1.895 2.146a8.1 8.1 0 0 1-.05 1.564c-.26 3.035-.572 13.797-.572 13.797s-.131 1.3.613 1.266c.884-.04.826-1.643.826-1.643l.973-13.528c.117-1.606.043-3.514-1.53-4.406-.18-.086-.367-.178-.557-.26Z" clip-rule="evenodd"/><path fill="#007548" fill-rule="evenodd" d="M30.974 35.49a.251.251 0 0 0-.187.135.56.56 0 0 0-.052.233.346.346 0 0 0 .037.193.306.306 0 0 0 .144.117.308.308 0 0 0 .113.028.247.247 0 0 0 .104-.025.356.356 0 0 0-.134-.68" clip-rule="evenodd"/><path fill="#00AA46" fill-rule="evenodd" d="M44.26 41.896a.306.306 0 1 0 .193.13.452.452 0 0 0-.19-.148" clip-rule="evenodd"/><path fill="#7A7B7B" fill-rule="evenodd" d="M20.816 51.984a46.851 46.851 0 0 1 3.627 2.612c.082.052 1.784-1.938 1.922-2.192a9.519 9.519 0 0 0 1.05-3.229c.128-.969-.037-1.968.327-2.897.288-.73.689-1.368 1.6-1.509a7.64 7.64 0 0 1-.77-.23l-5.855-2.4s-2.427-1.196-3.245 2.486" clip-rule="evenodd" opacity=".31"/><path fill="#EDEDED" fill-rule="evenodd" d="M22.102 40.136s-2.975-2.11-4.567 1.61c-1.27 2.965-2.448 5-3.385 5.083l8.714 6.273s2.803-2.74 3.213-5.764c.508-3.728 2.877-3.388 2.877-3.388l-6.852-3.814Z" clip-rule="evenodd"/><path fill="#00AA46" fill-rule="evenodd" d="M16.81 46.363c1.178.883 2.335 1.686 3.513 2.57.174.142.357.276.547.398.114.07.306.18.279.306-.067.052-.193-.043-.279-.095-.963-.564-1.744-1.288-2.671-1.913-.254-.172-.517-.328-.762-.509a3.97 3.97 0 0 1-.373-.307 1.426 1.426 0 0 1-.306-.343c-.04-.064-.037-.16.052-.107ZM17.547 45.208c-.037.073.043.147.11.193l4.848 3.112c.214.138.4.306.612.432.055.037.177.09.202.046-.037-.245-.27-.37-.478-.506l-4.75-3.136c-.161-.098-.446-.264-.544-.141ZM18.257 43.846c.426.251.796.613 1.224.859.227.14.435.266.67.395.191.104.37.227.536.368.104.086.236.172.171.307-.064.135-1.334-.868-2.05-1.27a2.422 2.422 0 0 1-.612-.524c-.027-.052-.003-.166.061-.135ZM19.05 43.06c.731.411 1.401.92 2.102 1.383.094.066.197.116.306.15.233.065-.033-.239-.107-.288l-1.203-.79-.611-.4c-.11-.07-.206-.165-.306-.232a.425.425 0 0 0-.178-.08c-.193-.01-.08.209-.003.258ZM19.54 41.445l.036.024c.17.123.348.237.53.34l.597.372 1.18.733c1.035.643 2.067 1.292 3.098 1.947.113.07.306.202.275.282-.092.138-2.953-1.79-4.486-2.591a6.743 6.743 0 0 1-.918-.543 1.833 1.833 0 0 1-.435-.365c-.033-.058-.049-.214.09-.208l.033.009ZM20.791 40.933c.062.055.144.098.2.141.107.086.22.166.336.24.131.075.267.143.407.202.122.058.239.125.358.187.05.03.104.055.16.076.223.086-.022-.187-.093-.23l-1.279-.8c-.07-.043-.19-.061-.165.064.012.047.04.09.076.12Z" clip-rule="evenodd"/><path fill="#fff" fill-rule="evenodd" d="M26.674 47.666c-.052-.015-.08.062-.08.117.006 2.669.152 5.336.438 7.99.003.14.042.278.113.399.012-.854-.03-1.707-.129-2.554-.04-.34-.088-.681-.11-1.022-.027-.441 0-.886 0-1.327a32.552 32.552 0 0 0-.211-3.275 3.075 3.075 0 0 0-.043-.33M29.38 48.148l.235 5.785c.009.644.069 1.286.18 1.92.126-.022.148-.187.145-.307l-.325-7.303c0-.102-.082-.243-.165-.184M33.248 47.402v4.446c0 1.766 0 3.544.349 5.277-.034-1.604-.306-3.201-.215-4.799.019-.306.05-.637.062-.956.033-1.144-.215-2.294-.065-3.428.028-.206.05-.46-.119-.58M38.328 46.029c-.45 1.551-.438 3.192-.627 4.798-.083.693-.202 1.383-.276 2.08-.095.92-.1 1.879-.104 2.817-.01.156.004.312.04.463.11-1.677.431-3.336.557-5.013.028-.343.046-.69.067-1.036.092-1.28.27-2.553.536-3.808a.838.838 0 0 0 .018-.427M42.2 44.876a60.64 60.64 0 0 0-1.26 9.058c-.031.415-.031.832 0 1.248a.221.221 0 0 0 .091.202c.186-2.12.413-4.234.682-6.344.138-1.295.374-2.577.707-3.836.04-.135.061-.306-.064-.38M46.048 43.75c-.157.614-.374 1.193-.53 1.8-.453 1.751-.388 3.59-.676 5.375a18.357 18.357 0 0 0-.306 2.082c0 .104 0 .227.098.276.162-.861.278-1.73.398-2.597.278-2.303.679-4.59 1.2-6.85 0-.052 0-.128-.04-.14M50.12 42.559c-.269.83-.488 1.675-.654 2.532-.471 2.27-.835 4.556-1.2 6.844-.027.168-.04.37.095.475.082-.28.142-.564.18-.852a107.476 107.476 0 0 1 1.837-8.984M54.142 41.286a101.17 101.17 0 0 0-1.836 10.731c-.03.127-.01.26.058.371.214-.92.306-1.867.44-2.808a76.998 76.998 0 0 1 1.488-8.08" clip-rule="evenodd"/><path fill="#fff" fill-rule="evenodd" d="m24.966 50.343 3.366 2.407c.493.35.986.696 1.494 1.017 0-.248-.22-.435-.423-.582l-4.302-3.103" clip-rule="evenodd"/><path fill="#fff" fill-rule="evenodd" d="M29.796 53.366a27.53 27.53 0 0 1 1.867-.512c.336-.08.676-.153 1.01-.236 1.668-.414 3.262-1.08 4.93-1.493a.281.281 0 0 1 .101 0c.077.021.095.132.052.202a.367.367 0 0 1-.196.129c-.712.24-1.439.435-2.176.585-1.916.485-3.743 1.356-5.705 1.595" clip-rule="evenodd"/><path fill="#fff" fill-rule="evenodd" d="M37.842 51.106a65.693 65.693 0 0 1 6.553-2.146l.587-.172c.074-.021.187-.015.187.061a.12.12 0 0 1-.052.08c-.212.15-.453.255-.707.307-1.316.392-2.623.815-3.93 1.242l-1 .33-1.929.614" clip-rule="evenodd"/><path fill="#fff" fill-rule="evenodd" d="M45.224 48.69c.964-.35 1.91-.745 2.865-1.125a96.26 96.26 0 0 1 6.491-2.337c.04.077.025.17-.037.23a.574.574 0 0 1-.214.123l-7.269 2.803c-.636.266-1.293.48-1.965.64" clip-rule="evenodd"/><path fill="#00AA46" fill-rule="evenodd" d="M14.275 26.09c2.326 2.882 4.612 5.734 6.914 8.634.085.108.17.258.088.365-.14.08-.306-.126-.395-.251a207.905 207.905 0 0 1-5.358-6.804c-.462-.613-.896-1.184-1.328-1.812 0 0-.092-.114-.015-.166a.055.055 0 0 1 .095.034ZM19.45 22.003c1.938 3.336 4.083 6.546 6.305 9.698.19.267.447.709.392.886-.172.132-.38-.193-.505-.367-2.143-2.947-4.285-5.915-5.904-9.199-.137-.276-.269-.558-.391-.843 0 0-.107-.175-.046-.236s.15.061.15.061ZM34.53 12.54a.224.224 0 0 1 .059.139l.266 1.928.27 1.92.122.886c.028.19.052.38.08.573 0 .09.033.181.04.27 0 .018 0 .043-.02.05-.07.02-.137-.13-.158-.176a3.004 3.004 0 0 1-.117-.432l-.119-.457c-.08-.306-.153-.613-.223-.92a15.912 15.912 0 0 1-.306-1.86 10.284 10.284 0 0 1-.058-.92v-.694a1.134 1.134 0 0 1 .015-.226.307.307 0 0 1 .052-.102c.037-.049.098.022.098.022ZM43.17 12.25c.043.052 0 .193-.021.251-.025.123-.04.245-.062.368-.052.307-.119.595-.195.89-.157.588-.35 1.167-.533 1.747-.113.346-.223.696-.321 1.048-.429 1.534-1.154 4.6-1.304 4.6-.205-.037.05-.816.153-1.227l.471-1.793c.493-1.89.98-3.76 1.616-5.608.025-.074.061-.138.098-.24.01-.036.061-.073.098-.036ZM60.74 17.824a.204.204 0 0 1 0 .062c-.06.144-.147.275-.256.386-.117.144-.239.285-.361.423a47.533 47.533 0 0 1-1.142 1.208A319.776 319.776 0 0 0 49.09 30.39c-.192.212-.538.638-.63.577-.123-.154.306-.595.523-.85a206.192 206.192 0 0 1 6.93-7.65c1.447-1.533 2.92-3.023 4.388-4.525.077-.07.334-.337.429-.19a.125.125 0 0 1 .012.073ZM57.142 29.404c-1.27.918-2.5 1.885-3.694 2.901a5.082 5.082 0 0 0-.42.393 3.96 3.96 0 0 0-.229.226c-.074.08-.104.246.018.221a1.31 1.31 0 0 0 .368-.19c.266-.16.52-.334.774-.509l.061-.043c.438-.306.857-.613 1.267-.947.218-.172.429-.344.643-.518l2.66-2.147 2.671-2.146.306-.24c.046-.036.331-.208.193-.232a.305.305 0 0 0-.147.037c-.178.076-.349.169-.51.276-.558.337-1.087.72-1.608 1.107-.612.45-1.21.917-1.793 1.404-.266.22-.53.444-.783.68" clip-rule="evenodd"/><defs><linearGradient id="a" x1="46.295" x2="-7.441" y1="52.867" y2="41.819" gradientUnits="userSpaceOnUse"><stop stop-color="#969696"/><stop offset="1" stop-color="#fff"/></linearGradient><linearGradient id="b" x1="13.866" x2="41.944" y1="40.838" y2="53.968" gradientUnits="userSpaceOnUse"><stop stop-color="#003C1B"/><stop offset=".99" stop-color="#005537"/></linearGradient><linearGradient id="c" x1="49.304" x2="39.169" y1="43.568" y2="61.806" gradientUnits="userSpaceOnUse"><stop stop-color="#00AA46"/><stop offset=".2" stop-color="#009F44"/><stop offset=".54" stop-color="#00823F"/><stop offset=".99" stop-color="#005537"/></linearGradient></defs></svg>
                     <span>Mina beställningar</span>
@@ -1096,141 +1082,138 @@ if (typeof cover == 'undefined') {
                     <span>Mina inköpslistor</span>
                   </a>
                 `;
-                  element.prepend(icons);
+                element.prepend(icons);
 
-                  const listItems = element.querySelectorAll<HTMLLIElement>(
-                    'ul.ProfileMenu-list li'
-                  );
+                const listItems = element.querySelectorAll<HTMLLIElement>(
+                  'ul.ProfileMenu-list li'
+                );
 
-                  listItems.forEach((item) => {
-                    if (
-                      item.innerText.includes('Mina beställningar') ||
-                      item.innerText.includes('Sparade varukorgar') ||
-                      item.innerText.includes('Mina inköpslistor')
-                    ) {
-                      item.remove();
-                    }
-                  });
+                listItems.forEach((item) => {
+                  if (
+                    item.innerText.includes('Mina beställningar') ||
+                    item.innerText.includes('Sparade varukorgar') ||
+                    item.innerText.includes('Mina inköpslistor')
+                  ) {
+                    item.remove();
+                  }
+                });
 
-                  const close = document.createElement('button');
-                  close.type = 'button';
-                  close.classList.add('ProfileMenu-close');
-                  close.innerHTML = `
+                const close = document.createElement('button');
+                close.type = 'button';
+                close.classList.add('ProfileMenu-close');
+                close.innerHTML = `
                   <svg role="img">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/build/sprite.svg#close">
                       <title>Dölj</title>
                     </use>
                   </svg>
                 `;
-                  close.addEventListener('click', () => {
-                    document
-                      .querySelector<HTMLElement>('.js-profileMenuTrigger')
-                      ?.click();
-                  });
-                  element.prepend(close);
+                close.addEventListener('click', () => {
+                  document
+                    .querySelector<HTMLElement>('.js-profileMenuTrigger')
+                    ?.click();
                 });
-              }
-            });
+                element.prepend(close);
+              });
+            }
           });
-          observer.observe(element);
-        },
-        {
-          querySelectorAll: true,
-        }
-      );
+        });
+        observer.observe(element);
+      },
+      {
+        querySelectorAll: true,
+      }
+    );
 
-      if (window.location.pathname === '/handla/betala/') {
-        cover.waitFor('button[data-test="footernav-nextButton"]', (element) => {
+    if (window.location.pathname === '/handla/betala/') {
+      cover.waitFor('button[data-test="footernav-nextButton"]', (element) => {
+        cover.variantReady('T119', () => {
+          element.innerText = 'Fortsätt';
+        });
+      });
+
+      cover.waitFor('.u-hidden.u-md-block button', (element) => {
+        if (window.location.hash === '#/' && window.innerWidth >= 768) {
           cover.variantReady('T119', () => {
             element.innerText = 'Fortsätt';
           });
-        });
+        }
+      });
 
-        cover.waitFor('.u-hidden.u-md-block button', (element) => {
-          if (window.location.hash === '#/' && window.innerWidth >= 768) {
-            cover.variantReady('T119', () => {
-              element.innerText = 'Fortsätt';
-            });
-          }
-        });
+      if (!coopUserSettings.isCompany) {
+        cover.waitFor(
+          '.Checkout h1.Heading',
+          (element) => {
+            let experimentCartDataProductSum = 0;
 
-        if (!coopUserSettings.isCompany) {
-          cover.waitFor(
-            '.Checkout h1.Heading',
-            (element) => {
-              let experimentCartDataProductSum = 0;
+            function updateText() {
+              let amountLeft = 2000 - Math.floor(experimentCartDataProductSum);
 
-              function updateText() {
-                let amountLeft =
-                  2000 - Math.floor(experimentCartDataProductSum);
+              if (amountLeft < 0) {
+                amountLeft = 0;
+              }
 
-                if (amountLeft < 0) {
-                  amountLeft = 0;
-                }
-
-                if (amountLeft <= 1000 && amountLeft > 0) {
-                  cover.variantReady('T111', () => {
-                    element.textContent = `${amountLeft} kr kvar till fri frakt!`;
-                    document.querySelector(
-                      '.Checkout h1.Heading + p'
-                    ).textContent =
-                      'Behöver du något mer? Här är några förslag på populära varor.';
-                  });
-                } else if (
-                  amountLeft === 0 &&
-                  cover.variantHistory.includes('T111')
-                ) {
-                  element.textContent = 'Du har nu fri frakt!';
+              if (amountLeft <= 1000 && amountLeft > 0) {
+                cover.variantReady('T111', () => {
+                  element.textContent = `${amountLeft} kr kvar till fri frakt!`;
                   document.querySelector(
                     '.Checkout h1.Heading + p'
                   ).textContent =
                     'Behöver du något mer? Här är några förslag på populära varor.';
-                }
-              }
-
-              function handleModifyCart() {
-                if (window.location.hash === '#/') {
-                  fetch('https://www.coop.se/api/hybris/carts/current').then(
-                    (response) => {
-                      response.json().then((data) => {
-                        experimentCartDataProductSum = data.cartData.productSum;
-                        updateText();
-                      });
-                    }
-                  );
-                } else {
-                  window.removeEventListener('ga:modifyCart', handleModifyCart);
-                }
-              }
-
-              handleModifyCart();
-              window.addEventListener('ga:modifyCart', handleModifyCart);
-            },
-            {
-              content: 'Psst! Du har väl inte glömt någonting?',
-            }
-          );
-
-          cover.waitFor('.Loader', (element) => {
-            if (window.location.hash === '#/leverans') {
-              const item: HTMLElement = element.closest('.DeliveryItem');
-              if (item) {
-                item.style.gap = 'unset';
-
-                const itemInfo = item.querySelector('.DeliveryItem-info');
-                itemInfo.classList.remove('u-hidden');
-
-                const icon = item.querySelector('.DeliveryItem-icon');
-                icon.classList.remove('u-hidden');
-                icon.parentElement.querySelector('svg')?.remove();
+                });
+              } else if (
+                amountLeft === 0 &&
+                cover.variantHistory.includes('T111')
+              ) {
+                element.textContent = 'Du har nu fri frakt!';
+                document.querySelector('.Checkout h1.Heading + p').textContent =
+                  'Behöver du något mer? Här är några förslag på populära varor.';
               }
             }
-          });
 
-          const DATA = {
-            ADRESS: {
-              label: 'Välj adress',
-              icon: `<svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+            function handleModifyCart() {
+              if (window.location.hash === '#/') {
+                fetch('https://www.coop.se/api/hybris/carts/current').then(
+                  (response) => {
+                    response.json().then((data) => {
+                      experimentCartDataProductSum = data.cartData.productSum;
+                      updateText();
+                    });
+                  }
+                );
+              } else {
+                window.removeEventListener('ga:modifyCart', handleModifyCart);
+              }
+            }
+
+            handleModifyCart();
+            window.addEventListener('ga:modifyCart', handleModifyCart);
+          },
+          {
+            content: 'Psst! Du har väl inte glömt någonting?',
+          }
+        );
+
+        cover.waitFor('.Loader', (element) => {
+          if (window.location.hash === '#/leverans') {
+            const item: HTMLElement = element.closest('.DeliveryItem');
+            if (item) {
+              item.style.gap = 'unset';
+
+              const itemInfo = item.querySelector('.DeliveryItem-info');
+              itemInfo.classList.remove('u-hidden');
+
+              const icon = item.querySelector('.DeliveryItem-icon');
+              icon.classList.remove('u-hidden');
+              icon.parentElement.querySelector('svg')?.remove();
+            }
+          }
+        });
+
+        const DATA = {
+          ADRESS: {
+            label: 'Välj adress',
+            icon: `<svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M20 43C31.0457 43 40 34.0457 40 23C40 11.9543 31.0457 3 20 3C8.9543 3 0 11.9543 0 23C0 34.0457 8.9543 43 20 43Z" fill="#F5F5F5"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M18.8148 24.7255H21.1852C21.5125 24.7255 21.7778 25.0064 21.7778 25.3529V29.7451H18.2222V25.3529C18.2222 25.0064 18.4875 24.7255 18.8148 24.7255Z" stroke="#333333" stroke-linecap="round" stroke-linejoin="round"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M24.4446 20.2706V17.1961C24.4446 17.0228 24.312 16.8824 24.1483 16.8824H22.9631C22.7995 16.8824 22.6668 17.0228 22.6668 17.1961V18.5389L20.2005 16.1363C20.087 16.0255 19.9122 16.0255 19.7987 16.1363L13.2802 22.6123C13.1902 22.6999 13.1603 22.8371 13.2049 22.9576C13.2495 23.0781 13.3594 23.1573 13.4817 23.1569H14.9631V29.1177C14.9631 29.4642 15.2284 29.7451 15.5557 29.7451H24.4446C24.7719 29.7451 25.0372 29.4642 25.0372 29.1177V23.1569H26.5187C26.6408 23.157 26.7505 23.0778 26.795 22.9573C26.8394 22.8368 26.8095 22.6998 26.7196 22.6123L24.4446 20.2706Z" stroke="#333333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1238,20 +1221,20 @@ if (typeof cover == 'undefined') {
             <path fill-rule="evenodd" clip-rule="evenodd" d="M35.2135 4C35.7161 4 36.1236 4.40747 36.1236 4.91011V8.95506C36.1236 9.4577 35.7161 9.86517 35.2135 9.86517C34.7108 9.86517 34.3034 9.4577 34.3034 8.95506V4.91011C34.3034 4.40747 34.7108 4 35.2135 4Z" fill="white"/>
             <path d="M36.427 11.7865C36.427 12.4567 35.8837 13 35.2135 13C34.5433 13 34 12.4567 34 11.7865C34 11.1163 34.5433 10.573 35.2135 10.573C35.8837 10.573 36.427 11.1163 36.427 11.7865Z" fill="white"/>
             </svg>`,
-            },
-            LEVERANSTID: {
-              label: 'Välj leveransstid',
-              icon: `<svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+          },
+          LEVERANSTID: {
+            label: 'Välj leveransstid',
+            icon: `<svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect y="1" width="40" height="40" rx="20" fill="#F5F5F5"/>
             <path d="M20 15.9996V20.9996L16.5 24.4996M30 20.9996C30 26.5225 25.5228 30.9996 20 30.9996C14.4772 30.9996 10 26.5225 10 20.9996C10 15.4768 14.4772 10.9996 20 10.9996C25.5228 10.9996 30 15.4768 30 20.9996Z" stroke="#0A893D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <rect x="23" width="16" height="16" rx="8" fill="#FF6565"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M31 3.5C31.5026 3.5 31.9101 3.90747 31.9101 4.41011V8.45506C31.9101 8.9577 31.5026 9.36517 31 9.36517C30.4973 9.36517 30.0899 8.9577 30.0899 8.45506V4.41011C30.0899 3.90747 30.4973 3.5 31 3.5Z" fill="white"/>
             <path d="M32.2135 11.2865C32.2135 11.9567 31.6702 12.5 31 12.5C30.3298 12.5 29.7865 11.9567 29.7865 11.2865C29.7865 10.6163 30.3298 10.073 31 10.073C31.6702 10.073 32.2135 10.6163 32.2135 11.2865Z" fill="white"/>
             </svg>`,
-            },
-            'HÄMTAS PÅ': {
-              label: 'Välj butik',
-              icon: `<svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+          },
+          'HÄMTAS PÅ': {
+            label: 'Välj butik',
+            icon: `<svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M20 43C31.0457 43 40 34.0457 40 23C40 11.9543 31.0457 3 20 3C8.9543 3 0 11.9543 0 23C0 34.0457 8.9543 43 20 43Z" fill="#F5F5F5"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M18.8148 24.7255H21.1852C21.5125 24.7255 21.7778 25.0064 21.7778 25.3529V29.7451H18.2222V25.3529C18.2222 25.0064 18.4875 24.7255 18.8148 24.7255Z" stroke="#333333" stroke-linecap="round" stroke-linejoin="round"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M24.4446 20.2706V17.1961C24.4446 17.0228 24.312 16.8824 24.1483 16.8824H22.9631C22.7995 16.8824 22.6668 17.0228 22.6668 17.1961V18.5389L20.2005 16.1363C20.087 16.0255 19.9122 16.0255 19.7987 16.1363L13.2802 22.6123C13.1902 22.6999 13.1603 22.8371 13.2049 22.9576C13.2495 23.0781 13.3594 23.1573 13.4817 23.1569H14.9631V29.1177C14.9631 29.4642 15.2284 29.7451 15.5557 29.7451H24.4446C24.7719 29.7451 25.0372 29.4642 25.0372 29.1177V23.1569H26.5187C26.6408 23.157 26.7505 23.0778 26.795 22.9573C26.8394 22.8368 26.8095 22.6998 26.7196 22.6123L24.4446 20.2706Z" stroke="#333333" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1259,10 +1242,10 @@ if (typeof cover == 'undefined') {
             <path fill-rule="evenodd" clip-rule="evenodd" d="M35.2135 4C35.7161 4 36.1236 4.40747 36.1236 4.91011V8.95506C36.1236 9.4577 35.7161 9.86517 35.2135 9.86517C34.7108 9.86517 34.3034 9.4577 34.3034 8.95506V4.91011C34.3034 4.40747 34.7108 4 35.2135 4Z" fill="white"/>
             <path d="M36.427 11.7865C36.427 12.4567 35.8837 13 35.2135 13C34.5433 13 34 12.4567 34 11.7865C34 11.1163 34.5433 10.573 35.2135 10.573C35.8837 10.573 36.427 11.1163 36.427 11.7865Z" fill="white"/>
             </svg>`,
-            },
-            KONTAKTUPPGIFTER: {
-              label: 'Fyll i mina uppgifter',
-              icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          },
+          KONTAKTUPPGIFTER: {
+            label: 'Fyll i mina uppgifter',
+            icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="40" height="40" rx="20" fill="#F5F5F5"/>
             <path d="M11 27.4996C11 25.0144 13.0147 22.9996 15.5 22.9996H24.5C26.9853 22.9996 29 25.0144 29 27.4996C29 28.3281 28.3284 28.9996 27.5 28.9996H12.5C11.6716 28.9996 11 28.3281 11 27.4996Z" stroke="#0A893D" stroke-width="2"/>
             <path d="M24 14.9996C24 17.2088 22.2091 18.9996 20 18.9996C17.7909 18.9996 16 17.2088 16 14.9996C16 12.7905 17.7909 10.9996 20 10.9996C22.2091 10.9996 24 12.7905 24 14.9996Z" stroke="#0A893D" stroke-width="2"/>
@@ -1270,131 +1253,127 @@ if (typeof cover == 'undefined') {
             <path fill-rule="evenodd" clip-rule="evenodd" d="M32 3.5C32.5026 3.5 32.9101 3.90747 32.9101 4.41011V8.45506C32.9101 8.9577 32.5026 9.36517 32 9.36517C31.4973 9.36517 31.0899 8.9577 31.0899 8.45506V4.41011C31.0899 3.90747 31.4973 3.5 32 3.5Z" fill="white"/>
             <path d="M33.2135 11.2865C33.2135 11.9567 32.6702 12.5 32 12.5C31.3298 12.5 30.7865 11.9567 30.7865 11.2865C30.7865 10.6163 31.3298 10.073 32 10.073C32.6702 10.073 33.2135 10.6163 33.2135 11.2865Z" fill="white"/>
             </svg>`,
-            },
-            AVHÄMTNINGSTID: {
-              label: 'Välj avhämtningsstid',
-              icon: `<svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+          },
+          AVHÄMTNINGSTID: {
+            label: 'Välj avhämtningsstid',
+            icon: `<svg width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect y="1" width="40" height="40" rx="20" fill="#F5F5F5"/>
             <path d="M20 15.9996V20.9996L16.5 24.4996M30 20.9996C30 26.5225 25.5228 30.9996 20 30.9996C14.4772 30.9996 10 26.5225 10 20.9996C10 15.4768 14.4772 10.9996 20 10.9996C25.5228 10.9996 30 15.4768 30 20.9996Z" stroke="#0A893D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <rect x="23" width="16" height="16" rx="8" fill="#FF6565"/>
             <path fill-rule="evenodd" clip-rule="evenodd" d="M31 3.5C31.5026 3.5 31.9101 3.90747 31.9101 4.41011V8.45506C31.9101 8.9577 31.5026 9.36517 31 9.36517C30.4973 9.36517 30.0899 8.9577 30.0899 8.45506V4.41011C30.0899 3.90747 30.4973 3.5 31 3.5Z" fill="white"/>
             <path d="M32.2135 11.2865C32.2135 11.9567 31.6702 12.5 31 12.5C30.3298 12.5 29.7865 11.9567 29.7865 11.2865C29.7865 10.6163 30.3298 10.073 31 10.073C31.6702 10.073 32.2135 10.6163 32.2135 11.2865Z" fill="white"/>
             </svg>`,
-            },
-          };
+          },
+        };
 
-          cover.waitFor(
-            'button',
-            (button) => {
-              // https://www.coop.se/handla/betala/#/leverans/dialog/hemleverans
-              if (window.location.hash.startsWith('#/leverans')) {
-                const item: HTMLElement = button.closest('.DeliveryItem');
-                const itemInfo = item.querySelector('.DeliveryItem-info');
-                const header = itemInfo.querySelector('h3');
-                const text = itemInfo.querySelector('p');
-                const icon = item.querySelector('.DeliveryItem-icon');
+        cover.waitFor(
+          'button',
+          (button) => {
+            // https://www.coop.se/handla/betala/#/leverans/dialog/hemleverans
+            if (window.location.hash.startsWith('#/leverans')) {
+              const item: HTMLElement = button.closest('.DeliveryItem');
+              const itemInfo = item.querySelector('.DeliveryItem-info');
+              const header = itemInfo.querySelector('h3');
+              const text = itemInfo.querySelector('p');
+              const icon = item.querySelector('.DeliveryItem-icon');
 
-                if (text.textContent === 'Saknas') {
-                  cover.variantReady('T114', () => {
-                    item.style.justifyContent = 'unset';
-                    item.style.gap = '15px';
+              if (text.textContent === 'Saknas') {
+                cover.variantReady('T114', () => {
+                  item.style.justifyContent = 'unset';
+                  item.style.gap = '15px';
 
-                    itemInfo.classList.add('u-hidden');
+                  itemInfo.classList.add('u-hidden');
 
-                    button.classList.add('Button--grayGreenToDarkGreen');
+                  button.classList.add('Button--grayGreenToDarkGreen');
 
-                    const data = DATA[header.textContent];
-                    button.innerText = data['label'];
+                  const data = DATA[header.textContent];
+                  button.innerText = data['label'];
 
-                    icon.classList.add('u-hidden');
+                  icon.classList.add('u-hidden');
 
-                    const newIconExist =
-                      icon.parentElement.querySelector('svg');
-                    if (!newIconExist) {
-                      icon.insertAdjacentHTML('afterend', data['icon']);
-                    }
+                  const newIconExist = icon.parentElement.querySelector('svg');
+                  if (!newIconExist) {
+                    icon.insertAdjacentHTML('afterend', data['icon']);
+                  }
 
-                    button.addEventListener(
-                      'click',
-                      () => {
-                        if (header.textContent === 'HÄMTAS PÅ') {
-                          const tooMuchHiddenFix = document.querySelector(
-                            '[data-test="pickupdelivery-contact"] .DeliveryItem-info.u-hidden'
-                          );
-                          if (tooMuchHiddenFix) {
-                            tooMuchHiddenFix.classList.remove('u-hidden');
+                  button.addEventListener(
+                    'click',
+                    () => {
+                      if (header.textContent === 'HÄMTAS PÅ') {
+                        const tooMuchHiddenFix = document.querySelector(
+                          '[data-test="pickupdelivery-contact"] .DeliveryItem-info.u-hidden'
+                        );
+                        if (tooMuchHiddenFix) {
+                          tooMuchHiddenFix.classList.remove('u-hidden');
 
-                            const tooMuchHiddenFixGap: HTMLElement =
-                              document.querySelector(
-                                '[data-test="pickupdelivery-contact"] .DeliveryItem'
-                              );
-
-                            if (tooMuchHiddenFixGap) {
-                              tooMuchHiddenFixGap.style.gap = 'unset';
-                            }
-
-                            const nextIcon = document.querySelector(
-                              '[data-test="pickupdelivery-contact"] .DeliveryItem-icon'
+                          const tooMuchHiddenFixGap: HTMLElement =
+                            document.querySelector(
+                              '[data-test="pickupdelivery-contact"] .DeliveryItem'
                             );
 
-                            nextIcon.classList.remove('u-hidden');
-                            nextIcon.parentElement
-                              .querySelector('svg')
-                              .remove();
+                          if (tooMuchHiddenFixGap) {
+                            tooMuchHiddenFixGap.style.gap = 'unset';
                           }
+
+                          const nextIcon = document.querySelector(
+                            '[data-test="pickupdelivery-contact"] .DeliveryItem-icon'
+                          );
+
+                          nextIcon.classList.remove('u-hidden');
+                          nextIcon.parentElement.querySelector('svg').remove();
                         }
+                      }
 
-                        // Need to reset for React to act
-                        button.innerText = 'Lägg till';
+                      // Need to reset for React to act
+                      button.innerText = 'Lägg till';
 
-                        item.style.justifyContent = 'space-between';
-                        item.style.gap = 'unset';
+                      item.style.justifyContent = 'space-between';
+                      item.style.gap = 'unset';
 
-                        button.classList.remove('Button--grayGreenToDarkGreen');
+                      button.classList.remove('Button--grayGreenToDarkGreen');
 
-                        icon.classList.remove('u-hidden');
-                        icon.parentElement.querySelector('svg').remove();
+                      icon.classList.remove('u-hidden');
+                      icon.parentElement.querySelector('svg').remove();
 
-                        itemInfo.classList.remove('u-hidden');
-                      },
-                      { once: true }
-                    );
-                  });
-                }
+                      itemInfo.classList.remove('u-hidden');
+                    },
+                    { once: true }
+                  );
+                });
               }
-            },
-            {
-              content: 'Lägg till',
-            }
-          );
-        }
-      }
-    },
-    variant: [],
-    variantHistory: [],
-  };
-
-  (() => {
-    if (cover.isInternetExplorer) {
-      return;
-    }
-
-    if (cover.checkDynamicYieldABtestConsent()) {
-      cover.run();
-    } else {
-      __cmp(
-        'addEventListener',
-        [
-          'consent',
-          () => {
-            if (cover.checkDynamicYieldABtestConsent()) {
-              cover.run();
             }
           },
-          false,
-        ],
-        null
-      );
+          {
+            content: 'Lägg till',
+          }
+        );
+      }
     }
-  })();
-}
+  },
+  variant: [],
+  variantHistory: [],
+};
+
+(() => {
+  if (cover.isInternetExplorer) {
+    return;
+  }
+
+  if (cover.checkDynamicYieldABtestConsent()) {
+    cover.run();
+  } else {
+    __cmp(
+      'addEventListener',
+      [
+        'consent',
+        () => {
+          if (cover.checkDynamicYieldABtestConsent()) {
+            cover.run();
+          }
+        },
+        false,
+      ],
+      null
+    );
+  }
+})();
