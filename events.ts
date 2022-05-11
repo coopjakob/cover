@@ -848,7 +848,7 @@ const cover: CoverType = {
     ) {
       if (window.innerWidth < 1024) {
         cover.waitFor('[data-test="ecommerceSearchHeader"]', (element) => {
-          const trigger = container.querySelector<HTMLElement>(
+          const trigger = element.querySelector<HTMLElement>(
             '[data-test="mobileCategoryTrigger"]'
           );
 
